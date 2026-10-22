@@ -1,6 +1,6 @@
-package com.hikari.app.telegram
+package com.gworld06.streambox.telegram
 
-import com.hikari.app.net.Http
+import com.gworld06.streambox.net.Http
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 

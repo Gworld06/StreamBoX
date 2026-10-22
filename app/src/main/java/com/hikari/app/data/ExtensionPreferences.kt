@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,8 +12,8 @@ import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceManager
 import androidx.preference.SeekBarPreference
 import androidx.preference.TwoStatePreference
-import com.hikari.app.aniyomi.AniyomiExtensionManager
-import com.hikari.app.manga.MangaExtensionManager
+import com.gworld06.streambox.aniyomi.AniyomiExtensionManager
+import com.gworld06.streambox.manga.MangaExtensionManager
 import eu.kanade.tachiyomi.animesource.AnimeSource
 import eu.kanade.tachiyomi.animesource.ConfigurableAnimeSource
 import eu.kanade.tachiyomi.source.ConfigurableSource

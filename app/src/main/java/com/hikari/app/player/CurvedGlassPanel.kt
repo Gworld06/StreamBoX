@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 import android.content.Context
 import android.graphics.Canvas
@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.LinearLayout
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import java.util.WeakHashMap
 import kotlin.math.abs
 import kotlin.math.max

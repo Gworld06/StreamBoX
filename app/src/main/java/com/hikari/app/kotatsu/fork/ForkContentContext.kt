@@ -1,9 +1,9 @@
-package com.hikari.app.kotatsu.fork
+package com.gworld06.streambox.kotatsu.fork
 
-import com.hikari.app.data.Logs
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.DohDns
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.DohDns
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Cookie
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * The [ContentLoaderContext] the skepsun (kototoro) parsers run on — same role
- * [com.hikari.app.kotatsu.KotatsuContext] plays for the official parsers.
+ * [com.gworld06.streambox.kotatsu.KotatsuContext] plays for the official parsers.
  *
  * The skepsun fork is an independent library (`org.skepsun.kototoro.parsers`,
  * no shared classes with the official one) shipping manga/manhwa/novel plus

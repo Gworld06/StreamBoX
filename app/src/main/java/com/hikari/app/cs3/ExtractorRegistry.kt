@@ -1,8 +1,8 @@
 @file:OptIn(com.lagradost.cloudstream3.InternalAPI::class)
 
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
-import com.hikari.app.net.Http
+import com.gworld06.streambox.net.Http
 import com.lagradost.cloudstream3.SubtitleFile
 import com.lagradost.cloudstream3.app
 import com.lagradost.cloudstream3.extractors.ByseSX

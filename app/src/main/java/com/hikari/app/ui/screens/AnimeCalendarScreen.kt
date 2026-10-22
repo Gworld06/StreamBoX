@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,11 +52,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.data.AnimeReleaseCalendarRepository
-import com.hikari.app.data.MediaType
-import com.hikari.app.tv.tvPress
-import com.hikari.app.data.ReleaseCalendarRepository
-import com.hikari.app.ui.navigation.Routes
+import com.gworld06.streambox.data.AnimeReleaseCalendarRepository
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.data.ReleaseCalendarRepository
+import com.gworld06.streambox.ui.navigation.Routes
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -79,8 +79,8 @@ fun AnimeCalendarScreen(nav: NavHostController) {
         if (pager.settledPage != tab) tab = pager.settledPage
     }
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        if (com.hikari.app.tv.TvMode.current()) {
-            com.hikari.app.tv.TvScreenHeader(
+        if (com.gworld06.streambox.tv.TvMode.current()) {
+            com.gworld06.streambox.tv.TvScreenHeader(
                 title = "Release Calendar",
                 subtitle = when (tab) {
                     TAB_MOVIES -> "Upcoming movies"
@@ -91,9 +91,9 @@ fun AnimeCalendarScreen(nav: NavHostController) {
         }
         Row(
             Modifier.fillMaxWidth().padding(
-                start = if (com.hikari.app.tv.TvMode.current()) 20.dp else 20.dp,
+                start = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 20.dp,
                 end = 20.dp,
-                top = if (com.hikari.app.tv.TvMode.current()) 4.dp else 24.dp,
+                top = if (com.gworld06.streambox.tv.TvMode.current()) 4.dp else 24.dp,
             ),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
@@ -184,7 +184,7 @@ private fun AnimePage(nav: NavHostController) {
 
     LazyColumn(
         // Calendar position held per query (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("animeCal:$q"),
+        state = com.gworld06.streambox.ui.components.keptListState("animeCal:$q"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -275,7 +275,7 @@ private fun TmdbCalendarPage(nav: NavHostController, defaultKind: ReleaseCalenda
 
     LazyColumn(
         // Calendar position held per tab+query (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("tmdbCal:$kindKey:$q"),
+        state = com.gworld06.streambox.ui.components.keptListState("tmdbCal:$kindKey:$q"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 20.dp, top = 16.dp, end = 20.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),

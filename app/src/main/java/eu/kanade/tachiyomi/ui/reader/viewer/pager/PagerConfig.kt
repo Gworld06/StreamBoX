@@ -2,7 +2,7 @@ package eu.kanade.tachiyomi.ui.reader.viewer.pager
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import com.hikari.app.reader.TappingInvertMode
+import com.gworld06.streambox.reader.TappingInvertMode
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderPageImageView
 import eu.kanade.tachiyomi.ui.reader.viewer.ViewerNavigation

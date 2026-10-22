@@ -1,7 +1,7 @@
 package eu.kanade.tachiyomi.network.interceptor
 
 import android.content.Context
-import com.hikari.app.net.ExtensionCloudflareInterceptor
+import com.gworld06.streambox.net.ExtensionCloudflareInterceptor
 import eu.kanade.tachiyomi.network.NetworkHelper
 
 /**

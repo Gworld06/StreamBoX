@@ -1,4 +1,4 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,11 +40,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.hikari.app.i18n.tr
-import com.hikari.app.tv.TvMode
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * One option in a [ChoiceDialog].
@@ -128,14 +128,14 @@ fun ChoiceDialog(
                             item.label,
                             style = MaterialTheme.typography.bodyLarge,
                             color = if (isOn) MaterialTheme.colorScheme.primary
-                            else if (tvChoice) com.hikari.app.tv.TvDesktop.TextPrimary
+                            else if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                             else MaterialTheme.colorScheme.onSurface,
                         )
                         if (!item.supporting.isNullOrBlank()) {
                             Text(
                                 item.supporting,
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
@@ -217,7 +217,7 @@ fun MultiChoiceDialog(
             Text(
                 tr(footnote),
                 style = MaterialTheme.typography.labelSmall,
-                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(Modifier.height(8.dp))
@@ -235,7 +235,7 @@ fun MultiChoiceDialog(
                     Icon(
                         Icons.Filled.Search,
                         contentDescription = null,
-                        tint = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                        tint = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 },
@@ -245,7 +245,7 @@ fun MultiChoiceDialog(
                             Icon(
                                 Icons.Filled.Close,
                                 contentDescription = null,
-                                tint = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                                tint = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
@@ -261,7 +261,7 @@ fun MultiChoiceDialog(
             Text(
                 tr("Nothing matches that."),
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(vertical = 12.dp),
             )
@@ -309,7 +309,7 @@ fun MultiChoiceDialog(
                             item.label,
                             style = MaterialTheme.typography.bodyLarge,
                             color = if (isOn) MaterialTheme.colorScheme.primary
-                            else if (tvChoice) com.hikari.app.tv.TvDesktop.TextPrimary
+                            else if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                             else MaterialTheme.colorScheme.onSurface,
                         )
                         if (!item.supporting.isNullOrBlank() || (locked && !disabledNote.isNullOrBlank())) {
@@ -319,7 +319,7 @@ fun MultiChoiceDialog(
                                     if (locked) disabledNote else null,
                                 ).joinToString(" · "),
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
@@ -340,7 +340,7 @@ fun MultiChoiceDialog(
             Text(
                 tr("Tap a row to include or exclude it."),
                 style = MaterialTheme.typography.labelSmall,
-                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -397,14 +397,14 @@ fun ChoiceRow(
             Text(
                 value,
                 style = MaterialTheme.typography.bodyLarge,
-                color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextPrimary
+                color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                 else MaterialTheme.colorScheme.onSurface,
             )
             if (!supporting.isNullOrBlank()) {
                 Text(
                     supporting,
                     style = MaterialTheme.typography.labelSmall,
-                    color = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+                    color = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -413,7 +413,7 @@ fun ChoiceRow(
         Icon(
             Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = if (tvChoice) com.hikari.app.tv.TvDesktop.TextMuted
+            tint = if (tvChoice) com.gworld06.streambox.tv.TvDesktop.TextMuted
             else MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }

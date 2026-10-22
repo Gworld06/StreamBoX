@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import android.app.UiModeManager
 import android.content.Context
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
  * touchscreen and a taskbar, a television box has a remote and a 10-foot
  * viewing distance. This object answers which one we are running on, and every
  * TV-specific branch in the app reads its answer from here — see
- * [com.hikari.app.ui.navigation.AppRoot] for the rail, [TvFocusIndication] for
+ * [com.gworld06.streambox.ui.navigation.AppRoot] for the rail, [TvFocusIndication] for
  * the focus ring every clickable gets on a TV, and the "TV & Remote" settings
  * folder for the user's own override.
  *
@@ -200,7 +200,7 @@ object TvUi {
     const val MAX_OVERSCAN_DP = 96
 
     /** The navigation rail's width, which is also the left inset every page
-     *  keeps clear of it (see [com.hikari.app.ui.navigation.AppRoot]). Slim
+     *  keeps clear of it (see [com.gworld06.streambox.ui.navigation.AppRoot]). Slim
      *  like the reference client's icon rail — the focused tab still expands
      *  into its labelled pill over the content. */
     val RAIL_WIDTH = 84.dp
@@ -244,7 +244,7 @@ object TvUi {
     fun posterWidth(): androidx.compose.ui.unit.Dp {
         if (!TvMode.current()) return 120.dp
         val h = androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp
-        val app = remember { runCatching { com.hikari.app.HikariApp.instance }.getOrNull() }
+        val app = remember { runCatching { com.gworld06.streambox.HikariApp.instance }.getOrNull() }
         val scalePct by (app?.store?.tvPosterScaleFlow()
             ?: kotlinx.coroutines.flow.flowOf(100)).collectAsState(initial = 100)
         val scale = (scalePct.coerceIn(70, 150)) / 100f

@@ -1,9 +1,9 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.data.Profiles
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
 
 import android.app.Application
 import android.content.Context
@@ -66,10 +66,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material.icons.filled.Tv
-import com.hikari.app.ui.AnymexA
-import com.hikari.app.ui.HikariTorii
-import com.hikari.app.ui.NuvioTriangle
-import com.hikari.app.ui.StremioDiamond
+import com.gworld06.streambox.ui.AnymexA
+import com.gworld06.streambox.ui.HikariTorii
+import com.gworld06.streambox.ui.NuvioTriangle
+import com.gworld06.streambox.ui.StremioDiamond
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -125,49 +125,49 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
-import com.hikari.app.HikariApp
-import com.hikari.app.cs3.Cs3MainApiProvider
-import com.hikari.app.cs3.Cs3PluginManager
-import com.hikari.app.hiki.HikariPluginManager
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
-import com.hikari.app.data.RepoLoadState
-import com.hikari.app.data.RepoProvenance
-import com.hikari.app.data.Site
-import com.hikari.app.data.SourceUrls
-import com.hikari.app.net.Http
-import com.hikari.app.net.PromoGuard
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderManager
-import com.hikari.app.ui.FlagIcon
-import com.hikari.app.ui.ProviderFlags
-import com.hikari.app.ui.ProviderPack
-import com.hikari.app.ui.ProviderPacks
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.components.SettingsThemeTile
-import com.hikari.app.ui.components.AniyomiSettingsDialog
-import com.hikari.app.ui.components.AnymexSettingsDialog
-import com.hikari.app.ui.components.IptvInfoDialog
-import com.hikari.app.ui.components.NuvioSettingsDialog
-import com.hikari.app.ui.components.ProviderInfoDialog
-import com.hikari.app.ui.components.ProviderSettingsDialog
-import com.hikari.app.ui.components.SkyStreamSettingsDialog
-import com.hikari.app.ui.components.SoraSettingsDialog
-import com.hikari.app.ui.components.StremioAddonInfoDialog
-import com.hikari.app.ui.components.VegaSettingsDialog
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.openUrl
-import com.hikari.app.ui.rememberNsfwEnabled
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.cs3.Cs3MainApiProvider
+import com.gworld06.streambox.cs3.Cs3PluginManager
+import com.gworld06.streambox.hiki.HikariPluginManager
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.data.RepoLoadState
+import com.gworld06.streambox.data.RepoProvenance
+import com.gworld06.streambox.data.Site
+import com.gworld06.streambox.data.SourceUrls
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.PromoGuard
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderManager
+import com.gworld06.streambox.ui.FlagIcon
+import com.gworld06.streambox.ui.ProviderFlags
+import com.gworld06.streambox.ui.ProviderPack
+import com.gworld06.streambox.ui.ProviderPacks
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.components.SettingsThemeTile
+import com.gworld06.streambox.ui.components.AniyomiSettingsDialog
+import com.gworld06.streambox.ui.components.AnymexSettingsDialog
+import com.gworld06.streambox.ui.components.IptvInfoDialog
+import com.gworld06.streambox.ui.components.NuvioSettingsDialog
+import com.gworld06.streambox.ui.components.ProviderInfoDialog
+import com.gworld06.streambox.ui.components.ProviderSettingsDialog
+import com.gworld06.streambox.ui.components.SkyStreamSettingsDialog
+import com.gworld06.streambox.ui.components.SoraSettingsDialog
+import com.gworld06.streambox.ui.components.StremioAddonInfoDialog
+import com.gworld06.streambox.ui.components.VegaSettingsDialog
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.openUrl
+import com.gworld06.streambox.ui.rememberNsfwEnabled
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.web.WebViewActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -188,9 +188,9 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
-import com.hikari.app.tv.tvPress
-import com.hikari.app.tv.tvToggle
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.tv.tvToggle
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * One probe outcome for the Test buttons: [testing] while the probe runs,
@@ -370,11 +370,11 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     private fun startBackground(block: suspend () -> Unit): Job {
         // Extension installs/updates are long downloads+dex loads; register
         // them so a background trip doesn't freeze the process mid-install
-        // (see [com.hikari.app.work.BackgroundWork]).
+        // (see [com.gworld06.streambox.work.BackgroundWork]).
         // Holder first: the token's cancel callback has to reach the job, and the
         // job cannot exist before the token does (see BackgroundWork.cancelAll).
         var jobHolder: Job? = null
-        val work = com.hikari.app.work.BackgroundWork.begin("Updating extensions") {
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Updating extensions") {
             jobHolder?.cancel()
         }
         val job = viewModelScope.launch {
@@ -387,7 +387,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
         jobHolder = job
-        job.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        job.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
         return job
     }
 
@@ -564,7 +564,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     else ProviderTest(false, "Search answered nothing — check the source.", false)
                 }
                 val subOnly = p.config.type == ProviderType.STREMIO &&
-                    runCatching { (p as com.hikari.app.providers.StremioAddon).isSubtitleOnly() }
+                    runCatching { (p as com.gworld06.streambox.providers.StremioAddon).isSubtitleOnly() }
                         .getOrDefault(false)
                 if (subOnly) return ProviderTest(
                     false, "Subtitle addon — it answers inside the player, not here.", true
@@ -643,7 +643,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         if (looksAnymexScript(src)) {
             val info = runCatching {
                 kotlinx.coroutines.withTimeoutOrNull(25_000) {
-                    com.hikari.app.anymex.AnymexRuntime.inspect(ctx, src)
+                    com.gworld06.streambox.anymex.AnymexRuntime.inspect(ctx, src)
                 }
             }.getOrNull()
             if (info != null && info.ok) {
@@ -654,7 +654,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         }
         val soraVerdict = runCatching {
             kotlinx.coroutines.withTimeoutOrNull(25_000) {
-                com.hikari.app.sora.SoraRuntime.validate(ctx, src)
+                com.gworld06.streambox.sora.SoraRuntime.validate(ctx, src)
             }
         }.getOrNull()
         if (soraVerdict != null && soraVerdict.startsWith("OK")) {
@@ -662,7 +662,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 val tmp = java.io.File(ctx.cacheDir, "probe-" + (url.hashCode().toString().replace('-', 'n')) + ".js")
                 tmp.writeText(src)
                 val raw = kotlinx.coroutines.withTimeoutOrNull(45_000) {
-                    com.hikari.app.sora.SoraRuntime.search(tmp, "probe", "One Piece")
+                    com.gworld06.streambox.sora.SoraRuntime.search(tmp, "probe", "One Piece")
                 }
                 runCatching { tmp.delete() }
                 raw
@@ -897,12 +897,12 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         // own add flow): it would download video bytes as playlist text and become a
         // one-channel IPTV folder that plays as live TV. Those links belong in the
         // IPTV tab's Network stream mode, which resolves and plays them as files.
-        if (localPath.isNullOrBlank() && com.hikari.app.data.NetworkStream.isDirectMediaLink(url)) {
+        if (localPath.isNullOrBlank() && com.gworld06.streambox.data.NetworkStream.isDirectMediaLink(url)) {
             return@withContext Result.failure(
                 Exception("That looks like a single video link, not a playlist — add it from the IPTV tab with Network stream instead"),
             )
         }
-        val count = com.hikari.app.providers.IptvProvider.preview(url).getOrElse {
+        val count = com.gworld06.streambox.providers.IptvProvider.preview(url).getOrElse {
             return@withContext Result.failure(
                 Exception(it.message ?: "Could not read that playlist"),
             )
@@ -932,7 +932,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
      * Reads every installed playlist once so the Extensions rows can say how many
      * channels each holds (and so a broken link is reported here rather than
      * discovered later on Home). Bounded to a few at a time; failures are kept in
-     * [com.hikari.app.providers.IptvProvider.iptvErrors] and shown on the row.
+     * [com.gworld06.streambox.providers.IptvProvider.iptvErrors] and shown on the row.
      */
     fun warmIptv() {
         viewModelScope.launch {
@@ -944,7 +944,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                         chunk.forEach { p ->
                             launch {
                                 runCatching {
-                                    (p as? com.hikari.app.providers.IptvProvider)?.channels()
+                                    (p as? com.gworld06.streambox.providers.IptvProvider)?.channels()
                                 }
                             }
                         }
@@ -960,7 +960,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val p = manager.providers.value.firstOrNull { it.config.id == id }
-                    as? com.hikari.app.providers.IptvProvider ?: return@withContext
+                    as? com.gworld06.streambox.providers.IptvProvider ?: return@withContext
                 p.invalidate()
                 val n = runCatching { p.channels(force = true) }.getOrDefault(emptyList()).size
                 if (n > 0) setSuccess("Read $n channels from ${p.displayName}")
@@ -1001,11 +1001,11 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         // "https://host", "https://host/" or "https://host/manifest.json" — or
         // already installed by Hikari's first-run seeding — is ONE row rather
         // than three.
-        val id = com.hikari.app.providers.StremioAddon.providerIdFor(clean)
+        val id = com.gworld06.streambox.providers.StremioAddon.providerIdFor(clean)
         // The manifest is in hand here, so whether this addon has a
         // configuration page is known from the moment it is added — the gear
         // then opens it (or is hidden) without a second fetch.
-        com.hikari.app.providers.StremioAddon.noteConfiguration(id, manifest, clean)
+        com.gworld06.streambox.providers.StremioAddon.noteConfiguration(id, manifest, clean)
         store.addProvider(ProviderConfig(id, name, ProviderType.STREMIO, clean, iconUrl = iconUrl))
         manager.refresh()
         Result.success(name)
@@ -1076,7 +1076,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             }
             withContext(Dispatchers.IO) {
                 runCatching {
-                    com.hikari.app.nuvio.NuvioRuntime.settingsFile(id).delete()
+                    com.gworld06.streambox.nuvio.NuvioRuntime.settingsFile(id).delete()
                 }
             }
         }
@@ -1172,7 +1172,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         }
         HikariPluginManager.reload(getApplication<Application>(), file)
         // Committed a new extension build — cached episode payloads may no longer parse with it (see MetaCache).
-        runCatching { com.hikari.app.data.MetaCache.bumpEpisodesEpoch() }
+        runCatching { com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch() }
         var added = 0
         providers.forEachIndexed { i, p ->
             val id = "hiki|" + clean.hashCode() + "|" + i
@@ -1331,7 +1331,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             return Result.failure(Exception("No CloudStream plugin found in this .cs3 file"))
         }
         // Committed a new extension build — cached episode payloads may no longer parse with it (see MetaCache).
-        runCatching { com.hikari.app.data.MetaCache.bumpEpisodesEpoch() }
+        runCatching { com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch() }
         var added = 0
         finalApis.forEachIndexed { i, api ->
             val name = api.name.ifBlank { base }
@@ -1389,9 +1389,9 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 // offering Install. Their `kotatsu://` URL is the identity —
                 // and fork rows' `kotatsu://fork…/` + `forkvideo://` URLs too
                 // (same bundled shape, different scheme for video rows).
-                if (p.url.startsWith(com.hikari.app.kotatsu.KotatsuRegistry.PLUGIN_SCHEME) ||
-                    com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(p.url) ||
-                    com.hikari.app.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(p.url)
+                if (p.url.startsWith(com.gworld06.streambox.kotatsu.KotatsuRegistry.PLUGIN_SCHEME) ||
+                    com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(p.url) ||
+                    com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(p.url)
                 ) {
                     add(p.url)
                     return@forEach
@@ -1436,7 +1436,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             val fileName = plugin.name.substringBeforeLast('.').takeIf { it.isNotBlank() } ?: "provider"
-            com.hikari.app.nuvio.NuvioPluginManager.installScraper(
+            com.gworld06.streambox.nuvio.NuvioPluginManager.installScraper(
                 getApplication<Application>(),
                 bytes,
                 "$fileName.js",
@@ -1462,7 +1462,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             .ifEmpty { listOf(pluginUrl) }
         var removed = 0
         for (source in stored) {
-            removed += com.hikari.app.nuvio.NuvioPluginManager.uninstallScraper(app, source)
+            removed += com.gworld06.streambox.nuvio.NuvioPluginManager.uninstallScraper(app, source)
         }
         requestRefresh()
         return removed
@@ -1471,23 +1471,23 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     /** Registers a Vega provider repository — a bare-array `manifest.json` of
      *  `{display_name, value, …}` entries, each provider published as a folder
      *  of CommonJS modules under `dist/<value>` (see
-     *  [com.hikari.app.providers.vega.VegaPluginManager.repoPlugins]). A bare
+     *  [com.gworld06.streambox.providers.vega.VegaPluginManager.repoPlugins]). A bare
      *  short name ("vega") resolves through the alias table like every other
      *  kind. */
     suspend fun addVegaRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.VEGA)
 
     /** Installs one Vega provider: its modules are downloaded into one folder
      *  per provider, then the folder is validated by actually loading it in the
-     *  QuickJS runtime ([com.hikari.app.providers.vega.VegaPluginManager.install]). */
+     *  QuickJS runtime ([com.gworld06.streambox.providers.vega.VegaPluginManager.install]). */
     suspend fun installVegaPlugin(plugin: Cs3RepoPlugin): Result<Int> =
-        com.hikari.app.providers.vega.VegaPluginManager
+        com.gworld06.streambox.providers.vega.VegaPluginManager
             .install(getApplication<Application>(), plugin)
             .also { requestRefresh() }
 
     /** Removes every VEGA provider installed from [pluginUrl]. Returns how many
      *  installed providers were actually removed. */
     suspend fun uninstallVegaPlugin(pluginUrl: String): Int {
-        val removed = com.hikari.app.providers.vega.VegaPluginManager
+        val removed = com.gworld06.streambox.providers.vega.VegaPluginManager
             .uninstall(getApplication<Application>(), pluginUrl)
         requestRefresh()
         return removed
@@ -1496,7 +1496,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     /** Registers a Zangetsu source repository — an `index.json` manifest of
      *  `{id, name, version, type, lang, file, logo, nsfw}` entries, each
      *  source one self-contained `.js` scraper (see
-     *  [com.hikari.app.zangetsu.ZangetsuPluginManager.repoPlugins]). */
+     *  [com.gworld06.streambox.zangetsu.ZangetsuPluginManager.repoPlugins]). */
     suspend fun addZangetsuRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.ZANGETSU)
 
     /** Registers a Kotatsu repo — the "kotatsu" shorthand files the official
@@ -1506,16 +1506,16 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     suspend fun addKotatsuRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.KOTATSU)
 
     /** Installs one Zangetsu source: its `.js` is downloaded and validated in
-     *  the QuickJS runtime ([com.hikari.app.zangetsu.ZangetsuPluginManager.install]). */
+     *  the QuickJS runtime ([com.gworld06.streambox.zangetsu.ZangetsuPluginManager.install]). */
     suspend fun installZangetsuPlugin(plugin: Cs3RepoPlugin): Result<Int> =
-        com.hikari.app.zangetsu.ZangetsuPluginManager
+        com.gworld06.streambox.zangetsu.ZangetsuPluginManager
             .install(getApplication<Application>(), plugin)
             .also { requestRefresh() }
 
     /** Removes every ZANGETSU source installed from [pluginUrl]. Returns how
      *  many installed sources were actually removed. */
     suspend fun uninstallZangetsuPlugin(pluginUrl: String): Int {
-        val removed = com.hikari.app.zangetsu.ZangetsuPluginManager
+        val removed = com.gworld06.streambox.zangetsu.ZangetsuPluginManager
             .uninstall(getApplication<Application>(), pluginUrl)
         requestRefresh()
         return removed
@@ -1523,20 +1523,20 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Registers an LNReader novel-source repo (a plugins.min.json index, or
      *  the `github.com/owner/repo` page that publishes it — see
-     *  [com.hikari.app.lnreader.LnReaderPluginManager.loadRepoPlugins]). */
+     *  [com.gworld06.streambox.lnreader.LnReaderPluginManager.loadRepoPlugins]). */
     suspend fun addLnReaderRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.LNREADER)
 
     /** Installs one LNReader novel source: its `.js` is downloaded and
-     *  validated in the QuickJS runtime ([com.hikari.app.lnreader.LnReaderPluginManager.install]). */
+     *  validated in the QuickJS runtime ([com.gworld06.streambox.lnreader.LnReaderPluginManager.install]). */
     suspend fun installLnReaderPlugin(plugin: Cs3RepoPlugin): Result<Int> =
-        com.hikari.app.lnreader.LnReaderPluginManager
+        com.gworld06.streambox.lnreader.LnReaderPluginManager
             .install(getApplication<Application>(), plugin)
             .also { requestRefresh() }
 
     /** Removes every LNREADER source installed from [pluginUrl]. Returns how
      *  many installed sources were actually removed. */
     suspend fun uninstallLnReaderPlugin(pluginUrl: String): Int {
-        val removed = com.hikari.app.lnreader.LnReaderPluginManager
+        val removed = com.gworld06.streambox.lnreader.LnReaderPluginManager
             .uninstall(getApplication<Application>(), pluginUrl)
         requestRefresh()
         return removed
@@ -1546,23 +1546,23 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
      *  official kotatsu-parsers extraction code ships inside the app). One
      *  store write + one provider-list rebuild, never the 1200-row flood
      *  0.11.69 did. Entries whose parser code is NOT bundled (see
-     *  [com.hikari.app.kotatsu.KotatsuRegistry.UNBUNDLED_PREFIX]) fail
+     *  [com.gworld06.streambox.kotatsu.KotatsuRegistry.UNBUNDLED_PREFIX]) fail
      *  honestly instead of creating a row that could never run. Fork entries
      *  (`kotatsu://forksk/…`, `kotatsu://forkhany/…`, `forkvideo://…`) install
      *  as runnable fork rows. */
     suspend fun installKotatsuPlugin(plugin: Cs3RepoPlugin): Result<Int> {
-        com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)?.let { (owner, enum) ->
+        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)?.let { (owner, enum) ->
             return installForkVideoSource(owner, enum, plugin.nsfw, plugin.iconUrl)
         }
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
-            val enum = com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
+            val enum = com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
                 ?: return Result.failure(IllegalStateException("Unknown fork source"))
             return installForkMangaSource(plugin.url, enum, plugin.nsfw, plugin.iconUrl)
         }
         val enumName =
-            com.hikari.app.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
+            com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
                 ?: return Result.failure(IllegalStateException("Unknown Kotatsu source"))
-        if (com.hikari.app.kotatsu.KotatsuRegistry.isUnbundledPluginUrl(plugin.url)) {
+        if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isUnbundledPluginUrl(plugin.url)) {
             return Result.failure(
                 IllegalStateException(
                     "\"${plugin.name}\" ships its own parser code, which is not " +
@@ -1578,19 +1578,19 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
      *  hany18h vendored inside the app). */
     suspend fun installForkMangaSource(pluginUrl: String, enumName: String, entryNsfw: Boolean = false, iconUrl: String? = null): Result<Int> {
         val row = when {
-            com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(pluginUrl) -> {
+            com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(pluginUrl) -> {
                 val src = runCatching {
                     org.skepsun.kototoro.parsers.model.ContentParserSource.valueOf(enumName)
                 }.getOrNull() ?: return Result.failure(IllegalStateException("Unknown fork source"))
                 if (src.isBroken) return Result.failure(IllegalStateException("${src.title} is marked broken upstream"))
-                com.hikari.app.kotatsu.fork.ForkRegistry.configForSkepsun(src, iconUrl)
+                com.gworld06.streambox.kotatsu.fork.ForkRegistry.configForSkepsun(src, iconUrl)
             }
             else -> {
                 val src = runCatching {
                     org.hany18h.parsers.model.MangaParserSource.valueOf(enumName)
                 }.getOrNull() ?: return Result.failure(IllegalStateException("Unknown fork source"))
                 if (src.isBroken) return Result.failure(IllegalStateException("${src.title} is marked broken upstream"))
-                com.hikari.app.kotatsu.fork.ForkRegistry.configForHany18h(src, iconUrl)
+                com.gworld06.streambox.kotatsu.fork.ForkRegistry.configForHany18h(src, iconUrl)
             }
         }
         val final = if (entryNsfw && row.nsfw != true) row.copy(nsfw = true) else row
@@ -1602,7 +1602,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     /** Installs one fork video/anime row (no download — same bundled runtimes). */
     suspend fun installForkVideoSource(owner: String, enumName: String, entryNsfw: Boolean = false, iconUrl: String? = null): Result<Int> {
         val (title, nsfw) = when (owner) {
-            com.hikari.app.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN -> {
+            com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN -> {
                 val src = runCatching {
                     org.skepsun.kototoro.parsers.model.ContentParserSource.valueOf(enumName)
                 }.getOrNull() ?: return Result.failure(IllegalStateException("Unknown fork source"))
@@ -1617,7 +1617,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 src.title to src.contentType.name.equals("HENTAI", ignoreCase = true)
             }
         }
-        val row = com.hikari.app.kotatsu.fork.ForkRegistry.configForVideo(owner, enumName, title, nsfw || entryNsfw, iconUrl)
+        val row = com.gworld06.streambox.kotatsu.fork.ForkRegistry.configForVideo(owner, enumName, title, nsfw || entryNsfw, iconUrl)
         store.addProvider(row)
         requestRefresh()
         return Result.success(1)
@@ -1631,7 +1631,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             org.koitharu.kotatsu.parsers.model.MangaParserSource.valueOf(enumName)
         }.getOrNull() ?: return Result.failure(IllegalStateException("Unknown Kotatsu source"))
         if (src.isBroken) return Result.failure(IllegalStateException("${src.title} is marked broken upstream"))
-        val base = com.hikari.app.kotatsu.KotatsuRegistry.configFor(src)
+        val base = com.gworld06.streambox.kotatsu.KotatsuRegistry.configFor(src)
         // The repo entry's own 18+ tag wins when the bundled set does not
         // already say so (a third-party list flags HENTAI_* itself).
         val row = if (entryNsfw && base.nsfw != true) base.copy(nsfw = true) else base
@@ -1650,27 +1650,27 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     /** Removes the installed row behind one Kotatsu repo entry. Returns how
      *  many rows were actually removed. Fork entries match their own rows. */
     suspend fun uninstallKotatsuPlugin(pluginUrl: String): Int {
-        com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(pluginUrl)?.let { (owner, enum) ->
-            val id = com.hikari.app.kotatsu.fork.ForkVideoProvider.idOf(owner, enum)
+        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(pluginUrl)?.let { (owner, enum) ->
+            val id = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.idOf(owner, enum)
             if (!store.providers().any { it.id == id }) return 0
             store.removeProvider(id)
             requestRefresh()
             return 1
         }
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(pluginUrl)) {
-            val enum = com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(pluginUrl) ?: return 0
-            val id = (if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(pluginUrl))
-                com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
-            else com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum)
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(pluginUrl)) {
+            val enum = com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(pluginUrl) ?: return 0
+            val id = (if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(pluginUrl))
+                com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
+            else com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum)
             if (!store.providers().any { it.id == id }) return 0
             store.removeProvider(id)
             requestRefresh()
             return 1
         }
         val enumName =
-            com.hikari.app.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(pluginUrl)
+            com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(pluginUrl)
                 ?: return 0
-        val id = com.hikari.app.kotatsu.KotatsuRegistry.PREFIX + enumName
+        val id = com.gworld06.streambox.kotatsu.KotatsuRegistry.PREFIX + enumName
         val present = store.providers().any { it.id == id }
         if (!present) return 0
         store.removeProvider(id)
@@ -1680,20 +1680,20 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Registers a Sora (AnymeX) source URL — one `sourceName` + `scriptUrl`
      *  descriptor, or a JSON array of them (see
-     *  [com.hikari.app.sora.SoraPluginManager.repoPlugins]). */
+     *  [com.gworld06.streambox.sora.SoraPluginManager.repoPlugins]). */
     suspend fun addSoraRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.SORA)
 
     /** Installs one Sora source: its `.js` is downloaded and validated in the
-     *  QuickJS runtime ([com.hikari.app.sora.SoraPluginManager.install]). */
+     *  QuickJS runtime ([com.gworld06.streambox.sora.SoraPluginManager.install]). */
     suspend fun installSoraPlugin(plugin: Cs3RepoPlugin): Result<Int> =
-        com.hikari.app.sora.SoraPluginManager
+        com.gworld06.streambox.sora.SoraPluginManager
             .install(getApplication<Application>(), plugin)
             .also { requestRefresh() }
 
     /** Removes every SORA source installed from [pluginUrl]. Returns how many
      *  installed sources were actually removed. */
     suspend fun uninstallSoraPlugin(pluginUrl: String): Int {
-        val removed = com.hikari.app.sora.SoraPluginManager
+        val removed = com.gworld06.streambox.sora.SoraPluginManager
             .uninstall(getApplication<Application>(), pluginUrl)
         requestRefresh()
         return removed
@@ -1702,7 +1702,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     suspend fun addAnymexRepo(rawUrl: String): Result<Cs3Repo> = addRepo(rawUrl, RepoKind.ANYMEX)
 
     suspend fun installAnymexPlugin(plugin: Cs3RepoPlugin): Result<Int> =
-        com.hikari.app.anymex.AnymexPluginManager
+        com.gworld06.streambox.anymex.AnymexPluginManager
             .install(getApplication<Application>(), plugin)
             .also { requestRefresh() }
 
@@ -1728,7 +1728,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     suspend fun uninstallAnymexPlugin(pluginUrl: String): Int {
-        val removed = com.hikari.app.anymex.AnymexPluginManager
+        val removed = com.gworld06.streambox.anymex.AnymexPluginManager
             .uninstall(getApplication<Application>(), pluginUrl)
         requestRefresh()
         return removed
@@ -1740,7 +1740,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
     suspend fun addSkyStreamRepo(rawUrl: String): Result<Cs3Repo> {
         val trimmed = rawUrl.trim()
         if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
-            val resolved = com.hikari.app.skystream.SkyStreamPluginManager.resolveRepoUrl(trimmed)
+            val resolved = com.gworld06.streambox.skystream.SkyStreamPluginManager.resolveRepoUrl(trimmed)
                 ?: return Result.failure(
                     Exception(
                         unknownShortName(
@@ -1760,7 +1760,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         withContext(Dispatchers.IO) {
             val bytes = Http.fetchBytesCancellable(plugin.url)
                 ?: return@withContext Result.failure(Exception("Download timed out — check your connection"))
-            com.hikari.app.skystream.SkyStreamPluginManager.install(
+            com.gworld06.streambox.skystream.SkyStreamPluginManager.install(
                 getApplication<Application>(),
                 bytes,
                 sourceUrl = plugin.url,
@@ -1780,7 +1780,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             .ifEmpty { listOf(pluginUrl) }
         var removed = 0
         for (source in stored) {
-            removed += com.hikari.app.skystream.SkyStreamPluginManager.uninstall(app, source)
+            removed += com.gworld06.streambox.skystream.SkyStreamPluginManager.uninstall(app, source)
         }
         requestRefresh()
         return removed
@@ -1793,7 +1793,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         }
         val bytes = Http.fetchBytesCancellable(clean)
             ?: return@withContext Result.failure(Exception("Download failed — check the URL"))
-        com.hikari.app.skystream.SkyStreamPluginManager.install(
+        com.gworld06.streambox.skystream.SkyStreamPluginManager.install(
             getApplication<Application>(),
             bytes,
             sourceUrl = clean,
@@ -1804,7 +1804,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         val bytes = runCatching {
             getApplication<Application>().contentResolver.openInputStream(uri)?.use { it.readBytes() }
         }.getOrNull() ?: return@withContext Result.failure(Exception("Could not read the selected file"))
-        com.hikari.app.skystream.SkyStreamPluginManager.install(
+        com.gworld06.streambox.skystream.SkyStreamPluginManager.install(
             getApplication<Application>(),
             bytes,
         ).also { requestRefresh() }
@@ -1819,7 +1819,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
      * Aniyomi's own "add repo" flow.
      */
     suspend fun addAniyomiRepo(rawUrl: String): Result<Cs3Repo> {
-        val resolved = com.hikari.app.aniyomi.AniyomiExtensionManager.resolveRepoUrl(rawUrl)
+        val resolved = com.gworld06.streambox.aniyomi.AniyomiExtensionManager.resolveRepoUrl(rawUrl)
             ?: return Result.failure(
                 Exception(
                     unknownShortName(
@@ -1876,15 +1876,15 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         iconUrl: String? = null,
     ): Result<Int> {
         val app = getApplication<Application>()
-        return if (com.hikari.app.manga.MangaExtensionManager.isMangaApk(app, bytes)) {
-            com.hikari.app.manga.MangaExtensionManager.install(
+        return if (com.gworld06.streambox.manga.MangaExtensionManager.isMangaApk(app, bytes)) {
+            com.gworld06.streambox.manga.MangaExtensionManager.install(
                 app,
                 bytes,
                 sourceUrl = sourceUrl,
                 iconUrl = iconUrl,
             )
         } else {
-            com.hikari.app.aniyomi.AniyomiExtensionManager.install(
+            com.gworld06.streambox.aniyomi.AniyomiExtensionManager.install(
                 app,
                 bytes,
                 sourceUrl = sourceUrl,
@@ -1968,8 +1968,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             .ifEmpty { listOf(pluginUrl) }
         var removed = 0
         for (source in stored) {
-            removed += com.hikari.app.aniyomi.AniyomiExtensionManager.uninstall(app, source)
-            removed += com.hikari.app.manga.MangaExtensionManager.uninstall(app, source)
+            removed += com.gworld06.streambox.aniyomi.AniyomiExtensionManager.uninstall(app, source)
+            removed += com.gworld06.streambox.manga.MangaExtensionManager.uninstall(app, source)
         }
         requestRefresh()
         return removed
@@ -2320,7 +2320,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
         // repo whose entries are the in-app parsers, like LNReader's index).
         fun kotatsu(url: String) = RepoAlias(url, RepoKind.KOTATSU)
         val kotatsuOfficial = kotatsu(
-            com.hikari.app.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
+            com.gworld06.streambox.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
         )
         put("kotatsu", listOf(kotatsuOfficial))
         put("kotatsuparsers", listOf(kotatsuOfficial))
@@ -2416,7 +2416,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
 
     /**
      * Installs a repo link handed in from a browser (see
-     * [com.hikari.app.deeplink.RepoLinkActivity]): fetches the file, sniffs
+     * [com.gworld06.streambox.deeplink.RepoLinkActivity]): fetches the file, sniffs
      * which engine it belongs to from its own content, and installs it through
      * the same path as the matching manual box. A file that fits two engines
      * (a CloudStream vs SkyStream `plugins` list with no telling entries) is
@@ -2471,9 +2471,9 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     // candidate can ever serve it, but it may still be an
                     // LNReader plugin repo (the index is re-discovered from the
                     // page). Anything else keeps the original error.
-                    val gh = com.hikari.app.lnreader.LnReaderPluginManager.githubRepoOf(trimmed)
+                    val gh = com.gworld06.streambox.lnreader.LnReaderPluginManager.githubRepoOf(trimmed)
                     if (gh != null) {
-                        val loaded = com.hikari.app.lnreader.LnReaderPluginManager
+                        val loaded = com.gworld06.streambox.lnreader.LnReaderPluginManager
                             .loadRepoPlugins(trimmed).getOrNull()
                         if (loaded != null && loaded.first.isNotEmpty()) {
                             val repo = addRepo(loaded.second, RepoKind.LNREADER).getOrThrow()
@@ -2498,7 +2498,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     val n = o.optJSONArray("scrapers")?.let { arr ->
                         (0 until arr.length()).count { i ->
                             arr.optJSONObject(i)?.let {
-                                com.hikari.app.nuvio.NuvioPluginManager.repoPlugin(it, baseUrl)
+                                com.gworld06.streambox.nuvio.NuvioPluginManager.repoPlugin(it, baseUrl)
                             } != null
                         }
                     } ?: 0
@@ -2508,7 +2508,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     }
                 }
                 // Anymex / Mangayomi index.
-                if (com.hikari.app.anymex.AnymexPluginManager.looksLikeAnymex(body)) {
+                if (com.gworld06.streambox.anymex.AnymexPluginManager.looksLikeAnymex(body)) {
                     val repo = addRepo(served, RepoKind.ANYMEX).getOrThrow()
                     return@runCatching RepoLinkResult(repo)
                 }
@@ -2555,7 +2555,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             if (body.startsWith("[")) {
                 // Aniyomi / Mihon index (bare array with pkg + apk entries).
                 val aniyomiCount = runCatching {
-                    com.hikari.app.aniyomi.AniyomiExtensionManager.indexEntries(body)?.length() ?: 0
+                    com.gworld06.streambox.aniyomi.AniyomiExtensionManager.indexEntries(body)?.length() ?: 0
                 }.getOrDefault(0)
                 if (aniyomiCount > 0) {
                     val repo = addAniyomiRepo(served).getOrThrow()
@@ -2563,8 +2563,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 }
                 // LNReader plugin index (bare array of novel sources).
                 val lnReader = runCatching {
-                    if (com.hikari.app.lnreader.LnReaderPluginManager.looksLikeLnReader(body)) {
-                        com.hikari.app.lnreader.LnReaderPluginManager.repoPlugins(body, served)
+                    if (com.gworld06.streambox.lnreader.LnReaderPluginManager.looksLikeLnReader(body)) {
+                        com.gworld06.streambox.lnreader.LnReaderPluginManager.repoPlugins(body, served)
                     } else emptyList()
                 }.getOrDefault(emptyList())
                 if (lnReader.isNotEmpty()) {
@@ -2573,14 +2573,14 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 }
                 // Vega provider manifest (bare array of providers).
                 val vega = runCatching {
-                    com.hikari.app.providers.vega.VegaPluginManager.repoPlugins(body, served)
+                    com.gworld06.streambox.providers.vega.VegaPluginManager.repoPlugins(body, served)
                 }.getOrDefault(emptyList())
                 if (vega.isNotEmpty()) {
                     val repo = addRepo(served, RepoKind.VEGA).getOrThrow()
                     return@runCatching RepoLinkResult(repo)
                 }
                 val zg = runCatching {
-                    com.hikari.app.zangetsu.ZangetsuPluginManager.repoPlugins(body, served)
+                    com.gworld06.streambox.zangetsu.ZangetsuPluginManager.repoPlugins(body, served)
                 }.getOrDefault(emptyList())
                 if (zg.isNotEmpty()) {
                     val repo = addRepo(served, RepoKind.ZANGETSU).getOrThrow()
@@ -2653,12 +2653,12 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     // reported "different repo, same 882 sources" bug.
                     val kt = url.trim()
                     val official =
-                        com.hikari.app.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
+                        com.gworld06.streambox.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
                     if (kt.equals("kotatsu", ignoreCase = true) ||
                         kt.trimEnd('/').equals(official, ignoreCase = true)
                     ) {
                         val entries =
-                            com.hikari.app.kotatsu.KotatsuRegistry.repoPlugins()
+                            com.gworld06.streambox.kotatsu.KotatsuRegistry.repoPlugins()
                         if (entries.isEmpty()) {
                             throw Exception("The bundled Kotatsu index is empty — update the app")
                         }
@@ -2666,20 +2666,20 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                             url = official,
                             name = niceRepoName(
                                 official,
-                                com.hikari.app.kotatsu.KotatsuRegistry.OFFICIAL_REPO_NAME,
+                                com.gworld06.streambox.kotatsu.KotatsuRegistry.OFFICIAL_REPO_NAME,
                             ),
-                            description = com.hikari.app.kotatsu.KotatsuRegistry.OFFICIAL_REPO_DESC,
+                            description = com.gworld06.streambox.kotatsu.KotatsuRegistry.OFFICIAL_REPO_DESC,
                             kind = kind,
                         )
                         lastGoodRepoUrl = official
                         duplicateRepoAdd = store.repos().any {
-                            com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                                com.hikari.app.data.SourceUrls.repoKey(official)
+                            com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                                com.gworld06.streambox.data.SourceUrls.repoKey(official)
                         }
                         store.addCs3Repo(repo)
                         val saved = store.repos().firstOrNull {
-                            com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                                com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                            com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                                com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                         }
                         repos.value = store.repos()
                         return@withContext Result.success(saved ?: repo)
@@ -2697,10 +2697,10 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     val ktBody = ktText
                         ?: throw Exception("Could not fetch repo: $kt")
                     val ktSites =
-                        com.hikari.app.kotatsu.KotatsuRegistry.parseSiteIndex(ktBody)
+                        com.gworld06.streambox.kotatsu.KotatsuRegistry.parseSiteIndex(ktBody)
                     if (ktSites == null) {
                         val aniyomiCount = runCatching {
-                            com.hikari.app.aniyomi.AniyomiExtensionManager
+                            com.gworld06.streambox.aniyomi.AniyomiExtensionManager
                                 .indexEntries(ktBody)?.length() ?: 0
                         }.getOrDefault(0)
                         if (aniyomiCount > 0) {
@@ -2719,13 +2719,13 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     )
                     lastGoodRepoUrl = ktGood
                     duplicateRepoAdd = store.repos().any {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(ktGood)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(ktGood)
                     }
                     store.addCs3Repo(repo)
                     val saved = store.repos().firstOrNull {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                     }
                     repos.value = store.repos()
                     return@withContext Result.success(saved ?: repo)
@@ -2738,12 +2738,12 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 // Vega manifest has no JSONObject at all (see below).
                 var obj: JSONObject? = null
                 if (kind == RepoKind.SORA) {
-                    val loaded = com.hikari.app.sora.SoraPluginManager
+                    val loaded = com.gworld06.streambox.sora.SoraPluginManager
                         .loadRepoPlugins(url).getOrElse { err ->
                             if ((err.message ?: "").contains("lists no Sora sources")) {
                                 val body = Http.fetchStringRobust(url, emptyMap(), 15L).getOrNull()
                                 val aniyomiCount = runCatching {
-                                    com.hikari.app.aniyomi.AniyomiExtensionManager
+                                    com.gworld06.streambox.aniyomi.AniyomiExtensionManager
                                         .indexEntries(body ?: "")?.length() ?: 0
                                 }.getOrDefault(0)
                                 if (aniyomiCount > 0) {
@@ -2763,8 +2763,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastGoodRepoUrl = soraGood
                     store.addCs3Repo(repo)
                     val saved = store.repos().firstOrNull {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                     }
                     repos.value = store.repos()
                     return@withContext Result.success(saved ?: repo)
@@ -2783,7 +2783,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     }
                     val axBody = axText
                         ?: throw Exception("Could not fetch repo: $url")
-                    val axPlugins = com.hikari.app.anymex.AnymexPluginManager
+                    val axPlugins = com.gworld06.streambox.anymex.AnymexPluginManager
                         .repoPlugins(axBody, axGood)
                     if (axPlugins.isEmpty()) {
                         throw Exception("That file lists no Anymex extensions")
@@ -2797,8 +2797,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastGoodRepoUrl = axGood
                     store.addCs3Repo(repo)
                     val saved = store.repos().firstOrNull {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                     }
                     repos.value = store.repos()
                     return@withContext Result.success(saved ?: repo)
@@ -2821,7 +2821,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     }
                     val zgBody = zgText
                         ?: throw Exception("Could not fetch repo: $url")
-                    val zgPlugins = com.hikari.app.zangetsu.ZangetsuPluginManager
+                    val zgPlugins = com.gworld06.streambox.zangetsu.ZangetsuPluginManager
                         .repoPlugins(zgBody, zgGood)
                     if (zgPlugins.isEmpty()) {
                         throw Exception("That file lists no Zangetsu sources")
@@ -2835,8 +2835,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastGoodRepoUrl = zgGood
                     store.addCs3Repo(repo)
                     val saved = store.repos().firstOrNull {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                     }
                     repos.value = store.repos()
                     return@withContext Result.success(saved ?: repo)
@@ -2846,7 +2846,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     // publishing it) — resolved by the manager, which also
                     // picks the stored URL (the page for GitHub repos, so a
                     // versioned index path never rots).
-                    val loaded = com.hikari.app.lnreader.LnReaderPluginManager
+                    val loaded = com.gworld06.streambox.lnreader.LnReaderPluginManager
                         .loadRepoPlugins(url).getOrElse { throw it }
                     if (loaded.first.isEmpty()) {
                         throw Exception("That file lists no LNReader sources")
@@ -2860,8 +2860,8 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastGoodRepoUrl = loaded.second
                     store.addCs3Repo(repo)
                     val saved = store.repos().firstOrNull {
-                        com.hikari.app.data.SourceUrls.repoKey(it.url) ==
-                            com.hikari.app.data.SourceUrls.repoKey(repo.url)
+                        com.gworld06.streambox.data.SourceUrls.repoKey(it.url) ==
+                            com.gworld06.streambox.data.SourceUrls.repoKey(repo.url)
                     }
                     repos.value = store.repos()
                     return@withContext Result.success(saved ?: repo)
@@ -2872,7 +2872,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     // parser whether it lists any provider at all. The repo's
                     // own name is not in the file either, so the label comes
                     // from the URL.
-                    val plugins = com.hikari.app.providers.vega.VegaPluginManager
+                    val plugins = com.gworld06.streambox.providers.vega.VegaPluginManager
                         .repoPlugins(text, lastGoodRepoUrl)
                     if (plugins.isEmpty()) {
                         throw Exception("That manifest.json lists no Vega providers")
@@ -3027,7 +3027,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
      * already recognises.
      */
     private suspend fun loadAniyomiIndex(url: String, knownName: String = ""): AniyomiIndex? {
-        val mgr = com.hikari.app.aniyomi.AniyomiExtensionManager
+        val mgr = com.gworld06.streambox.aniyomi.AniyomiExtensionManager
         for (candidate in mgr.indexCandidatesFor(url)) {
             // A protobuf index is BYTES, not text, so it takes its own fetch and
             // decode path (see AniyomiExtensionManager.pbIndex) and then joins
@@ -3036,7 +3036,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             val arr: org.json.JSONArray
             val jsonName: String
             if (candidate.endsWith(".pb", ignoreCase = true)) {
-                val bytes = com.hikari.app.net.Http
+                val bytes = com.gworld06.streambox.net.Http
                     .fetchBytesCancellable(candidate, readTimeoutSec = 60)
                     ?: continue
                 val decoded = mgr.pbIndex(bytes) ?: continue
@@ -3082,7 +3082,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             // rather than one fixed file name — see [loadAniyomiIndex].
             val loaded = loadAniyomiIndex(repo.url, repo.name)
                 ?: run {
-                    val tried = com.hikari.app.aniyomi.AniyomiExtensionManager
+                    val tried = com.gworld06.streambox.aniyomi.AniyomiExtensionManager
                         .indexCandidatesFor(repo.url).size
                     throw Exception(
                         "Could not fetch repo: no extension list at ${repo.url} " +
@@ -3101,7 +3101,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             val text = fetchRepoRaw(repo.url, "manifest.json", remember = false)
                 .getOrElse { throw Exception("Could not fetch repo: ${it.message}") }
             val out = LinkedHashMap<String, Cs3RepoPlugin>()
-            com.hikari.app.providers.vega.VegaPluginManager.repoPlugins(text, repo.url)
+            com.gworld06.streambox.providers.vega.VegaPluginManager.repoPlugins(text, repo.url)
                 .forEach { out[it.url] = it }
             return out.values.toList() to null
         }
@@ -3117,7 +3117,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastErrZg = Exception("Could not fetch repo")
                     continue
                 }
-                val plugins = com.hikari.app.zangetsu.ZangetsuPluginManager.repoPlugins(text, c)
+                val plugins = com.gworld06.streambox.zangetsu.ZangetsuPluginManager.repoPlugins(text, c)
                 if (plugins.isNotEmpty()) return plugins to null
                 lastErrZg = Exception("That file lists no Zangetsu sources")
             }
@@ -3128,7 +3128,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             // LnReaderPluginManager.repoPlugins); a stored GitHub page URL
             // re-resolves to its current index on every refresh, so a
             // versioned path never rots.
-            val loaded = com.hikari.app.lnreader.LnReaderPluginManager
+            val loaded = com.gworld06.streambox.lnreader.LnReaderPluginManager
                 .loadRepoPlugins(repo.url).getOrElse { throw it }
             return loaded.first to null
         }
@@ -3140,11 +3140,11 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             // every refresh like every other engine — so two different repo
             // links can never show the same sources.
             val officialUrl =
-                com.hikari.app.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
+                com.gworld06.streambox.kotatsu.KotatsuRegistry.OFFICIAL_REPO_URL
             if (repo.url.trim().equals("kotatsu", ignoreCase = true) ||
                 repo.url.trim().trimEnd('/').equals(officialUrl, ignoreCase = true)
             ) {
-                return com.hikari.app.kotatsu.KotatsuRegistry.repoPlugins() to null
+                return com.gworld06.streambox.kotatsu.KotatsuRegistry.repoPlugins() to null
             }
             var lastErrKt: Throwable? = null
             for (c in listOfNotNull(repo.url, jsDelivrMirror(repo.url))) {
@@ -3154,7 +3154,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     continue
                 }
                 val sites =
-                    com.hikari.app.kotatsu.KotatsuRegistry.parseSiteIndex(text)
+                    com.gworld06.streambox.kotatsu.KotatsuRegistry.parseSiteIndex(text)
                 if (sites == null) {
                     lastErrKt = Exception("That file is not a Kotatsu parser list")
                     continue
@@ -3163,7 +3163,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastErrKt = Exception("That file lists no Kotatsu sources")
                     continue
                 }
-                return com.hikari.app.kotatsu.KotatsuRegistry.pluginsForRepo(text) to null
+                return com.gworld06.streambox.kotatsu.KotatsuRegistry.pluginsForRepo(text) to null
             }
             throw lastErrKt ?: Exception("Could not fetch repo: ${repo.url}")
         }
@@ -3176,14 +3176,14 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                     lastErrAx = Exception("Could not fetch repo")
                     continue
                 }
-                val plugins = com.hikari.app.anymex.AnymexPluginManager.repoPlugins(text, c)
+                val plugins = com.gworld06.streambox.anymex.AnymexPluginManager.repoPlugins(text, c)
                 if (plugins.isNotEmpty()) return plugins to null
                 lastErrAx = Exception("That file lists no Anymex extensions")
             }
             throw lastErrAx ?: Exception("Could not fetch repo: ${repo.url}")
         }
         if (repo.kind == RepoKind.SORA) {
-            val loaded = com.hikari.app.sora.SoraPluginManager
+            val loaded = com.gworld06.streambox.sora.SoraPluginManager
                 .loadRepoPlugins(repo.url).getOrElse { throw it }
             return loaded.first to null
         }
@@ -3207,7 +3207,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             // content, migrate the stored kind, and serve the plugins instead
             // of stranding the folder at "Invalid repo.json" with 0 plugins.
             val axPlugins = runCatching {
-                com.hikari.app.anymex.AnymexPluginManager.repoPlugins(text, repo.url)
+                com.gworld06.streambox.anymex.AnymexPluginManager.repoPlugins(text, repo.url)
             }.getOrDefault(emptyList())
             if (axPlugins.isNotEmpty()) {
                 runCatching {
@@ -3218,7 +3218,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 return axPlugins to null
             }
             val vegaPlugins = runCatching {
-                com.hikari.app.providers.vega.VegaPluginManager.repoPlugins(text, repo.url)
+                com.gworld06.streambox.providers.vega.VegaPluginManager.repoPlugins(text, repo.url)
             }.getOrDefault(emptyList())
             if (vegaPlugins.isNotEmpty()) {
                 runCatching {
@@ -3229,7 +3229,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 return vegaPlugins to null
             }
             val zgPlugins = runCatching {
-                com.hikari.app.zangetsu.ZangetsuPluginManager.repoPlugins(text, repo.url)
+                com.gworld06.streambox.zangetsu.ZangetsuPluginManager.repoPlugins(text, repo.url)
             }.getOrDefault(emptyList())
             if (zgPlugins.isNotEmpty()) {
                 runCatching {
@@ -3249,7 +3249,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             root.optJSONArray("scrapers")?.let { arr ->
                 for (i in 0 until arr.length()) {
                     arr.optJSONObject(i)?.let {
-                        com.hikari.app.nuvio.NuvioPluginManager.repoPlugin(it, baseUrl)
+                        com.gworld06.streambox.nuvio.NuvioPluginManager.repoPlugin(it, baseUrl)
                             ?.let { p -> out[p.url] = p }
                     }
                 }
@@ -3280,7 +3280,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
                 if (arr == null) return
                 for (i in 0 until arr.length()) {
                     arr.optJSONObject(i)?.let { o ->
-                        com.hikari.app.skystream.SkyStreamPluginManager.repoPlugin(o, "")
+                        com.gworld06.streambox.skystream.SkyStreamPluginManager.repoPlugin(o, "")
                             ?.let { p -> sky[p.url] = p }
                     }
                 }
@@ -3492,7 +3492,7 @@ class ExtensionsViewModel(app: Application) : AndroidViewModel(app) {
             // The repo's own 18+ tag — a CloudStream plugin declares it in
             // `tvTypes` (see ExtensionNsfw.repoEntryNsfw). What the
             // adult-content switch hides from the store lists.
-            nsfw = com.hikari.app.data.ExtensionNsfw.repoEntryNsfw(o, tvTypes),
+            nsfw = com.gworld06.streambox.data.ExtensionNsfw.repoEntryNsfw(o, tvTypes),
         )
     }
 
@@ -3962,7 +3962,7 @@ private const val ANIYOMI_INDEX = "index.min.json"
  * Repository provenance for the installed-provider rows: provider id → the name
  * of the repository that extension was installed from ("CNC Verse", "Phisher",
  * "PenguPlay", …). Filled in by [ExtensionsScreen] from the stored repos — see
- * [com.hikari.app.data.RepoProvenance] for how the match is made — and read by
+ * [com.gworld06.streambox.data.RepoProvenance] for how the match is made — and read by
  * [ProviderCard], which draws it under the engine. Empty everywhere else, where
  * a row simply shows its engine.
  *
@@ -4164,7 +4164,7 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
                 scope.launch {
                     val page = withContext(Dispatchers.IO) {
                         runCatching {
-                            com.hikari.app.providers.StremioAddon(p.config).configurationPage()
+                            com.gworld06.streambox.providers.StremioAddon(p.config).configurationPage()
                         }.getOrNull()
                     }
                     if (page == null) {
@@ -4178,7 +4178,7 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
                     // installs. Google "Sign in" popups on these pages are
                     // relayed so logins finish (see WebViewActivity).
                     addonConfigLauncher.launch(
-                        Intent(context, com.hikari.app.web.WebViewActivity::class.java)
+                        Intent(context, com.gworld06.streambox.web.WebViewActivity::class.java)
                             .putExtra("url", page)
                             .putExtra("title", p.config.name.ifBlank { "Stremio addon" })
                             .putExtra("stremioConfig", true)
@@ -4188,7 +4188,7 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
             }
             ProviderType.NUVIO -> schemaProvider = p
             ProviderType.VEGA ->
-                if (com.hikari.app.providers.vega.VegaPluginManager.hasSettings(p.config)) {
+                if (com.gworld06.streambox.providers.vega.VegaPluginManager.hasSettings(p.config)) {
                     schemaProvider = p
                 } else {
                     // No settings.js: this provider has nothing to configure,
@@ -4200,10 +4200,10 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
                 // their format — and Kotatsu/fork parsers ship inside the app
                 // with no settings screen of their own — so the gear gets the
                 // honest info dialog for all three.
-                if (p is com.hikari.app.lnreader.LnReaderProvider ||
-                    (p is com.hikari.app.manga.MangaProvider &&
-                        (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(p.config.id) ||
-                            com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(p.config.id)))
+                if (p is com.gworld06.streambox.lnreader.LnReaderProvider ||
+                    (p is com.gworld06.streambox.manga.MangaProvider &&
+                        (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(p.config.id) ||
+                            com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(p.config.id)))
                 ) infoProvider = p
                 else schemaProvider = p
             ProviderType.FORK_VIDEO -> infoProvider = p
@@ -4214,10 +4214,10 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
             // Vega settings check above.
             ProviderType.SKYSTREAM -> {
                 val hasMirrors = runCatching {
-                    com.hikari.app.skystream.SkyStreamPluginManager.domainsOf(
-                        com.hikari.app.skystream.SkyStreamPluginManager.scriptFile(
+                    com.gworld06.streambox.skystream.SkyStreamPluginManager.domainsOf(
+                        com.gworld06.streambox.skystream.SkyStreamPluginManager.scriptFile(
                             context,
-                            com.hikari.app.skystream.SkyStreamPluginManager.packageOf(p.config.id),
+                            com.gworld06.streambox.skystream.SkyStreamPluginManager.packageOf(p.config.id),
                         )
                     ).isNotEmpty()
                 }.getOrDefault(false)
@@ -5543,8 +5543,8 @@ fun ExtensionsScreen(nav: NavHostController? = null) {
 @Composable
 private fun SectionHeader(title: String) {
     Text(
-        if (com.hikari.app.tv.TvMode.current()) title else title.uppercase(),
-        style = if (com.hikari.app.tv.TvMode.current()) MaterialTheme.typography.titleLarge
+        if (com.gworld06.streambox.tv.TvMode.current()) title else title.uppercase(),
+        style = if (com.gworld06.streambox.tv.TvMode.current()) MaterialTheme.typography.titleLarge
         else MaterialTheme.typography.labelSmall,
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 1.2.sp,
@@ -5680,7 +5680,7 @@ private fun RepoBrowserView(
     var query by rememberSaveable { mutableStateOf("") }
     // Captured once in composable scope for the lazy branches below: a
     // LazyListScope (and the search-items helper) cannot call TvMode itself.
-    val tvBrowser = com.hikari.app.tv.TvMode.current()
+    val tvBrowser = com.gworld06.streambox.tv.TvMode.current()
     val cs3SettingsIds = rememberCs3SettingsIds(providers)
     LaunchedEffect(query) {
         if (query.isNotBlank()) onEnsureReposLoaded()
@@ -5799,7 +5799,7 @@ private fun RepoBrowserView(
 
     LazyColumn(
         // Extensions position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("extensions"),
+        state = com.gworld06.streambox.ui.components.keptListState("extensions"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             // Clear of the floating taskbar (0 when there is no bar).
@@ -5828,7 +5828,7 @@ private fun RepoBrowserView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
+                        horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
                         vertical = 12.dp
                     ),
             )
@@ -5968,8 +5968,8 @@ private fun RepoBrowserView(
         // Television opens on a cinematic header — the screen's name with its
         // counts — instead of dropping straight into cards.
         item(key = "tv-header") {
-            if (com.hikari.app.tv.TvMode.current()) {
-                com.hikari.app.tv.TvScreenHeader(
+            if (com.gworld06.streambox.tv.TvMode.current()) {
+                com.gworld06.streambox.tv.TvScreenHeader(
                     title = tr("Extensions"),
                     subtitle = I18n.t("%s installed").replace("%s", providers.size.toString()) +
                         " · " + I18n.t("%s repos").replace("%s", repos.size.toString()) +
@@ -5984,7 +5984,7 @@ private fun RepoBrowserView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
+                        horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
                         vertical = 12.dp
                     )
             ) {
@@ -6020,10 +6020,10 @@ private fun RepoBrowserView(
         }
         item { SectionHeader("Add a source") }
         item {
-            if (com.hikari.app.tv.TvMode.current()) {
+            if (com.gworld06.streambox.tv.TvMode.current()) {
                 Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     @androidx.compose.runtime.Composable fun androidx.compose.foundation.layout.RowScope.srcCard(icon: androidx.compose.ui.graphics.vector.ImageVector, title: String, sub: String, onClick: () -> Unit) {
-                        com.hikari.app.tv.TvSettingsSourceCard(icon = icon, title = title, subtitle = sub, onClick = onClick, modifier = Modifier.weight(1f))
+                        com.gworld06.streambox.tv.TvSettingsSourceCard(icon = icon, title = title, subtitle = sub, onClick = onClick, modifier = Modifier.weight(1f))
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         srcCard(Icons.Filled.Cloud, tr("CloudStream repos"), tr("repo.json · CloudStream extensions"), { onOpenFolder(SourceFolder.CLOUDSTREAM) })
@@ -6598,7 +6598,7 @@ private fun RepoPluginsView(
     // "clicking a repo also clicks Home").
     val backFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
         runCatching { kotlinx.coroutines.delay(120) }
         runCatching { backFocus.requestFocus() }
     }
@@ -6608,7 +6608,7 @@ private fun RepoPluginsView(
     // scrolling is not a thing anyone can do, and this listing is the ONLY place
     // an extension can be installed from. The TV grid flag rides alongside:
     // LazyListScope branches below cannot call TvMode themselves.
-    val tvRepoPage = com.hikari.app.tv.TvMode.current()
+    val tvRepoPage = com.gworld06.streambox.tv.TvMode.current()
     var filter by rememberSaveable { mutableStateOf("") }
     // Which of the two kinds to show, when this repo holds both. "" = all.
     var kindFilter by rememberSaveable { mutableStateOf("") }
@@ -6619,10 +6619,10 @@ private fun RepoPluginsView(
         providers.mapNotNull { p ->
             val id = p.config.id
             val pkg = when {
-                com.hikari.app.manga.MangaExtensionManager.isMangaProviderId(id) ->
-                    com.hikari.app.manga.MangaExtensionManager.packageOf(p.config) to "manga"
+                com.gworld06.streambox.manga.MangaExtensionManager.isMangaProviderId(id) ->
+                    com.gworld06.streambox.manga.MangaExtensionManager.packageOf(p.config) to "manga"
                 id.startsWith("aniyomi|") ->
-                    com.hikari.app.aniyomi.AniyomiExtensionManager.packageOf(p.config) to "anime"
+                    com.gworld06.streambox.aniyomi.AniyomiExtensionManager.packageOf(p.config) to "anime"
                 else -> null
             }
             pkg
@@ -6814,7 +6814,7 @@ private fun RepoPluginsView(
         }
         LazyColumn(
             // Repo browser position held per filter (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("extRepos:$kindFilter"),
+            state = com.gworld06.streambox.ui.components.keptListState("extRepos:$kindFilter"),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -7054,7 +7054,7 @@ private fun ExtensionIcon(url: String?, modifier: Modifier = Modifier) {
     val safe = url
         ?.replace("%exact_size%", "48")
         ?.replace("%size%", "48")
-        ?.let { com.hikari.app.ui.ExtensionIcons.absolute(it, null) }
+        ?.let { com.gworld06.streambox.ui.ExtensionIcons.absolute(it, null) }
     if (safe == null) {
         Icon(
             Icons.Filled.Extension,
@@ -7115,7 +7115,7 @@ private fun RepoPluginIcon(
         if (icon.isNullOrBlank()) {
             delay(ICON_SETTLE_MS)
             icon = withContext(Dispatchers.IO) {
-                com.hikari.app.ui.ExtensionIcons.forRepoPlugin(p, kind, repoUrl)
+                com.gworld06.streambox.ui.ExtensionIcons.forRepoPlugin(p, kind, repoUrl)
             }
         }
     }
@@ -7142,7 +7142,7 @@ private fun ProviderIcon(p: ContentProvider, modifier: Modifier = Modifier) {
             // fill in the moment they come back.
             delay(ICON_SETTLE_MS)
             icon = withContext(Dispatchers.IO) {
-                com.hikari.app.ui.ExtensionIcons.forConfig(p.config)
+                com.gworld06.streambox.ui.ExtensionIcons.forConfig(p.config)
             }
         }
     }
@@ -7367,7 +7367,7 @@ private fun ProviderCard(
     updateAvailable: Boolean = false,
     onUpdate: (() -> Unit)? = null,
     /** The name to draw instead of the provider's own — used by the extension
-     *  row a [com.hikari.app.ui.ProviderPack] draws (its sources all share one
+     *  row a [com.gworld06.streambox.ui.ProviderPack] draws (its sources all share one
      *  name, and repeating it nine times is the bug being fixed). */
     labelOverride: String? = null,
     /** One extra line under the engine name ("9 sources · Bengali · English"). */
@@ -7401,7 +7401,7 @@ private fun ProviderCard(
                 // obvious highlight) instead of only on the switch and the small
                 // icons at its right end, and pressing it flips the switch —
                 // the same thing the switch itself does, just from anywhere on
-                // the line. See [com.hikari.app.tv.tvPress].
+                // the line. See [com.gworld06.streambox.tv.tvPress].
                 .tvPress(previewPass = false, onClick = { onToggle(!p.config.enabled) }),
         ) {
             // Header: icon, names and the switch. The action icons live in
@@ -7660,12 +7660,12 @@ private fun RepoCard(
     val refreshFocus = remember { FocusRequester() }
     val removeFocus = remember { FocusRequester() }
     GlassCard(
-        onClick = if (com.hikari.app.tv.TvMode.current()) null else onClick,
+        onClick = if (com.gworld06.streambox.tv.TvMode.current()) null else onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                horizontal = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
-                vertical = if (com.hikari.app.tv.TvMode.current()) 8.dp else 6.dp
+                horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
+                vertical = if (com.gworld06.streambox.tv.TvMode.current()) 8.dp else 6.dp
             )
     ) {
         Column(
@@ -7677,8 +7677,8 @@ private fun RepoCard(
                     right = copyFocus
                 }
                 .padding(
-                    horizontal = if (com.hikari.app.tv.TvMode.current()) 16.dp else 12.dp,
-                    vertical = if (com.hikari.app.tv.TvMode.current()) 14.dp else 8.dp
+                    horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 16.dp else 12.dp,
+                    vertical = if (com.gworld06.streambox.tv.TvMode.current()) 14.dp else 8.dp
                 )
                 .tvPress(previewPass = false, onClick = onClick),
         ) {
@@ -7691,18 +7691,18 @@ private fun RepoCard(
             // Glass tile in the provider-card language (gradient + hairline); the
             // repo's real icon fills it, the letter fallback wears white.
             val repoGlass = rememberGlassTokens()
-            val repoTile = RoundedCornerShape(if (com.hikari.app.tv.TvMode.current()) 8.dp else 10.dp)
+            val repoTile = RoundedCornerShape(if (com.gworld06.streambox.tv.TvMode.current()) 8.dp else 10.dp)
             Box(
                 Modifier
-                    .size(if (com.hikari.app.tv.TvMode.current()) 52.dp else 40.dp)
+                    .size(if (com.gworld06.streambox.tv.TvMode.current()) 52.dp else 40.dp)
                     .clip(repoTile)
                     .then(
-                        if (com.hikari.app.tv.TvMode.current()) Modifier.background(com.hikari.app.tv.TvDesktop.SurfaceElevated)
+                        if (com.gworld06.streambox.tv.TvMode.current()) Modifier.background(com.gworld06.streambox.tv.TvDesktop.SurfaceElevated)
                         else Modifier.background(Brush.verticalGradient(listOf(repoGlass.fillTop, repoGlass.fillBottom)))
                     )
                     .border(
                         1.dp,
-                        if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.GlassEdge
+                        if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.GlassEdge
                         else repoGlass.border,
                         repoTile,
                     ),
@@ -7720,7 +7720,7 @@ private fun RepoCard(
                 } else {
                     Text(
                         repo.name.trim().firstOrNull { it.isLetterOrDigit() }?.uppercase() ?: "•",
-                        style = if (com.hikari.app.tv.TvMode.current()) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.titleLarge,
+                        style = if (com.gworld06.streambox.tv.TvMode.current()) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
@@ -7731,9 +7731,9 @@ private fun RepoCard(
             Column(Modifier.weight(1f)) {
                 Text(
                     repo.name,
-                    style = if (com.hikari.app.tv.TvMode.current()) MaterialTheme.typography.titleMedium else MaterialTheme.typography.titleSmall,
-                    fontWeight = if (com.hikari.app.tv.TvMode.current()) FontWeight.Bold else FontWeight.Medium,
-                    color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                    style = if (com.gworld06.streambox.tv.TvMode.current()) MaterialTheme.typography.titleMedium else MaterialTheme.typography.titleSmall,
+                    fontWeight = if (com.gworld06.streambox.tv.TvMode.current()) FontWeight.Bold else FontWeight.Medium,
+                    color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                     else Color.Unspecified,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -7815,7 +7815,7 @@ private fun RepoCard(
             // TV remotes need a larger, always-focusable target — 40.dp icons
             // on the trailing edge were unreachable past the row's open-click
             // surface (D-pad landed on the row, never the buttons).
-            val actionSize = if (com.hikari.app.tv.TvMode.current()) 56.dp else 44.dp
+            val actionSize = if (com.gworld06.streambox.tv.TvMode.current()) 56.dp else 44.dp
             IconButton(
                 onClick = {
                     clipboard.setText(AnnotatedString(repo.url))
@@ -7837,7 +7837,7 @@ private fun RepoCard(
                     Icons.Filled.ContentCopy,
                     contentDescription = tr("Copy repo link"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(if (com.hikari.app.tv.TvMode.current()) 28.dp else 22.dp),
+                    modifier = Modifier.size(if (com.gworld06.streambox.tv.TvMode.current()) 28.dp else 22.dp),
                 )
             }
             IconButton(
@@ -7855,7 +7855,7 @@ private fun RepoCard(
                     Icons.Filled.Refresh,
                     contentDescription = tr("Refresh repo"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(if (com.hikari.app.tv.TvMode.current()) 28.dp else 22.dp),
+                    modifier = Modifier.size(if (com.gworld06.streambox.tv.TvMode.current()) 28.dp else 22.dp),
                 )
             }
             IconButton(
@@ -7872,7 +7872,7 @@ private fun RepoCard(
                     Icons.Filled.Delete,
                     contentDescription = tr("Remove repo"),
                     tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(if (com.hikari.app.tv.TvMode.current()) 28.dp else 22.dp),
+                    modifier = Modifier.size(if (com.gworld06.streambox.tv.TvMode.current()) 28.dp else 22.dp),
                 )
             }
             }
@@ -7951,14 +7951,14 @@ private fun TvPluginCardEntry(
         if (icon.isNullOrBlank()) {
             delay(ICON_SETTLE_MS)
             icon = withContext(Dispatchers.IO) {
-                com.hikari.app.ui.ExtensionIcons.forRepoPlugin(p, repo.kind, repo.url)
+                com.gworld06.streambox.ui.ExtensionIcons.forRepoPlugin(p, repo.kind, repo.url)
             }
         }
     }
     val installed = SourceUrls.anyKeyIn(p.url, installedUrls)
     val updateAvailable = SourceUrls.anyKeyIn(p.url, outdatedUrls)
     val settingsTarget = repoPluginSettingsTarget(p, providers, cs3SettingsIds)
-    com.hikari.app.tv.Cs3PluginCard(
+    com.gworld06.streambox.tv.Cs3PluginCard(
         name = p.name,
         version = p.version.toString(),
         sizeLabel = null,
@@ -8198,33 +8198,33 @@ private fun PluginRow(
 private fun installedProviderFor(plugin: Cs3RepoPlugin, providers: List<ContentProvider>): ContentProvider? {
     // Fork-video rows carry no source file: match by their `forkvideo://` URL
     // or provider id.
-    if (com.hikari.app.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(plugin.url)) {
-        val oe = com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)
+    if (com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(plugin.url)) {
+        val oe = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)
         return providers.firstOrNull { p ->
             p.config.url == plugin.url ||
                 (oe != null && p.config.id ==
-                    com.hikari.app.kotatsu.fork.ForkVideoProvider.idOf(oe.first, oe.second))
+                    com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.idOf(oe.first, oe.second))
         }
     }
     // Bundled Kotatsu rows carry no source file (their parser ships in the
     // app): match the installed row by its `kotatsu://` URL or provider id.
     // Fork manga rows ride the same scheme (`kotatsu://forksk/…`) with their
     // own id prefixes.
-    if (plugin.url.startsWith(com.hikari.app.kotatsu.KotatsuRegistry.PLUGIN_SCHEME)) {
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
-            val enum = com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
+    if (plugin.url.startsWith(com.gworld06.streambox.kotatsu.KotatsuRegistry.PLUGIN_SCHEME)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
+            val enum = com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
             return providers.firstOrNull { p ->
                 p.config.url == plugin.url ||
                     (enum != null && p.config.id ==
-                        (if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(plugin.url))
-                            com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
-                        else com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum))
+                        (if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(plugin.url))
+                            com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
+                        else com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum))
             }
         }
         return providers.firstOrNull { p ->
             p.config.url == plugin.url ||
-                p.config.id == com.hikari.app.kotatsu.KotatsuRegistry.PREFIX +
-                com.hikari.app.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
+                p.config.id == com.gworld06.streambox.kotatsu.KotatsuRegistry.PREFIX +
+                com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
         }
     }
     val wanted = SourceUrls.matchKeys(plugin.url)
@@ -8265,14 +8265,14 @@ private fun hasSettingsScreen(
 ): Boolean = when (p.config.type) {
     ProviderType.CS3 -> p.config.id in cs3SettingsIds
     ProviderType.NUVIO -> true
-    ProviderType.VEGA -> com.hikari.app.providers.vega.VegaPluginManager.hasSettings(p.config)
+    ProviderType.VEGA -> com.gworld06.streambox.providers.vega.VegaPluginManager.hasSettings(p.config)
     ProviderType.ANIYOMI, ProviderType.MANGA -> true
     ProviderType.FORK_VIDEO -> true
     ProviderType.ANYMEX, ProviderType.ANYMEX_MANGA, ProviderType.SORA -> true
     // Optimistic: until the manifest has been read for this addon, whether it
     // has a config page is unknown, and offering the gear is what lets the user
     // reach it (the tap loads the manifest and opens the page it declares).
-    ProviderType.STREMIO -> com.hikari.app.providers.StremioAddon.noConfigPage[p.config.id] != true
+    ProviderType.STREMIO -> com.gworld06.streambox.providers.StremioAddon.noConfigPage[p.config.id] != true
     else -> false
 }
 
@@ -8284,29 +8284,29 @@ private fun repoPluginSettingsTarget(
     // Same bundled-row rule as [installedProviderFor]: fork-video and
     // `kotatsu://` entries match their installed rows directly, never through
     // file-URL keys.
-    if (com.hikari.app.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(plugin.url)) {
-        val oe = com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)
+    if (com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.isForkVideoPluginUrl(plugin.url)) {
+        val oe = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerEnumOfPluginUrl(plugin.url)
         return providers.firstOrNull { p ->
             p.config.url == plugin.url ||
                 (oe != null && p.config.id ==
-                    com.hikari.app.kotatsu.fork.ForkVideoProvider.idOf(oe.first, oe.second))
+                    com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.idOf(oe.first, oe.second))
         }?.takeIf { hasSettingsScreen(it, cs3SettingsIds) }
     }
-    if (plugin.url.startsWith(com.hikari.app.kotatsu.KotatsuRegistry.PLUGIN_SCHEME)) {
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
-            val enum = com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
+    if (plugin.url.startsWith(com.gworld06.streambox.kotatsu.KotatsuRegistry.PLUGIN_SCHEME)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaPluginUrl(plugin.url)) {
+            val enum = com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkPluginUrl(plugin.url)
             return providers.firstOrNull { p ->
                 p.config.url == plugin.url ||
                     (enum != null && p.config.id ==
-                        (if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(plugin.url))
-                            com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
-                        else com.hikari.app.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum))
+                        (if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkPluginUrl(plugin.url))
+                            com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_SK + enum
+                        else com.gworld06.streambox.kotatsu.fork.ForkRegistry.PREFIX_HANY + enum))
             }?.takeIf { hasSettingsScreen(it, cs3SettingsIds) }
         }
         return providers.firstOrNull { p ->
             p.config.url == plugin.url ||
-                p.config.id == com.hikari.app.kotatsu.KotatsuRegistry.PREFIX +
-                com.hikari.app.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
+                p.config.id == com.gworld06.streambox.kotatsu.KotatsuRegistry.PREFIX +
+                com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOfPluginUrl(plugin.url)
         }?.takeIf { hasSettingsScreen(it, cs3SettingsIds) }
     }
     val wanted = SourceUrls.matchKeys(plugin.url)
@@ -8320,57 +8320,57 @@ private fun repoPluginSettingsTarget(
 
 private fun pluginStatus(p: ContentProvider, iptvTick: Int = 0): String? {
     if (p.config.type == ProviderType.IPTV) {
-        val err = com.hikari.app.providers.IptvProvider.iptvErrors[p.config.id]
+        val err = com.gworld06.streambox.providers.IptvProvider.iptvErrors[p.config.id]
         if (err != null) return err.take(200)
-        val n = com.hikari.app.providers.IptvProvider.channelCounts[p.config.id]
+        val n = com.gworld06.streambox.providers.IptvProvider.channelCounts[p.config.id]
         return when {
             n != null && n > 0 -> "$n channels"
             else -> "Reading playlist…"
         }
     }
     if (p.config.type == ProviderType.NUVIO) {
-        if (com.hikari.app.nuvio.NuvioPluginManager.fileMissing(p.config)) {
+        if (com.gworld06.streambox.nuvio.NuvioPluginManager.fileMissing(p.config)) {
             return "Provider file missing — reinstall this extension"
         }
         return null
     }
     if (p.config.type == ProviderType.SKYSTREAM) {
-        if (com.hikari.app.skystream.SkyStreamPluginManager.fileMissing(p.config)) {
+        if (com.gworld06.streambox.skystream.SkyStreamPluginManager.fileMissing(p.config)) {
             return "Extension file missing — reinstall this extension"
         }
-        val err = com.hikari.app.skystream.SkyStreamProvider.catalogErrors[p.config.id]
+        val err = com.gworld06.streambox.skystream.SkyStreamProvider.catalogErrors[p.config.id]
         // No verification story here: an extension whose site answers with a
         // browser check is simply left out of searches (see
         // ContentRepository.crossCfSkip), so naming the wall only adds a scary,
         // unactionable line about a different site.
         if (err != null &&
-            com.hikari.app.net.CloudflareVerifier.isVerificationMessage(err)
+            com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(err)
         ) return null
         return err?.take(200)
     }
     if (p.config.type == ProviderType.ANIYOMI || p.config.type == ProviderType.MANGA) {
         val manga = p.config.type == ProviderType.MANGA
         val missing = if (manga) {
-            com.hikari.app.manga.MangaExtensionManager.fileMissing(p.config)
+            com.gworld06.streambox.manga.MangaExtensionManager.fileMissing(p.config)
         } else {
-            com.hikari.app.aniyomi.AniyomiExtensionManager.fileMissing(p.config)
+            com.gworld06.streambox.aniyomi.AniyomiExtensionManager.fileMissing(p.config)
         }
         if (missing) {
             return "Extension file missing — reinstall this extension"
         }
         val err = if (manga) {
-            if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
-                com.hikari.app.lnreader.LnReaderProvider.lastOutcome[p.config.id]
+            if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
+                com.gworld06.streambox.lnreader.LnReaderProvider.lastOutcome[p.config.id]
             } else {
-                com.hikari.app.manga.MangaProvider.lastOutcome[p.config.id]
+                com.gworld06.streambox.manga.MangaProvider.lastOutcome[p.config.id]
             }
         } else {
-            com.hikari.app.aniyomi.AniyomiProvider.catalogErrors[p.config.id]
+            com.gworld06.streambox.aniyomi.AniyomiProvider.catalogErrors[p.config.id]
         }
         // Same rule as below: a browser check on the scraped site is never
         // reported as a scary, unactionable line.
         if (err != null &&
-            com.hikari.app.net.CloudflareVerifier.isVerificationMessage(err)
+            com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(err)
         ) return null
         // Only a failure line is worth showing; the manga engine stores its
         // successes in the same map ("✓ 24 chapter(s)") so the UI can show what
@@ -8378,17 +8378,17 @@ private fun pluginStatus(p: ContentProvider, iptvTick: Int = 0): String? {
         return err?.takeIf { !it.startsWith("✓") }?.take(200)
     }
     if (p.config.type == ProviderType.FORK_VIDEO) {
-        val err = com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
+        val err = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
         if (err != null &&
-            com.hikari.app.net.CloudflareVerifier.isVerificationMessage(err)
+            com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(err)
         ) return null
         return err?.takeIf { !it.startsWith("✓") && !it.startsWith("○") }?.take(200)
     }
     if (p.config.type != ProviderType.CS3) return null
-    val err = com.hikari.app.cs3.Cs3MainApiProvider.catalogErrors[p.config.id]
+    val err = com.gworld06.streambox.cs3.Cs3MainApiProvider.catalogErrors[p.config.id]
     if (err != null) {
         // Same rule as above: a verification wall is never reported.
-        if (com.hikari.app.net.CloudflareVerifier.isVerificationMessage(err)) return null
+        if (com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(err)) return null
         return err.take(200)
     }
     if (!File(p.config.url).exists()) return "Plugin file missing — reinstall this extension"
@@ -8480,7 +8480,7 @@ private fun SiteRow(
                 // (and its ring shows which one) rather than only on the small
                 // Open/Delete buttons at the end of the line. Pressing it opens
                 // the site — the row's own action. See
-                // [com.hikari.app.tv.tvPress].
+                // [com.gworld06.streambox.tv.tvPress].
                 .tvPress(previewPass = false, onClick = onOpen),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -8570,7 +8570,7 @@ private fun SourceFolderView(
     // "clicking a repo also clicks Home").
     val backFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
         runCatching { kotlinx.coroutines.delay(120) }
         runCatching { backFocus.requestFocus() }
     }
@@ -8645,15 +8645,15 @@ private fun SourceFolderView(
     }
 
     Column(Modifier.fillMaxSize()) {
-        if (com.hikari.app.tv.TvMode.current()) {
-            com.hikari.app.tv.TvScreenHeader(title = tr(title), subtitle = tr(subtitle))
+        if (com.gworld06.streambox.tv.TvMode.current()) {
+            com.gworld06.streambox.tv.TvScreenHeader(title = tr(title), subtitle = tr(subtitle))
         }
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = if (com.hikari.app.tv.TvMode.current()) 8.dp else 4.dp,
-                    end = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
+                    start = if (com.gworld06.streambox.tv.TvMode.current()) 8.dp else 4.dp,
+                    end = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
                     top = 4.dp,
                     bottom = 4.dp
                 ),
@@ -8663,16 +8663,16 @@ private fun SourceFolderView(
                 onClick = onBack,
                 modifier = Modifier
                     .focusRequester(backFocus)
-                    .size(if (com.hikari.app.tv.TvMode.current()) 48.dp else 40.dp)
+                    .size(if (com.gworld06.streambox.tv.TvMode.current()) 48.dp else 40.dp)
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = tr("Back"),
-                    modifier = Modifier.size(if (com.hikari.app.tv.TvMode.current()) 26.dp else 24.dp)
+                    modifier = Modifier.size(if (com.gworld06.streambox.tv.TvMode.current()) 26.dp else 24.dp)
                 )
             }
             Column(Modifier.weight(1f)) {
-                if (!com.hikari.app.tv.TvMode.current()) {
+                if (!com.gworld06.streambox.tv.TvMode.current()) {
                 Text(
                     title,
                     style = MaterialTheme.typography.titleMedium,
@@ -8756,7 +8756,7 @@ private fun SourceFolderView(
         }
         LazyColumn(
             // Repo-add position held per folder (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("extRepoAdd:$folder"),
+            state = com.gworld06.streambox.ui.components.keptListState("extRepoAdd:$folder"),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -9040,7 +9040,7 @@ private fun SourcesOverviewView(
     // "clicking a repo also clicks Home").
     val backFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
         runCatching { kotlinx.coroutines.delay(120) }
         runCatching { backFocus.requestFocus() }
     }
@@ -9123,7 +9123,7 @@ private fun SourcesOverviewView(
         }
         LazyColumn(
             // Repo-group position held across visits (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("extRepoGroups"),
+            state = com.gworld06.streambox.ui.components.keptListState("extRepoGroups"),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -9439,14 +9439,14 @@ private fun AllReposView(
     // "clicking a repo also clicks Home").
     val backFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
         runCatching { kotlinx.coroutines.delay(120) }
         runCatching { backFocus.requestFocus() }
     }
 
     Column(Modifier.fillMaxSize()) {
-        if (com.hikari.app.tv.TvMode.current()) {
-            com.hikari.app.tv.TvScreenHeader(
+        if (com.gworld06.streambox.tv.TvMode.current()) {
+            com.gworld06.streambox.tv.TvScreenHeader(
                 title = tr("All sources"),
                 subtitle = I18n.t(if (repos.size == 1) "%s repo added" else "%s repos added").replace("%s", repos.size.toString())
             )
@@ -9455,8 +9455,8 @@ private fun AllReposView(
             Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = if (com.hikari.app.tv.TvMode.current()) 8.dp else 4.dp,
-                    end = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
+                    start = if (com.gworld06.streambox.tv.TvMode.current()) 8.dp else 4.dp,
+                    end = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
                     top = 4.dp,
                     bottom = 4.dp
                 ),
@@ -9466,16 +9466,16 @@ private fun AllReposView(
                 onClick = onBack,
                 modifier = Modifier
                     .focusRequester(backFocus)
-                    .size(if (com.hikari.app.tv.TvMode.current()) 48.dp else 40.dp)
+                    .size(if (com.gworld06.streambox.tv.TvMode.current()) 48.dp else 40.dp)
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = tr("Back"),
-                    modifier = Modifier.size(if (com.hikari.app.tv.TvMode.current()) 26.dp else 24.dp)
+                    modifier = Modifier.size(if (com.gworld06.streambox.tv.TvMode.current()) 26.dp else 24.dp)
                 )
             }
             Column(Modifier.weight(1f)) {
-                if (!com.hikari.app.tv.TvMode.current()) {
+                if (!com.gworld06.streambox.tv.TvMode.current()) {
                 Text(tr("All installed repos"), style = MaterialTheme.typography.titleMedium)
                 Text(
                     I18n.t(if (repos.size == 1) "%s repo added" else "%s repos added").replace("%s", repos.size.toString()),
@@ -9525,7 +9525,7 @@ private fun AllReposView(
         }
         LazyColumn(
             // Installed-repos position held across visits (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("extReposInstalled"),
+            state = com.gworld06.streambox.ui.components.keptListState("extReposInstalled"),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -9590,7 +9590,7 @@ private fun InstalledExtensionsView(
     // "clicking a repo also clicks Home").
     val backFocus = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
         runCatching { kotlinx.coroutines.delay(120) }
         runCatching { backFocus.requestFocus() }
     }
@@ -9666,7 +9666,7 @@ private fun InstalledExtensionsView(
         }
         LazyColumn(
             // Installed-extensions position held per filter (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("extInstalled:$extFilter"),
+            state = com.gworld06.streambox.ui.components.keptListState("extInstalled:$extFilter"),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),

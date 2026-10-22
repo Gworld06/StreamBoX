@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.content.Context
 import android.content.res.Configuration
@@ -10,7 +10,7 @@ import kotlin.math.roundToInt
  * plain SharedPreferences so it can be read SYNCHRONOUSLY while an Activity is
  * being created.
  *
- * The Compose part of the app scales itself in [com.hikari.app.ui.theme.HikariTheme],
+ * The Compose part of the app scales itself in [com.gworld06.streambox.ui.theme.HikariTheme],
  * but this app also has plain View-based screens (the player and the WebView)
  * which live outside that tree — they pick up the scale here, via
  * [wrap] in each Activity's `attachBaseContext`.
@@ -61,7 +61,7 @@ object UiScale {
 
     /** The saved preference, readable without suspending — what a screen seeds
      *  its Compose state with so the first frame after an Activity is created
-     *  is already the chosen scale (see [com.hikari.app.MainActivity]). */
+     *  is already the chosen scale (see [com.gworld06.streambox.MainActivity]). */
     fun current(context: Context): Pair<Boolean, Float> {
         ensureLoaded(context)
         return enabled to scale

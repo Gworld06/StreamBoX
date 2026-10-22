@@ -1,15 +1,15 @@
-package com.hikari.app.skystream
+package com.gworld06.streambox.skystream
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -256,9 +256,9 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
         // WHOLE app — so one blocked site anywhere made every extension's empty
         // catalog read as "Cloudflare wants a verification", extensions that
         // were never behind a challenge included.
-        if (com.hikari.app.net.CloudflareVerifier.isVerificationMessage(e)) return CF_REASON
+        if (com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(e)) return CF_REASON
         val host = siteHost()
-        if (host != null && com.hikari.app.net.CloudflareVerifier.isBlockedHost(host)) return CF_REASON
+        if (host != null && com.gworld06.streambox.net.CloudflareVerifier.isBlockedHost(host)) return CF_REASON
         if (e.isNotBlank()) return "Home failed: $e"
         return if (empty) "This extension returned an empty catalog (its site may have changed)."
         else "Home failed."
@@ -333,7 +333,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
             // The origin "answering nothing" for a title starts here: without
             // the plugin's own words in the log there is no telling a walled
             // site from a changed page from a crashed call.
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Provider",
                 "${config.name} [SkyStream]: details failed for \"${item.title}\" — " +
                     (err.ifBlank { lastFailure ?: "no reason given" }),
@@ -342,7 +342,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
         }
         val d = res.opt("data") as? JSONObject ?: return@withContext item
         val episodes = toEpisodes(item.id, d.optJSONArray("episodes"))
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Provider",
             "${config.name} [SkyStream]: details for \"${item.title}\" — " +
                 "${episodes.size} episode(s)" +
@@ -433,7 +433,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
                 return it.id
             }
             eps.firstOrNull { it.number == episode.number }?.let {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     "${config.name} [SkyStream]: S${episode.season}E${episode.number} " +
                         "is S${it.season}E${it.number} on this site — resolving there",
@@ -462,7 +462,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
             instantStreams[token]?.takeIf { it.isNotEmpty() }?.let { instant ->
                 streamErrors.remove(config.id)
                 lastOutcome[config.id] = "✓ ${instant.size} source${if (instant.size == 1) "" else "s"} (instant)"
-                com.hikari.app.net.StreamProbe.warmAsync(instant)
+                com.gworld06.streambox.net.StreamProbe.warmAsync(instant)
                 return@withContext instant
             }
             val direct = streamsForToken(token)
@@ -472,7 +472,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
                     "${(System.currentTimeMillis() - startedAt) / 1000}s"
                 instantStreams[token] = direct
                 val distinct = direct.distinctBy { it.url }
-                com.hikari.app.net.StreamProbe.warmAsync(distinct)
+                com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
                 return@withContext distinct
             }
             // The title link itself answered nothing and there was no usable
@@ -488,7 +488,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
                     lastOutcome[config.id] = "✓ ${via.size} source${if (via.size == 1) "" else "s"} in " +
                         "${(System.currentTimeMillis() - startedAt) / 1000}s (re-matched)"
                     val distinct = via.distinctBy { it.url }
-                    com.hikari.app.net.StreamProbe.warmAsync(distinct)
+                    com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
                     return@withContext distinct
                 }
             }
@@ -531,13 +531,13 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
     private suspend fun searchFallback(item: MediaItem, episode: Episode?): List<StreamSource> {
         val queries = LinkedHashSet<String>()
         if (item.title.isNotBlank()) queries.add(item.title)
-        val base = com.hikari.app.data.sequelBase(com.hikari.app.data.normalizeTitle(item.title))
+        val base = com.gworld06.streambox.data.sequelBase(com.gworld06.streambox.data.normalizeTitle(item.title))
         if (base.isNotBlank()) queries.add(base)
         for (q in queries) {
             val hits = search(q, 1)
-            val strict = com.hikari.app.data.normalizeTitle(q)
+            val strict = com.gworld06.streambox.data.normalizeTitle(q)
             val found = hits.firstOrNull {
-                com.hikari.app.data.normalizeTitle(it.title) == strict
+                com.gworld06.streambox.data.normalizeTitle(it.title) == strict
             } ?: continue
             getMeta(found)
             val eps = loadedEpisodes[found.id].orEmpty()
@@ -551,7 +551,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
             instantStreams[token]?.takeIf { it.isNotEmpty() }?.let { return it }
             val out = streamsForToken(token)
             if (out.isNotEmpty()) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     "${config.name} [SkyStream]: re-matched \"${item.title}\" " +
                         "to \"${found.title}\" — ${out.size} source(s)",
@@ -636,7 +636,7 @@ class SkyStreamProvider(override val config: ProviderConfig) : ContentProvider {
         val key = o.optString("drmKey").takeIf { it.isNotBlank() }
         val license = o.optString("licenseUrl").takeIf { it.isNotBlank() }
         val drm = if (kid == null && key == null && license == null) null
-        else com.hikari.app.data.DrmSpec(kid = kid, key = key, licenseUrl = license)
+        else com.gworld06.streambox.data.DrmSpec(kid = kid, key = key, licenseUrl = license)
         return StreamSource(
             name = displayName,
             url = if (isTorrent || url.startsWith("data:")) url else Http.normalizeDriveUrl(url),

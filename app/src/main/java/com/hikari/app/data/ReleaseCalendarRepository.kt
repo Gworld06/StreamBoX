@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.nuvio.TmdbResolver
+import com.gworld06.streambox.nuvio.TmdbResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject

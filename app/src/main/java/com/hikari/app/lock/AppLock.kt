@@ -1,4 +1,4 @@
-package com.hikari.app.lock
+package com.gworld06.streambox.lock
 
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -31,7 +31,7 @@ import javax.crypto.spec.PBEKeySpec
  * There is deliberately NO recovery: nothing in the app can read the password
  * back, which is the whole point of storing only a derivation. The settings
  * card says so before the password is set, and the unlock screen offers the one
- * honest way out — turning the lock off (see [com.hikari.app.ui.AppLockScreen]).
+ * honest way out — turning the lock off (see [com.gworld06.streambox.ui.AppLockScreen]).
  */
 object AppLock {
 

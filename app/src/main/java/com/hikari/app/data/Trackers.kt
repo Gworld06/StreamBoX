@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import org.json.JSONArray
 import org.json.JSONObject
@@ -10,7 +10,7 @@ import org.json.JSONObject
  * account they already have, and from then on what they watch in Hikari shows up
  * on that service's list without them ever opening it. Nothing is uploaded until
  * a title has actually been watched far enough to count (see
- * [com.hikari.app.tracker.TrackerSync]), and no service is contacted at all
+ * [com.gworld06.streambox.tracker.TrackerSync]), and no service is contacted at all
  * until the user signs in to it.
  *
  * **Each service keeps its OWN credentials.** Every one of these APIs needs an
@@ -20,7 +20,7 @@ import org.json.JSONObject
  * owner — never somebody else's), so the card goes straight to Sign in; only
  * services with no shipped id still ask for the user's own, once, with the
  * exact page to get it ([registerUrl]) and the exact redirect URI to paste
- * ([com.hikari.app.tracker.TrackerApi.REDIRECT_URI]) spelled out.
+ * ([com.gworld06.streambox.tracker.TrackerApi.REDIRECT_URI]) spelled out.
  */
 enum class TrackerKind(
     /** Stable id — what the stored rows are keyed by, never shown. */
@@ -98,7 +98,7 @@ enum class TrackerKind(
     }
 }
 
-/** How a service's sign-in works — see [com.hikari.app.tracker.TrackerApi]. */
+/** How a service's sign-in works — see [com.gworld06.streambox.tracker.TrackerApi]. */
 enum class TrackerFlow {
     /**
      * Legacy: the access token arrived in the redirect (AniList's implicit
@@ -179,7 +179,7 @@ data class TrackerClient(
  * is still empty — its id AND secret are both required and were never supplied,
  * so Shikimori keeps the manual step until they are. AniList's id is shipped
  * but its SECRET is still missing (the code flow needs it — see
- * [com.hikari.app.tracker.TrackerApi.exchangeCode]), so AniList also keeps the
+ * [com.gworld06.streambox.tracker.TrackerApi.exchangeCode]), so AniList also keeps the
  * manual step until the secret for app 51890 is embedded below. Kitsu needs nothing at
  * all (password grant with no app registration). A user-typed id/secret in
  * the dialog still overrides these per device.

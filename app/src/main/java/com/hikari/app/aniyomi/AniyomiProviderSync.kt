@@ -1,9 +1,9 @@
-package com.hikari.app.aniyomi
+package com.gworld06.streambox.aniyomi
 
 import android.content.Context
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
 import java.io.File
 
 /**
@@ -16,7 +16,7 @@ import java.io.File
  * extension update can add, remove or RENAME those sources, which leaves the
  * stored rows pointing at the wrong names (or at an index that no longer
  * exists). This rebuilds them against the freshly loaded extension. Same
- * contract as [com.hikari.app.cs3.Cs3ProviderSync].
+ * contract as [com.gworld06.streambox.cs3.Cs3ProviderSync].
  *
  * An extension that fails to load is left ALONE: that is usually a transient
  * failure, and wiping the user's sources over a flaky load is far worse than a
@@ -27,7 +27,7 @@ object AniyomiProviderSync {
     /**
      * Reconciles every installed Aniyomi extension's configs. Returns true when
      * the stored provider list changed (the caller should then call
-     * [com.hikari.app.providers.ProviderManager.refresh]).
+     * [com.gworld06.streambox.providers.ProviderManager.refresh]).
      *
      * Must be called from IO — it loads each extension.
      */

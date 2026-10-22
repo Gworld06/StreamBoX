@@ -1,12 +1,12 @@
-package com.hikari.app.anymex
+package com.gworld06.streambox.anymex
 
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.asyncFunction
 import com.dokar.quickjs.binding.function
-import com.hikari.app.HikariApp
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -68,7 +68,7 @@ object AnymexRuntime {
     private const val ENGINE_MEMORY_LIMIT = 256L * 1024 * 1024
 
     private val engineMemoryLimit: Long
-        get() = com.hikari.app.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
+        get() = com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
 
     private val concurrency = Semaphore(MAX_CONCURRENT)
     private val perfConcurrency = Semaphore(PERF_CONCURRENT)
@@ -76,8 +76,8 @@ object AnymexRuntime {
 
     private val gate: Semaphore
         get() = when {
-            com.hikari.app.data.PerfMode.tvDevice -> tvConcurrency
-            com.hikari.app.data.PerfMode.active -> perfConcurrency
+            com.gworld06.streambox.data.PerfMode.tvDevice -> tvConcurrency
+            com.gworld06.streambox.data.PerfMode.active -> perfConcurrency
             else -> concurrency
         }
 
@@ -211,7 +211,7 @@ object AnymexRuntime {
         // The AES/MD5/HMAC/PBKDF2 natives behind boot.js's CryptoJS — without
         // these every extension-side CryptoJS.AES call throws, killing video
         // extraction for any host using encrypted streams.
-        com.hikari.app.nuvio.NuvioCryptoBridge.bindAll(qjs)
+        com.gworld06.streambox.nuvio.NuvioCryptoBridge.bindAll(qjs)
 
         qjs.evaluateCached("boot.js", bootJs)
         qjs.evaluateCached(
@@ -674,7 +674,7 @@ object AnymexRuntime {
         if (u.isEmpty()) return "[]"
         val found = withTimeoutOrNull(45_000) {
             withContext(Dispatchers.IO) {
-                runCatching { com.hikari.app.cs3.FallbackResolver.resolve(u) }.getOrNull()
+                runCatching { com.gworld06.streambox.cs3.FallbackResolver.resolve(u) }.getOrNull()
             }
         }.orEmpty()
         val arr = JSONArray()
@@ -779,7 +779,7 @@ object AnymexRuntime {
         headersJson: String,
         body: String,
     ): Request {
-        val builder = Request.Builder().url(url).header("User-Agent", com.hikari.app.net.Http.UA)
+        val builder = Request.Builder().url(url).header("User-Agent", com.gworld06.streambox.net.Http.UA)
         val h = runCatching { JSONObject(headersJson) }.getOrNull()
         if (h != null) {
             h.keys().forEach { k ->

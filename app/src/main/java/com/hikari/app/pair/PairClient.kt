@@ -1,6 +1,6 @@
-package com.hikari.app.pair
+package com.gworld06.streambox.pair
 
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
  *     usable as a guest: no camera to scan the QR with, no keyboard to type an
  *     IP on.
  *  2. [download] — a plain HTTP GET of `/bundle?t=<code>`, which is the backup
- *     file byte for byte, and the caller hands it to [com.hikari.app.data.BackupManager.restore]
+ *     file byte for byte, and the caller hands it to [com.gworld06.streambox.data.BackupManager.restore]
  *     — the same code path a file picked from Downloads takes, with the same path
  *     validation and the same live-state refresh. The network part of this
  *     feature therefore cannot damage anything the file path could not.

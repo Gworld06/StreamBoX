@@ -1,8 +1,8 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
-import com.hikari.app.aniyomi.AniyomiExtensionManager
-import com.hikari.app.manga.MangaExtensionManager
+import com.gworld06.streambox.aniyomi.AniyomiExtensionManager
+import com.gworld06.streambox.manga.MangaExtensionManager
 import org.json.JSONObject
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap
  * manifest), and — for the ecosystems that declare adult content per TITLE
  * rather than per extension (CloudStream / Hikari / SkyStream / Nuvio) — the
  * extension itself, which
- * [com.hikari.app.providers.ProviderManager.learnAdultFlags] asks once and then
+ * [com.gworld06.streambox.providers.ProviderManager.learnAdultFlags] asks once and then
  * writes onto the row, so it is asked exactly once per extension, ever.
  *
  * **Cost.** Loading an extension instantiates its classes, so a metadata lookup
@@ -38,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap
  * cannot serve a catalogue either (the provider that would query it needs the
  * same loaded metadata), so a failed lookup answers "not tagged", and — this is
  * the important part — does NOT cache that answer: the retry window inside the
- * loader ([com.hikari.app.manga.MangaExtensionManager.extensionOf]) is what
+ * loader ([com.gworld06.streambox.manga.MangaExtensionManager.extensionOf]) is what
  * decides when to try again, and a permanent `false` here would outlive it.
  */
 object ExtensionNsfw {
@@ -80,7 +80,7 @@ object ExtensionNsfw {
      * for the ones that declare adult content per TITLE rather than per
      * extension — a CloudStream/Hikari/SkyStream/Nuvio plugin has to be asked
      * itself, which is what
-     * [com.hikari.app.providers.ProviderManager.learnAdultFlags] does.
+     * [com.gworld06.streambox.providers.ProviderManager.learnAdultFlags] does.
      */
     fun decidableFromMetadata(config: ProviderConfig): Boolean =
         config.type == ProviderType.MANGA || config.type == ProviderType.ANIYOMI ||
@@ -94,7 +94,7 @@ object ExtensionNsfw {
     /**
      * Whether a provider row may be USED: an 18+ extension only with the switch
      * on. The provider list itself is built through this (see
-     * [com.hikari.app.providers.ProviderManager]), so with the switch off an
+     * [com.gworld06.streambox.providers.ProviderManager]), so with the switch off an
      * adult extension is not instantiated at all — its catalogues cannot appear
      * on Home, skip the title filter, or be searched into existence by a
      * collection that still references it.

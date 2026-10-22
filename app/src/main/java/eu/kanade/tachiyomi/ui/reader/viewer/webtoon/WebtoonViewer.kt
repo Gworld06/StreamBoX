@@ -13,9 +13,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.WebtoonLayoutManager
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.hikari.app.reader.cache.WebtoonPageCache
-import com.hikari.app.reader.source.MangaSource
-import com.hikari.app.reader.WebtoonScaleType
+import com.gworld06.streambox.reader.cache.WebtoonPageCache
+import com.gworld06.streambox.reader.source.MangaSource
+import com.gworld06.streambox.reader.WebtoonScaleType
 import eu.kanade.tachiyomi.ui.reader.viewer.NavigationRegion
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderPageImageView
 import eu.kanade.tachiyomi.ui.reader.viewer.ViewerNavigation

@@ -1,14 +1,14 @@
-package com.hikari.app.kotatsu.fork
+package com.gworld06.streambox.kotatsu.fork
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderGate
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderGate
 import eu.kanade.tachiyomi.source.model.SManga
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -306,7 +306,7 @@ class ForkVideoProvider(override val config: ProviderConfig) : ContentProvider {
 		}.getOrNull().orEmpty()
 		var h = base
 		if (h.keys.none { it.equals("User-Agent", ignoreCase = true) }) {
-			h = h + ("User-Agent" to com.hikari.app.net.Http.UA)
+			h = h + ("User-Agent" to com.gworld06.streambox.net.Http.UA)
 		}
 		return h
 	}

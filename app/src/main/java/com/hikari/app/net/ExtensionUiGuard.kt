@@ -1,9 +1,9 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 
 /**
  * Keeps EXTENSIONS from opening external pages on their own — the enforcement
@@ -103,7 +103,7 @@ object ExtensionUiGuard {
         // blocking it is the whole "telegram videos, webview sites unclickable"
         // class (the tap then dies silently inside runCatching with no toast).
         val componentClass = runCatching { intent.component?.className }.getOrNull()
-        if (componentClass != null && componentClass.startsWith("com.hikari.app.")) return true
+        if (componentClass != null && componentClass.startsWith("com.gworld06.streambox.")) return true
         if (isAllowed()) return true
         val frames = Thread.currentThread().stackTrace
         if (!hasPluginFrame(frames)) return true
@@ -147,7 +147,7 @@ object ExtensionUiGuard {
             className.startsWith("jdk.") ||
             className.startsWith("sun.") ||
             // Our own guard + the Activity overrides that call into it.
-            className.startsWith("com.hikari.app.net.ExtensionUiGuard") ||
+            className.startsWith("com.gworld06.streambox.net.ExtensionUiGuard") ||
             // The jar bridge is ours as much as com.hikari is: plugin code
             // calling through it still shows its own frame below, which is
             // what [hasPluginFrame] convicts on.
@@ -159,7 +159,7 @@ object ExtensionUiGuard {
         // Stack-request machinery.
         while (i < frames.size && frames[i].className == "java.lang.Thread") i++
         // This guard's own frames.
-        while (i < frames.size && frames[i].className.startsWith("com.hikari.app.net.ExtensionUiGuard")) i++
+        while (i < frames.size && frames[i].className.startsWith("com.gworld06.streambox.net.ExtensionUiGuard")) i++
         // The override that called in (our activity's startActivity): it is
         // com.hikari code by construction and must not decide the scan — its
         // CALLER does.
@@ -182,7 +182,7 @@ object ExtensionUiGuard {
     private fun convictFrame(frames: Array<StackTraceElement>): String? {
         var i = 0
         while (i < frames.size && frames[i].className == "java.lang.Thread") i++
-        while (i < frames.size && frames[i].className.startsWith("com.hikari.app.net.ExtensionUiGuard")) i++
+        while (i < frames.size && frames[i].className.startsWith("com.gworld06.streambox.net.ExtensionUiGuard")) i++
         while (i < frames.size && frames[i].className.startsWith("com.hikari.") &&
             frames[i].methodName == "startActivity"
         ) i++

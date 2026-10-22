@@ -1,16 +1,16 @@
-package com.hikari.app.nuvio
+package com.gworld06.streambox.nuvio
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -228,7 +228,7 @@ class NuvioScraper(override val config: ProviderConfig) : ContentProvider {
 
     override suspend fun getMeta(item: MediaItem): MediaItem {
         if (item.id.isBlank() || !item.id.all { it.isDigit() }) return item
-        if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
+        if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
         val type = if (item.type == MediaType.SERIES) "tv" else "movie"
         val d = TmdbResolver.apiGet("/$type/${item.id}", emptyMap()) ?: return item
         val year = listOf("release_date", "first_air_date")
@@ -257,7 +257,7 @@ class NuvioScraper(override val config: ProviderConfig) : ContentProvider {
         if (item.type != MediaType.SERIES) return@withContext null
         val id = item.id
         if (id.isBlank() || !id.all { it.isDigit() }) return@withContext null
-        if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item)) return@withContext null
+        if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item)) return@withContext null
         val tv = TmdbResolver.apiGet("/tv/$id", emptyMap()) ?: return@withContext null
         val seasons = tv.optJSONArray("seasons") ?: return@withContext null
         val nums = (0 until seasons.length()).mapNotNull { i ->
@@ -543,7 +543,7 @@ class NuvioScraper(override val config: ProviderConfig) : ContentProvider {
             // Warm the probe cache the moment the sources are found, so a
             // wrapper server (4KHDHub/HubCloud) is already resolved by the time
             // the user taps Play — no "Preparing stream…" wait.
-            com.hikari.app.net.StreamProbe.warmAsync(distinct)
+            com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
             distinct
         }
 
@@ -576,7 +576,7 @@ class NuvioScraper(override val config: ProviderConfig) : ContentProvider {
         mark: Int,
     ) {
         val trail = runCatching { NuvioRuntime.fetchLogSince(mark, 6) }.getOrDefault(emptyList())
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Nuvio",
             "${config.name}: $asked → $verdict" +
                 (if (trail.isEmpty()) " · no HTTP request at all" else " · " + trail.joinToString(" | ")),

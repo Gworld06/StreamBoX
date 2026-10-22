@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import org.json.JSONObject
 import java.util.Calendar
@@ -68,7 +68,7 @@ object WatchStats {
          * `"manga:<providerId>|<url>"` for a chapter, or `"title:<name>"`.
          *
          * It is what turns a Stats row back into a route to the title itself
-         * (see [com.hikari.app.ui.navigation.Routes.fromStatsKey]), so it is
+         * (see [com.gworld06.streambox.ui.navigation.Routes.fromStatsKey]), so it is
          * carried on the row rather than looked up again at draw time. Not a
          * stored field: the document's maps are already keyed by it, so it is
          * filled in at DECODE time — which also means rows an older build wrote
@@ -296,7 +296,7 @@ object WatchStats {
     /** "September 22, 2026" in the app's language, for the heatmap's caption. */
     fun prettyDay(key: String): String {
         val cal = parseDay(key) ?: return key
-        val tag = com.hikari.app.i18n.I18n.currentTag
+        val tag = com.gworld06.streambox.i18n.I18n.currentTag
         val locale = if (tag.isBlank()) Locale.getDefault() else Locale.forLanguageTag(tag)
         return runCatching {
             java.text.DateFormat.getDateInstance(java.text.DateFormat.LONG, locale).format(cal.time)

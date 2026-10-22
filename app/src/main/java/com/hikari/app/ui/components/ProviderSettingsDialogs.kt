@@ -1,9 +1,9 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
-import com.hikari.app.data.Profiles
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -112,37 +112,37 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
-import com.hikari.app.HikariApp
-import com.hikari.app.cs3.Cs3MainApiProvider
-import com.hikari.app.cs3.Cs3PluginManager
-import com.hikari.app.hiki.HikariPluginManager
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
-import com.hikari.app.data.RepoLoadState
-import com.hikari.app.data.RepoProvenance
-import com.hikari.app.data.Site
-import com.hikari.app.data.SourceUrls
-import com.hikari.app.net.Http
-import com.hikari.app.net.PromoGuard
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderManager
-import com.hikari.app.ui.FlagIcon
-import com.hikari.app.ui.ProviderFlags
-import com.hikari.app.ui.ProviderPack
-import com.hikari.app.ui.ProviderPacks
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.components.SettingsThemeTile
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberNsfwEnabled
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.cs3.Cs3MainApiProvider
+import com.gworld06.streambox.cs3.Cs3PluginManager
+import com.gworld06.streambox.hiki.HikariPluginManager
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.data.RepoLoadState
+import com.gworld06.streambox.data.RepoProvenance
+import com.gworld06.streambox.data.Site
+import com.gworld06.streambox.data.SourceUrls
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.PromoGuard
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderManager
+import com.gworld06.streambox.ui.FlagIcon
+import com.gworld06.streambox.ui.ProviderFlags
+import com.gworld06.streambox.ui.ProviderPack
+import com.gworld06.streambox.ui.ProviderPacks
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.components.SettingsThemeTile
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberNsfwEnabled
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.web.WebViewActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -163,9 +163,9 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
-import com.hikari.app.tv.tvPress
-import com.hikari.app.tv.tvToggle
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.tv.tvToggle
+import com.gworld06.streambox.tv.tvTextFieldKeys
 /**
  * What a schema-driven settings screen produced.
  *
@@ -355,7 +355,7 @@ private suspend fun nuvioSchemaLoad(context: Context, provider: ContentProvider)
     if (source.isNullOrBlank()) {
         return SchemaLoad.Failed(I18n.t("Provider file missing — reinstall this extension"))
     }
-    val payload = com.hikari.app.nuvio.NuvioRuntime.getSettingsLayout(
+    val payload = com.gworld06.streambox.nuvio.NuvioRuntime.getSettingsLayout(
         context, source, provider.config.id,
     )
     val parsed = runCatching { JSONObject(payload) }.getOrNull()
@@ -372,7 +372,7 @@ private suspend fun nuvioSchemaLoad(context: Context, provider: ContentProvider)
         )
     }
     val saved = runCatching {
-        JSONObject(com.hikari.app.nuvio.NuvioRuntime.loadSettings(provider.config.id))
+        JSONObject(com.gworld06.streambox.nuvio.NuvioRuntime.loadSettings(provider.config.id))
     }.getOrNull()
     val (values, toggles) = schemaDefaults(elements, saved)
     return SchemaLoad.Ok(elements, values, toggles)
@@ -380,9 +380,9 @@ private suspend fun nuvioSchemaLoad(context: Context, provider: ContentProvider)
 
 /** A Vega provider's own `settings.js` schema, with its saved kv values. */
 private suspend fun vegaSchemaLoad(provider: ContentProvider): SchemaLoad {
-    val dir = com.hikari.app.providers.vega.VegaPluginManager.dirOf(provider.config)
+    val dir = com.gworld06.streambox.providers.vega.VegaPluginManager.dirOf(provider.config)
     val value = provider.config.id.removePrefix("vega|")
-    val payload = com.hikari.app.providers.vega.VegaRuntime.settingsSchema(
+    val payload = com.gworld06.streambox.providers.vega.VegaRuntime.settingsSchema(
         dir, provider.config.id, value,
     )
     val parsed = runCatching { JSONObject(payload) }.getOrNull()
@@ -401,7 +401,7 @@ private suspend fun vegaSchemaLoad(provider: ContentProvider): SchemaLoad {
     if (elements == null || elements.length() == 0) return SchemaLoad.None
     val (values, toggles) = schemaDefaults(
         elements,
-        com.hikari.app.providers.vega.VegaRuntime.savedSettings(dir),
+        com.gworld06.streambox.providers.vega.VegaRuntime.savedSettings(dir),
     )
     return SchemaLoad.Ok(elements, values, toggles)
 }
@@ -409,7 +409,7 @@ private suspend fun vegaSchemaLoad(provider: ContentProvider): SchemaLoad {
 /** An Aniyomi/Manga extension's own `setupPreferenceScreen` tree. */
 private suspend fun aniyomiSchemaLoad(context: Context, provider: ContentProvider): SchemaLoad {
     val screen = withContext(Dispatchers.IO) {
-        com.hikari.app.data.ExtensionPreferences.load(context, provider.config)
+        com.gworld06.streambox.data.ExtensionPreferences.load(context, provider.config)
     } ?: return SchemaLoad.None
     return SchemaLoad.Ok(screen.fields, screen.strings, screen.bools)
 }
@@ -426,7 +426,7 @@ fun NuvioSettingsDialog(
         title = I18n.t("%s settings").replace("%s", provider.config.name),
         load = { nuvioSchemaLoad(context, provider) },
         save = { elements, values, toggles ->
-            com.hikari.app.nuvio.NuvioRuntime.saveSettings(
+            com.gworld06.streambox.nuvio.NuvioRuntime.saveSettings(
                 provider.config.id,
                 schemaValuesJson(elements, values, toggles).toString(),
             )
@@ -448,8 +448,8 @@ fun VegaSettingsDialog(
         title = I18n.t("%s settings").replace("%s", provider.config.name),
         load = { vegaSchemaLoad(provider) },
         save = { elements, values, toggles ->
-            val dir = com.hikari.app.providers.vega.VegaPluginManager.dirOf(provider.config)
-            com.hikari.app.providers.vega.VegaRuntime.saveSettings(
+            val dir = com.gworld06.streambox.providers.vega.VegaPluginManager.dirOf(provider.config)
+            com.gworld06.streambox.providers.vega.VegaRuntime.saveSettings(
                 dir,
                 schemaValuesJson(elements, values, toggles),
             )
@@ -472,7 +472,7 @@ fun AniyomiSettingsDialog(
         title = I18n.t("%s settings").replace("%s", provider.config.name),
         load = { aniyomiSchemaLoad(context, provider) },
         save = { _, values, toggles ->
-            val ok = com.hikari.app.data.ExtensionPreferences.save(
+            val ok = com.gworld06.streambox.data.ExtensionPreferences.save(
                 context, provider.config, values, toggles,
             )
             if (!ok) {
@@ -727,15 +727,15 @@ fun AnymexSettingsDialog(
         title = I18n.t("%s settings").replace("%s", provider.config.name),
         load = {
             when (val pp = provider) {
-                is com.hikari.app.anymex.AnymexProvider -> pp.preferenceDefs()
-                is com.hikari.app.anymex.AnymexMangaProvider -> pp.preferenceDefs()
+                is com.gworld06.streambox.anymex.AnymexProvider -> pp.preferenceDefs()
+                is com.gworld06.streambox.anymex.AnymexMangaProvider -> pp.preferenceDefs()
                 else -> "[]"
             }
         },
         save = { key, raw ->
             when (val pp = provider) {
-                is com.hikari.app.anymex.AnymexProvider -> pp.setPreference(key, raw)
-                is com.hikari.app.anymex.AnymexMangaProvider -> pp.setPreference(key, raw)
+                is com.gworld06.streambox.anymex.AnymexProvider -> pp.setPreference(key, raw)
+                is com.gworld06.streambox.anymex.AnymexMangaProvider -> pp.setPreference(key, raw)
             }
         },
         onDismiss = onDismiss,
@@ -749,8 +749,8 @@ fun SoraSettingsDialog(
 ) {
     ExtensionPrefDialog(
         title = I18n.t("%s settings").replace("%s", provider.config.name),
-        load = { (provider as? com.hikari.app.sora.SoraProvider)?.moduleSettings() ?: "[]" },
-        save = { key, raw -> (provider as? com.hikari.app.sora.SoraProvider)?.setModuleSetting(key, raw) },
+        load = { (provider as? com.gworld06.streambox.sora.SoraProvider)?.moduleSettings() ?: "[]" },
+        save = { key, raw -> (provider as? com.gworld06.streambox.sora.SoraProvider)?.setModuleSetting(key, raw) },
         onDismiss = onDismiss,
     )
 }
@@ -768,10 +768,10 @@ fun SkyStreamSettingsDialog(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val mgr = com.hikari.app.skystream.SkyStreamPluginManager
+    val mgr = com.gworld06.streambox.skystream.SkyStreamPluginManager
     val pkg = remember(provider.config.id) { mgr.packageOf(provider.config.id) }
     var domains by remember {
-        mutableStateOf(emptyList<com.hikari.app.skystream.SkyStreamPluginManager.SkyDomain>())
+        mutableStateOf(emptyList<com.gworld06.streambox.skystream.SkyStreamPluginManager.SkyDomain>())
     }
     var picked by remember { mutableStateOf<String?>(null) }
     var loaded by remember { mutableStateOf(false) }
@@ -791,7 +791,7 @@ fun SkyStreamSettingsDialog(
                 mgr.setCustomBaseUrl(context, pkg, url)
                 // A new site means new pages: retire cached episode payloads
                 // so the next open re-resolves against the picked mirror.
-                com.hikari.app.data.MetaCache.bumpEpisodesEpoch()
+                com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch()
             }
         }
     }
@@ -884,8 +884,8 @@ fun ProviderInfoDialog(provider: ContentProvider, onDismiss: () -> Unit) {
         ProviderType.UNIVERSAL -> tr("Universal scraper")
         ProviderType.ANIYOMI -> tr("Aniyomi extension")
         ProviderType.MANGA ->
-            if (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(provider.config.id)) tr("Kotatsu source")
-            else if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(provider.config.id)) tr("Fork source")
+            if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(provider.config.id)) tr("Kotatsu source")
+            else if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(provider.config.id)) tr("Fork source")
             else tr("Manga extension")
         ProviderType.FORK_VIDEO -> tr("Fork source")
         ProviderType.STREMIO -> tr("Stremio addon")
@@ -958,8 +958,8 @@ fun ProviderInfoDialog(provider: ContentProvider, onDismiss: () -> Unit) {
 @Composable
 fun StremioAddonInfoDialog(provider: ContentProvider, onDismiss: () -> Unit) {
     val id = provider.config.id
-    val summary = com.hikari.app.providers.StremioAddon.resourceSummary[id]
-    val streamOnly = com.hikari.app.providers.StremioAddon.streamOnlyAddons[id] == true
+    val summary = com.gworld06.streambox.providers.StremioAddon.resourceSummary[id]
+    val streamOnly = com.gworld06.streambox.providers.StremioAddon.streamOnlyAddons[id] == true
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(provider.config.name.ifBlank { tr("Stremio addon") }) },
@@ -1023,8 +1023,8 @@ fun IptvInfoDialog(
     onDismiss: () -> Unit,
 ) {
     val id = provider.config.id
-    val error = com.hikari.app.providers.IptvProvider.iptvErrors[id]
-    val count = com.hikari.app.providers.IptvProvider.channelCounts[id]
+    val error = com.gworld06.streambox.providers.IptvProvider.iptvErrors[id]
+    val count = com.gworld06.streambox.providers.IptvProvider.channelCounts[id]
     val local = !provider.config.url.startsWith("http")
     AlertDialog(
         onDismissRequest = onDismiss,

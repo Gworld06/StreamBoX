@@ -1,16 +1,16 @@
-package com.hikari.app.anymex
+package com.gworld06.streambox.anymex
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.manga.MangaChapter
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.manga.MangaChapter
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -95,7 +95,7 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
 
     override suspend fun warmDetail(item: MediaItem) {
         val m = module() ?: return
-        com.hikari.app.anymex.AnymexRuntime.warm(m, config.id)
+        com.gworld06.streambox.anymex.AnymexRuntime.warm(m, config.id)
     }
     override suspend fun getCatalog(ref: CatalogRef, page: Int): List<MediaItem> =
         withContext(Dispatchers.IO) {
@@ -708,7 +708,7 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
                             }
                         }
                         if (h.keys.none { it.equals("User-Agent", ignoreCase = true) }) {
-                            h["User-Agent"] = com.hikari.app.net.Http.UA
+                            h["User-Agent"] = com.gworld06.streambox.net.Http.UA
                         }
                         out += StreamSource(
                             name = "Page ${out.size + 1}",
@@ -727,7 +727,7 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
                         out += StreamSource(
                             name = "Page ${out.size + 1}",
                             url = u,
-                            headers = mapOf("Referer" to chUrl, "User-Agent" to com.hikari.app.net.Http.UA),
+                            headers = mapOf("Referer" to chUrl, "User-Agent" to com.gworld06.streambox.net.Http.UA),
                             pageUrl = chUrl,
                             provider = "Anymex",
                             providerId = config.id,
@@ -1033,13 +1033,13 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
     }
 
     private fun mapHeaders(h: JSONObject?): Map<String, String> {
-        if (h == null) return mapOf("User-Agent" to com.hikari.app.net.Http.UA)
+        if (h == null) return mapOf("User-Agent" to com.gworld06.streambox.net.Http.UA)
         val m = LinkedHashMap<String, String>()
         h.keys().forEach { k ->
             val v = h.optString(k).filter { it.code in 32..126 }
             if (v.isNotBlank()) m.putIfAbsent(k, v)
         }
-        m.putIfAbsent("User-Agent", com.hikari.app.net.Http.UA)
+        m.putIfAbsent("User-Agent", com.gworld06.streambox.net.Http.UA)
         return m
     }
 
@@ -1057,7 +1057,7 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
         }.getOrNull() ?: return
         runCatching {
             val host = java.net.URI(u).host?.lowercase() ?: return@runCatching
-            val m = com.hikari.app.cs3.Cs3MainApiProvider.imageHostReferers
+            val m = com.gworld06.streambox.cs3.Cs3MainApiProvider.imageHostReferers
             m.putIfAbsent(host, ref)
             m.putIfAbsent("www." + host, ref)
         }
@@ -1088,7 +1088,7 @@ class AnymexMangaProvider(override val config: ProviderConfig) : ContentProvider
         val site = runCatching { AnymexPluginManager.siteUrlOf(config) }.getOrNull()
             ?.takeIf { it.isNotBlank() } ?: return false
         return runCatching {
-            com.hikari.app.net.CloudflareSolver.warm(url = site, userAgent = Http.UA)
+            com.gworld06.streambox.net.CloudflareSolver.warm(url = site, userAgent = Http.UA)
         }.getOrDefault(false)
     }
 

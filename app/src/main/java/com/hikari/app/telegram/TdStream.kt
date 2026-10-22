@@ -1,4 +1,4 @@
-package com.hikari.app.telegram
+package com.gworld06.streambox.telegram
 
 import android.net.Uri
 import androidx.media3.common.C
@@ -244,7 +244,7 @@ class TdFileDataSource : BaseDataSource(false) {
         repaired = true
         if (chatId == 0L || messageId == 0L) return false
         val fresh = runBlocking { Td.touchMessage(chatId, messageId) }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Telegram",
             "re-read post $chatId/$messageId for file $fileId" +
                 if (fresh != 0 && fresh != fileId) " (now file $fresh)" else "",

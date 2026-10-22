@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import android.app.Activity
 import android.content.ContextWrapper
@@ -56,39 +56,39 @@ import coil.request.ImageRequest
 import coil.size.Dimension
 import coil.size.Size
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.hikari.app.HikariApp
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.StreamSource
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
-import com.hikari.app.manga.MangaChapter
-import com.hikari.app.manga.MangaFit
-import com.hikari.app.manga.MangaMark
-import com.hikari.app.manga.MangaProgress
-import com.hikari.app.manga.MangaProvider
-import com.hikari.app.manga.MangaReadMode
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.reader.ColorFilterMode
-import com.hikari.app.reader.ReaderBg
-import com.hikari.app.reader.ReaderChapter
-import com.hikari.app.reader.ReaderFit
-import com.hikari.app.reader.ReaderMode
-import com.hikari.app.reader.ReaderOrientation
-import com.hikari.app.reader.ReaderSettings
-import com.hikari.app.reader.cache.WebtoonPageCache
-import com.hikari.app.reader.coil.cropBorders
-import com.hikari.app.reader.coil.SharpenTransformation
-import com.hikari.app.reader.isWebtoon
-import com.hikari.app.reader.source.HikariPageSource
-import com.hikari.app.reader.source.MangaSource
-import com.hikari.app.reader.ui.ChimahonPagerReader
-import com.hikari.app.reader.ui.YomiReaderChrome
-import com.hikari.app.reader.ui.YomiWebtoonReader
-import com.hikari.app.tv.TvMode
-import com.hikari.app.ui.components.VerificationNudge
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.manga.MangaChapter
+import com.gworld06.streambox.manga.MangaFit
+import com.gworld06.streambox.manga.MangaMark
+import com.gworld06.streambox.manga.MangaProgress
+import com.gworld06.streambox.manga.MangaProvider
+import com.gworld06.streambox.manga.MangaReadMode
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.reader.ColorFilterMode
+import com.gworld06.streambox.reader.ReaderBg
+import com.gworld06.streambox.reader.ReaderChapter
+import com.gworld06.streambox.reader.ReaderFit
+import com.gworld06.streambox.reader.ReaderMode
+import com.gworld06.streambox.reader.ReaderOrientation
+import com.gworld06.streambox.reader.ReaderSettings
+import com.gworld06.streambox.reader.cache.WebtoonPageCache
+import com.gworld06.streambox.reader.coil.cropBorders
+import com.gworld06.streambox.reader.coil.SharpenTransformation
+import com.gworld06.streambox.reader.isWebtoon
+import com.gworld06.streambox.reader.source.HikariPageSource
+import com.gworld06.streambox.reader.source.MangaSource
+import com.gworld06.streambox.reader.ui.ChimahonPagerReader
+import com.gworld06.streambox.reader.ui.YomiReaderChrome
+import com.gworld06.streambox.reader.ui.YomiWebtoonReader
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.ui.components.VerificationNudge
+import com.gworld06.streambox.web.WebViewActivity
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderPageImageView
 import eu.kanade.tachiyomi.ui.reader.viewer.WEBTOON_MAX_DECODE_PIXELS
 import eu.kanade.tachiyomi.ui.reader.viewer.budgetedShortWidth
@@ -349,7 +349,7 @@ fun MangaReaderScreen(
             // detail screen already filters this way; the reader did not).
             // Only a chapter/page-shaped outcome is shown.
             val outcome = MangaProvider.lastOutcome[providerId]
-                ?: com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[providerId]
+                ?: com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[providerId]
             error = if (outcome != null &&
                 (outcome.contains("chapter", ignoreCase = true) ||
                     outcome.contains("page", ignoreCase = true))
@@ -440,7 +440,7 @@ fun MangaReaderScreen(
             val list = fetchPages(nextUrl)
             if (list.isEmpty()) {
                 val outcome = MangaProvider.lastOutcome[providerId]
-                    ?: com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[providerId]
+                    ?: com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[providerId]
                 nextError = if (outcome != null &&
                     (outcome.contains("chapter", ignoreCase = true) ||
                         outcome.contains("page", ignoreCase = true))
@@ -514,13 +514,13 @@ fun MangaReaderScreen(
         // chapter by pushWatched's own log — repeats are cheap no-ops).
         runCatching {
             val num = chapters.firstOrNull { it.url == url }?.number?.toInt()?.takeIf { it > 0 }
-                ?: com.hikari.app.tracker.TrackerSync.chapterNumberFromName(labelOf(url))
+                ?: com.gworld06.streambox.tracker.TrackerSync.chapterNumberFromName(labelOf(url))
             if (title.isNotBlank() && num > 0) {
                 scope.launch(Dispatchers.IO) {
                     runCatching {
-                        com.hikari.app.tracker.TrackerSync.pushWatched(
+                        com.gworld06.streambox.tracker.TrackerSync.pushWatched(
                             app.store,
-                            com.hikari.app.data.TrackerMedia(title = title, movie = false, episode = num, manga = true),
+                            com.gworld06.streambox.data.TrackerMedia(title = title, movie = false, episode = num, manga = true),
                             "manga|" + key + "|" + url,
                         )
                     }
@@ -615,7 +615,7 @@ fun MangaReaderScreen(
                     "manga:$key",
                     title.ifBlank { mangaUrl },
                     posterUrl.takeIf { it.isNotBlank() },
-                    com.hikari.app.data.WatchStats.KIND_MANGA,
+                    com.gworld06.streambox.data.WatchStats.KIND_MANGA,
                 )
             }
         }

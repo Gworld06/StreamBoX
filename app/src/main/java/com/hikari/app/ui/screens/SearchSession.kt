@@ -1,9 +1,9 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.SearchResultsCache
-import com.hikari.app.ui.PosterLoader
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.SearchResultsCache
+import com.gworld06.streambox.ui.PosterLoader
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,11 +75,11 @@ object SearchSession {
         // token must exist BEFORE the work starts (a scan that finished in a
         // millisecond could otherwise race the service's own start).
         var started: Job? = null
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             "Searching \"${query.trim().take(60)}\""
         ) {
             // Cancelled outright when the user closes the app (see
-            // [com.hikari.app.work.BackgroundWork.cancelAll]).
+            // [com.gworld06.streambox.work.BackgroundWork.cancelAll]).
             started?.cancel()
         }
         started = scope.launch {
@@ -98,7 +98,7 @@ object SearchSession {
         }
         // Covers cancellation too (a new query replaces this job), so the
         // service can never be left on by an aborted search.
-        started?.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        started?.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
         job = started
     }
 

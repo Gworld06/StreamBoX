@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * The one place the app decides whether adult material may be shown.
@@ -41,7 +41,7 @@ package com.hikari.app.data
  *
  * This object holds the flag as a plain field that the UI reads synchronously
  * (drawing cannot wait for a Flow), kept in step with the stored preference by a
- * single collect launched from the app's own start-up in [com.hikari.app.HikariApp]
+ * single collect launched from the app's own start-up in [com.gworld06.streambox.HikariApp]
  * — the same shape the other app-wide caches use.
  */
 object NsfwGate {
@@ -245,7 +245,7 @@ object NsfwGate {
      * Applies the switch to one TMDB request, returning the path to ask.
      *
      * Called from the one place every TMDB request passes through
-     * ([com.hikari.app.nuvio.TmdbResolver.apiGet]), so no caller has to remember
+     * ([com.gworld06.streambox.nuvio.TmdbResolver.apiGet]), so no caller has to remember
      * it — including callers written later. Two cases, and the second one is what
      * closes the hole described at [MOVIE_LIST_AS_DISCOVER]:
      *

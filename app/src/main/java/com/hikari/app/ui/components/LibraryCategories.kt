@@ -1,4 +1,4 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -59,12 +59,12 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.hikari.app.HikariApp
-import com.hikari.app.data.LibraryCategory
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.i18n.tr
-import com.hikari.app.tv.tvToggle
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.LibraryCategory
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.tv.tvToggle
 import kotlinx.coroutines.launch
 
 /**

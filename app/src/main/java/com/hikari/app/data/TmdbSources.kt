@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.nuvio.TmdbResolver
+import com.gworld06.streambox.nuvio.TmdbResolver
 import org.json.JSONObject
 import java.util.concurrent.ConcurrentHashMap
 
@@ -304,7 +304,7 @@ object TmdbSources {
 
     /** Forget the looked-up row titles. They are localized by TMDB, so a change
      *  to the language TMDB answers in has to drop them or a saved source keeps
-     *  its old-language name. See [com.hikari.app.HikariApp.onContentLanguageChanged]. */
+     *  its old-language name. See [com.gworld06.streambox.HikariApp.onContentLanguageChanged]. */
     fun clearLocalizedNames() {
         names.clear()
     }

@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import okhttp3.ConnectionPool
 import okhttp3.Cookie
@@ -14,7 +14,7 @@ import okio.source
 /**
  * The one OkHttp client every video byte flows through.
  *
- * The player used to build a throwaway client per [com.hikari.app.player.PlayerActivity]
+ * The player used to build a throwaway client per [com.gworld06.streambox.player.PlayerActivity]
  * (and [StreamProbe] a separate one), so every playback session started with a
  * cold DNS cache, a cold TLS session and an empty connection pool — the first
  * segment of every stream paid a full handshake before a single byte moved,

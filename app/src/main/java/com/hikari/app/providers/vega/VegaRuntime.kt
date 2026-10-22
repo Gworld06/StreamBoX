@@ -1,11 +1,11 @@
-package com.hikari.app.providers.vega
+package com.gworld06.streambox.providers.vega
 
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.asyncFunction
 import com.dokar.quickjs.binding.function
-import com.hikari.app.HikariApp
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -51,7 +51,7 @@ import kotlin.coroutines.resume
  * lookup loads stream.js. The file is wrapped in a CommonJS function so its
  * top-level `var`s cannot collide with anything, and the wrapper is compiled to
  * QuickJS bytecode once and reused for every later call ([bytecodeCache]) —
- * the same trick [com.hikari.app.nuvio.NuvioRuntime] uses to stop paying the
+ * the same trick [com.gworld06.streambox.nuvio.NuvioRuntime] uses to stop paying the
  * parse cost per provider. The ONE exception is [detail], which loads meta.js
  * and episodes.js into a single engine because the season list it needs lives
  * inside the meta document — two files, one boot, instead of two boots for one
@@ -66,7 +66,7 @@ object VegaRuntime {
     private const val PERF_CONCURRENT = 4
     /**
      * [MAX_CONCURRENT] on a TELEVISION (see
-     * [com.hikari.app.data.PerfMode.tvDevice]): two engines at once.
+     * [com.gworld06.streambox.data.PerfMode.tvDevice]): two engines at once.
      *
      * A Vega call is the heaviest single thing the app runs in-process — a native
      * VM plus the cheerio bundle plus, for a detail view, a whole meta document
@@ -94,12 +94,12 @@ object VegaRuntime {
 
     /**
      * [ENGINE_MEMORY_LIMIT] as it applies on THIS device — the television value
-     * from [com.hikari.app.data.PerfMode.tvEngineMemoryLimit] when there is one,
+     * from [com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit] when there is one,
      * else the flat ceiling above. See the constant's own note in
-     * [com.hikari.app.nuvio.NuvioRuntime] for why a television is different.
+     * [com.gworld06.streambox.nuvio.NuvioRuntime] for why a television is different.
      */
     private val engineMemoryLimit: Long
-        get() = com.hikari.app.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
+        get() = com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
 
     private val concurrency = Semaphore(MAX_CONCURRENT)
     private val perfConcurrency = Semaphore(PERF_CONCURRENT)
@@ -111,8 +111,8 @@ object VegaRuntime {
         get() = when {
             // The television's own pool comes FIRST: the booster is a switch the
             // user can turn off, and a 1GB box is not.
-            com.hikari.app.data.PerfMode.tvDevice -> tvConcurrency
-            com.hikari.app.data.PerfMode.active -> perfConcurrency
+            com.gworld06.streambox.data.PerfMode.tvDevice -> tvConcurrency
+            com.gworld06.streambox.data.PerfMode.active -> perfConcurrency
             else -> concurrency
         }
 
@@ -319,7 +319,7 @@ object VegaRuntime {
         qjs.asyncFunction("__vegaSolve") { args ->
             val url = args.getOrNull(0)?.toString() ?: ""
             try {
-                val ok = com.hikari.app.net.CloudflareSolver.solve(url, com.hikari.app.net.Http.UA, null, 20_000L)
+                val ok = com.gworld06.streambox.net.CloudflareSolver.solve(url, com.gworld06.streambox.net.Http.UA, null, 20_000L)
                 val cookies = runCatching { android.webkit.CookieManager.getInstance().getCookie(url) ?: "" }.getOrDefault("")
                 "{\"ok\":" + ok + ",\"cookies\":" + quote(cookies) + "}"
             } catch (t: Throwable) { "{\"ok\":false,\"cookies\":\"\"}" }
@@ -662,7 +662,7 @@ object VegaRuntime {
      * The index alignment matters: the episode array holds one entry per
      * `linkList` entry with a non-blank `episodesLink`, in list order, and the
      * caller maps it back by walking that same list the same way (see
-     * [com.hikari.app.providers.vega.VegaProvider]). A season whose request
+     * [com.gworld06.streambox.providers.vega.VegaProvider]). A season whose request
      * throws contributes `null` rather than failing the whole page.
      */
     suspend fun detail(
@@ -869,7 +869,7 @@ object VegaRuntime {
                             if (System.currentTimeMillis() - last > 10 * 60_000L) {
                                 vegaWafRetryAt[u] = System.currentTimeMillis()
                                 runCatching { response.close() }
-                                val solved = runCatching { com.hikari.app.net.CloudflareSolver.solve(u, com.hikari.app.net.Http.UA, null, 20_000L) }.getOrDefault(false)
+                                val solved = runCatching { com.gworld06.streambox.net.CloudflareSolver.solve(u, com.gworld06.streambox.net.Http.UA, null, 20_000L) }.getOrDefault(false)
                                 if (solved) {
                                     val retry = runCatching {
                                         val req = response.request.newBuilder().apply {
@@ -924,7 +924,7 @@ object VegaRuntime {
         headersJson: String,
         body: String,
     ): Request {
-        val builder = Request.Builder().url(url).header("User-Agent", com.hikari.app.net.Http.UA)
+        val builder = Request.Builder().url(url).header("User-Agent", com.gworld06.streambox.net.Http.UA)
         val h = runCatching { JSONObject(mergeJarCookies(url, headersJson)) }.getOrNull()
         if (h != null) {
             h.keys().forEach { k ->

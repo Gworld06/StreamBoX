@@ -1,7 +1,7 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.tv.TvUi
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,22 +50,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.hikari.app.HikariApp
-import com.hikari.app.data.LibraryCategory
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.TrackerLibraryRepository
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.PosterArt
-import com.hikari.app.ui.PosterStyle
-import com.hikari.app.ui.components.CategoryManagerSheet
-import com.hikari.app.ui.components.CategoryPickerSheet
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.shape
-import com.hikari.app.ui.rememberVisibleItems
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.LibraryCategory
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.TrackerLibraryRepository
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.PosterArt
+import com.gworld06.streambox.ui.PosterStyle
+import com.gworld06.streambox.ui.components.CategoryManagerSheet
+import com.gworld06.streambox.ui.components.CategoryPickerSheet
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.shape
+import com.gworld06.streambox.ui.rememberVisibleItems
 import kotlinx.coroutines.launch
 
 /**
@@ -104,7 +104,7 @@ fun LibraryScreen(nav: NavHostController, embedded: Boolean = false) {
     // Followed manga share this page (see the shelf below). Read through the
     // store's revision so following/unfollowing a title anywhere updates it.
     val mangaRev = rememberMangaRevision()
-    val hasManga = remember(mangaRev) { com.hikari.app.manga.MangaStore.library().isNotEmpty() }
+    val hasManga = remember(mangaRev) { com.gworld06.streambox.manga.MangaStore.library().isNotEmpty() }
 
     // A category that was just deleted must not keep filtering the grid.
     LaunchedEffect(categories) {
@@ -141,7 +141,7 @@ fun LibraryScreen(nav: NavHostController, embedded: Boolean = false) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = TvUi.gridMinFor(104)),
         // Library position held per category (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptGridState("library:$activeCategory"),
+        state = com.gworld06.streambox.ui.components.keptGridState("library:$activeCategory"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -399,7 +399,7 @@ private fun LibraryCard(
             .clickable(onClick = onClick)
     ) {
         PosterArt(
-            model = if (com.hikari.app.tv.TvMode.current()) Artwork.backdropModel(item) else Artwork.model(item),
+            model = if (com.gworld06.streambox.tv.TvMode.current()) Artwork.backdropModel(item) else Artwork.model(item),
             contentDescription = item.title,
             style = style,
             rating = item.rating,
@@ -410,7 +410,7 @@ private fun LibraryCard(
             ratingAlignment = Alignment.BottomStart,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(if (com.hikari.app.tv.TvMode.current()) 16f / 9f else 2f / 3f),
+                .aspectRatio(if (com.gworld06.streambox.tv.TvMode.current()) 16f / 9f else 2f / 3f),
         ) {
             Box(
                 Modifier
@@ -455,7 +455,7 @@ private fun LibraryCard(
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                 else MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 6.dp, start = 2.dp, end = 2.dp)
             )
@@ -477,17 +477,17 @@ private fun LibraryCard(
 @Composable
 private fun TrackerLibraryCard(item: MediaItem, onClick: () -> Unit) {
     val style = rememberPosterStyle()
-    val tvLib = com.hikari.app.tv.TvMode.current()
+    val tvLib = com.gworld06.streambox.tv.TvMode.current()
     Column(modifier = Modifier.width(if (tvLib) 280.dp else 112.dp).clickable(onClick = onClick)) {
         PosterArt(
-            model = if (com.hikari.app.tv.TvMode.current()) Artwork.backdropModel(item) else Artwork.model(item),
+            model = if (com.gworld06.streambox.tv.TvMode.current()) Artwork.backdropModel(item) else Artwork.model(item),
             contentDescription = item.title,
             style = style,
             modifier = Modifier.fillMaxWidth().aspectRatio(if (tvLib) 16f / 9f else 0.67f)
                 .clip(RoundedCornerShape(if (tvLib) 8.dp else 12.dp)),
         )
         Text(item.title, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium,
-            color = if (tvLib) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+            color = if (tvLib) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
             maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 6.dp))
     }
 }

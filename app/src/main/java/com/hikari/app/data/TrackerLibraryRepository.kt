@@ -1,7 +1,7 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
-import com.hikari.app.net.Http
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -271,7 +271,7 @@ object TrackerLibraryRepository {
         }
         return Result.success(out)
     }
-    private suspend fun aniListCollection(app: HikariApp, account: com.hikari.app.data.TrackerAccount, type: String): JSONArray? {
+    private suspend fun aniListCollection(app: HikariApp, account: com.gworld06.streambox.data.TrackerAccount, type: String): JSONArray? {
         val query = "query(\$name:String){MediaListCollection(userName: \$name,type:"+type+"){lists{name entries{media{id title{userPreferred english romaji} coverImage{large} startDate{year} averageScore nextAiringEpisode{airingAt episode}}}}}}"
         // AniList's MediaListCollection is user-specific. The access token
         // must be sent as a Bearer token; without it a connected account can still
@@ -292,7 +292,7 @@ object TrackerLibraryRepository {
             JSONObject(raw).optJSONObject("data")?.optJSONObject("MediaListCollection")?.optJSONArray("lists")?:JSONArray()
         }.getOrDefault(JSONArray())
     }
-    private suspend fun anilistUser(app: HikariApp, account: com.hikari.app.data.TrackerAccount): String {
+    private suspend fun anilistUser(app: HikariApp, account: com.gworld06.streambox.data.TrackerAccount): String {
         if (account.user.isNotBlank()) return account.user
         val raw = Http.postStringQuiet(
             "https://graphql.anilist.co",
@@ -561,7 +561,7 @@ object TrackerLibraryRepository {
     }
 
     private suspend fun traktTmdbPoster(tmdbId: Int, isMovie: Boolean): String? {
-        val obj = com.hikari.app.nuvio.TmdbResolver
+        val obj = com.gworld06.streambox.nuvio.TmdbResolver
             .apiGet(if (isMovie) "/movie/$tmdbId" else "/tv/$tmdbId", emptyMap())
             ?: return null
         return obj.optString("poster_path").trim()

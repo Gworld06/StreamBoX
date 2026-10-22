@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
 import android.os.Build
@@ -9,11 +9,11 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
-import com.hikari.app.net.ExtensionVerifyGuard
-import com.hikari.app.net.Http
-import com.hikari.app.net.NetTuning
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.ExtensionVerifyGuard
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.NetTuning
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,7 +50,7 @@ import java.util.Locale
  *    (interface scale, overscan, full-screen mode), this device's performance
  *    and first-run state, and the launcher-icon alias. See
  *    [AppStore.DeviceLocal] for the list and the rule behind it. A pairing
- *    carries this same payload over Wi-Fi (see [com.hikari.app.pair.PairHost]),
+ *    carries this same payload over Wi-Fi (see [com.gworld06.streambox.pair.PairHost]),
  *    so excluding them here is what stops a television from being handed a
  *    phone's PIN lock and a phone's screen shape — the two things a transfer
  *    must never decide for the device receiving it.
@@ -1165,7 +1165,7 @@ object BackupManager {
      * values would look like they "did not take" until the next launch.
      *
      * Public because a PROFILE switch is the same kind of event — see
-     * [com.hikari.app.data.Profiles.switchTo], which re-uses this rather than
+     * [com.gworld06.streambox.data.Profiles.switchTo], which re-uses this rather than
      * keeping a second list of "the settings that are read once at startup".
      */
     /** Background scope for deferred post-restore work: the app object has
@@ -1183,7 +1183,7 @@ object BackupManager {
             NetTuning.setDnsProvider(app.store.dnsProvider())
             NetTuning.setCustomDns(app.store.customDns())
         }
-        runCatching { com.hikari.app.ui.LanguageManager.apply(app.store.language()) }
+        runCatching { com.gworld06.streambox.ui.LanguageManager.apply(app.store.language()) }
         // The restored pref may be the permissive one; re-assert it against the
         // extensions' own switches (see ExtensionVerifyGuard).
         runCatching { ExtensionVerifyGuard.apply(app, app.store.extensionVerifyWebview()) }

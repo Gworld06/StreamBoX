@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.app.ActivityManager
 import android.content.Context
@@ -24,7 +24,7 @@ import android.os.Debug
  *  - QuickJS's VM, the decoder and OkHttp allocate NATIVE memory, which that cap
  *    does not cover. Its only limit is the device's free RAM and the low-memory
  *    killer, so "raise the heap" does nothing for it — the levers there are
- *    fewer live engines and [com.hikari.app.nuvio.NuvioRuntime]'s per-engine
+ *    fewer live engines and [com.gworld06.streambox.nuvio.NuvioRuntime]'s per-engine
  *    budget.
  */
 object MemoryReport {

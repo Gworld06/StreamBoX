@@ -1,10 +1,10 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
 
 interface ContentProvider {
     val config: ProviderConfig
@@ -18,7 +18,7 @@ interface ContentProvider {
      * TITLE, so the only thing that knows whether the EXTENSION is an adult one
      * is the extension itself. This is the hook for that one question, asked
      * once per extension when the adult-content switch is off and remembered on
-     * the row (see [com.hikari.app.providers.ProviderManager.learnAdultFlags]),
+     * the row (see [com.gworld06.streambox.providers.ProviderManager.learnAdultFlags]),
      * so that switching the switch off hides an installed 18+ extension instead
      * of only hiding the ones not yet installed.
      *

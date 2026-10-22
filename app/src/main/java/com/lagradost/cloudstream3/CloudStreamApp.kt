@@ -7,7 +7,7 @@ import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.ref.WeakReference
@@ -84,7 +84,7 @@ class CloudStreamApp : Application() {
 
         /** Current host context (wired by HikariApp at startup). */
         val context: Context?
-            get() = _context?.get()?.let { com.hikari.app.net.ExtensionVerifyGuard.wrapContext(it) }
+            get() = _context?.get()?.let { com.gworld06.streambox.net.ExtensionVerifyGuard.wrapContext(it) }
 
         fun setContext(context: Context) {
             _context = WeakReference(context.applicationContext ?: context)
@@ -157,7 +157,7 @@ class CloudStreamApp : Application() {
             // Intercepting the READ as well as the stored value covers a switch
             // that defaults to enabled inside the extension, which would
             // otherwise open its verification page on its own.
-            if (com.hikari.app.net.ExtensionVerifyGuard.forcesOff(key)) return false
+            if (com.gworld06.streambox.net.ExtensionVerifyGuard.forcesOff(key)) return false
             prefs?.getString(key, null)?.let { raw ->
                 decodeEnvelope(raw)?.let { return it }
                 parseLiteral(raw)?.let { return it }
@@ -180,7 +180,7 @@ class CloudStreamApp : Application() {
             // that would corrupt the extension's own setting instead of
             // guarding it.
             val turningOn = value is Boolean && value || (value as? String)?.trim()?.lowercase() == "true"
-            val guarded = turningOn && com.hikari.app.net.ExtensionVerifyGuard.forcesOff(key)
+            val guarded = turningOn && com.gworld06.streambox.net.ExtensionVerifyGuard.forcesOff(key)
             val effective = if (guarded) false else value
             val p = prefs
             if (p != null) {

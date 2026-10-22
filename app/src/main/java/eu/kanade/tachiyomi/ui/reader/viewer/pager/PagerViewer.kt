@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
-import com.hikari.app.reader.cache.WebtoonPageCache
-import com.hikari.app.reader.source.MangaSource
+import com.gworld06.streambox.reader.cache.WebtoonPageCache
+import com.gworld06.streambox.reader.source.MangaSource
 import eu.kanade.tachiyomi.ui.reader.viewer.NavigationRegion
 import eu.kanade.tachiyomi.ui.reader.viewer.ViewerNavigation
 import java.io.File

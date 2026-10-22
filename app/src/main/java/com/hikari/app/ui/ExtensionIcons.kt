@@ -1,11 +1,11 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
-import com.hikari.app.cs3.Cs3MainApiProvider
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
-import com.hikari.app.net.Http
+import com.gworld06.streambox.cs3.Cs3MainApiProvider
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.net.Http
 import org.json.JSONObject
 import java.util.concurrent.ConcurrentHashMap
 
@@ -69,13 +69,13 @@ object ExtensionIcons {
             }
             ProviderType.CS3 -> Cs3MainApiProvider.iconFallback(config)
             ProviderType.SKYSTREAM ->
-                com.hikari.app.skystream.SkyStreamPluginManager.iconFallback(config)
+                com.gworld06.streambox.skystream.SkyStreamPluginManager.iconFallback(config)
             ProviderType.ANIYOMI ->
-                com.hikari.app.aniyomi.AniyomiExtensionManager.iconFallback(config)
+                com.gworld06.streambox.aniyomi.AniyomiExtensionManager.iconFallback(config)
             // A manga extension carries no artwork either — its only identity is
             // the site it reads, so the favicon of that site is the icon.
             ProviderType.MANGA ->
-                com.hikari.app.manga.MangaExtensionManager.iconFallback(config)
+                com.gworld06.streambox.manga.MangaExtensionManager.iconFallback(config)
             // A fork video row reads a site like a manga row does — its only
             // identity is that site, so the same favicon fallback applies
             // (the repo entry's own icon, when it declared one, is already
@@ -83,7 +83,7 @@ object ExtensionIcons {
             // above; [siteUrlOf] resolves fork video ids to their parser's
             // live domain).
             ProviderType.FORK_VIDEO ->
-                com.hikari.app.manga.MangaExtensionManager.iconFallback(config)
+                com.gworld06.streambox.manga.MangaExtensionManager.iconFallback(config)
             // A Vega provider has no repo-level icon to probe: the manifest
             // entry's own `icon` (a jsDelivr URL) is already stored in
             // [ProviderConfig.iconUrl] when it has one, and there is no site

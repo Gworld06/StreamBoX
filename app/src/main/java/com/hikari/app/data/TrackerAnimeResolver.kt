@@ -1,10 +1,10 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
-import com.hikari.app.net.Http
-import com.hikari.app.nuvio.BangumiMeta
-import com.hikari.app.nuvio.EpisodeTitles
-import com.hikari.app.nuvio.TmdbResolver
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.nuvio.BangumiMeta
+import com.gworld06.streambox.nuvio.EpisodeTitles
+import com.gworld06.streambox.nuvio.TmdbResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

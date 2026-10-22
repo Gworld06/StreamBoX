@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.viewbinding.ViewBinding;
 
-import com.hikari.app.R;
+import com.gworld06.streambox.R;
 
 /**
  * Replacement for the ViewBinding class the prebuilt cloudstream3.jar ships.

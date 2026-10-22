@@ -1,4 +1,4 @@
-package com.hikari.app.ui.theme
+package com.gworld06.streambox.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 import androidx.media3.common.Effect
 import androidx.media3.effect.Brightness
@@ -132,7 +132,7 @@ private fun brightLift(hdr: Boolean): List<Effect> =
 /**
  * A user-built enhance preset: the five sliders of the player's enhance
  * editor (Brightness, Saturation, Contrast, Gamma, Hue — the set screenshot
- * reports show), stored as one JSON row in [com.hikari.app.data.AppStore]
+ * reports show), stored as one JSON row in [com.gworld06.streambox.data.AppStore]
  * under `playerEnhanceCustoms` and selected with the key `custom:<id>`.
  *
  * Mapping onto media3 (see the effect sources for the exact contracts):

@@ -1,9 +1,9 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.launch
 
 /** One selectable app language: an emoji flag, the language's own name, and the

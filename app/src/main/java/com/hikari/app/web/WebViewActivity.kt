@@ -1,6 +1,6 @@
-package com.hikari.app.web
+package com.gworld06.streambox.web
 
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.i18n.I18n
 import android.app.AlertDialog
 import android.widget.Button
 import android.content.Intent
@@ -35,11 +35,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
-import com.hikari.app.HikariApp
-import com.hikari.app.net.AdBlocker
-import com.hikari.app.net.Http
-import com.hikari.app.net.PromoGuard
-import com.hikari.app.player.PlayerActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.AdBlocker
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.PromoGuard
+import com.gworld06.streambox.player.PlayerActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -75,7 +75,7 @@ class WebViewActivity : ComponentActivity() {
      *  as the rest of the app (and off the phone's own font/display size when
      *  the in-app scale is enabled). */
     override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(com.hikari.app.ui.UiScale.wrap(newBase))
+        super.attachBaseContext(com.gworld06.streambox.ui.UiScale.wrap(newBase))
     }
 
     private lateinit var webView: WebView
@@ -184,7 +184,7 @@ class WebViewActivity : ComponentActivity() {
     // easily beat it — which is how an allowed link (net77.cc) was still
     // "Blocked redirect to net77.cc" in the verification view.
     @Volatile
-    private var allowedRedirectHosts: Set<String> = com.hikari.app.data.RedirectAllow.now()
+    private var allowedRedirectHosts: Set<String> = com.gworld06.streambox.data.RedirectAllow.now()
 
     /**
      * The main-frame navigation the redirect protection refused LAST, so the ⋯
@@ -199,14 +199,14 @@ class WebViewActivity : ComponentActivity() {
 
     /** The user's allowed redirect hosts, mirror included. */
     private fun allowedNow(): Set<String> =
-        allowedRedirectHosts + com.hikari.app.data.RedirectAllow.now()
+        allowedRedirectHosts + com.gworld06.streambox.data.RedirectAllow.now()
 
     /**
      * True when a navigation to [url] is one the USER allowed (Settings →
      * Privacy & Browsing → WebView safety → "Allowed redirect links", or the
      * WebView's own ⋯ menu). Both forms the list accepts are honoured: a host
      * ("net77.cc", subdomains included) and a bare word ("filester", any link
-     * that contains it — see [com.hikari.app.data.RedirectAllow]).
+     * that contains it — see [com.gworld06.streambox.data.RedirectAllow]).
      *
      * The activity's own copy of the list is consulted as well as the in-memory
      * mirror, because the activity reads the store itself on launch (see
@@ -214,7 +214,7 @@ class WebViewActivity : ComponentActivity() {
      * user's own decision and must not be cancelled.
      */
     private fun isRedirectAllowed(url: String?): Boolean =
-        com.hikari.app.data.RedirectAllow.allowsIn(url, allowedNow())
+        com.gworld06.streambox.data.RedirectAllow.allowsIn(url, allowedNow())
 
     /** Records a refused main-frame navigation so the ⋯ menu can allow it (see
      *  [allowBlockedRedirect]). */
@@ -550,7 +550,7 @@ class WebViewActivity : ComponentActivity() {
         val forceTranslate = intent.getBooleanExtra("translate", false)
         // Record every open (and why) so a "the site opened by itself" report
         // can be traced in Settings › Logs & diagnostics.
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "WebView",
             "open \"$startUrl\" (title=\"$pageTitle\", verifyHost=${verifyHost ?: "-"}, " +
                 "autoClose=$autoCloseWhenCloudflarePassed, provider=${providerId ?: "-"}, " +
@@ -562,7 +562,7 @@ class WebViewActivity : ComponentActivity() {
         // page itself is held to). Refused before the WebView is built, so the
         // user gets a reason instead of a blank page.
         if (PromoGuard.isDonationUrl(startUrl)) {
-            com.hikari.app.data.Logs.log("WebView", "refused donation page $startUrl")
+            com.gworld06.streambox.data.Logs.log("WebView", "refused donation page $startUrl")
             Toast.makeText(this, "Blocked a donation page", Toast.LENGTH_SHORT).show()
             finish()
             return
@@ -594,7 +594,7 @@ class WebViewActivity : ComponentActivity() {
         webView = try {
             WebView(this)
         } catch (t: Throwable) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "WebView",
                 "this device has no usable WebView ($t) — cannot open $startUrl",
             )
@@ -654,7 +654,7 @@ class WebViewActivity : ComponentActivity() {
         }
         setContentView(rootView)
         contentFrame = rootView.getChildAt(1) as? FrameLayout
-        mouseMode = com.hikari.app.tv.MouseMode.enabled
+        mouseMode = com.gworld06.streambox.tv.MouseMode.enabled
         if (mouseMode) showCursor(center = true)
         // Draggable ⋯ pill: it floats over the site (top-right by default) and
         // can cover a site's search/header button, so let the user drag it
@@ -715,7 +715,7 @@ class WebViewActivity : ComponentActivity() {
             redirectProtection = app.store.webviewRedirect()
             popupProtection = app.store.webviewPopup()
             allowedRedirectHosts = app.store.webviewRedirectAllow().toSet() +
-                com.hikari.app.data.RedirectAllow.now()
+                com.gworld06.streambox.data.RedirectAllow.now()
             // Popup exceptions (Settings → Privacy & Browsing → WebView safety).
             // One-time migration: older builds kept "always allow" in this
             // view's own preferences — fold them into the store once, so the
@@ -1442,7 +1442,7 @@ class WebViewActivity : ComponentActivity() {
                     val pid = providerId
                     if (pid != null) {
                         lifecycleScope.launch(Dispatchers.IO) {
-                            runCatching { com.hikari.app.data.Translator.enable(pid, false) }
+                            runCatching { com.gworld06.streambox.data.Translator.enable(pid, false) }
                         }
                     }
                     Toast.makeText(this, I18n.t("Translation off"), Toast.LENGTH_SHORT).show()
@@ -1540,14 +1540,14 @@ class WebViewActivity : ComponentActivity() {
      * (and to its subdomains). The refused page is then loaded straight away, so
      * the link the user clicked finally lands.
      *
-     * Saved through [com.hikari.app.data.AppStore.setWebviewRedirectAllow],
+     * Saved through [com.gworld06.streambox.data.AppStore.setWebviewRedirectAllow],
      * which writes the in-memory mirror BEFORE the DataStore write, so this very
      * navigation — and any a page makes while it loads — already sees the entry
      * (see RedirectAllow for why that ordering matters).
      */
     private fun toggleMouse() {
         mouseMode = !mouseMode
-        com.hikari.app.tv.MouseMode.enabled = mouseMode
+        com.gworld06.streambox.tv.MouseMode.enabled = mouseMode
         if (mouseMode) {
             showCursor(center = true)
             Toast.makeText(this, I18n.t("Mouse on — arrows move the ring, OK taps the page"), Toast.LENGTH_SHORT).show()
@@ -1845,7 +1845,7 @@ class WebViewActivity : ComponentActivity() {
     /** The addon's config page handed back an install URL: give it to the caller
      *  (the Extensions screen installs/replaces the addon) and close. */
     private fun finishWithManifest(url: String) {
-        com.hikari.app.data.Logs.log("WebView", "addon config page returned $url")
+        com.gworld06.streambox.data.Logs.log("WebView", "addon config page returned $url")
         setResult(RESULT_OK, Intent().putExtra("manifestUrl", url))
         finish()
     }
@@ -2249,7 +2249,7 @@ class WebViewActivity : ComponentActivity() {
         runCatching { webView.destroy() }
         // The verify WebView closed (challenge passed or dismissed) — wake any
         // CloudflareVerifier waiters so their retry runs immediately.
-        com.hikari.app.net.CloudflareVerifier.onVerifyViewClosed(verifyHost)
+        com.gworld06.streambox.net.CloudflareVerifier.onVerifyViewClosed(verifyHost)
         super.onDestroy()
     }
 

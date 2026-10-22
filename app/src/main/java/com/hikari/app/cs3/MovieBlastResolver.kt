@@ -1,10 +1,10 @@
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
 import java.net.URI
 import java.net.URLEncoder
 import javax.crypto.Mac

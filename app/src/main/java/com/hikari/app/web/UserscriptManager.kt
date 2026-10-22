@@ -1,8 +1,8 @@
-package com.hikari.app.web
+package com.gworld06.streambox.web
 
 import android.content.Context
-import com.hikari.app.HikariApp
-import com.hikari.app.data.Userscript
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.Userscript
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ConcurrentHashMap

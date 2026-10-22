@@ -1,8 +1,8 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import android.app.Application
 import android.content.Intent
@@ -108,54 +108,54 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRow
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Collection
-import com.hikari.app.data.CollectionFolder
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.CoverKinds
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRow
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Collection
+import com.gworld06.streambox.data.CollectionFolder
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.CoverKinds
 import androidx.compose.ui.text.style.TextOverflow
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.TrackerKind
-import com.hikari.app.data.TrackerLibraryRepository
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.ProviderFolder
-import com.hikari.app.data.RepoProvenance
-import com.hikari.app.data.TmdbGenres
-import com.hikari.app.data.TmdbSourceType
-import com.hikari.app.data.TmdbSpec
-import com.hikari.app.data.WatchProgress
-import com.hikari.app.data.Profiles
-import com.hikari.app.tv.TvCinematicHero
-import com.hikari.app.tv.TvHomeHeaderBar
-import com.hikari.app.tv.TvManageFeedDialog
-import com.hikari.app.tv.TvMode
-import com.hikari.app.tv.TvProfileMenuDialog
-import com.hikari.app.tv.TvSelectProviderDialog
-import com.hikari.app.tv.TvUi
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.FlagIcon
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.ProviderFlags
-import com.hikari.app.ui.ProviderPacks
-import com.hikari.app.ui.rememberVisibleItems
-import com.hikari.app.ui.components.ContinueWatchingRow
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassDialog
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.components.HeroBanner
-import com.hikari.app.ui.components.HeroConfig
-import com.hikari.app.ui.components.HeroStyles
-import com.hikari.app.ui.components.MediaRow
-import com.hikari.app.ui.components.ShimmerRow
-import com.hikari.app.ui.theme.pageBackground
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.TrackerKind
+import com.gworld06.streambox.data.TrackerLibraryRepository
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.ProviderFolder
+import com.gworld06.streambox.data.RepoProvenance
+import com.gworld06.streambox.data.TmdbGenres
+import com.gworld06.streambox.data.TmdbSourceType
+import com.gworld06.streambox.data.TmdbSpec
+import com.gworld06.streambox.data.WatchProgress
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.tv.TvCinematicHero
+import com.gworld06.streambox.tv.TvHomeHeaderBar
+import com.gworld06.streambox.tv.TvManageFeedDialog
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.tv.TvProfileMenuDialog
+import com.gworld06.streambox.tv.TvSelectProviderDialog
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.FlagIcon
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.ProviderFlags
+import com.gworld06.streambox.ui.ProviderPacks
+import com.gworld06.streambox.ui.rememberVisibleItems
+import com.gworld06.streambox.ui.components.ContinueWatchingRow
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassDialog
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.components.HeroBanner
+import com.gworld06.streambox.ui.components.HeroConfig
+import com.gworld06.streambox.ui.components.HeroStyles
+import com.gworld06.streambox.ui.components.MediaRow
+import com.gworld06.streambox.ui.components.ShimmerRow
+import com.gworld06.streambox.ui.theme.pageBackground
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.web.WebViewActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -173,8 +173,8 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
-import com.hikari.app.tv.tvPress
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * A Home pick is stored as one string in the `homeProvider` preference: either
@@ -191,7 +191,7 @@ private const val TRACKER_PREFIX = "tracker:"
 class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val manager = (app as HikariApp).providers
     private val store = (app as HikariApp).store
     private val repo = ContentRepository(manager)
-    private val collections = com.hikari.app.data.CollectionsRepository(manager)
+    private val collections = com.gworld06.streambox.data.CollectionsRepository(manager)
 
     private val _rows = MutableStateFlow<List<CatalogRow>>(emptyList())
     val rows: StateFlow<List<CatalogRow>> = _rows.asStateFlow()
@@ -362,7 +362,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
             // in hand were fetched under the old answer, and a catalogue row cannot
             // be re-checked afterwards — a /discover answer carries no certificate,
             // so the ceiling is applied by the REQUEST (see
-            // [com.hikari.app.data.NsfwGate.capDiscoverCertification]). Dropping the
+            // [com.gworld06.streambox.data.NsfwGate.capDiscoverCertification]). Dropping the
             // cache and rebuilding is what makes the switch change the feed the user
             // is looking at, instead of only the next app launch's.
             val app = getApplication<Application>() as HikariApp
@@ -407,7 +407,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
      * rebuilds the feed from it. An EMPTY list is "All providers".
      *
      * The selection is what Home draws from, and it survives leaving the screen
-     * (and a restart) through [com.hikari.app.data.AppStore.setHomeProviders].
+     * (and a restart) through [com.gworld06.streambox.data.AppStore.setHomeProviders].
      */
     fun setSelection(ids: List<String>) {
         val clean = ids.map { it.trim() }.filter { it.isNotBlank() }.distinct()
@@ -445,7 +445,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
             return trackerKeys.flatMap { key ->
                 val kind = trackerKindOf(key) ?: return@flatMap emptyList()
                 TrackerLibraryRepository.load(app, kind.key).onFailure { e ->
-                    com.hikari.app.data.Logs.log("Home", "tracker pick " + key + ": " + (e.message ?: "failed"))
+                    com.gworld06.streambox.data.Logs.log("Home", "tracker pick " + key + ": " + (e.message ?: "failed"))
                 }.getOrDefault(emptyList()).map { shelf ->
                     CatalogRow(providerId = TRACKER_PREFIX + kind.key, providerName = kind.label, title = shelf.title, items = shelf.items, key = TRACKER_PREFIX + shelf.key, catalogId = shelf.key, type = shelf.items.firstOrNull()?.type ?: MediaType.UNKNOWN, rawType = shelf.items.firstOrNull()?.rawType ?: "anime")
                 }
@@ -492,7 +492,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
             // A load that started earlier (possibly with an out-of-date, even
             // empty, selection) must not paint anything. Logged so a report can
             // tell this apart from "the pick really was dropped".
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Home",
                 "load superseded before it started (pick=" +
                     (if (picks.isEmpty()) "all" else picks.joinToString(",")) + ")",
@@ -543,8 +543,8 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
         }
         // Keep the process alive (and awake) for the whole load: pressing Home
         // mid-load used to freeze the app and stop every catalog dead. See
-        // [com.hikari.app.work.BackgroundWork].
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        // [com.gworld06.streambox.work.BackgroundWork].
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             when {
                 key == "all" -> "Loading Home catalogs"
                 kept.size == 1 -> "Loading " + (manager.byId(kept[0])?.config?.name ?: "catalog")
@@ -579,7 +579,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
                     it.providerId == soloPick && it.providerName == soloName
                 }
                 if (rows.size != incoming.size) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Home",
                         "pick=$soloPick dropped ${incoming.size - rows.size} row(s) that were not" +
                             " its own (from " +
@@ -608,7 +608,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
                 }
             }
             if (token != loadToken) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Home",
                     "pick=" + (if (key == "all") "all" else key) +
                         " superseded by a newer load — its rows were discarded",
@@ -619,7 +619,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
                 homeCache[key] = latest
                 _rows.value = latest
                 _loading.value = false
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Home",
                     "pick=" + (if (key == "all") "all" else key) +
                         " rows=" + latest.size +
@@ -641,14 +641,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {    private val m
                 val why = if (key.startsWith(TRACKER_PREFIX)) {
                     TrackerLibraryRepository.errors[key]
                 } else null
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Home",
                     "pick=" + (if (key == "all") "all" else key) + " produced no rows" +
                         (why?.let { " — $it" } ?: ""),
                 )
             }
         }
-        loadJob?.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        loadJob?.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
         loadJob?.join()
     }
 
@@ -680,14 +680,14 @@ fun HomeScreen(nav: NavHostController) {
     // found by name, and left the picker without a "Stremio" chip at all — the
     // reported "I installed HdHub but there is no Stremio category and
     // searching hdHub finds nothing". Such an addon browses TMDB (see
-    // com.hikari.app.data.TmdbBrowse), so it has rows to show like any other
+    // com.gworld06.streambox.data.TmdbBrowse), so it has rows to show like any other
     // extension; if TMDB is unreachable it says so in its own empty state.
     val activeProviders = providers.filter { it.config.enabled }
     // The feed's scroll state lives next to the feed itself (see feedKeys /
     // feedState below): its key mirror must be built from the rows.
     // The picker's engine filter ("All", "CloudStream", "Hikari", "Nuvio",
     // "Stremio"). Purely a narrowing device: it never changes what Home shows.
-    var providerFilter by remember { mutableStateOf<com.hikari.app.data.ProviderType?>(null) }
+    var providerFilter by remember { mutableStateOf<com.gworld06.streambox.data.ProviderType?>(null) }
     // Shown only if the last crash hasn't been announced yet (see
     // HikariApp.markCrashNoticeShown): a crash that was already reported never
     // interrupts the user twice.
@@ -1011,7 +1011,7 @@ fun HomeScreen(nav: NavHostController) {
             if (rows.isEmpty() && !loading && collectionFolderRows.isEmpty()) add("home-empty")
         }
     }
-    val feedState = com.hikari.app.ui.components.keptListState("home", itemKeys = feedKeys)
+    val feedState = com.gworld06.streambox.ui.components.keptListState("home", itemKeys = feedKeys)
 
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
@@ -1065,8 +1065,8 @@ fun HomeScreen(nav: NavHostController) {
                             onSearch = openSearch,
                             onTranslate = { showTranslate = true },
                             onVerify = openVerify,
-                            onMouse = { com.hikari.app.tv.MouseMode.toggle() },
-                            mouseOn = com.hikari.app.tv.MouseMode.enabled,
+                            onMouse = { com.gworld06.streambox.tv.MouseMode.toggle() },
+                            mouseOn = com.gworld06.streambox.tv.MouseMode.enabled,
                             onSettings = openSettings,
                         )
                     } else {
@@ -1077,8 +1077,8 @@ fun HomeScreen(nav: NavHostController) {
                             onVerify = openVerify,
                             overlay = false,
                             onSettings = openSettings,
-                            onMouse = { com.hikari.app.tv.MouseMode.toggle() },
-                            mouseOn = com.hikari.app.tv.MouseMode.enabled,
+                            onMouse = { com.gworld06.streambox.tv.MouseMode.toggle() },
+                            mouseOn = com.gworld06.streambox.tv.MouseMode.enabled,
                         )
                     }
                     if (featured.isNotEmpty()) {
@@ -1334,15 +1334,15 @@ fun HomeScreen(nav: NavHostController) {
                         // action is what remains for the cases it could not.
                         val wallFailure = reason?.let { r ->
                             r.contains("403") || r.contains("503") || r.contains("429") ||
-                                com.hikari.app.net.CloudflareVerifier.isVerificationMessage(r)
+                                com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(r)
                         } == true
                         // Null-safe by construction: a multi pick has selected ==
                         // null, and a ConcurrentHashMap.get(null) throws — the
                         // old branch could never see null, this one can.
                         val streamOnly = single &&
-                            com.hikari.app.providers.StremioAddon.streamOnlyAddons[selectedKey] == true
+                            com.gworld06.streambox.providers.StremioAddon.streamOnlyAddons[selectedKey] == true
                         val searchOnlySource = single &&
-                            com.hikari.app.HikariApp.instance.providers.byId(selectedKey)?.searchOnly == true
+                            com.gworld06.streambox.HikariApp.instance.providers.byId(selectedKey)?.searchOnly == true
                         if (searchOnlySource) {
                             EmptyState(
                                 title = I18n.t("No catalog from %s")
@@ -1367,7 +1367,7 @@ fun HomeScreen(nav: NavHostController) {
                                 title = I18n.t("Couldn't load %s")
                                     .replace("%s", selectedName ?: I18n.t("This extension")),
                                 subtitle = reason?.takeIf {
-                                    !com.hikari.app.net.CloudflareVerifier.isVerificationMessage(it)
+                                    !com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(it)
                                 }
                                     ?: I18n.t(
                                         "Nothing came back from this extension. Retry, or open its " +
@@ -1653,7 +1653,7 @@ fun HomeScreen(nav: NavHostController) {
     if (showTranslate && selId != null) {
         val pid = selId
         val pname = selectedName ?: "this extension"
-        val isOn = com.hikari.app.data.Translator.isOn(pid)
+        val isOn = com.gworld06.streambox.data.Translator.isOn(pid)
         AlertDialog(
             onDismissRequest = { showTranslate = false },
             title = { Text(if (isOn) tr("Turn off translation?") else tr("Translate to English?")) },
@@ -1673,7 +1673,7 @@ fun HomeScreen(nav: NavHostController) {
                 TextButton(onClick = {
                     showTranslate = false
                     scope.launch {
-                        com.hikari.app.data.Translator.enable(pid, !isOn)
+                        com.gworld06.streambox.data.Translator.enable(pid, !isOn)
                         vm.refresh()
                     }
                 }) {
@@ -1762,7 +1762,7 @@ private fun CollectionFoldersOnHome(
                 collection.name,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                 else Color.Unspecified,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -1774,7 +1774,7 @@ private fun CollectionFoldersOnHome(
             Text(
                 tr("No folders yet — add one in Settings → Personal Catalog creator."),
                 style = MaterialTheme.typography.bodySmall,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp),
             )
@@ -2249,7 +2249,7 @@ internal fun ProviderPickerSheet(
                     // TMDB (see TmdbBrowse).
                     val key = pack.key
                     val streamOnly =
-                        com.hikari.app.providers.StremioAddon.streamOnlyAddons[key] == true
+                        com.gworld06.streambox.providers.StremioAddon.streamOnlyAddons[key] == true
                     val ids = pack.members.map { it.config.id }
                     val tickedIds = ids.filter { it in working }
                     val ticked = tickedIds.isNotEmpty()
@@ -2416,14 +2416,14 @@ internal fun ProviderPickerSheet(
 private fun FilterChipLine(label: String, selected: Boolean, onClick: () -> Unit) {
     // Television chips read muted-on-black with a hairline edge (desktop
     // language); phones keep the outline chip.
-    val tvChip = com.hikari.app.tv.TvMode.current()
+    val tvChip = com.gworld06.streambox.tv.TvMode.current()
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(50),
         color = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
         border = if (selected) null else BorderStroke(
             1.dp,
-            if (tvChip) com.hikari.app.tv.TvDesktop.GlassEdge
+            if (tvChip) com.gworld06.streambox.tv.TvDesktop.GlassEdge
             else MaterialTheme.colorScheme.outline.copy(alpha = 0.55f),
         ),
         modifier = Modifier.padding(vertical = 2.dp),
@@ -2433,7 +2433,7 @@ private fun FilterChipLine(label: String, selected: Boolean, onClick: () -> Unit
             style = MaterialTheme.typography.labelMedium,
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
             color = if (selected) MaterialTheme.colorScheme.onPrimary
-            else if (tvChip) com.hikari.app.tv.TvDesktop.TextMuted
+            else if (tvChip) com.gworld06.streambox.tv.TvDesktop.TextMuted
             else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
         )
@@ -2578,7 +2578,7 @@ private fun PickerRow(
     multi: Boolean = false,
     pinned: Boolean = false,
     /** Draw the caret that opens this row's own sources (an Aniyomi/manga
-     *  extension's pack — see [com.hikari.app.ui.ProviderPacks]). */
+     *  extension's pack — see [com.gworld06.streambox.ui.ProviderPacks]). */
     expandable: Boolean = false,
     /** Whether those sources are on screen right now. */
     expanded: Boolean = false,
@@ -2783,7 +2783,7 @@ internal const val HOLD_MS = 500L
  * "Tap, or HOLD for a moment".
  *
  * Shared: the Manga tab's Browse list uses the same gesture to reveal an
- * engine's pin (see [com.hikari.app.ui.screens.MangaScreen]), so the two holds
+ * engine's pin (see [com.gworld06.streambox.ui.screens.MangaScreen]), so the two holds
  * in the app are the same length and behave the same way around a scroll.
  *
  * `combinedClickable` uses the platform's long-press timeout, which fires on a
@@ -2853,33 +2853,33 @@ private fun sourceSiteUrl(file: java.io.File, name: String): String? {
 
 internal fun webUrlFor(p: ContentProvider): String? = when (p.config.type) {
     ProviderType.STREMIO, ProviderType.UNIVERSAL -> webUrlRootOf(p.config.url)
-    ProviderType.HIKARI -> com.hikari.app.hiki.HikariRuntime.providerFor(p.config)?.mainUrl
-    ProviderType.SKYSTREAM -> com.hikari.app.skystream.SkyStreamPluginManager.siteUrlOf(p.config)
-    ProviderType.ANIYOMI -> com.hikari.app.aniyomi.AniyomiExtensionManager.siteUrlOf(p.config)
-    ProviderType.MANGA -> if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
+    ProviderType.HIKARI -> com.gworld06.streambox.hiki.HikariRuntime.providerFor(p.config)?.mainUrl
+    ProviderType.SKYSTREAM -> com.gworld06.streambox.skystream.SkyStreamPluginManager.siteUrlOf(p.config)
+    ProviderType.ANIYOMI -> com.gworld06.streambox.aniyomi.AniyomiExtensionManager.siteUrlOf(p.config)
+    ProviderType.MANGA -> if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
         // Novel sources carry no extension to load a site from — the install
         // captured the plugin's own site (see LnReaderPluginManager).
-        com.hikari.app.lnreader.LnReaderPluginManager.siteUrlOf(p.config)
+        com.gworld06.streambox.lnreader.LnReaderPluginManager.siteUrlOf(p.config)
     } else {
-        com.hikari.app.manga.MangaExtensionManager.siteUrlOf(p.config)
+        com.gworld06.streambox.manga.MangaExtensionManager.siteUrlOf(p.config)
     }
-    ProviderType.ANYMEX, ProviderType.ANYMEX_MANGA -> com.hikari.app.anymex.AnymexPluginManager.siteUrlOf(p.config)
+    ProviderType.ANYMEX, ProviderType.ANYMEX_MANGA -> com.gworld06.streambox.anymex.AnymexPluginManager.siteUrlOf(p.config)
     ProviderType.SORA -> p.config.extra?.takeIf { it.startsWith("http") }?.let { src -> runCatching { val u = java.net.URI(src); u.scheme + "://" + u.host + "/" }.getOrNull() }
     ProviderType.NUVIO -> sourceSiteUrl(java.io.File(p.config.url), p.config.name)
     ProviderType.VEGA -> runCatching {
-        val dir = com.hikari.app.providers.vega.VegaPluginManager.dirOf(p.config)
+        val dir = com.gworld06.streambox.providers.vega.VegaPluginManager.dirOf(p.config)
         sourceSiteUrl(java.io.File(dir, "meta.js"), p.config.name)
             ?: sourceSiteUrl(java.io.File(dir, "posts.js"), p.config.name)
             ?: sourceSiteUrl(java.io.File(dir, "stream.js"), p.config.name)
     }.getOrNull()
-    ProviderType.ZANGETSU -> com.hikari.app.zangetsu.ZangetsuPluginManager.siteUrlOf(p.config)
+    ProviderType.ZANGETSU -> com.gworld06.streambox.zangetsu.ZangetsuPluginManager.siteUrlOf(p.config)
     ProviderType.FORK_VIDEO -> runCatching {
-        val owner = com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerOf(p.config.id)
-        val enum = com.hikari.app.kotatsu.fork.ForkVideoProvider.enumNameOf(p.config.id)
-        val domain = if (owner == com.hikari.app.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN) {
-            com.hikari.app.kotatsu.fork.SkepsunBridge.forSource(enum)?.parserDomain()
+        val owner = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerOf(p.config.id)
+        val enum = com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.enumNameOf(p.config.id)
+        val domain = if (owner == com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN) {
+            com.gworld06.streambox.kotatsu.fork.SkepsunBridge.forSource(enum)?.parserDomain()
         } else {
-            com.hikari.app.kotatsu.fork.Hany18hBridge.forSource(enum)?.parserDomain()
+            com.gworld06.streambox.kotatsu.fork.Hany18hBridge.forSource(enum)?.parserDomain()
         }
         domain?.trim()?.takeIf { it.isNotBlank() }?.let { d ->
             val host = d.trim().removePrefix("https://").removePrefix("http://").substringBefore('/').lowercase()
@@ -2888,7 +2888,7 @@ internal fun webUrlFor(p: ContentProvider): String? = when (p.config.type) {
     }.getOrNull()
     ProviderType.CS3 -> runCatching {
         val file = java.io.File(p.config.url); if (!file.exists()) return@runCatching null
-        val apis = com.hikari.app.cs3.Cs3PluginManager.apisFor(com.hikari.app.HikariApp.instance, file)
+        val apis = com.gworld06.streambox.cs3.Cs3PluginManager.apisFor(com.gworld06.streambox.HikariApp.instance, file)
         apis.getOrNull(p.config.id.substringAfterLast("|").toIntOrNull() ?: 0)?.mainUrl?.takeIf { it.startsWith("http") }
     }.getOrNull()
     else -> null
@@ -2937,8 +2937,8 @@ internal fun webUrlChain(p: ContentProvider, vararg itemUrls: String?): String? 
  */
 internal suspend fun webUrlChainAsync(p: ContentProvider, vararg itemUrls: String?): String? {
     webUrlChain(p, *itemUrls)?.let { return it }
-    if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
-        runCatching { com.hikari.app.lnreader.LnReaderPluginManager.resolveSite(p.config) }
+    if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) {
+        runCatching { com.gworld06.streambox.lnreader.LnReaderPluginManager.resolveSite(p.config) }
             .getOrNull()?.takeIf { it.isNotBlank() }?.let { return it }
     }
     return null
@@ -3006,7 +3006,7 @@ private fun HomeHeader(
         // Translate: per-extension toggle — turns this extension's titles/text
         // into English inside the app. Shown whenever a provider is selected.
         selected?.let { pid ->
-            val translateOn = com.hikari.app.data.Translator.isOn(pid)
+            val translateOn = com.gworld06.streambox.data.Translator.isOn(pid)
             IconButton(onClick = onTranslate) {
                 Text(
                     tr("A\u3042"),
@@ -3101,20 +3101,20 @@ private fun MediaItem.shrinkPoster(): MediaItem {
  * chain the user was told to open the extension's WEBSITE and check it for a
  * Cloudflare verification page that was never involved. The extension now names
  * its own reason and the adapter records it in
- * [com.hikari.app.providers.HikariProviderAdapter.catalogErrors].
+ * [com.gworld06.streambox.providers.HikariProviderAdapter.catalogErrors].
  */
 private fun engineFailureReason(providerId: String): String? =
-    com.hikari.app.data.TrackerLibraryRepository.errors[providerId]
-        ?: com.hikari.app.providers.HikariProviderAdapter.catalogErrors[providerId]
-        ?: com.hikari.app.cs3.Cs3MainApiProvider.catalogErrors[providerId]
-        ?: com.hikari.app.providers.StremioAddon.catalogErrors[providerId]
-        ?: com.hikari.app.nuvio.NuvioScraper.catalogErrors[providerId]
-        ?: com.hikari.app.skystream.SkyStreamProvider.catalogErrors[providerId]
-        ?: com.hikari.app.aniyomi.AniyomiProvider.catalogErrors[providerId]
-        ?: com.hikari.app.anymex.AnymexProvider.catalogErrors[providerId]
-        ?: com.hikari.app.providers.vega.VegaProvider.catalogErrors[providerId]
-        ?: com.hikari.app.sora.SoraProvider.catalogErrors[providerId]
-        ?: com.hikari.app.manga.MangaProvider.lastOutcome[providerId]
+    com.gworld06.streambox.data.TrackerLibraryRepository.errors[providerId]
+        ?: com.gworld06.streambox.providers.HikariProviderAdapter.catalogErrors[providerId]
+        ?: com.gworld06.streambox.cs3.Cs3MainApiProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.providers.StremioAddon.catalogErrors[providerId]
+        ?: com.gworld06.streambox.nuvio.NuvioScraper.catalogErrors[providerId]
+        ?: com.gworld06.streambox.skystream.SkyStreamProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.aniyomi.AniyomiProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.anymex.AnymexProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.providers.vega.VegaProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.sora.SoraProvider.catalogErrors[providerId]
+        ?: com.gworld06.streambox.manga.MangaProvider.lastOutcome[providerId]
             ?.takeIf { !it.startsWith("✓") && !it.startsWith("✔") }
 
 /**
@@ -3197,8 +3197,8 @@ private const val BROWSE_ITEM_CAP = 3000
  *  unfiltered posters. */
 private fun homeGenreKeep(item: MediaItem, name: String): Boolean {
     if (name.trim().isEmpty()) return true
-    if (item.genres.any { g -> com.hikari.app.data.Genres.matches(g, name) }) return true
-    return com.hikari.app.data.Genres.matches(item.title, name)
+    if (item.genres.any { g -> com.gworld06.streambox.data.Genres.matches(g, name) }) return true
+    return com.gworld06.streambox.data.Genres.matches(item.title, name)
 }
 
 @Composable
@@ -3277,7 +3277,7 @@ private fun HomeSearchOverlay(
         translateScope.launch {
             translating = true
             val out = runCatching {
-                com.hikari.app.data.Translator.translateTo(src, targetLang)
+                com.gworld06.streambox.data.Translator.translateTo(src, targetLang)
             }.getOrDefault("")
             translating = false
             if (out.isNotBlank() && out != src) {
@@ -3398,7 +3398,7 @@ private fun HomeSearchOverlay(
                                 expanded = langMenu,
                                 onDismissRequest = { langMenu = false },
                             ) {
-                                com.hikari.app.data.Translator.LANGUAGES.forEach { (code, langLabel) ->
+                                com.gworld06.streambox.data.Translator.LANGUAGES.forEach { (code, langLabel) ->
                                     DropdownMenuItem(
                                         text = {
                                             Text(if (code == targetLang) "$langLabel  ✓" else langLabel)
@@ -3812,7 +3812,7 @@ private fun HomeSearchOverlay(
                             // "…" until every catalogue has answered empty, so
                             // "keep scroll and keep loading until all really
                             // ends" is what the list actually does.
-                            val browseGridState = com.hikari.app.ui.components.keptGridState("homeBrowse:$label:$applied:$genre")
+                            val browseGridState = com.gworld06.streambox.ui.components.keptGridState("homeBrowse:$label:$applied:$genre")
                             val tailIndex = browseGridState.layoutInfo.visibleItemsInfo
                                 .lastOrNull()?.index ?: 0
                             LaunchedEffect(tailIndex, blankShown.size, browseDone, browseMoreLoading) {
@@ -3922,7 +3922,7 @@ private fun HomeResultCard(item: MediaItem, onClick: () -> Unit) {
  * One chip of [HomeGenreStrip]: what it says, and what it asks TMDB for.
  *
  * [genresText] is TMDB's `with_genres` OR-list built from BOTH namespaces (see
- * [com.hikari.app.data.Genres.tmdbGenreFilter]), so the page a chip opens
+ * [com.gworld06.streambox.data.Genres.tmdbGenreFilter]), so the page a chip opens
  * carries films AND series instead of making the viewer choose a shape first.
  * [keywordsText] is the fallback for a genre TMDB has no genre id for at all —
  * the anime vocabulary (Isekai, Harem, School Life, …), which is expressible
@@ -3938,7 +3938,7 @@ private data class HomeGenre(
 /**
  * Home's genre strip — the "no need to search for anything" way in.
  *
- * The list IS [com.hikari.app.data.Genres.ALL], the same vocabulary the Search
+ * The list IS [com.gworld06.streambox.data.Genres.ALL], the same vocabulary the Search
  * tab's strip offers, so the two screens can never disagree again: Home used to
  * show only TMDB's FILM genre names, which left out both the television-only
  * names (Reality, Soap, Talk, Sci-Fi & Fantasy, …) and the whole anime
@@ -3951,13 +3951,13 @@ private data class HomeGenre(
 @Composable
 private fun HomeGenreStrip(onPick: (name: String, genresText: String, keywordsText: String) -> Unit) {
     val genres = remember {
-        com.hikari.app.data.Genres.ALL.map { name ->
-            val ids = com.hikari.app.data.Genres.tmdbGenreFilter(name)
+        com.gworld06.streambox.data.Genres.ALL.map { name ->
+            val ids = com.gworld06.streambox.data.Genres.tmdbGenreFilter(name)
             HomeGenre(
                 name = name,
                 genresText = ids,
                 keywordsText = if (ids.isNotEmpty()) ""
-                else com.hikari.app.data.Genres.keywordCandidates(name).joinToString("|"),
+                else com.gworld06.streambox.data.Genres.keywordCandidates(name).joinToString("|"),
             )
         }
     }
@@ -3980,7 +3980,7 @@ private fun HomeGenreStrip(onPick: (name: String, genresText: String, keywordsTe
     // A new filter starts at the top of the strip: a match that happens to sort
     // late would otherwise be filtered in BEHIND the scrolled-away cards and the
     // strip would look like it had found nothing.
-    val listState = com.hikari.app.ui.components.keptListState("homeGenres")
+    val listState = com.gworld06.streambox.ui.components.keptListState("homeGenres")
     LaunchedEffect(query) { if (shown.isNotEmpty()) listState.scrollToItem(0) }
     Column(
         Modifier
@@ -3997,7 +3997,7 @@ private fun HomeGenreStrip(onPick: (name: String, genresText: String, keywordsTe
                 tr("Browse by genre"),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                 else MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -4016,7 +4016,7 @@ private fun HomeGenreStrip(onPick: (name: String, genresText: String, keywordsTe
             Text(
                 tr("No genre matches") + " \u201c${query.trim()}\u201d",
                 style = MaterialTheme.typography.bodySmall,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

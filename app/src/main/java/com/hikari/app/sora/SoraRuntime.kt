@@ -1,11 +1,11 @@
-package com.hikari.app.sora
+package com.gworld06.streambox.sora
 
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.asyncFunction
 import com.dokar.quickjs.binding.function
-import com.hikari.app.HikariApp
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -67,7 +67,7 @@ object SoraRuntime {
     private const val ENGINE_MEMORY_LIMIT = 256L * 1024 * 1024
 
     private val engineMemoryLimit: Long
-        get() = com.hikari.app.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
+        get() = com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
 
     private val concurrency = Semaphore(MAX_CONCURRENT)
     private val perfConcurrency = Semaphore(PERF_CONCURRENT)
@@ -75,8 +75,8 @@ object SoraRuntime {
 
     private val gate: Semaphore
         get() = when {
-            com.hikari.app.data.PerfMode.tvDevice -> tvConcurrency
-            com.hikari.app.data.PerfMode.active -> perfConcurrency
+            com.gworld06.streambox.data.PerfMode.tvDevice -> tvConcurrency
+            com.gworld06.streambox.data.PerfMode.active -> perfConcurrency
             else -> concurrency
         }
 
@@ -507,7 +507,7 @@ object SoraRuntime {
         headersJson: String,
         body: String,
     ): Request {
-        val builder = Request.Builder().url(url).header("User-Agent", com.hikari.app.net.Http.UA)
+        val builder = Request.Builder().url(url).header("User-Agent", com.gworld06.streambox.net.Http.UA)
         val h = runCatching { JSONObject(headersJson) }.getOrNull()
         if (h != null) {
             h.keys().forEach { k ->

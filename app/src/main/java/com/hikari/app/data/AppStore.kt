@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -13,14 +13,14 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.hikari.app.net.AdBlocker
-import com.hikari.app.net.DnsProviders
-import com.hikari.app.net.ExtensionVerifyGuard
-import com.hikari.app.player.EnhancePreset
-import com.hikari.app.ui.AccentStore
-import com.hikari.app.ui.UiScale
-import com.hikari.app.ui.theme.HikariAccent
-import com.hikari.app.ui.theme.HikariThemeMode
+import com.gworld06.streambox.net.AdBlocker
+import com.gworld06.streambox.net.DnsProviders
+import com.gworld06.streambox.net.ExtensionVerifyGuard
+import com.gworld06.streambox.player.EnhancePreset
+import com.gworld06.streambox.ui.AccentStore
+import com.gworld06.streambox.ui.UiScale
+import com.gworld06.streambox.ui.theme.HikariAccent
+import com.gworld06.streambox.ui.theme.HikariThemeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -63,7 +63,7 @@ data class PrefRecord(
  * their per-section switches are stored preferences: the store has to be able to
  * name a section to look up whether it is on, and a data-layer object reaching
  * into a UI object for a string is the kind of dependency that silently breaks
- * the day somebody moves the screen. [com.hikari.app.ui.screens.MyStuff] reads
+ * the day somebody moves the screen. [com.gworld06.streambox.ui.screens.MyStuff] reads
  * these constants, so the names have exactly one definition.
  */
 object MyStuffSection {
@@ -106,11 +106,11 @@ class AppStore(private val ctx: Context) {
         val PLAYER_ENHANCE = stringPreferencesKey("playerEnhance")
         /** True once the user has worked the video-enhance picker themselves, so
          *  the television layout stops forcing its own (light) preset. See
-         *  [com.hikari.app.HikariApp] and [com.hikari.app.ui.screens.SettingsScreen]. */
+         *  [com.gworld06.streambox.HikariApp] and [com.gworld06.streambox.ui.screens.SettingsScreen]. */
         val PLAYER_ENHANCE_CHOSEN = booleanPreferencesKey("playerEnhanceChosen")
         val PLAYER_ENHANCE_UNSUPPORTED = booleanPreferencesKey("playerEnhanceUnsupported")
     /** The user's own enhance presets, as a JSON array (see
-     *  [com.hikari.app.player.CustomEnhancePreset]). Deliberately NOT in
+     *  [com.gworld06.streambox.player.CustomEnhancePreset]). Deliberately NOT in
      *  [DeviceLocal]: these are the user's grading looks, not a device
      *  capability, so they travel with the setup like every other look choice. */
     val PLAYER_ENHANCE_CUSTOMS = stringPreferencesKey("playerEnhanceCustoms")
@@ -126,7 +126,7 @@ class AppStore(private val ctx: Context) {
          * settings row, a sheet's note, a dialog's paragraph. ON is the app as
          * it has always been; OFF removes them everywhere at once and leaves the
          * titles, the controls and the values — see
-         * [com.hikari.app.ui.components.LocalHideHelp], which is how every
+         * [com.gworld06.streambox.ui.components.LocalHideHelp], which is how every
          * screen reads it.
          */
         val HIDE_HELP = booleanPreferencesKey("hideHelp")
@@ -171,17 +171,17 @@ class AppStore(private val ctx: Context) {
         val TRANSLATE_CACHE = stringPreferencesKey("translateCache")
         val SEEDED_REPOS = booleanPreferencesKey("seededRepos")
         /** True once the bundled default Stremio addon (SubDL's subtitle addon —
-         *  see [com.hikari.app.providers.StremioAddon.DEFAULT_ADDON_URL]) has
+         *  see [com.gworld06.streambox.providers.StremioAddon.DEFAULT_ADDON_URL]) has
          *  been installed. One-way, for the same reason as [SEEDED_REPOS]: a
          *  user who removes it keeps it removed. */
         val STREMIO_SEEDED = booleanPreferencesKey("stremioAddonSeeded")
         /** True once the providers earlier builds pre-installed (the Nuvio
          *  "starter" scrapers) have been removed from an install that already
-         *  seeded them. See [com.hikari.app.nuvio.NuvioPluginManager]. */
+         *  seeded them. See [com.gworld06.streambox.nuvio.NuvioPluginManager]. */
         val NUVIO_SEED_CLEANED = booleanPreferencesKey("nuvioSeedCleaned")
         /** True once the bundled YTS extension earlier builds registered on first
          *  run has been removed from this install. See
-         *  [com.hikari.app.HikariApp] — the file that used to register it. */
+         *  [com.gworld06.streambox.HikariApp] — the file that used to register it. */
         val YTS_CLEANED = booleanPreferencesKey("ytsCleaned")
         /** True once the 0.11.69 Kotatsu auto-seed (1200+ rows) has been pruned
          *  from this install. One-way, like [YTS_CLEANED]: sources installed
@@ -191,7 +191,7 @@ class AppStore(private val ctx: Context) {
         val SLOW_CONNECTION = booleanPreferencesKey("slowConnection")
 
         /** Resolver chosen in Settings → Network and Internet → DNS mode
-         *  ([com.hikari.app.net.DnsProviders] keys), and the address a Custom
+         *  ([com.gworld06.streambox.net.DnsProviders] keys), and the address a Custom
          *  choice points at. */
         val DNS_PROVIDER = stringPreferencesKey("dnsProvider")
         val CUSTOM_DNS = stringPreferencesKey("customDns")
@@ -253,7 +253,7 @@ class AppStore(private val ctx: Context) {
         val TELEGRAM_CHANNELS = stringPreferencesKey("telegramChannels")
         /**
          * The individual Telegram video LINKS the tab's "Video links" section
-         * keeps, as JSON — see [com.hikari.app.telegram.TelegramLinks]. Kept
+         * keeps, as JSON — see [com.gworld06.streambox.telegram.TelegramLinks]. Kept
          * apart from [TELEGRAM_CHANNELS] because the two are different things:
          * a channel is a feed to browse, a link is one post to play.
          */
@@ -292,7 +292,7 @@ class AppStore(private val ctx: Context) {
         /**
          * How many minutes the app may stay unlocked after the app is left (0 =
          * lock immediately). The unlock screen's grace period: see
-         * [com.hikari.app.ui.AppLockGate]. Storage is minutes, 0..60, and the
+         * [com.gworld06.streambox.ui.AppLockGate]. Storage is minutes, 0..60, and the
          * settings slider offers every minute from Instant to 60.
          */
         val APP_LOCK_DELAY_MIN = intPreferencesKey("appLockDelayMin")
@@ -339,7 +339,7 @@ class AppStore(private val ctx: Context) {
         /**
          * The trackers the user signed in to (Settings → Trackers), as JSON —
          * one row per service, with that service's token. See
-         * [com.hikari.app.data.TrackerStore].
+         * [com.gworld06.streambox.data.TrackerStore].
          */
         val TRACKERS = stringPreferencesKey("trackers")
         /** The app id/secret the user registered with each service (JSON). */
@@ -362,7 +362,7 @@ class AppStore(private val ctx: Context) {
         val TRACKER_LAST = stringPreferencesKey("trackerLast")
         val TRACKER_LAST_AT = stringPreferencesKey("trackerLastAt")
         /** The per-day/per-title totals behind the Stats page — see
-         *  [com.hikari.app.data.WatchStats]. */
+         *  [com.gworld06.streambox.data.WatchStats]. */
         val WATCH_STATS = stringPreferencesKey("watchStats")
         /** Brightness/volume swipes on the player's video surface (ON by
          *  default; Settings → Player → Player controls). */
@@ -426,10 +426,10 @@ class AppStore(private val ctx: Context) {
          *  captions hidden — the user still turns them on per video from the
          *  player's own Subtitles menu, which keeps working exactly as now. */
         val SUBTITLES_DEFAULT_ON = booleanPreferencesKey("subtitlesDefaultOn")
-        /** Reading mode of the manga reader ([com.hikari.app.manga.MangaReadMode]:
+        /** Reading mode of the manga reader ([com.gworld06.streambox.manga.MangaReadMode]:
          *  paged left-to-right, paged right-to-left, or vertical webtoon). */
         val MANGA_READ_MODE = stringPreferencesKey("mangaReadMode")
-        /** How a page is fitted in the reader ([com.hikari.app.manga.MangaFit]):
+        /** How a page is fitted in the reader ([com.gworld06.streambox.manga.MangaFit]):
          *  width / height / whole page. */
         val MANGA_FIT = stringPreferencesKey("mangaFit")
         /** The reader's backdrop: "black", "grey" or "white". */
@@ -443,7 +443,7 @@ class AppStore(private val ctx: Context) {
          * Off by default (a scan is the artist's own colour, and "enhancing" it
          * behind the reader's back would be a surprising default), but one tap
          * away in the reader's settings and applied at DRAW time — a colour
-         * matrix on the GPU (see [com.hikari.app.reader.ReaderSettings.imageEnhance])
+         * matrix on the GPU (see [com.gworld06.streambox.reader.ReaderSettings.imageEnhance])
          * — so it costs no extra decode, no extra memory and no frame time: the
          * user asked for exactly that ("enhance all image real time without any
          * load on phone, not make laggy").
@@ -452,7 +452,7 @@ class AppStore(private val ctx: Context) {
     /**
      * The reader's whole settings surface, as one JSON blob — Nekoread's chrome
      * ported whole brought thirty-odd options with it, and they travel together
-     * (see [com.hikari.app.reader.ReaderSettings]). The per-key preferences
+     * (see [com.gworld06.streambox.reader.ReaderSettings]). The per-key preferences
      * above seed it on first run, so an existing install keeps its mode and
      * background.
      */
@@ -486,7 +486,7 @@ class AppStore(private val ctx: Context) {
          * extension is listed and every title a provider returns is shown. OFF, the
          * app hides the extensions whose own metadata is tagged 18+ and filters
          * adult titles out of every catalogue, shelf, search result and grid —
-         * [com.hikari.app.data.NsfwGate] is the single rule and the single place
+         * [com.gworld06.streambox.data.NsfwGate] is the single rule and the single place
          * that decides, and it is applied where lists are DRAWN so flipping the
          * switch is instant and cannot leave a stale row on screen.
          */
@@ -546,7 +546,7 @@ class AppStore(private val ctx: Context) {
         val TRACKER_RECOMMENDATIONS_SOURCE = stringPreferencesKey("trackerRecommendationsSource")
         val TRACKER_CONTINUE_DAYS = intPreferencesKey("trackerContinueDays")
         val TRACKER_COMMENTS = booleanPreferencesKey("trackerComments")
-        /** Key of the app-wide font (see [com.hikari.app.ui.AppFonts]). */
+        /** Key of the app-wide font (see [com.gworld06.streambox.ui.AppFonts]). */
         val APP_FONT = stringPreferencesKey("appFont")
         /** File name (inside filesDir/fonts) of a font the user imported. */
         val APP_FONT_FILE = stringPreferencesKey("appFontFile")
@@ -556,28 +556,28 @@ class AppStore(private val ctx: Context) {
         val LIBRARY_CATEGORIES = stringPreferencesKey("libraryCategories")
         /** uniqueId → category ids ([favoriteCategories]). */
         val FAVORITE_CATEGORIES = stringPreferencesKey("favoriteCategories")
-        /** Poster & icon styling (see [com.hikari.app.ui.PosterStyle]). */
+        /** Poster & icon styling (see [com.gworld06.streambox.ui.PosterStyle]). */
         val POSTER_BLUR = intPreferencesKey("posterBlur")
         val POSTER_CORNER = intPreferencesKey("posterCorner")
         val POSTER_SHOW_TITLES = booleanPreferencesKey("posterShowTitles")
         val POSTER_SHOW_RATINGS = booleanPreferencesKey("posterShowRatings")
         /** The movie/series tag in the poster's top-left corner. */
         val POSTER_SHOW_TYPE = booleanPreferencesKey("posterShowType")
-        /** The quality tag above it ([com.hikari.app.data.TitleQuality]). */
+        /** The quality tag above it ([com.gworld06.streambox.data.TitleQuality]). */
         val POSTER_SHOW_QUALITY = booleanPreferencesKey("posterShowQuality")
         /** The Dub/Sub + latest-episode pills in the poster's top-center
          *  (CloudStream-style; shown once the title's episodes are known). */
         val POSTER_SHOW_EP_BADGES = booleanPreferencesKey("posterShowEpBadges")
         val POSTER_GLASS = booleanPreferencesKey("posterGlass")
         /** The animated/visual treatment drawn over every poster card — see
-         *  [com.hikari.app.ui.PosterEffects]. A SET, so a card can wear several
+         *  [com.gworld06.streambox.ui.PosterEffects]. A SET, so a card can wear several
          *  treatments at once. The old single-key preference ([POSTER_EFFECT])
          *  is still read as the starting set, so nobody's choice is lost. */
         val POSTER_EFFECTS = stringSetPreferencesKey("posterEffects")
         /** A single treatment stored by a build before multi-select existed. */
         val POSTER_EFFECT = stringPreferencesKey("posterEffect")
         /** Shape of Home's featured banner — see
-         *  [com.hikari.app.ui.components.HeroStyles]. */
+         *  [com.gworld06.streambox.ui.components.HeroStyles]. */
         val HERO_STYLE = stringPreferencesKey("heroStyle")
         /** Extra lines the featured banner may draw over its artwork. */
         val HERO_OVERVIEW = booleanPreferencesKey("heroOverview")
@@ -588,21 +588,21 @@ class AppStore(private val ctx: Context) {
          *  header, smaller or bigger. */
         val HERO_SCALE = intPreferencesKey("heroScale")
         /** How the detail page's header art is laid out — see
-         *  [com.hikari.app.ui.screens.DetailHeroStyles]. */
+         *  [com.gworld06.streambox.ui.screens.DetailHeroStyles]. */
         val DETAIL_HERO_STYLE = stringPreferencesKey("detailHeroStyle")
         /** How big the title LOGO is drawn on the detail page's header, as a
          *  percentage of its default size (see
          *  [DEFAULT_DETAIL_LOGO_SIZE]) — the wordmark art TMDB provides. */
         val DETAIL_LOGO_SIZE = intPreferencesKey("detailLogoSize")
         /** Which player control shell the player wears — see
-         *  [com.hikari.app.player.PlayerSkins]. */
+         *  [com.gworld06.streambox.player.PlayerSkins]. */
         val PLAYER_SKIN = stringPreferencesKey("playerSkin")
         /** Look of the "finding your server" card — see
-         *  [com.hikari.app.ui.LoadingStyles]. */
+         *  [com.gworld06.streambox.ui.LoadingStyles]. */
         val LOADING_STYLE = stringPreferencesKey("loadingStyle")
         /** The treatment drawn over the loading card (a sheen, an aura ring, a
          *  gallery frame, an accent bloom) — see
-         *  [com.hikari.app.ui.LoadingEffects]. A SET, so several treatments can
+         *  [com.gworld06.streambox.ui.LoadingEffects]. A SET, so several treatments can
          *  be on at once. The old single-key preference ([LOADING_EFFECT]) is
          *  still read as the starting set. */
         val LOADING_EFFECTS = stringSetPreferencesKey("loadingEffects")
@@ -616,14 +616,14 @@ class AppStore(private val ctx: Context) {
          *  from [DETAIL_LOGO_SIZE] so the two screens are sized independently. */
         val LOADING_LOGO_SIZE = intPreferencesKey("loadingLogoSize")
         /** The colour a poster card's "Aura ring" is drawn in — see
-         *  [com.hikari.app.ui.AuraColors]. "theme" (the default) follows the app
+         *  [com.gworld06.streambox.ui.AuraColors]. "theme" (the default) follows the app
          *  accent, which is what the ring always drew. */
         val POSTER_AURA_COLOR = stringPreferencesKey("posterAuraColor")
         /** Which shape catalogue cards take — see
-         *  [com.hikari.app.ui.PosterTypes]. */
+         *  [com.gworld06.streambox.ui.PosterTypes]. */
         val POSTER_TYPE = stringPreferencesKey("posterType")
     /** Where a poster's edge light stands, as fractions of the card — see
-     *  [com.hikari.app.ui.PosterEffects.LIT]. */
+     *  [com.gworld06.streambox.ui.PosterEffects.LIT]. */
     val POSTER_GLOW_X = floatPreferencesKey("posterGlowX")
     val POSTER_GLOW_Y = floatPreferencesKey("posterGlowY")
     /** How hard that light burns, 0-100. */
@@ -636,7 +636,7 @@ class AppStore(private val ctx: Context) {
          *  extension, the way it always has been. Off, only the extension the
          *  title was opened from is asked — CloudStream's own model, where a
          *  film plays from the repo you picked and nowhere else. See
-         *  [com.hikari.app.data.SearchScope]. */
+         *  [com.gworld06.streambox.data.SearchScope]. */
         val SEARCH_ALL_EXTENSIONS = booleanPreferencesKey("searchAllExtensions")
         /** "Search every Nuvio provider" (Settings → Playback & Servers → Server
          *  search): a title opened FROM a nuvio provider also asks every other
@@ -656,7 +656,7 @@ class AppStore(private val ctx: Context) {
          *  an engine not in the set is OFF, and nuvio/Stremio keep their own
          *  dedicated keys above so an existing choice of theirs survives.
          *  Default OFF for every engine — see [engineFamiliesFlow] and
-         *  [com.hikari.app.data.SearchScope.engineFamilies]. */
+         *  [com.gworld06.streambox.data.SearchScope.engineFamilies]. */
         val SEARCH_FAMILY_TYPES = stringSetPreferencesKey("searchFamilyTypes")
         val SEARCH_NUVIO_IDS = stringSetPreferencesKey("searchNuvioIds")
         val SEARCH_STREMIO_IDS = stringSetPreferencesKey("searchStremioIds")
@@ -671,7 +671,7 @@ class AppStore(private val ctx: Context) {
         /** "Exception extensions" (Settings → Playback & Servers → Server
          *  search): extensions that are asked for servers for EVERY title, even
          *  when [SEARCH_ALL_EXTENSIONS] is off. See
-         *  [com.hikari.app.data.SearchScope] for the one rule that goes with it
+         *  [com.gworld06.streambox.data.SearchScope] for the one rule that goes with it
          *  — a title opened FROM an exception extension plays from that
          *  extension alone. */
         val SEARCH_EXCEPTION_ON = booleanPreferencesKey("searchExceptionOn")
@@ -691,13 +691,13 @@ class AppStore(private val ctx: Context) {
          *  touched are in here; everything else reads the built-in budget. */
         val SERVER_TIMEOUTS = stringPreferencesKey("serverTimeouts")
         /** profileId → lock secret (`algo:salt:hash`, see
-         *  [com.hikari.app.lock.AppLock]), as JSON. Device-local (see
+         *  [com.gworld06.streambox.lock.AppLock]), as JSON. Device-local (see
          *  [DeviceLocal]): a lock describes THIS device and must never travel
          *  in a backup or pairing payload — same rule as the app lock's own
          *  secret. The registry only carries the `locked` flag, which is
          *  meaningless without the secret. */
         val PROFILE_LOCKS = stringPreferencesKey("profileLocks")
-        /** Bottom navigation bar layout — see [com.hikari.app.ui.navigation.NavStyles]:
+        /** Bottom navigation bar layout — see [com.gworld06.streambox.ui.navigation.NavStyles]:
          *  "classic" | "floating" | "animated" (an old stored "borderless" is
          *  upgraded to "animated" when read). */
         val NAV_STYLE = stringPreferencesKey("navBarStyle")
@@ -715,7 +715,7 @@ class AppStore(private val ctx: Context) {
         // ---- Television ----
         //
         // One APK runs on phones and on televisions, and the layout follows the
-        // device it finds itself on (see [com.hikari.app.tv.TvMode]). These four
+        // device it finds itself on (see [com.gworld06.streambox.tv.TvMode]). These four
         // preferences are the user's hand on that decision.
         //
         /** "auto" (follow the device) | "tv" (always the television layout) |
@@ -733,7 +733,7 @@ class AppStore(private val ctx: Context) {
         /** Whether the USER has made the performance-mode choice themselves.
          *  Until they do, the mode follows the layout: it is switched on by
          *  itself whenever the television layout is active (see
-         *  [com.hikari.app.HikariApp]'s `syncTvPerformance`) and off again for
+         *  [com.gworld06.streambox.HikariApp]'s `syncTvPerformance`) and off again for
          *  the phone layout, which is what "turn performance mode on when the
          *  TV layout is detected" means — and the moment the user works the
          *  switch, their answer is kept and never overridden again. */
@@ -802,7 +802,7 @@ class AppStore(private val ctx: Context) {
          *    says.
          *  * **The layout** (`tvMode`, `tvOverscan`, `uiScale*`,
          *    `fullscreenOff`) — phone or television is DETECTED per device (see
-         *    [com.hikari.app.tv.TvMode]), and these are the choices that exist to
+         *    [com.gworld06.streambox.tv.TvMode]), and these are the choices that exist to
          *    suit that screen. A phone's 100% interface scale on a four-metre
          *    television, its windowed "full screen app mode off", or — the
          *    reported case — a phone whose `tvMode` is the default "follow the
@@ -825,7 +825,7 @@ class AppStore(private val ctx: Context) {
          *  * **The launcher icon** (`appIcon`) — a phone's home-screen icon
          *    alias. A television launcher draws the app's banner and has no icon
          *    to change, and the alias is applied from this value on every launch
-         *    (see [com.hikari.app.ui.AppIconManager.ensureApplied]).
+         *    (see [com.gworld06.streambox.ui.AppIconManager.ensureApplied]).
          *
          * Deliberately NOT here, because the same value means the same thing on
          * any device and the user who set it should find it there: the taskbar
@@ -966,11 +966,11 @@ class AppStore(private val ctx: Context) {
 
     // ---- The launcher icon the user picked (see AppIconManager) ----
     /** Key of the launcher-icon variant in use — one of
-     *  [com.hikari.app.ui.AppIconVariants]. The choice lives in the manifest as
+     *  [com.gworld06.streambox.ui.AppIconVariants]. The choice lives in the manifest as
      *  the enabled `activity-alias`, so this mirror is what lets the app put the
      *  manifest back in sync after a backup restore drops the setting. */
     fun appIconFlow(): Flow<String> =
-        store.data.map { it[K.APP_ICON] ?: com.hikari.app.ui.AppIconManager.DEFAULT_KEY }.distinctUntilChanged().flowOn(Dispatchers.Default)
+        store.data.map { it[K.APP_ICON] ?: com.gworld06.streambox.ui.AppIconManager.DEFAULT_KEY }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun appIcon(): String = appIconFlow().first()
 
@@ -1099,9 +1099,9 @@ class AppStore(private val ctx: Context) {
 
     // ---- App-wide font (Settings → Appearance & Theme → App font) ----
 
-    /** Key of the chosen font in [com.hikari.app.ui.AppFonts.CHOICES]. */
+    /** Key of the chosen font in [com.gworld06.streambox.ui.AppFonts.CHOICES]. */
     fun appFontFlow(): Flow<String> =
-        store.data.map { it[K.APP_FONT] ?: com.hikari.app.ui.AppFonts.DEFAULT }.distinctUntilChanged().flowOn(Dispatchers.Default)
+        store.data.map { it[K.APP_FONT] ?: com.gworld06.streambox.ui.AppFonts.DEFAULT }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun appFont(): String = appFontFlow().first()
 
@@ -1111,7 +1111,7 @@ class AppStore(private val ctx: Context) {
     }
 
     /** File name (inside `filesDir/fonts`) of a font the user imported, or "".
-     *  Only meaningful while [appFontFlow] is [com.hikari.app.ui.AppFonts.IMPORTED]. */
+     *  Only meaningful while [appFontFlow] is [com.gworld06.streambox.ui.AppFonts.IMPORTED]. */
     fun appFontFileFlow(): Flow<String> =
         store.data.map { it[K.APP_FONT_FILE] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
@@ -1131,12 +1131,12 @@ class AppStore(private val ctx: Context) {
         syncFont()
     }
 
-    /** Mirror the font choice into [com.hikari.app.ui.AppFonts] — the same
+    /** Mirror the font choice into [com.gworld06.streambox.ui.AppFonts] — the same
      *  treatment the accent and the UI scale get, and for the same reason: the
      *  player and the WebView are View-based and read it while their Activity is
      *  being created, before DataStore has answered. */
     private suspend fun syncFont() {
-        runCatching { com.hikari.app.ui.AppFonts.sync(ctx, appFont(), appFontFile()) }
+        runCatching { com.gworld06.streambox.ui.AppFonts.sync(ctx, appFont(), appFontFile()) }
     }
 
     // ---- Library categories ----
@@ -1247,26 +1247,26 @@ class AppStore(private val ctx: Context) {
          *  dark poster, weak enough not to wash out a bright one. */
         const val DEFAULT_POSTER_GLOW_STRENGTH = 55
 
-        /** The signature card treatment ([com.hikari.app.ui.PosterEffects]).
+        /** The signature card treatment ([com.gworld06.streambox.ui.PosterEffects]).
          *
          *  NONE: a first-run poster is plain artwork. The gallery frame, the
          *  aura ring and the edge light are all opt-in (Settings → Poster
          *  styling → Effect) — a fresh install asked for none of them, and every
          *  layer is work the device pays for on every card in a grid. */
-        val DEFAULT_POSTER_EFFECT = com.hikari.app.ui.PosterEffects.NONE
+        val DEFAULT_POSTER_EFFECT = com.gworld06.streambox.ui.PosterEffects.NONE
 
         /** The signature card treatmentS — empty, i.e. nothing drawn over the
-         *  art (see above; [com.hikari.app.ui.PosterEffects.normalizeSet] maps a
+         *  art (see above; [com.gworld06.streambox.ui.PosterEffects.normalizeSet] maps a
          *  stored NONE to "no layer" the same way). */
         val DEFAULT_POSTER_EFFECTS: Set<String> = emptySet()
 
         /** Home's featured banner shape ([HeroStyles]). */
-        const val DEFAULT_HERO_STYLE = com.hikari.app.ui.components.HeroStyles.SHOWCASE
+        const val DEFAULT_HERO_STYLE = com.gworld06.streambox.ui.components.HeroStyles.SHOWCASE
         /** 100% = the size the featured banner has always been drawn at. */
         const val DEFAULT_HERO_SCALE = 100
 
     /** The detail page's header art ([DetailHeroStyles]). */
-    const val DEFAULT_DETAIL_HERO_STYLE = com.hikari.app.ui.screens.DetailHeroStyles.SIDE
+    const val DEFAULT_DETAIL_HERO_STYLE = com.gworld06.streambox.ui.screens.DetailHeroStyles.SIDE
     /** 100% = the size the logo has always been drawn at. */
     const val DEFAULT_DETAIL_LOGO_SIZE = 100
 
@@ -1275,12 +1275,12 @@ class AppStore(private val ctx: Context) {
     const val DEFAULT_LOADING_LOGO_SIZE = 100
 
         /** The player's default shell. TV Player is the new default for both layouts. */
-        const val DEFAULT_PLAYER_SKIN = com.hikari.app.player.PlayerSkins.TV
+        const val DEFAULT_PLAYER_SKIN = com.gworld06.streambox.player.PlayerSkins.TV
 
         /** The look of the "finding your server" card ([LoadingStyles]). Poster
          *  card: the title's own poster on a glass card, so the first thing a
          *  new user sees while a server is found is the film's artwork. */
-        const val DEFAULT_LOADING_STYLE = com.hikari.app.ui.LoadingStyles.POSTER
+        const val DEFAULT_LOADING_STYLE = com.gworld06.streambox.ui.LoadingStyles.POSTER
 
         /** The treatments over that card ([LoadingEffects]) — NONE by default:
          *  the loading card is the title's poster on plain glass (see
@@ -1290,7 +1290,7 @@ class AppStore(private val ctx: Context) {
         val DEFAULT_LOADING_EFFECTS: Set<String> = emptySet()
 
         /** The app theme a fresh install opens in. AMOLED Black — see
-         *  [com.hikari.app.ui.theme.HikariThemeMode.DEFAULT_KEY], which is the
+         *  [com.gworld06.streambox.ui.theme.HikariThemeMode.DEFAULT_KEY], which is the
          *  one place this value is decided (the Compose side, the player's
          *  synchronous mirror and this flow must not be able to disagree, and
          *  on the first frame the Compose side has not read DataStore yet). */
@@ -1385,11 +1385,11 @@ class AppStore(private val ctx: Context) {
     /** The visual treatment(s) drawn over every poster card. */
     fun posterEffectsFlow(): Flow<Set<String>> =
         store.data.map { prefs ->
-            com.hikari.app.ui.PosterEffects.normalizeSet(
+            com.gworld06.streambox.ui.PosterEffects.normalizeSet(
                 prefs[K.POSTER_EFFECTS]
                     // A choice made before multi-select: the single stored key
                     // becomes a one-member set, so nobody's setting is lost.
-                    ?: com.hikari.app.ui.PosterEffects.parse(prefs[K.POSTER_EFFECT])
+                    ?: com.gworld06.streambox.ui.PosterEffects.parse(prefs[K.POSTER_EFFECT])
                         .ifEmpty { DEFAULT_POSTER_EFFECTS },
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1401,7 +1401,7 @@ class AppStore(private val ctx: Context) {
         // as the first-run/upgrade value, and a stale copy would resurrect an
         // old choice if the new set were ever emptied by a restore.
         write("POSTER_EFFECTS") {
-            it[K.POSTER_EFFECTS] = com.hikari.app.ui.PosterEffects.normalizeSet(keys)
+            it[K.POSTER_EFFECTS] = com.gworld06.streambox.ui.PosterEffects.normalizeSet(keys)
             it.remove(K.POSTER_EFFECT)
         }
     }
@@ -1412,7 +1412,7 @@ class AppStore(private val ctx: Context) {
      *  a compact strip or the side-by-side showcase. */
     fun heroStyleFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.components.HeroStyles.normalize(
+            com.gworld06.streambox.ui.components.HeroStyles.normalize(
                 it[K.HERO_STYLE] ?: DEFAULT_HERO_STYLE,
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1420,7 +1420,7 @@ class AppStore(private val ctx: Context) {
     suspend fun heroStyle(): String = heroStyleFlow().first()
 
     suspend fun setHeroStyle(key: String) {
-        write("HERO_STYLE") { it[K.HERO_STYLE] = com.hikari.app.ui.components.HeroStyles.normalize(key) }
+        write("HERO_STYLE") { it[K.HERO_STYLE] = com.gworld06.streambox.ui.components.HeroStyles.normalize(key) }
     }
 
     fun heroOverviewFlow(): Flow<Boolean> = store.data.map { it[K.HERO_OVERVIEW] ?: true }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1463,7 +1463,7 @@ class AppStore(private val ctx: Context) {
     /** How the detail page's header art is laid out. */
     fun detailHeroStyleFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.screens.DetailHeroStyles.normalize(
+            com.gworld06.streambox.ui.screens.DetailHeroStyles.normalize(
                 it[K.DETAIL_HERO_STYLE] ?: DEFAULT_DETAIL_HERO_STYLE,
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1471,7 +1471,7 @@ class AppStore(private val ctx: Context) {
     suspend fun detailHeroStyle(): String = detailHeroStyleFlow().first()
 
     suspend fun setDetailHeroStyle(key: String) {
-        write("DETAIL_HERO_STYLE") { it[K.DETAIL_HERO_STYLE] = com.hikari.app.ui.screens.DetailHeroStyles.normalize(key) }
+        write("DETAIL_HERO_STYLE") { it[K.DETAIL_HERO_STYLE] = com.gworld06.streambox.ui.screens.DetailHeroStyles.normalize(key) }
     }
 
     /** The detail page's title-logo size, in percent of its default (see
@@ -1490,7 +1490,7 @@ class AppStore(private val ctx: Context) {
     /** Which player control shell the player wears. */
     fun playerSkinFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.player.PlayerSkins.normalize(
+            com.gworld06.streambox.player.PlayerSkins.normalize(
                 it[K.PLAYER_SKIN] ?: DEFAULT_PLAYER_SKIN,
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1498,35 +1498,35 @@ class AppStore(private val ctx: Context) {
     suspend fun playerSkin(): String = playerSkinFlow().first()
 
     suspend fun setPlayerSkin(key: String) {
-        write("PLAYER_SKIN") { it[K.PLAYER_SKIN] = com.hikari.app.player.PlayerSkins.normalize(key) }
+        write("PLAYER_SKIN") { it[K.PLAYER_SKIN] = com.gworld06.streambox.player.PlayerSkins.normalize(key) }
     }
 
     // ---- The "finding your server" card (Settings → App Layout) ----
 
     /** Which look the loading card wears — see
-     *  [com.hikari.app.ui.LoadingStyles]. One choice, two screens: the detail
+     *  [com.gworld06.streambox.ui.LoadingStyles]. One choice, two screens: the detail
      *  page shows the card from the tap, and the player continues with the same
      *  look until the video is on screen. */
     fun loadingStyleFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.LoadingStyles.normalize(it[K.LOADING_STYLE] ?: DEFAULT_LOADING_STYLE)
+            com.gworld06.streambox.ui.LoadingStyles.normalize(it[K.LOADING_STYLE] ?: DEFAULT_LOADING_STYLE)
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun loadingStyle(): String = loadingStyleFlow().first()
 
     suspend fun setLoadingStyle(key: String) {
-        write("LOADING_STYLE") { it[K.LOADING_STYLE] = com.hikari.app.ui.LoadingStyles.normalize(key) }
+        write("LOADING_STYLE") { it[K.LOADING_STYLE] = com.gworld06.streambox.ui.LoadingStyles.normalize(key) }
     }
 
     /** The treatment(s) drawn over the loading card — see
-     *  [com.hikari.app.ui.LoadingEffects]. Works with every style, so the
+     *  [com.gworld06.streambox.ui.LoadingEffects]. Works with every style, so the
      *  quietest card can wear the same kind of signature detail a poster does,
      *  and several treatments can be on at once. */
     fun loadingEffectsFlow(): Flow<Set<String>> =
         store.data.map { prefs ->
-            com.hikari.app.ui.LoadingEffects.normalizeSet(
+            com.gworld06.streambox.ui.LoadingEffects.normalizeSet(
                 prefs[K.LOADING_EFFECTS]
-                    ?: com.hikari.app.ui.LoadingEffects.parse(prefs[K.LOADING_EFFECT])
+                    ?: com.gworld06.streambox.ui.LoadingEffects.parse(prefs[K.LOADING_EFFECT])
                         .ifEmpty { DEFAULT_LOADING_EFFECTS },
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1535,7 +1535,7 @@ class AppStore(private val ctx: Context) {
 
     suspend fun setLoadingEffects(keys: kotlin.collections.Collection<String>) {
         write("LOADING_EFFECTS") {
-            it[K.LOADING_EFFECTS] = com.hikari.app.ui.LoadingEffects.normalizeSet(keys)
+            it[K.LOADING_EFFECTS] = com.gworld06.streambox.ui.LoadingEffects.normalizeSet(keys)
             it.remove(K.LOADING_EFFECT)
         }
     }
@@ -1544,33 +1544,33 @@ class AppStore(private val ctx: Context) {
      *  follow the app accent). */
     fun posterAuraColorFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.AuraColors.normalize(it[K.POSTER_AURA_COLOR])
+            com.gworld06.streambox.ui.AuraColors.normalize(it[K.POSTER_AURA_COLOR])
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun posterAuraColor(): String = posterAuraColorFlow().first()
 
     suspend fun setPosterAuraColor(key: String) {
         write("POSTER_AURA_COLOR") {
-            it[K.POSTER_AURA_COLOR] = com.hikari.app.ui.AuraColors.normalize(key)
+            it[K.POSTER_AURA_COLOR] = com.gworld06.streambox.ui.AuraColors.normalize(key)
         }
     }
 
-    /** Which shape catalogue cards take (see [com.hikari.app.ui.PosterTypes]). */
+    /** Which shape catalogue cards take (see [com.gworld06.streambox.ui.PosterTypes]). */
     fun posterTypeFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.PosterTypes.normalize(it[K.POSTER_TYPE])
+            com.gworld06.streambox.ui.PosterTypes.normalize(it[K.POSTER_TYPE])
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun posterType(): String = posterTypeFlow().first()
 
     suspend fun setPosterType(key: String) {
         write("POSTER_TYPE") {
-            it[K.POSTER_TYPE] = com.hikari.app.ui.PosterTypes.normalize(key)
+            it[K.POSTER_TYPE] = com.gworld06.streambox.ui.PosterTypes.normalize(key)
         }
     }
 
     /**
-     * Where the poster edge light ([com.hikari.app.ui.PosterEffects.LIT]) stands,
+     * Where the poster edge light ([com.gworld06.streambox.ui.PosterEffects.LIT]) stands,
      * as fractions of the card: (0, 0) is the top-left corner, (1, 1) the
      * bottom-right.
      *
@@ -1610,14 +1610,14 @@ class AppStore(private val ctx: Context) {
     /** The colour the loading screen's own aura ring is drawn in. */
     fun loadingAuraColorFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.AuraColors.normalize(it[K.LOADING_AURA_COLOR])
+            com.gworld06.streambox.ui.AuraColors.normalize(it[K.LOADING_AURA_COLOR])
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun loadingAuraColor(): String = loadingAuraColorFlow().first()
 
     suspend fun setLoadingAuraColor(key: String) {
         write("LOADING_AURA_COLOR") {
-            it[K.LOADING_AURA_COLOR] = com.hikari.app.ui.AuraColors.normalize(key)
+            it[K.LOADING_AURA_COLOR] = com.gworld06.streambox.ui.AuraColors.normalize(key)
         }
     }
 
@@ -1709,7 +1709,7 @@ class AppStore(private val ctx: Context) {
      * wants their nuvio servers gathered for the title, the way the real nuvio
      * app gathers them. Off, the scope switch means what it says everywhere,
      * nuvio included (and the exception extensions still apply). See
-     * [com.hikari.app.data.SearchScope.nuvioFamily] for the flag the pass reads.
+     * [com.gworld06.streambox.data.SearchScope.nuvioFamily] for the flag the pass reads.
      */
     fun nuvioSearchAllFlow(): Flow<Boolean> =
         store.data.map { it[K.NUVIO_SEARCH_ALL] ?: true }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1728,7 +1728,7 @@ class AppStore(private val ctx: Context) {
      * id and therefore all resolve the same video. On by default. Off, and a
      * Stremio origin searches only the addon it was opened from (the exception
      * extensions still apply). See
-     * [com.hikari.app.data.SearchScope.stremioFamily].
+     * [com.gworld06.streambox.data.SearchScope.stremioFamily].
      */
     fun stremioSearchAllFlow(): Flow<Boolean> =
         store.data.map { it[K.STREMIO_SEARCH_ALL] ?: true }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -1743,7 +1743,7 @@ class AppStore(private val ctx: Context) {
      * Every engine whose whole installed family is searched for a title opened
      * FROM one of its repos, as [ProviderType] names — the complete answer the
      * search mirrors into
-     * [com.hikari.app.data.SearchScope.engineFamilies].
+     * [com.gworld06.streambox.data.SearchScope.engineFamilies].
      *
      * ONE flow rather than three because the search reads it as one value, and
      * because the three sources it is built from (the two dedicated switches
@@ -2021,7 +2021,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * The exception extensions that are actually IN FORCE: the chosen ids, the
      * extensions of every chosen ENGINE, or nothing when the switch is off. This
      * is the single value the search mirrors into
-     * [com.hikari.app.data.SearchScope.exceptions], so the switch, the engine
+     * [com.gworld06.streambox.data.SearchScope.exceptions], so the switch, the engine
      * chips and the list can never disagree mid-lookup.
      *
      * Engine exceptions are resolved against the provider list HERE, on every
@@ -2046,11 +2046,11 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
 
     /** "classic" (the seamless tonal plate), "floating" (a detached glass pill)
      *  or "animated" (full bar at the top of a page, floating pill once you
-     *  scroll — see [com.hikari.app.ui.navigation.NavStyles]). */
+     *  scroll — see [com.gworld06.streambox.ui.navigation.NavStyles]). */
     fun navStyleFlow(): Flow<String> =
         store.data.map {
-            com.hikari.app.ui.navigation.NavStyles.normalize(
-                it[K.NAV_STYLE] ?: com.hikari.app.ui.navigation.NavStyles.ANIMATED
+            com.gworld06.streambox.ui.navigation.NavStyles.normalize(
+                it[K.NAV_STYLE] ?: com.gworld06.streambox.ui.navigation.NavStyles.ANIMATED
             )
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
@@ -2099,35 +2099,35 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         write("FULLSCREEN_OFF") { it[K.FULLSCREEN_OFF] = off }
     }
 
-    // ---- Television (one APK, two layouts — see com.hikari.app.tv.TvMode) ----
+    // ---- Television (one APK, two layouts — see com.gworld06.streambox.tv.TvMode) ----
 
     /** Which layout to draw: "auto" (follow the device), "tv" or "phone". */
     fun tvModeFlow(): Flow<String> =
-        store.data.map { com.hikari.app.tv.TvMode.normalize(it[K.TV_MODE]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
+        store.data.map { com.gworld06.streambox.tv.TvMode.normalize(it[K.TV_MODE]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun tvMode(): String = tvModeFlow().first()
 
     suspend fun setTvMode(mode: String) {
-        write("TV_MODE") { it[K.TV_MODE] = com.hikari.app.tv.TvMode.normalize(mode) }
+        write("TV_MODE") { it[K.TV_MODE] = com.gworld06.streambox.tv.TvMode.normalize(mode) }
     }
 
     /** Screen-edge padding in dp on a television — see [K.TV_OVERSCAN]. */
     fun tvOverscanFlow(): Flow<Int> =
         store.data.map {
-            (it[K.TV_OVERSCAN] ?: com.hikari.app.tv.TvUi.DEFAULT_OVERSCAN_DP)
-                .coerceIn(0, com.hikari.app.tv.TvUi.MAX_OVERSCAN_DP)
+            (it[K.TV_OVERSCAN] ?: com.gworld06.streambox.tv.TvUi.DEFAULT_OVERSCAN_DP)
+                .coerceIn(0, com.gworld06.streambox.tv.TvUi.MAX_OVERSCAN_DP)
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun tvOverscan(): Int = tvOverscanFlow().first()
 
     suspend fun setTvOverscan(dp: Int) {
         write("TV_OVERSCAN") {
-            it[K.TV_OVERSCAN] = dp.coerceIn(0, com.hikari.app.tv.TvUi.MAX_OVERSCAN_DP)
+            it[K.TV_OVERSCAN] = dp.coerceIn(0, com.gworld06.streambox.tv.TvUi.MAX_OVERSCAN_DP)
         }
     }
 
     /** Lighter visuals on a television — see [K.TV_PERF]. Read by
-     *  [com.hikari.app.ui.rememberPosterStyle], which drops the poster
+     *  [com.gworld06.streambox.ui.rememberPosterStyle], which drops the poster
      *  treatments while it is on. */
     fun tvPerfFlow(): Flow<Boolean> =
         store.data.map { it[K.TV_PERF] ?: false }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2145,7 +2145,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     suspend fun tvPerfChosen(): Boolean = tvPerfChosenFlow().first()
 
     /** Records that the performance mode is now the USER's choice, not the
-     *  layout's — [com.hikari.app.HikariApp] stops keeping it in step with the
+     *  layout's — [com.gworld06.streambox.HikariApp] stops keeping it in step with the
      *  layout from here on. */
     suspend fun setTvPerfChosen(chosen: Boolean) {
         write("TV_PERF_CHOSEN") { it[K.TV_PERF_CHOSEN] = chosen }
@@ -2223,7 +2223,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     // ---- The floating bottom bar: which tab buttons the user keeps ----
 
     /** Routes of the bottom-bar tabs the user has switched off (see
-     *  [com.hikari.app.ui.navigation.BottomTabs]). Hiding one only removes its
+     *  [com.gworld06.streambox.ui.navigation.BottomTabs]). Hiding one only removes its
      *  button — the screen itself stays reachable from inside the app. */
     fun hiddenTabsFlow(): Flow<Set<String>> =
         store.data.map { parseStringList(it[K.HIDDEN_TABS]).toSet() }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2291,7 +2291,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         write("SLOW_CONNECTION") { it[K.SLOW_CONNECTION] = enabled }
     }
 
-    /** The chosen resolver ([com.hikari.app.net.DnsProviders] key). Default is
+    /** The chosen resolver ([com.gworld06.streambox.net.DnsProviders] key). Default is
      *  "system" — the phone's own DNS, with Hikari's encrypted fallback, i.e.
      *  exactly the app's behaviour before this setting existed. */
     fun dnsProviderFlow(): Flow<String> =
@@ -2558,7 +2558,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * True when the Manga button is drawn in the taskbar — on by default, so
      * the reading half of the app is reachable from a fresh install, and a
      * switch in Settings → Taskbar buttons turns it off for a user who has no
-     * manga extension at all (see [com.hikari.app.data.AppStore.mangaTabFlow]
+     * manga extension at all (see [com.gworld06.streambox.data.AppStore.mangaTabFlow]
      * callers; the tab itself is a reading-first home — continue reading, the
      * followed titles, and one entry per manga extension to browse).
      */
@@ -2625,7 +2625,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      *
      * A channel is a feed to browse; a link is ONE video post — the thing someone
      * sends you when they send a video. The two are stored apart for that reason
-     * (see [com.hikari.app.telegram.TelegramLinks]).
+     * (see [com.gworld06.streambox.telegram.TelegramLinks]).
      */
     fun telegramLinksFlow(): Flow<String> =
         store.data.map { it[K.TELEGRAM_LINKS] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2657,7 +2657,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
 
     /**
      * The lock's secret as `salt:hash`, or blank when no password was ever set.
-     * The password itself is never stored — see [com.hikari.app.lock.AppLock].
+     * The password itself is never stored — see [com.gworld06.streambox.lock.AppLock].
      */
     fun appLockSecretFlow(): Flow<String> =
         store.data.map { it[K.APP_LOCK_SECRET] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2671,7 +2671,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     // ---- My Stuff lock (Settings → Privacy & Browsing) ----------------------
     //
     // A second, independent password guarding only the My Stuff tab. It reuses
-    // the app lock's storage shape (`algo:salt:hash` via [com.hikari.app.lock.AppLock])
+    // the app lock's storage shape (`algo:salt:hash` via [com.gworld06.streambox.lock.AppLock])
     // but nothing else: a different password, no biometrics, and an unlock that
     // lives only in process memory (see MyStuffUnlock), so opening My Stuff
     // asks once per app launch. The keys are device-local (see [DeviceLocal]):
@@ -2689,13 +2689,13 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         // Keep the in-memory unlock in step with the switch: enabling locks
         // immediately (the very next entry asks), disabling opens it, so the
         // gate below can read one flag instead of two.
-        com.hikari.app.ui.screens.MyStuffUnlock.unlocked = !on
+        com.gworld06.streambox.ui.screens.MyStuffUnlock.unlocked = !on
     }
 
     /**
      * The My Stuff lock's secret as `algo:salt:hash`, or blank when no
      * password was ever set. The password itself is never stored — see
-     * [com.hikari.app.lock.AppLock].
+     * [com.gworld06.streambox.lock.AppLock].
      */
     fun myStuffLockSecretFlow(): Flow<String> =
         store.data.map { it[K.MYSTUFF_LOCK_SECRET] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2753,7 +2753,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     /**
      * Minutes the app may stay unlocked after it is left, 0 = lock immediately
      * (the default, and the lock's historical behaviour). Read by
-     * [com.hikari.app.ui.AppLockGate] when the app comes back: inside the grace
+     * [com.gworld06.streambox.ui.AppLockGate] when the app comes back: inside the grace
      * period the screen is simply shown again, past it the unlock card is
      * drawn. Stored as minutes so the settings slider (Instant, 1..60) has a
      * one-to-one mapping with no rounding between them.
@@ -2773,7 +2773,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * drawn for leaving the app — only a screen-off (see [appLockScreenOffFlow])
      * or a fresh process start locks it. The grace period still applies to
      * whichever triggers are on. Read live by
-     * [com.hikari.app.ui.AppLockGate]'s lifecycle observer.
+     * [com.gworld06.streambox.ui.AppLockGate]'s lifecycle observer.
      */
     fun appLockLeaveFlow(): Flow<Boolean> =
         store.data.map { it[K.APP_LOCK_LEAVE] ?: true }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -2794,7 +2794,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * restarted rather than resumed.
      *
      * Both are read in ONE pass on the first frame of a fresh process (see
-     * [com.hikari.app.ui.AppLockGate]) so the gate can decide before it draws
+     * [com.gworld06.streambox.ui.AppLockGate]) so the gate can decide before it draws
      * anything whether this launch is locked — the alternative, drawing the app
      * and locking a frame later, is the screen-flash the gate exists to avoid.
      */
@@ -2819,7 +2819,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     // ---- Trackers (Settings → Trackers) ----------------------------------
     //
     // The services the user signed in to, so what they watch lands on their own
-    // list (see [com.hikari.app.data.TrackerKind]). Two stored documents, and
+    // list (see [com.gworld06.streambox.data.TrackerKind]). Two stored documents, and
     // the split matters: the ACCOUNTS hold live tokens, while the CLIENTS hold
     // the app registration the user pasted in per service. Signing out drops the
     // account only, so signing back in does not mean registering again.
@@ -2897,17 +2897,17 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
 
     /**
      * The sign-in that is waiting for a redirect to come back (see
-     * [com.hikari.app.tracker.TrackerApi.Pending]).
+     * [com.gworld06.streambox.tracker.TrackerApi.Pending]).
      *
      * It is written when the login page is opened and cleared when the sign-in
      * finishes, so a `hikari://oauth` link that arrives after the app was closed
      * still has the `state` — MyAnimeList's PKCE `code_verifier` — needed to
      * exchange the code it carries.
      */
-    suspend fun trackerPending(): com.hikari.app.tracker.TrackerApi.Pending? =
-        com.hikari.app.tracker.TrackerApi.Pending.decode(store.data.first()[K.TRACKER_PENDING])
+    suspend fun trackerPending(): com.gworld06.streambox.tracker.TrackerApi.Pending? =
+        com.gworld06.streambox.tracker.TrackerApi.Pending.decode(store.data.first()[K.TRACKER_PENDING])
 
-    suspend fun setTrackerPending(pending: com.hikari.app.tracker.TrackerApi.Pending?) {
+    suspend fun setTrackerPending(pending: com.gworld06.streambox.tracker.TrackerApi.Pending?) {
         write("TRACKER_PENDING") { prefs ->
             if (pending == null) prefs.remove(K.TRACKER_PENDING)
             else prefs[K.TRACKER_PENDING] = pending.encode()
@@ -2977,7 +2977,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         }
     }
 
-    // ---- Telegram (the TDLib client, see com.hikari.app.telegram.Td) ------
+    // ---- Telegram (the TDLib client, see com.gworld06.streambox.telegram.Td) ------
 
     /**
      * The user's OWN api_id, from my.telegram.org. Stored as a plain integer:
@@ -3015,7 +3015,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     // Written as a read-modify-write INSIDE the store's own atomic `edit`, so
     // the player's 60-second flush and the reader's chapter tick can never lose
     // each other's write (a get-then-set from Kotlin would). See
-    // [com.hikari.app.data.WatchStats] for the shape of the document.
+    // [com.gworld06.streambox.data.WatchStats] for the shape of the document.
 
     /** The whole statistics document (JSON; blank = nothing logged yet). */
     fun watchStatsFlow(): Flow<String> =
@@ -3074,21 +3074,21 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     // future Settings section all agree on one value.
 
     /** How pages advance: paged left-to-right, paged right-to-left, or one long
-     *  vertical strip (see [com.hikari.app.manga.MangaReadMode]). */
+     *  vertical strip (see [com.gworld06.streambox.manga.MangaReadMode]). */
     fun mangaReadModeFlow(): Flow<String> =
-        store.data.map { com.hikari.app.manga.MangaReadMode.normalize(it[K.MANGA_READ_MODE]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
+        store.data.map { com.gworld06.streambox.manga.MangaReadMode.normalize(it[K.MANGA_READ_MODE]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun setMangaReadMode(mode: String) {
-        write("MANGA_READ_MODE") { it[K.MANGA_READ_MODE] = com.hikari.app.manga.MangaReadMode.normalize(mode) }
+        write("MANGA_READ_MODE") { it[K.MANGA_READ_MODE] = com.gworld06.streambox.manga.MangaReadMode.normalize(mode) }
     }
 
     /** How a page is fitted to the screen (see
-     *  [com.hikari.app.manga.MangaFit]). */
+     *  [com.gworld06.streambox.manga.MangaFit]). */
     fun mangaFitFlow(): Flow<String> =
-        store.data.map { com.hikari.app.manga.MangaFit.normalize(it[K.MANGA_FIT]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
+        store.data.map { com.gworld06.streambox.manga.MangaFit.normalize(it[K.MANGA_FIT]) }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
     suspend fun setMangaFit(fit: String) {
-        write("MANGA_FIT") { it[K.MANGA_FIT] = com.hikari.app.manga.MangaFit.normalize(fit) }
+        write("MANGA_FIT") { it[K.MANGA_FIT] = com.gworld06.streambox.manga.MangaFit.normalize(fit) }
     }
 
     /** The reader's backdrop colour, so a bright page or a dark room both read
@@ -3130,13 +3130,13 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
 
     /**
      * The reader's whole settings surface, as one JSON blob (see
-     * [com.hikari.app.reader.ReaderSettings]).
+     * [com.gworld06.streambox.reader.ReaderSettings]).
      *
      * The reader has thirty-odd options now — Nekoread's chrome, ported whole —
      * and one key rather than thirty is what makes a reset, a backup and "add one
      * more option" all one-line changes. The per-key preferences above are read
      * ONCE as the seed for the fields they cover (see
-     * [com.hikari.app.reader.ReaderSettings.fromLegacy]), so an install that had
+     * [com.gworld06.streambox.reader.ReaderSettings.fromLegacy]), so an install that had
      * picked a reading mode or a background keeps it; from then on the blob is the
      * authority.
      *
@@ -3292,7 +3292,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * May adult material be shown? ON by default — see [K.NSFW_ENABLED].
      *
      * Read synchronously on the draw path through
-     * [com.hikari.app.data.NsfwGate.enabled] (kept in step with this flow at
+     * [com.gworld06.streambox.data.NsfwGate.enabled] (kept in step with this flow at
      * start-up); this flow is what the Settings switch itself renders.
      */
     fun nsfwEnabledFlow(): Flow<Boolean> =
@@ -3315,7 +3315,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     //
     // Library / History / Downloads share one taskbar slot and one segmented
     // strip at the top of that page (see
-    // [com.hikari.app.ui.screens.MyStuffScreen]). Each can be switched off, and
+    // [com.gworld06.streambox.ui.screens.MyStuffScreen]). Each can be switched off, and
     // the strip then lays out the ones that are left so they SHARE the row —
     // there is no reserved gap where the hidden one was. All three default to
     // on, which is what every install had before the switches existed.
@@ -3359,7 +3359,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * Whether the app's explanation lines are hidden (Settings → App Layout →
      * "Explanations"). Off by default: the captions are what explain a setting
      * to a user who has never seen it, and a user who does not want them can say
-     * so once — see [com.hikari.app.ui.components.LocalHideHelp].
+     * so once — see [com.gworld06.streambox.ui.components.LocalHideHelp].
      */
     fun hideHelpFlow(): Flow<Boolean> =
         store.data.map { it[K.HIDE_HELP] ?: false }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -3498,7 +3498,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
 
     // ---- Player overlay layout & video enhance ----
 
-    /** The player's control layout, as [com.hikari.app.player.PlayerControlsConfig]
+    /** The player's control layout, as [com.gworld06.streambox.player.PlayerControlsConfig]
      *  JSON (control key → slot key). Blank means "the default layout". */
     fun playerControlsFlow(): Flow<String> =
         store.data.map { it[K.PLAYER_CONTROLS] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
@@ -3741,7 +3741,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * The volume booster (Settings → Player). ON means the player's audio
      * pipeline multiplies every PCM sample by 2× (a fixed software gain stage
      * inside the ExoPlayer audio sink — see
-     * [com.hikari.app.player.VolumeBoostProcessor]), which is the "make the
+     * [com.gworld06.streambox.player.VolumeBoostProcessor]), which is the "make the
      * quiet dialogue audible" case at the top of the scale. Software-side on
      * purpose: the old answer (a platform `LoudnessEnhancer` on the audio
      * session) is refused by devices whose audio HAL has no such effect, and
@@ -3783,7 +3783,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         write("SUBTITLES_DEFAULT_ON") { it[K.SUBTITLES_DEFAULT_ON] = on }
     }
 
-    /** Video enhance preset key (see [com.hikari.app.player.EnhancePreset]). */
+    /** Video enhance preset key (see [com.gworld06.streambox.player.EnhancePreset]). */
     fun enhancePresetFlow(): Flow<String> =
         store.data.map { it[K.PLAYER_ENHANCE] ?: EnhancePreset.DEFAULT.key }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
@@ -3794,17 +3794,17 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     }
 
     /** The user's own enhance presets (see
-     *  [com.hikari.app.player.CustomEnhancePreset]). */
-    fun customEnhanceFlow(): Flow<List<com.hikari.app.player.CustomEnhancePreset>> =
+     *  [com.gworld06.streambox.player.CustomEnhancePreset]). */
+    fun customEnhanceFlow(): Flow<List<com.gworld06.streambox.player.CustomEnhancePreset>> =
         store.data.map { prefs ->
-            com.hikari.app.player.CustomEnhancePreset.listFromJson(prefs[K.PLAYER_ENHANCE_CUSTOMS])
+            com.gworld06.streambox.player.CustomEnhancePreset.listFromJson(prefs[K.PLAYER_ENHANCE_CUSTOMS])
         }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
-    suspend fun customEnhanceList(): List<com.hikari.app.player.CustomEnhancePreset> =
+    suspend fun customEnhanceList(): List<com.gworld06.streambox.player.CustomEnhancePreset> =
         customEnhanceFlow().first()
 
-    suspend fun setCustomEnhanceList(list: List<com.hikari.app.player.CustomEnhancePreset>) {
-        val raw = com.hikari.app.player.CustomEnhancePreset.listToJson(list)
+    suspend fun setCustomEnhanceList(list: List<com.gworld06.streambox.player.CustomEnhancePreset>) {
+        val raw = com.gworld06.streambox.player.CustomEnhancePreset.listToJson(list)
         write("PLAYER_ENHANCE_CUSTOMS") { it[K.PLAYER_ENHANCE_CUSTOMS] = raw }
     }
 
@@ -3942,7 +3942,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * verification page is the user tapping the app's own WebView (globe)
      * button. Some extensions ship their own Cloudflare WebView and open it in
      * the middle of loading sources (Cinemacity does — see
-     * com.hikari.app.net.ExtensionVerifyGuard for the disassembled proof), so
+     * com.gworld06.streambox.net.ExtensionVerifyGuard for the disassembled proof), so
      * while this is off the app forces those extensions' own switches to `false`
      * at launch, again whenever a plugin's settings sheet closes, and whenever
      * this switch changes.
@@ -4026,7 +4026,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     /** The app language as a BCP-47 tag ("" = follow the device). Applied to
      *  the whole app — and therefore to the player's overlay words, which are
      *  resource strings — via AppCompatDelegate.setApplicationLocales (see
-     *  com.hikari.app.ui.LanguageManager). */
+     *  com.gworld06.streambox.ui.LanguageManager). */
     fun languageFlow(): Flow<String> =
         store.data.map { it[K.LANGUAGE] ?: "" }.distinctUntilChanged().flowOn(Dispatchers.Default)
 
@@ -4037,7 +4037,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
         // Mirror it, so an Activity created while the write is still settling
         // comes up in the chosen language rather than the platform's — and so a
         // backup restore (which lands here, not through the picker) does too.
-        runCatching { com.hikari.app.ui.LanguageManager.rememberStored(ctx, tag) }
+        runCatching { com.gworld06.streambox.ui.LanguageManager.rememberStored(ctx, tag) }
     }
 
     // ---- Universal extractor (yt-dlp fallback) ----
@@ -4263,10 +4263,10 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
      * Records what the repo listings say about the installed extensions.
      *
      * [items] is `source URL → tagged 18+`, exactly what a repo's plugin list
-     * carries (see [com.hikari.app.data.ExtensionNsfw.repoEntryNsfw]). Each entry
+     * carries (see [com.gworld06.streambox.data.ExtensionNsfw.repoEntryNsfw]). Each entry
      * is matched against the rows that were INSTALLED from it — the source URL is
      * kept in [ProviderConfig.extra], under every spelling of itself
-     * ([com.hikari.app.data.SourceUrls.matchKeys]) — because a row stores the
+     * ([com.gworld06.streambox.data.SourceUrls.matchKeys]) — because a row stores the
      * local FILE it runs from, not where it was downloaded from.
      *
      * This is what hides an already-installed 18+ extension when the switch is
@@ -4519,7 +4519,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     }
 
     /** True once the bundled default Stremio addon has been installed (see
-     *  [com.hikari.app.providers.StremioAddon.DEFAULT_ADDON_URL]). One-way, like
+     *  [com.gworld06.streambox.providers.StremioAddon.DEFAULT_ADDON_URL]). One-way, like
      *  [seededRepos]: a user who removes the addon keeps it removed. */
     suspend fun stremioAddonSeeded(): Boolean =
         store.data.map { it[K.STREMIO_SEEDED] ?: false }.distinctUntilChanged().flowOn(Dispatchers.Default).first()
@@ -4527,8 +4527,8 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     /** Ensure keyless Stremio Cinemeta exists when provider catalogs are disabled. */
     suspend fun ensureCinemetaAddon() {
         val url = "https://v3-cinemeta.strem.io/manifest.json"
-        val id = com.hikari.app.providers.StremioAddon.providerIdFor(url)
-        if (providers().none { it.type == ProviderType.STREMIO && com.hikari.app.providers.StremioAddon.providerIdFor(it.url) == id }) {
+        val id = com.gworld06.streambox.providers.StremioAddon.providerIdFor(url)
+        if (providers().none { it.type == ProviderType.STREMIO && com.gworld06.streambox.providers.StremioAddon.providerIdFor(it.url) == id }) {
             addProvider(ProviderConfig(id = id, name = "Cinemeta", type = ProviderType.STREMIO, url = url))
         }
     }
@@ -4540,7 +4540,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     /** True once the providers earlier builds bundled as pre-installed scrapers
      *  have been removed from this install. One-way: it is set after the sweep
      *  and never cleared, so a user who installs one of those scrapers again
-     *  afterwards keeps it (see [com.hikari.app.nuvio.NuvioPluginManager]). */
+     *  afterwards keeps it (see [com.gworld06.streambox.nuvio.NuvioPluginManager]). */
     suspend fun nuvioSeedCleaned(): Boolean =
         store.data.map { it[K.NUVIO_SEED_CLEANED] ?: false }.distinctUntilChanged().flowOn(Dispatchers.Default).first()
 
@@ -4559,7 +4559,7 @@ fun searchExceptionOnFlow(): Flow<Boolean> =
     }
 
     /** True once the 0.11.69 Kotatsu auto-seed has been pruned (see
-     *  [com.hikari.app.kotatsu.KotatsuRegistry.pruneSeeded]). One-way. */
+     *  [com.gworld06.streambox.kotatsu.KotatsuRegistry.pruneSeeded]). One-way. */
     suspend fun kotatsuPruned(): Boolean =
         store.data.map { it[K.KOTATSU_PRUNED] ?: false }.distinctUntilChanged().flowOn(Dispatchers.Default).first()
 

@@ -1,6 +1,6 @@
-package com.hikari.app.telegram
+package com.gworld06.streambox.telegram
 
-import com.hikari.app.data.AppStore
+import com.gworld06.streambox.data.AppStore
 import org.json.JSONArray
 import org.json.JSONObject
 

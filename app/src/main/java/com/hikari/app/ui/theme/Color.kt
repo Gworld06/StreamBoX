@@ -1,4 +1,4 @@
-package com.hikari.app.ui.theme
+package com.gworld06.streambox.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -48,7 +48,7 @@ val GlassScrim = Color(0x99000000)
 // AMOLED — for OLED panels, where a lit pixel is a pixel that costs battery
 // and never goes fully black. Pure #000000 page, near-black surfaces, and the
 // same translucent white cards as the other dark themes (see
-// com.hikari.app.ui.theme.rememberGlassTokens) so it still reads as Hikari.
+// com.gworld06.streambox.ui.theme.rememberGlassTokens) so it still reads as Hikari.
 val AmoledBg = Color(0xFF000000)
 val AmoledSurface = Color(0xFF0A0A0C)
 val AmoledSurfaceVariant = Color(0xFF141418)

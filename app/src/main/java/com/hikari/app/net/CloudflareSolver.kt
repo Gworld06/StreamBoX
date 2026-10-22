@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import android.annotation.SuppressLint
 import android.net.http.SslError
@@ -8,7 +8,7 @@ import android.webkit.CookieManager
 import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import java.net.URI
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
@@ -113,7 +113,7 @@ object CloudflareSolver {
     /**
      * Load [url] offscreen once to earn its session cookies/clearance, for a
      * caller that has ALREADY been refused (see
-     * [com.hikari.app.manga.MangaProvider]).
+     * [com.gworld06.streambox.manga.MangaProvider]).
      *
      * This is [solve] with two differences, both deliberate:
      *

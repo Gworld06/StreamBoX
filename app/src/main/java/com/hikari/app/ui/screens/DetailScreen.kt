@@ -1,8 +1,8 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 import androidx.compose.ui.focus.focusRequester
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.trTag
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.trTag
 
 import android.app.Application
 import android.content.Intent
@@ -132,77 +132,77 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.R
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.ContentRepository.StreamLookup
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.CastMember
-import com.hikari.app.data.CompanyRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.HistoryEntry
-import com.hikari.app.data.LibraryCategory
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.screenTypeFor
-import com.hikari.app.data.isSiteScraperProviderId
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RatingSource
-import com.hikari.app.data.RatingVerdict
-import com.hikari.app.data.Ratings
-import com.hikari.app.data.StreamCache
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.TitleDetails
-import com.hikari.app.data.TitleExtras
-import com.hikari.app.data.TitleRating
-import com.hikari.app.data.TmdbMeta
-import com.hikari.app.data.TmdbSourceType
-import com.hikari.app.data.TmdbSpec
-import com.hikari.app.data.TmdbStills
-import com.hikari.app.data.TmdbScreenshots
-import com.hikari.app.data.Translator
-import com.hikari.app.data.Trailer
-import com.hikari.app.data.WatchProgress
-import com.hikari.app.tracker.TrackerSync
-import com.hikari.app.net.StreamProbe
-import com.hikari.app.player.PlayerActivity
-import com.hikari.app.player.StreamsLive
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.IptvProvider
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.LoadingStyles
-import com.hikari.app.ui.PosterArt
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.openUrl
-import com.hikari.app.ui.openYouTubeVideo
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.components.ChoiceDialog
-import com.hikari.app.ui.components.ChoiceItem
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.CategoryPickerSheet
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.ui.components.HeroArtwork
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.tv.tvPress
-import com.hikari.app.tv.Cs3
-import com.hikari.app.tv.Cs3ActorCard
-import com.hikari.app.tv.Cs3AntiSpoilerPill
-import com.hikari.app.tv.Cs3CastHeader
-import com.hikari.app.tv.Cs3CountHeader
-import com.hikari.app.tv.Cs3EpisodeCard
-import com.hikari.app.tv.Cs3HeaderLink
-import com.hikari.app.tv.Cs3RatingBadges
-import com.hikari.app.tv.Cs3ScreenshotsMosaic
-import com.hikari.app.tv.Cs3SectionHeader
-import com.hikari.app.tv.Cs3ShelfHeader
-import com.hikari.app.tv.Cs3ShowDetails
-import com.hikari.app.tv.Cs3SortChip
-import com.hikari.app.tv.Cs3TrailerCard
-import com.hikari.app.tv.Cs3ViewAllCastCard
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.R
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.ContentRepository.StreamLookup
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.CastMember
+import com.gworld06.streambox.data.CompanyRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.HistoryEntry
+import com.gworld06.streambox.data.LibraryCategory
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.screenTypeFor
+import com.gworld06.streambox.data.isSiteScraperProviderId
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RatingSource
+import com.gworld06.streambox.data.RatingVerdict
+import com.gworld06.streambox.data.Ratings
+import com.gworld06.streambox.data.StreamCache
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.TitleDetails
+import com.gworld06.streambox.data.TitleExtras
+import com.gworld06.streambox.data.TitleRating
+import com.gworld06.streambox.data.TmdbMeta
+import com.gworld06.streambox.data.TmdbSourceType
+import com.gworld06.streambox.data.TmdbSpec
+import com.gworld06.streambox.data.TmdbStills
+import com.gworld06.streambox.data.TmdbScreenshots
+import com.gworld06.streambox.data.Translator
+import com.gworld06.streambox.data.Trailer
+import com.gworld06.streambox.data.WatchProgress
+import com.gworld06.streambox.tracker.TrackerSync
+import com.gworld06.streambox.net.StreamProbe
+import com.gworld06.streambox.player.PlayerActivity
+import com.gworld06.streambox.player.StreamsLive
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.IptvProvider
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.LoadingStyles
+import com.gworld06.streambox.ui.PosterArt
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.openUrl
+import com.gworld06.streambox.ui.openYouTubeVideo
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.components.ChoiceDialog
+import com.gworld06.streambox.ui.components.ChoiceItem
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.CategoryPickerSheet
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.ui.components.HeroArtwork
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.tv.Cs3
+import com.gworld06.streambox.tv.Cs3ActorCard
+import com.gworld06.streambox.tv.Cs3AntiSpoilerPill
+import com.gworld06.streambox.tv.Cs3CastHeader
+import com.gworld06.streambox.tv.Cs3CountHeader
+import com.gworld06.streambox.tv.Cs3EpisodeCard
+import com.gworld06.streambox.tv.Cs3HeaderLink
+import com.gworld06.streambox.tv.Cs3RatingBadges
+import com.gworld06.streambox.tv.Cs3ScreenshotsMosaic
+import com.gworld06.streambox.tv.Cs3SectionHeader
+import com.gworld06.streambox.tv.Cs3ShelfHeader
+import com.gworld06.streambox.tv.Cs3ShowDetails
+import com.gworld06.streambox.tv.Cs3SortChip
+import com.gworld06.streambox.tv.Cs3TrailerCard
+import com.gworld06.streambox.tv.Cs3ViewAllCastCard
+import com.gworld06.streambox.web.WebViewActivity
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -246,8 +246,8 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                 ?: servers[0]
             if (src.url.isBlank()) continue
             val label = if (ep.season > 1) "S" + ep.season + " E" + ep.number else "E" + ep.number
-            val task = com.hikari.app.download.DownloadTask(
-                id = com.hikari.app.download.DownloadTask.idFor(item.providerId.ifBlank { "detail" }, item.id, ep.id, com.hikari.app.download.DownloadKind.OFFLINE),
+            val task = com.gworld06.streambox.download.DownloadTask(
+                id = com.gworld06.streambox.download.DownloadTask.idFor(item.providerId.ifBlank { "detail" }, item.id, ep.id, com.gworld06.streambox.download.DownloadKind.OFFLINE),
                 title = item.title.ifBlank { "Video" },
                 episodeLabel = label,
                 poster = item.posterUrl,
@@ -259,11 +259,11 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                 headers = src.headers,
                 isM3u8 = src.isM3u8 || src.url.substringBefore("?").lowercase().contains(".m3u8"),
                 subtitles = src.subtitles,
-                kind = com.hikari.app.download.DownloadKind.OFFLINE,
-                status = com.hikari.app.download.DownloadStatus.QUEUED,
+                kind = com.gworld06.streambox.download.DownloadKind.OFFLINE,
+                status = com.gworld06.streambox.download.DownloadStatus.QUEUED,
                 createdAt = System.currentTimeMillis()
             )
-            runCatching { com.hikari.app.download.DownloadsRepository.enqueue(ctx, task) }
+            runCatching { com.gworld06.streambox.download.DownloadsRepository.enqueue(ctx, task) }
             done++
         }
         return done
@@ -306,8 +306,8 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
      * list instead of re-filtering one merged blob.
      */
     private val _vegaPacks =
-        MutableStateFlow<List<com.hikari.app.providers.vega.VegaPack>>(emptyList())
-    val vegaPacks: StateFlow<List<com.hikari.app.providers.vega.VegaPack>> = _vegaPacks.asStateFlow()
+        MutableStateFlow<List<com.gworld06.streambox.providers.vega.VegaPack>>(emptyList())
+    val vegaPacks: StateFlow<List<com.gworld06.streambox.providers.vega.VegaPack>> = _vegaPacks.asStateFlow()
     private val _vegaPackIndex = MutableStateFlow(0)
     val vegaPackIndex: StateFlow<Int> = _vegaPackIndex.asStateFlow()
 
@@ -319,8 +319,8 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
      * the Vega app played its other rows fine.
      */
     private val _vegaMovieOptions =
-        MutableStateFlow<List<com.hikari.app.providers.vega.VegaMovieOption>>(emptyList())
-    val vegaMovieOptions: StateFlow<List<com.hikari.app.providers.vega.VegaMovieOption>> =
+        MutableStateFlow<List<com.gworld06.streambox.providers.vega.VegaMovieOption>>(emptyList())
+    val vegaMovieOptions: StateFlow<List<com.gworld06.streambox.providers.vega.VegaMovieOption>> =
         _vegaMovieOptions.asStateFlow()
     private val _vegaMovieIndex = MutableStateFlow(0)
     val vegaMovieIndex: StateFlow<Int> = _vegaMovieIndex.asStateFlow()
@@ -445,13 +445,13 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             }
             val found = best?.first
             if (found != null) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Detail",
                     "provider $missingId no longer exists — remapped " +
                         "\"${names.first()}\" to $found",
                 )
             } else {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Detail",
                     "provider $missingId no longer exists and " +
                         "\"${names.first()}\" was not found elsewhere" +
@@ -541,7 +541,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
      * being found afterwards: a pass that ran out of budget hands the
      * extensions it never reached to a background sweep that keeps searching
      * while the video plays (see
-     * [com.hikari.app.data.ContentRepository.startSweepIfNeeded]). The feed
+     * [com.gworld06.streambox.data.ContentRepository.startSweepIfNeeded]). The feed
      * every provider response flows through calls this sink, so a late find
      * reaches the player's "Select server" list exactly like one that arrived
      * in time.
@@ -575,7 +575,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                     it.config.type == ProviderType.SKYSTREAM ||
                     it.config.type == ProviderType.ANIYOMI ||
                     (it.config.type == ProviderType.NUVIO &&
-                        com.hikari.app.nuvio.TmdbResolver.isLikelyResolvable(item)))
+                        com.gworld06.streambox.nuvio.TmdbResolver.isLikelyResolvable(item)))
         }
 
     private fun recordOutcome(result: List<StreamSource>, item: MediaItem) {
@@ -583,9 +583,9 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
         // The servers' own names are the only real quality data this app ever
         // sees ("HdHub 4K", "NetMirror 720p"), so the completed search files the
         // best of them for this title — the poster's optional quality badge
-        // reads it back (see [com.hikari.app.data.TitleQuality]).
+        // reads it back (see [com.gworld06.streambox.data.TitleQuality]).
         if (result.isNotEmpty()) {
-            runCatching { com.hikari.app.data.TitleQuality.remember(item, result) }
+            runCatching { com.gworld06.streambox.data.TitleQuality.remember(item, result) }
         }
         if (result.isEmpty()) {
             // Attribute the failure to the ORIGIN provider only — a global
@@ -595,33 +595,33 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             val origin = manager.byId(item.providerId)
             val originMessage = when (origin?.config?.type) {
                 ProviderType.STREMIO ->
-                    com.hikari.app.providers.StremioAddon.streamErrors[item.providerId]
+                    com.gworld06.streambox.providers.StremioAddon.streamErrors[item.providerId]
                 ProviderType.CS3 ->
-                    com.hikari.app.cs3.Cs3MainApiProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.cs3.Cs3MainApiProvider.streamErrors[item.providerId]
                 ProviderType.HIKARI ->
-                    com.hikari.app.providers.HikariProviderAdapter.streamErrors[item.providerId]
+                    com.gworld06.streambox.providers.HikariProviderAdapter.streamErrors[item.providerId]
                 ProviderType.UNIVERSAL ->
-                    com.hikari.app.providers.UniversalScraper.streamErrors[item.providerId]
+                    com.gworld06.streambox.providers.UniversalScraper.streamErrors[item.providerId]
                 ProviderType.NUVIO ->
-                    com.hikari.app.nuvio.NuvioScraper.streamErrors[item.providerId]
+                    com.gworld06.streambox.nuvio.NuvioScraper.streamErrors[item.providerId]
                 ProviderType.SKYSTREAM ->
-                    com.hikari.app.skystream.SkyStreamProvider.lastOutcome[item.providerId]
-                        ?: com.hikari.app.skystream.SkyStreamProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.skystream.SkyStreamProvider.lastOutcome[item.providerId]
+                        ?: com.gworld06.streambox.skystream.SkyStreamProvider.streamErrors[item.providerId]
                 ProviderType.ANIYOMI ->
-                    com.hikari.app.aniyomi.AniyomiProvider.lastOutcome[item.providerId]
-                        ?: com.hikari.app.aniyomi.AniyomiProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.aniyomi.AniyomiProvider.lastOutcome[item.providerId]
+                        ?: com.gworld06.streambox.aniyomi.AniyomiProvider.streamErrors[item.providerId]
                 ProviderType.VEGA ->
-                    com.hikari.app.providers.vega.VegaProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.providers.vega.VegaProvider.streamErrors[item.providerId]
                 ProviderType.ZANGETSU ->
-                    com.hikari.app.zangetsu.ZangetsuProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.zangetsu.ZangetsuProvider.streamErrors[item.providerId]
                 ProviderType.SORA ->
-                    com.hikari.app.sora.SoraProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.sora.SoraProvider.streamErrors[item.providerId]
                 ProviderType.ANYMEX ->
-                    com.hikari.app.anymex.AnymexProvider.streamErrors[item.providerId]
+                    com.gworld06.streambox.anymex.AnymexProvider.streamErrors[item.providerId]
                 ProviderType.ANYMEX_MANGA ->
-                    com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[item.providerId]
+                    com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[item.providerId]
                 ProviderType.IPTV ->
-                    com.hikari.app.providers.IptvProvider.iptvErrors[item.providerId]
+                    com.gworld06.streambox.providers.IptvProvider.iptvErrors[item.providerId]
                 else -> null
             }
             // A Cloudflare wall is never surfaced here: the Home screen reports
@@ -629,7 +629,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             // extension wording ("Cloudflare blocked. Go to Settings…") must
             // not leak into the server list or the player's diagnostics.
             _streamError.value = originMessage?.takeIf {
-                it.isNotBlank() && !com.hikari.app.net.CloudflareVerifier.isVerificationMessage(it)
+                it.isNotBlank() && !com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(it)
             }
         } else {
             _streamError.value = null
@@ -638,13 +638,13 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
 
     fun load(providerId: String, type: MediaType, mediaId: String, title: String, posterUrl: String?, rawType: String) {
         // Keeps the page's meta/episode/source work alive if the user leaves the
-        // app (see [com.hikari.app.work.BackgroundWork]) — the process would
+        // app (see [com.gworld06.streambox.work.BackgroundWork]) — the process would
         // otherwise be frozen mid-fetch. The token also carries the way to STOP
         // this page's work: when the user closes the app every registered task is
         // cancelled directly rather than left running for minutes under a
         // "Hikari keeps running…" notification (see BackgroundWork.cancelAll).
         var loadJob: kotlinx.coroutines.Job? = null
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             "Opening \"${title.take(60)}\"",
         ) { loadJob?.cancel() }
         loadJob = viewModelScope.launch {
@@ -689,7 +689,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             // English-name lookup below searched TMDB with "Sony TV HD" and
             // "Pardesi TV" for nothing. IPTV items keep their own name as the
             // name every provider lookup uses (see IptvMark).
-            val isIptv = com.hikari.app.data.IptvMark.isIptvProvider(providerId)
+            val isIptv = com.gworld06.streambox.data.IptvMark.isIptvProvider(providerId)
             val tmdbNames = if (isTmdbRow) {
                 withTimeoutOrNull(6_000) {
                     runCatching { TmdbMeta.titlesForId(mediaId, type) }.getOrNull()
@@ -760,7 +760,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             _vegaPackIndex.value = 0
             _vegaMovieIndex.value = 0
             if (activeProvider.startsWith("vega|")) {
-                (manager.byId(activeProvider) as? com.hikari.app.providers.vega.VegaProvider)?.let { p ->
+                (manager.byId(activeProvider) as? com.gworld06.streambox.providers.vega.VegaProvider)?.let { p ->
                     p.setSelectedPack(mediaId, 0)
                     p.setSelectedLink(mediaId, null)
                 }
@@ -784,8 +784,8 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             // IPTV: a live channel gets NO TMDB shelves — no ratings strip, no
             // Cast/Trailers, and above all no Related/Similar row, which for a
             // channel name ("Sony TV HD") returned a shelf of unrelated films.
-            // See [com.hikari.app.data.IptvMark].
-            if (!com.hikari.app.data.IptvMark.of(base)) {
+            // See [com.gworld06.streambox.data.IptvMark].
+            if (!com.gworld06.streambox.data.IptvMark.of(base)) {
                 launch { loadShelves(metaDeferred.await()) }
             }
             // The 3-second rule: the header and the episode list are on screen
@@ -922,7 +922,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                         ) {
                             _meta.value = settled.copy(type = MediaType.MOVIE)
                             _episodesFailed.value = false
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Episodes",
                                 "\"${settled.title}\" plays movie-style " +
                                     "(${probe.size} server(s)) — corrected to movie",
@@ -945,7 +945,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             // the episodes to finish before they begin.)
             startPrefetch(item)
         }
-        loadJob?.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        loadJob?.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
     }
 
     /**
@@ -994,7 +994,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             } catch (c: kotlinx.coroutines.CancellationException) {
                 throw c
             } catch (t: Throwable) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Episodes",
                     "\"${item.title}\" episode list threw on attempt $attempt " +
                         "(${t.javaClass.simpleName}: ${t.message})",
@@ -1004,7 +1004,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             if (gen != episodeGeneration) return got
             if (got.isNotEmpty()) {
                 if (attempt > 1) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Episodes",
                         "\"${item.title}\": ${got.size} episode(s) on attempt $attempt — " +
                             "the first ${attempt - 1} attempt(s) came back empty",
@@ -1013,7 +1013,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                 _episodesFailed.value = false
                 return got
             }
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Episodes",
                 "\"${item.title}\": no episode list on attempt $attempt of $tries " +
                     "(${System.currentTimeMillis() - at}ms, type ${item.type})",
@@ -1091,7 +1091,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
         if (!item.providerId.startsWith("vega|")) return
         if (index == _vegaPackIndex.value) return
         _vegaPackIndex.value = index
-        (manager.byId(item.providerId) as? com.hikari.app.providers.vega.VegaProvider)
+        (manager.byId(item.providerId) as? com.gworld06.streambox.providers.vega.VegaProvider)
             ?.setSelectedPack(item.id, index)
         reloadEpisodes()
     }
@@ -1104,7 +1104,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
         if (options.isEmpty()) return
         val at = index.coerceIn(0, options.lastIndex)
         _vegaMovieIndex.value = at
-        (manager.byId(item.providerId) as? com.hikari.app.providers.vega.VegaProvider)
+        (manager.byId(item.providerId) as? com.gworld06.streambox.providers.vega.VegaProvider)
             ?.setSelectedLink(item.id, options[at].link)
     }
 
@@ -1182,13 +1182,13 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                 // "only this extension" (see ContentRepository.filterToScope).
                 val scoped = repo.filterToScope(item, cached.list)
                 if (scoped.isEmpty()) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "cache hit \"${item.title}\" (fresh) → ${cached.list.size} servers, " +
                             "none inside the current scope — re-extracting",
                     )
                 } else {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "cache hit \"${item.title}\" (fresh) → ${scoped.size} servers",
                     )
@@ -1208,7 +1208,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             // (The one thing allowed onto the feed before the search starts is
             // the list that really worked here a few minutes ago — see the block
             // below. That one is backed by an actual play, not by a timestamp.)
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "cache " + (if (force) "forced" else if (cached.list.isEmpty()) "empty" else "stale") +
                     " \"${item.title}\" — re-extracting",
@@ -1225,7 +1225,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
         if (!force) {
             val recent = repo.recentlyFoundStreams(item, ep)
             if (recent.isNotEmpty()) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "recent \"${item.title}\" → ${recent.size} server(s) that worked before, " +
                         "starting on them while the fresh pass runs",
@@ -1250,14 +1250,14 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
             liveSink?.invoke(partial)
             // Turn an addon's LINK rows (a YouTube id, a "watch it here" page)
             // into the servers they point at, as they arrive — see
-            // [com.hikari.app.cs3.PlayableResolver.warmLinks]. Without this, a
+            // [com.gworld06.streambox.cs3.PlayableResolver.warmLinks]. Without this, a
             // link-only addon showed its rows in the source sheet while
             // `DetailScreen.playableEvery` dropped every one of them, which is
             // exactly "the same addon plays in Stremio and says no playable
             // server here". The resolved servers are pushed back through this
             // same feed, so they join the list and reach an already-open player
             // exactly like a provider's own links.
-            com.hikari.app.cs3.PlayableResolver.warmLinks(partial) { resolved ->
+            com.gworld06.streambox.cs3.PlayableResolver.warmLinks(partial) { resolved ->
                 if (resolved.isEmpty()) return@warmLinks
                 val have = _liveStreams.value
                 val known = have.mapTo(HashSet()) { it.infoHash ?: it.url }
@@ -1299,7 +1299,7 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
                 ?: repo.recentlyFoundStreams(item, ep)
             if (ContentRepository.sweepBusyFor(item, ep)) {
                 if (repo.attachToRunningSweep(item, ep, feed)) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "join \"${item.title}\" — its background sweep is still working " +
                             "(${joined.size} server(s) so far, more on the way)",
@@ -1517,14 +1517,14 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
         // No metadata yet means we could not search at all: not a verdict.
         val m = _meta.value ?: return StreamLookup(emptyList(), complete = false)
         // The provider scan can run for a minute; keep it alive across a
-        // background trip (see [com.hikari.app.work.BackgroundWork]).
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        // background trip (see [com.gworld06.streambox.work.BackgroundWork]).
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             "Finding servers for \"${m.title.take(60)}\""
         )
         try {
             return resolveStreams(m, episode, onProgress, force, onOriginSettled)
         } finally {
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }
 
@@ -1541,31 +1541,31 @@ class DetailViewModel(app: Application) : AndroidViewModel(app) {
 private fun providerOutcomeLine(p: ContentProvider): String? {
     val name = p.config.name
     val msg = when (p.config.type) {
-        ProviderType.NUVIO -> com.hikari.app.nuvio.NuvioScraper.lastOutcome[p.config.id]
-            ?: com.hikari.app.nuvio.NuvioScraper.streamErrors[p.config.id]
-        ProviderType.STREMIO -> com.hikari.app.providers.StremioAddon.streamErrors[p.config.id]
-        ProviderType.CS3 -> com.hikari.app.cs3.Cs3MainApiProvider.streamErrors[p.config.id]
-        ProviderType.HIKARI -> com.hikari.app.providers.HikariProviderAdapter.streamErrors[p.config.id]
-        ProviderType.UNIVERSAL -> com.hikari.app.providers.UniversalScraper.streamErrors[p.config.id]
+        ProviderType.NUVIO -> com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome[p.config.id]
+            ?: com.gworld06.streambox.nuvio.NuvioScraper.streamErrors[p.config.id]
+        ProviderType.STREMIO -> com.gworld06.streambox.providers.StremioAddon.streamErrors[p.config.id]
+        ProviderType.CS3 -> com.gworld06.streambox.cs3.Cs3MainApiProvider.streamErrors[p.config.id]
+        ProviderType.HIKARI -> com.gworld06.streambox.providers.HikariProviderAdapter.streamErrors[p.config.id]
+        ProviderType.UNIVERSAL -> com.gworld06.streambox.providers.UniversalScraper.streamErrors[p.config.id]
         ProviderType.SKYSTREAM ->
-            com.hikari.app.skystream.SkyStreamProvider.lastOutcome[p.config.id]
-                ?: com.hikari.app.skystream.SkyStreamProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.skystream.SkyStreamProvider.lastOutcome[p.config.id]
+                ?: com.gworld06.streambox.skystream.SkyStreamProvider.streamErrors[p.config.id]
         ProviderType.ANIYOMI ->
-            com.hikari.app.aniyomi.AniyomiProvider.lastOutcome[p.config.id]
-                ?: com.hikari.app.aniyomi.AniyomiProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.aniyomi.AniyomiProvider.lastOutcome[p.config.id]
+                ?: com.gworld06.streambox.aniyomi.AniyomiProvider.streamErrors[p.config.id]
         ProviderType.VEGA ->
-            com.hikari.app.providers.vega.VegaProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.providers.vega.VegaProvider.streamErrors[p.config.id]
         ProviderType.ZANGETSU ->
-            com.hikari.app.zangetsu.ZangetsuProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.zangetsu.ZangetsuProvider.streamErrors[p.config.id]
         ProviderType.SORA ->
-            com.hikari.app.sora.SoraProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.sora.SoraProvider.streamErrors[p.config.id]
         ProviderType.ANYMEX ->
-            com.hikari.app.anymex.AnymexProvider.streamErrors[p.config.id]
+            com.gworld06.streambox.anymex.AnymexProvider.streamErrors[p.config.id]
         ProviderType.ANYMEX_MANGA ->
-            com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
+            com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
         else -> null
     }
-    return msg?.takeIf { !com.hikari.app.net.CloudflareVerifier.isVerificationMessage(it) }
+    return msg?.takeIf { !com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(it) }
         ?.let { "$name: $it" }
 }
 
@@ -1579,15 +1579,15 @@ private fun providerOutcomeLine(p: ContentProvider): String? {
 private fun nuvioReportLines(providers: List<ContentProvider>): List<String> {
     val nuvio = providers.filter { it.config.type == ProviderType.NUVIO && it.config.enabled }
     if (nuvio.isEmpty()) return emptyList()
-    val answered = nuvio.count { com.hikari.app.nuvio.NuvioScraper.lastOutcome.containsKey(it.config.id) }
+    val answered = nuvio.count { com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome.containsKey(it.config.id) }
     val withServers = nuvio.count {
-        com.hikari.app.nuvio.NuvioScraper.lastOutcome[it.config.id]?.startsWith("✓") == true
+        com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome[it.config.id]?.startsWith("✓") == true
     }
     return listOf(
         "Nuvio engines: $answered of ${nuvio.size} answered, $withServers found servers"
     ) + nuvio.map { p ->
-        val outcome = com.hikari.app.nuvio.NuvioScraper.lastOutcome[p.config.id]
-            ?: com.hikari.app.nuvio.NuvioScraper.streamErrors[p.config.id]
+        val outcome = com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome[p.config.id]
+            ?: com.gworld06.streambox.nuvio.NuvioScraper.streamErrors[p.config.id]
             ?: "never ran — no engine slot before the search ended"
         p.config.name + ": " + outcome
     }
@@ -1810,7 +1810,7 @@ fun DetailScreen(
     val activeProviderId by vm.activeProviderId.collectAsState()
     val livePid = activeProviderId.ifBlank { providerId }
     val isVegaPage = livePid.startsWith("vega|")
-    val isIptvPage = remember(livePid) { com.hikari.app.data.IptvMark.isIptvProvider(livePid) }
+    val isIptvPage = remember(livePid) { com.gworld06.streambox.data.IptvMark.isIptvProvider(livePid) }
     // Siblings from the same playlist (the reference app's channel grid under
     // its player): same group first, the open channel excluded, capped at 24.
     // Loaded once per channel — a playlist parse is cached by the provider.
@@ -1869,7 +1869,7 @@ fun DetailScreen(
     val scope = rememberCoroutineScope()
     // Television: the remote's focus starts on this page's Play button, so
     // opening a title and pressing Enter plays it — no hunting for the button
-    // with the D-pad first (see com.hikari.app.tv.TvMode). The request itself
+    // with the D-pad first (see com.gworld06.streambox.tv.TvMode). The request itself
     // lives ON the Play row (see below): the row is a LazyColumn item, so it can
     // appear long after this page does, and asking for focus before the row
     // exists would do nothing.
@@ -1885,7 +1885,7 @@ fun DetailScreen(
     // blurred backdrop, or no art at all).
     val detailHeroFlow = remember { detailApp.store.detailHeroStyleFlow() }
     val detailHeroStyle by detailHeroFlow.collectAsState(initial = DetailHeroStyles.WIDE)
-    val isTvLayout = com.hikari.app.tv.TvMode.current()
+    val isTvLayout = com.gworld06.streambox.tv.TvMode.current()
     val tvDetailBigFlow = remember { detailApp.store.tvDetailBigFlow() }
     val tvDetailBig by tvDetailBigFlow.collectAsState(initial = isTvLayout)
     // Full-bleed detail art (Settings → TV & Remote, off by default): the
@@ -1899,7 +1899,7 @@ fun DetailScreen(
     val heroStyle =
         // Big TV detail: SIDE puts poster left + info/episodes right (matches
         // the living-room layout users expect). TALL was full-width art only.
-        if (com.hikari.app.tv.TvMode.current() && tvDetailBig) DetailHeroStyles.SIDE
+        if (com.gworld06.streambox.tv.TvMode.current() && tvDetailBig) DetailHeroStyles.SIDE
         else detailHeroStyle
     // How big the title LOGO is drawn (Settings → App Layout → Details header →
     // Title logo size), in percent of the size it has always been drawn at.
@@ -2108,7 +2108,7 @@ fun DetailScreen(
     val loadingStyleSetting by loadingStyleFlow.collectAsState(initial = LoadingStyles.CINEMATIC)
     // The treatment drawn over that card — handed over the same way, so the
     // detail page's cover and the player's cover stay identical through the
-    // hand-off (see [com.hikari.app.ui.LoadingEffects]).
+    // hand-off (see [com.gworld06.streambox.ui.LoadingEffects]).
     val loadingEffectsFlow = remember { app.store.loadingEffectsFlow() }
     // Empty until the store answers: the default is NONE (see
     // AppStore.DEFAULT_LOADING_EFFECTS), so no treatment is ever drawn for the
@@ -2121,11 +2121,11 @@ fun DetailScreen(
     // (this page and the player) must resolve it to the same pixels or the
     // hand-off from one to the other looks like a second loading screen.
     val loadingAuraColorSetting by remember { app.store.loadingAuraColorFlow() }
-        .collectAsState(initial = com.hikari.app.ui.AuraColors.THEME)
+        .collectAsState(initial = com.gworld06.streambox.ui.AuraColors.THEME)
     // The ring's colour as the ARGB the player is handed. Resolved HERE, in
     // composition, rather than inside the launch lambda below: reading
     // MaterialTheme is a composable call, and that lambda is not composable.
-    val loadingAuraArgb = com.hikari.app.ui.AuraColors
+    val loadingAuraArgb = com.gworld06.streambox.ui.AuraColors
         .color(loadingAuraColorSetting, MaterialTheme.colorScheme.primary)
         .toArgb()
     // The title wordmark on the loading cover (Settings → App Layout → Loading
@@ -2283,7 +2283,7 @@ fun DetailScreen(
                 )
                 putExtra("showLoadingBanner", showLoadingCoverSetting)
                 putExtra("loadingStyle", loadingStyleSetting)
-                putExtra("loadingEffect", com.hikari.app.ui.LoadingEffects.encode(loadingEffectsSetting))
+                putExtra("loadingEffect", com.gworld06.streambox.ui.LoadingEffects.encode(loadingEffectsSetting))
                 // The title's own wordmark, for the cover's title block (see
                 // loadingLogoOn above) — tokenized like the artwork, so the
                 // intent never carries a URL that has to be re-fetched on the
@@ -2528,8 +2528,8 @@ fun DetailScreen(
                 // single-repo lookup would be a plain lie on the only line
                 // the user can see. With exception extensions in force more than
                 // one repo IS asked, so the line counts them honestly.
-                val exceptionN = if (com.hikari.app.data.SearchScope.allExtensions) 0
-                else com.hikari.app.data.SearchScope.exceptions.count { id ->
+                val exceptionN = if (com.gworld06.streambox.data.SearchScope.allExtensions) 0
+                else com.gworld06.streambox.data.SearchScope.exceptions.count { id ->
                     providers.any { it.config.id == id && it.config.enabled }
                 }
                 StreamsLive.setStatus(
@@ -2539,13 +2539,13 @@ fun DetailScreen(
                         // nowhere else (see ContentRepository.streamsForInner),
                         // so the line must not promise a sweep of every
                         // installed extension.
-                        com.hikari.app.data.IptvMark.isIptvProvider(
+                        com.gworld06.streambox.data.IptvMark.isIptvProvider(
                             activeProviderId.ifBlank { providerId }
                         ) ->
                             "Searching this playlist for servers…"
                         exceptionN > 0 ->
                             "Searching your extension + $exceptionN more…"
-                        !com.hikari.app.data.SearchScope.allExtensions -> {
+                        !com.gworld06.streambox.data.SearchScope.allExtensions -> {
                             // Name the extension being searched the moment the
                             // search starts, so a "this extension only" tap
                             // never sits on a nameless line while its 15
@@ -2891,23 +2891,23 @@ fun DetailScreen(
                     val originId = m?.providerId ?: providerId
                     val origin = providers.firstOrNull { it.config.id == originId }
                     val settingsNarrow = narrowTo == null &&
-                        !com.hikari.app.data.SearchScope.allExtensions &&
+                        !com.gworld06.streambox.data.SearchScope.allExtensions &&
                         origin != null && origin.config.enabled &&
-                        !com.hikari.app.data.IptvMark.isIptvProvider(originId) &&
-                        !com.hikari.app.data.SearchScope.isException(originId)
+                        !com.gworld06.streambox.data.IptvMark.isIptvProvider(originId) &&
+                        !com.gworld06.streambox.data.SearchScope.isException(originId)
                     if (narrowTo != null || settingsNarrow) {
                         var savedAll = true
                         var savedFamilies: Set<String> = emptySet()
                         if (settingsNarrow) {
-                            savedAll = com.hikari.app.data.SearchScope.allExtensions
-                            savedFamilies = com.hikari.app.data.SearchScope.engineFamilies
-                            com.hikari.app.data.SearchScope.allExtensions = true
+                            savedAll = com.gworld06.streambox.data.SearchScope.allExtensions
+                            savedFamilies = com.gworld06.streambox.data.SearchScope.engineFamilies
+                            com.gworld06.streambox.data.SearchScope.allExtensions = true
                             val engineName = origin?.config?.type?.name
                             if (engineName != null) {
-                                com.hikari.app.data.SearchScope.engineFamilies =
+                                com.gworld06.streambox.data.SearchScope.engineFamilies =
                                     savedFamilies + engineName
                             }
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Search",
                                 "dead end with narrowed scope — widening to all servers for one pass " +
                                     "\"${m?.title.orEmpty().take(60)}\"",
@@ -2933,8 +2933,8 @@ fun DetailScreen(
                             }
                         } finally {
                             if (settingsNarrow) {
-                                com.hikari.app.data.SearchScope.allExtensions = savedAll
-                                com.hikari.app.data.SearchScope.engineFamilies = savedFamilies
+                                com.gworld06.streambox.data.SearchScope.allExtensions = savedAll
+                                com.gworld06.streambox.data.SearchScope.engineFamilies = savedFamilies
                             }
                         }
                         widenedRan = true
@@ -2946,8 +2946,8 @@ fun DetailScreen(
                 val noResultNote = {
                     // Truly scoped only when "only this extension" is on AND no
                     // exception repos are being searched (see [SearchScope]).
-                    val scoped = !com.hikari.app.data.SearchScope.allExtensions &&
-                        com.hikari.app.data.SearchScope.exceptions.isEmpty()
+                    val scoped = !com.gworld06.streambox.data.SearchScope.allExtensions &&
+                        com.gworld06.streambox.data.SearchScope.exceptions.isEmpty()
                     // …and "only this extension" only MEANS anything when the
                     // title really came from an extension. A title opened from
                     // Home / Search / Collections carries `providerId = "tmdb"`,
@@ -3041,7 +3041,7 @@ fun DetailScreen(
                         // the pass (and of this count) entirely, so no host name
                         // and no Cloudflare wording ever appears here.
                         if (!scoped && !linksOnly) {
-                            com.hikari.app.data.ContentRepository
+                            com.gworld06.streambox.data.ContentRepository
                                 .crossSummary(title = m?.title)?.let {
                                     append("\n").append(it)
                                 }
@@ -3224,7 +3224,7 @@ fun DetailScreen(
     val scraperImageMode = remember(providers, livePid) {
         providers.firstOrNull { it.config.id == livePid }?.let {
             it.config.type == ProviderType.UNIVERSAL &&
-                com.hikari.app.providers.UniversalScraper.isImageMode(it.config)
+                com.gworld06.streambox.providers.UniversalScraper.isImageMode(it.config)
         } == true
     }
     var readingScraper by remember { mutableStateOf(false) }
@@ -3432,7 +3432,7 @@ fun DetailScreen(
     // own variants, with the destination stashed alongside while open.
     var showDlQuality by remember { mutableStateOf(false) }
     var dlQualityOpts by remember { mutableStateOf(listOf<Pair<Int, Long>>()) }
-    var dlPendingKind by remember { mutableStateOf(com.hikari.app.download.DownloadKind.OFFLINE) }
+    var dlPendingKind by remember { mutableStateOf(com.gworld06.streambox.download.DownloadKind.OFFLINE) }
     // ChoiceDialog fires onDismiss() and THEN onPick() on every tap — so a tap
     // on a quality would queue the batch twice (Highest from the dismiss,
     // then the pick). The dismiss path therefore only queues when no pick
@@ -3538,7 +3538,7 @@ fun DetailScreen(
             ?: servers.firstOrNull { it.providerId == srv.providerId }
             ?: servers.firstOrNull { it.name == srv.name }
             ?: servers[0]
-    fun startBatchDownload(srv: StreamSource, kind: com.hikari.app.download.DownloadKind, preferredHeight: Int, preferredBandwidth: Long) {
+    fun startBatchDownload(srv: StreamSource, kind: com.gworld06.streambox.download.DownloadKind, preferredHeight: Int, preferredBandwidth: Long) {
         showDlDest = false
         val eps = dlTargets
         if (eps.isEmpty()) return
@@ -3553,8 +3553,8 @@ fun DetailScreen(
                     val src = matchDlServer(servers, srv)
                     if (src.url.isBlank()) continue
                     val label = if (ep.season > 1) "S" + ep.season + " E" + ep.number else "E" + ep.number
-                    val task = com.hikari.app.download.DownloadTask(
-                        id = com.hikari.app.download.DownloadTask.idFor(batchItem.providerId.ifBlank { "detail" }, batchItem.id, ep.id, kind),
+                    val task = com.gworld06.streambox.download.DownloadTask(
+                        id = com.gworld06.streambox.download.DownloadTask.idFor(batchItem.providerId.ifBlank { "detail" }, batchItem.id, ep.id, kind),
                         title = batchItem.title.ifBlank { "Video" },
                         episodeLabel = label,
                         poster = batchItem.posterUrl,
@@ -3569,10 +3569,10 @@ fun DetailScreen(
                         preferredHeight = preferredHeight,
                         preferredBandwidth = preferredBandwidth,
                         kind = kind,
-                        status = com.hikari.app.download.DownloadStatus.QUEUED,
+                        status = com.gworld06.streambox.download.DownloadStatus.QUEUED,
                         createdAt = System.currentTimeMillis()
                     )
-                    runCatching { com.hikari.app.download.DownloadsRepository.enqueue(context, task) }
+                    runCatching { com.gworld06.streambox.download.DownloadsRepository.enqueue(context, task) }
                     n++
                 }
                 n
@@ -3586,7 +3586,7 @@ fun DetailScreen(
     // "Choose quality" the single download asks — and queue the whole batch
     // at the answer. A single-variant source skips the question and goes
     // straight in at Highest.
-    fun askBatchQuality(srv: StreamSource, kind: com.hikari.app.download.DownloadKind) {
+    fun askBatchQuality(srv: StreamSource, kind: com.gworld06.streambox.download.DownloadKind) {
         showDlDest = false
         val first = dlTargets.firstOrNull() ?: return
         scope.launch {
@@ -3602,7 +3602,7 @@ fun DetailScreen(
                 return@launch
             }
             val quals = runCatching {
-                com.hikari.app.download.DownloadEngine.hlsQualities(src.url, src.headers)
+                com.gworld06.streambox.download.DownloadEngine.hlsQualities(src.url, src.headers)
             }.getOrDefault(emptyList())
             if (quals.size <= 1) {
                 startBatchDownload(srv, kind, 0, 0L)
@@ -3687,17 +3687,17 @@ fun DetailScreen(
     if (showDlServer) {
         // Television wears the desktop dialog language (elevated black box,
         // 12dp corners, white/muted text); the phone keeps its own dialog.
-        val tvDl = com.hikari.app.tv.TvMode.current()
+        val tvDl = com.gworld06.streambox.tv.TvMode.current()
         androidx.compose.material3.AlertDialog(
             onDismissRequest = { if (!dlBusy) showDlServer = false },
-            shape = if (tvDl) RoundedCornerShape(com.hikari.app.tv.TvDesktop.CornerLarge)
+            shape = if (tvDl) RoundedCornerShape(com.gworld06.streambox.tv.TvDesktop.CornerLarge)
             else androidx.compose.material3.AlertDialogDefaults.shape,
-            containerColor = if (tvDl) com.hikari.app.tv.TvDesktop.SurfaceElevated
+            containerColor = if (tvDl) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
             else androidx.compose.material3.AlertDialogDefaults.containerColor,
             title = {
                 androidx.compose.material3.Text(
                     "Pick server (" + dlTargets.size + " episodes)",
-                    color = if (tvDl) com.hikari.app.tv.TvDesktop.TextPrimary
+                    color = if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                     else androidx.compose.material3.AlertDialogDefaults.titleContentColor,
                 )
             },
@@ -3708,14 +3708,14 @@ fun DetailScreen(
                             androidx.compose.material3.Text(
                                 srv.name,
                                 maxLines = 1,
-                                color = if (tvDl) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+                                color = if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
                             )
                             val sub = listOf(srv.providerName, srv.details).filter { it.isNotBlank() }.joinToString(" - ")
                             if (sub.isNotBlank()) androidx.compose.material3.Text(
                                 sub,
                                 maxLines = 1,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = if (tvDl) com.hikari.app.tv.TvDesktop.TextMuted
+                                color = if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextMuted
                                 else MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
@@ -3749,8 +3749,8 @@ fun DetailScreen(
                 if (pending != null) {
                     askBatchQuality(
                         pending,
-                        if (key == "phone") com.hikari.app.download.DownloadKind.EXPORT
-                        else com.hikari.app.download.DownloadKind.OFFLINE,
+                        if (key == "phone") com.gworld06.streambox.download.DownloadKind.EXPORT
+                        else com.gworld06.streambox.download.DownloadKind.OFFLINE,
                     )
                 } else {
                     showDlDest = false
@@ -4107,7 +4107,7 @@ fun DetailScreen(
     var logoSizePx by remember { mutableStateOf(0) }
     // Detail page position held across visits (see ScrollKeeper): leaving
     // for an episode and coming back lands where the page was.
-    val detailList = com.hikari.app.ui.components.keptListState("detail:$providerId|$mediaId")
+    val detailList = com.gworld06.streambox.ui.components.keptListState("detail:$providerId|$mediaId")
     LaunchedEffect(m?.uniqueId) {
         val item = m ?: return@LaunchedEffect
         heroLogo = runCatching { TmdbMeta.logo(item) }.getOrNull()
@@ -4291,7 +4291,7 @@ fun DetailScreen(
                             Modifier
                                 .fillMaxSize()
                                 .padding(horizontal = 12.dp, vertical = 10.dp)
-                                .verticalScroll(com.hikari.app.ui.components.keptScrollState("detail:$providerId|${mediaId}:tv"))
+                                .verticalScroll(com.gworld06.streambox.ui.components.keptScrollState("detail:$providerId|${mediaId}:tv"))
                         ) {
                             tvPlayRow(0.dp)
                             Spacer(Modifier.height(6.dp))
@@ -4306,7 +4306,7 @@ fun DetailScreen(
                                     else tr("Episodes (%s)").replace("%s", shownEps.size.toString()),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold,
-                                    color = com.hikari.app.tv.Cs3.TextPrimary,
+                                    color = com.gworld06.streambox.tv.Cs3.TextPrimary,
                                     modifier = Modifier.weight(1f)
                                 )
                                 IconButton(
@@ -4548,8 +4548,8 @@ fun DetailScreen(
                     val tvMeta = buildList {
                         m?.year?.let { add(it.toString()) }
                         when (m?.type) {
-                            com.hikari.app.data.MediaType.MOVIE -> add(tr("Movie"))
-                            com.hikari.app.data.MediaType.SERIES -> add(tr("TV Series"))
+                            com.gworld06.streambox.data.MediaType.MOVIE -> add(tr("Movie"))
+                            com.gworld06.streambox.data.MediaType.SERIES -> add(tr("TV Series"))
                             else -> {}
                         }
                         extras?.details?.runtimeMinutes?.takeIf { it > 0 }?.let { mins ->
@@ -4569,7 +4569,7 @@ fun DetailScreen(
                                 fontWeight = FontWeight.Medium,
                                 color = Color.White.copy(alpha = 0.88f),
                             )
-                            if (!tvCert.isNullOrBlank()) com.hikari.app.tv.TvCertChip(tvCert)
+                            if (!tvCert.isNullOrBlank()) com.gworld06.streambox.tv.TvCertChip(tvCert)
                         }
                     }
                     // Row 2: the reference's ratings row — IMDb + TMDB badges
@@ -4577,10 +4577,10 @@ fun DetailScreen(
                     if (showDetailRating) {
                         val tvBadges = ratings
                             .filter {
-                                it.source == com.hikari.app.data.RatingSource.IMDB ||
-                                    it.source == com.hikari.app.data.RatingSource.TMDB
+                                it.source == com.gworld06.streambox.data.RatingSource.IMDB ||
+                                    it.source == com.gworld06.streambox.data.RatingSource.TMDB
                             }
-                            .sortedBy { if (it.source == com.hikari.app.data.RatingSource.IMDB) 0 else 1 }
+                            .sortedBy { if (it.source == com.gworld06.streambox.data.RatingSource.IMDB) 0 else 1 }
                         val tvGenres = m?.genres?.takeIf { it.isNotEmpty() }
                         if (tvBadges.isNotEmpty() || !tvGenres.isNullOrEmpty()) {
                             Row(
@@ -4692,7 +4692,7 @@ fun DetailScreen(
             // wide art (a TMDB 16:9 backdrop) paints sharp with the triple
             // gradient; a poster-only title fills blurred. A portrait poster
             // sharp-cropped full-bleed is what the TV photos proved broken.
-            com.hikari.app.tv.Cs3BackdropArt(
+            com.gworld06.streambox.tv.Cs3BackdropArt(
                 model = tvHeroImage.first,
                 wide = tvHeroImage.second,
                 modifier = Modifier.fillMaxSize(),
@@ -5105,7 +5105,7 @@ fun DetailScreen(
                     // no-op.) The short delay is one layout pass — the requester
                     // cannot point at the button until it has been placed.
                     LaunchedEffect(Unit) {
-                        if (!com.hikari.app.tv.TvMode.isTv) return@LaunchedEffect
+                        if (!com.gworld06.streambox.tv.TvMode.isTv) return@LaunchedEffect
                         delay(150L)
                         try {
                             playFocus.requestFocus()
@@ -5412,7 +5412,7 @@ fun DetailScreen(
                             // equivalent of the reference's View All page.
                             item(key = "tv-cast-dialog") {
                                 Dialog(onDismissRequest = { showFullCast = false }) {
-                                    com.hikari.app.tv.Cs3DialogPanel(
+                                    com.gworld06.streambox.tv.Cs3DialogPanel(
                                         modifier = Modifier
                                             .fillMaxWidth(0.85f)
                                             .fillMaxHeight(0.85f)
@@ -6016,16 +6016,16 @@ fun DetailScreen(
         ChoiceDialog(
             title = tr("Where should playback search?"),
             items = listOf(
-                com.hikari.app.ui.components.ChoiceItem(key = "origin", label = tr("This extension only"), supporting = originName),
-                com.hikari.app.ui.components.ChoiceItem(key = "selected", label = tr("My selected servers"), supporting = tr("Your Server search choices")),
+                com.gworld06.streambox.ui.components.ChoiceItem(key = "origin", label = tr("This extension only"), supporting = originName),
+                com.gworld06.streambox.ui.components.ChoiceItem(key = "selected", label = tr("My selected servers"), supporting = tr("Your Server search choices")),
             ),
             selectedKey = null,
             onPick = { key ->
                 if (key == "origin") {
-                    com.hikari.app.data.SearchScope.oneShotOriginOnly = livePid
+                    com.gworld06.streambox.data.SearchScope.oneShotOriginOnly = livePid
                     pendingNarrowTo = livePid
                 } else {
-                    com.hikari.app.data.SearchScope.oneShotOriginOnly = null
+                    com.gworld06.streambox.data.SearchScope.oneShotOriginOnly = null
                     pendingNarrowTo = null
                 }
                 scopeAskArmed = true
@@ -6090,7 +6090,7 @@ fun DetailScreen(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
-                    if (!com.hikari.app.net.NetTuning.slowConnection) {
+                    if (!com.gworld06.streambox.net.NetTuning.slowConnection) {
                         Text(
                             tr("On mobile data or a slow connection? Turn on " + "\"Slow connection mode\" in Settings, then search again."),
                             style = MaterialTheme.typography.labelSmall,
@@ -6109,7 +6109,7 @@ fun DetailScreen(
                         // title came from is searched").
                         Button(
                             onClick = {
-                                com.hikari.app.data.SearchScope.oneShotOriginOnly = null
+                                com.gworld06.streambox.data.SearchScope.oneShotOriginOnly = null
                                 scopeAskArmed = true
                                 lastSearchNarrowed = false
                                 openStreams(selectedEp, 0L, false)
@@ -6159,7 +6159,7 @@ fun DetailScreen(
                             )
                         }
                     }
-                    val fLog = com.hikari.app.nuvio.NuvioRuntime.fetchLogSnapshot().takeLast(24)
+                    val fLog = com.gworld06.streambox.nuvio.NuvioRuntime.fetchLogSnapshot().takeLast(24)
                     if (fLog.isNotEmpty()) {
                         Text(
                             tr("Fetch log:"),
@@ -6428,7 +6428,7 @@ private fun rememberLoadingStyle(): String {
 }
 
 /** The treatment(s) drawn over that card (Settings → App Layout → Loading screen
- *  → Effect), read the same way — see [com.hikari.app.ui.LoadingEffects]. */
+ *  → Effect), read the same way — see [com.gworld06.streambox.ui.LoadingEffects]. */
 @Composable
 private fun rememberLoadingEffect(): Set<String> {
     val app = androidx.compose.ui.platform.LocalContext.current.applicationContext as HikariApp
@@ -6440,13 +6440,13 @@ private fun rememberLoadingEffect(): Set<String> {
 /** The colour the cover's aura ring is drawn in (Settings → App Layout →
  *  Loading screen → Aura ring colour), read the same way as the style and the
  *  effects — one read per cover, so the ring is the right colour on its first
- *  frame. See [com.hikari.app.ui.AuraColors]. */
+ *  frame. See [com.gworld06.streambox.ui.AuraColors]. */
 @Composable
 private fun rememberLoadingAuraColor(): String {
     val app = androidx.compose.ui.platform.LocalContext.current.applicationContext as HikariApp
     val flow = remember(app) { app.store.loadingAuraColorFlow() }
     return remember(flow) { flow }
-        .collectAsState(initial = com.hikari.app.ui.AuraColors.THEME).value
+        .collectAsState(initial = com.gworld06.streambox.ui.AuraColors.THEME).value
 }
 
 /**
@@ -6546,10 +6546,10 @@ private fun LoadingStatusLine(
 private fun LoadingCoverEffect(effects: Set<String>, accent: Color) {
     // The ring's colour: its own setting (Settings → App Layout → Loading screen
     // → Effect → Aura ring colour), or the card's accent when that is left on
-    // "Accent" — see [com.hikari.app.ui.AuraColors].
-    val auraColor = com.hikari.app.ui.AuraColors.color(rememberLoadingAuraColor(), accent)
-    val chosen = com.hikari.app.ui.LoadingEffects.normalizeSet(effects)
-    if (com.hikari.app.ui.LoadingEffects.AURA in chosen) {
+    // "Accent" — see [com.gworld06.streambox.ui.AuraColors].
+    val auraColor = com.gworld06.streambox.ui.AuraColors.color(rememberLoadingAuraColor(), accent)
+    val chosen = com.gworld06.streambox.ui.LoadingEffects.normalizeSet(effects)
+    if (com.gworld06.streambox.ui.LoadingEffects.AURA in chosen) {
         // The aura ring — hung on the SCREEN's own edge, not on the card.
         //
         // It used to hug the title card, which put it in the middle of a black
@@ -6600,7 +6600,7 @@ private fun LoadingCoverEffect(effects: Set<String>, accent: Color) {
         }
     }
 
-    if (com.hikari.app.ui.LoadingEffects.SHEEN in chosen) {
+    if (com.gworld06.streambox.ui.LoadingEffects.SHEEN in chosen) {
         // A band of light crossing the cover, the way a glossy print does when
         // the light catches it.
         val clock = rememberInfiniteTransition(label = "loading-sheen")
@@ -6631,7 +6631,7 @@ private fun LoadingCoverEffect(effects: Set<String>, accent: Color) {
         )
     }
 
-    if (com.hikari.app.ui.LoadingEffects.FRAME in chosen) {
+    if (com.gworld06.streambox.ui.LoadingEffects.FRAME in chosen) {
         // A gallery mat: a hairline mount around the cover, drawn just inside
         // the aura ring when both are chosen (see [LoadingAuraInset]).
         Box(
@@ -6646,7 +6646,7 @@ private fun LoadingCoverEffect(effects: Set<String>, accent: Color) {
         )
     }
 
-    if (com.hikari.app.ui.LoadingEffects.GLOW in chosen) {
+    if (com.gworld06.streambox.ui.LoadingEffects.GLOW in chosen) {
         // The accent bloom behind the title, swelling and fading.
         val clock = rememberInfiniteTransition(label = "loading-glow")
         val pool by clock.animateFloat(
@@ -7331,7 +7331,7 @@ private fun Hero(
                         Brush.verticalGradient(
                             0f to Color.Black.copy(alpha = 0.40f),
                             0.45f to Color.Transparent,
-                            1f to if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.Background
+                            1f to if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.Background
                             else MaterialTheme.colorScheme.background,
                         )
                     )
@@ -8430,7 +8430,7 @@ private fun formatCount(n: Long): String {
  *  trusted (see ExternalLinks.launch): our own UI, never an extension. */
 private fun openRatingPage(context: android.content.Context, url: String, title: String) {
     val opened = runCatching {
-        com.hikari.app.net.ExtensionUiGuard.runTrusted {
+        com.gworld06.streambox.net.ExtensionUiGuard.runTrusted {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
     }.isSuccess
@@ -8451,7 +8451,7 @@ private fun openRatingPage(context: android.content.Context, url: String, title:
  *
  *  [characters] switches the row to an anime's CHARACTER list (the faces the
  *  viewer knows), each cell's second line being the actor who voices them —
- *  see [com.hikari.app.data.AnimeCast]. */
+ *  see [com.gworld06.streambox.data.AnimeCast]. */
 @Composable
 private fun CastRow(
     cast: List<CastMember>,
@@ -8672,8 +8672,8 @@ private fun EpisodePosterCard(
     val tokens = rememberGlassTokens()
     // Television wears the desktop card language (8dp corners,
     // elevated-black thumb, hairline edge, white/muted text).
-    val tvEp = com.hikari.app.tv.TvMode.current()
-    val epCard = if (tvEp) RoundedCornerShape(com.hikari.app.tv.TvDesktop.CornerCard)
+    val tvEp = com.gworld06.streambox.tv.TvMode.current()
+    val epCard = if (tvEp) RoundedCornerShape(com.gworld06.streambox.tv.TvDesktop.CornerCard)
     else RoundedCornerShape(10.dp)
     Column(
         (if (glass) {
@@ -8696,13 +8696,13 @@ private fun EpisodePosterCard(
                 .aspectRatio(1.55f)
                 .clip(epCard)
                 .background(
-                    if (tvEp) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                    if (tvEp) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                     else MaterialTheme.colorScheme.surfaceVariant
                 )
                 .then(
                     if (tvEp) Modifier.border(
                         1.dp,
-                        com.hikari.app.tv.TvDesktop.GlassEdge,
+                        com.gworld06.streambox.tv.TvDesktop.GlassEdge,
                         epCard,
                     ) else Modifier
                 )
@@ -8783,7 +8783,7 @@ private fun EpisodePosterCard(
             style = MaterialTheme.typography.labelMedium.copy(
                 fontSize = (MaterialTheme.typography.labelMedium.fontSize.value * s).sp
             ),
-            color = if (tvEp) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+            color = if (tvEp) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(start = (2f * s).dp, top = (5f * s).dp, end = (2f * s).dp)
@@ -8798,7 +8798,7 @@ private fun EpisodePosterCard(
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontSize = (MaterialTheme.typography.labelSmall.fontSize.value * s).sp
                 ),
-                color = if (tvEp) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tvEp) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
@@ -9053,7 +9053,7 @@ private fun EpisodeRow(
     val tokens = rememberGlassTokens()
     // Television rows sit flat on the black page (desktop language) with
     // white/muted text; phones keep the near-page fill.
-    val tvRow = com.hikari.app.tv.TvMode.current()
+    val tvRow = com.gworld06.streambox.tv.TvMode.current()
     Row(
         (if (glass) {
             Modifier
@@ -9095,7 +9095,7 @@ private fun EpisodeRow(
                     .size(56.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(
-                        if (tvRow) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                        if (tvRow) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                         else MaterialTheme.colorScheme.surfaceVariant
                     ),
                 contentAlignment = Alignment.Center
@@ -9118,7 +9118,7 @@ private fun EpisodeRow(
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = (MaterialTheme.typography.bodyMedium.fontSize.value * s).sp
                 ),
-                color = if (tvRow) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+                color = if (tvRow) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -9146,7 +9146,7 @@ private fun EpisodeRow(
                 Text(
                     ratedLine,
                     style = MaterialTheme.typography.labelSmall,
-                    color = if (tvRow) com.hikari.app.tv.TvDesktop.TextMuted
+                    color = if (tvRow) com.gworld06.streambox.tv.TvDesktop.TextMuted
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -9156,7 +9156,7 @@ private fun EpisodeRow(
                 Text(
                     aired,
                     style = MaterialTheme.typography.labelSmall,
-                    color = if (tvRow) com.hikari.app.tv.TvDesktop.TextMuted
+                    color = if (tvRow) com.gworld06.streambox.tv.TvDesktop.TextMuted
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -9169,7 +9169,7 @@ private fun EpisodeRow(
                     style = MaterialTheme.typography.bodySmall.copy(
                         fontSize = (MaterialTheme.typography.bodySmall.fontSize.value * s).sp
                     ),
-                    color = if (tvRow) com.hikari.app.tv.TvDesktop.TextMuted
+                    color = if (tvRow) com.gworld06.streambox.tv.TvDesktop.TextMuted
                     else MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
@@ -9272,7 +9272,7 @@ private fun EpisodeWatchBadge(
  * The page keeps the name the user tapped — that is the whole point of the
  * title-language setting — but every provider the background lookup asks
  * (~250 of them) indexes the ORIGINAL, English name. A TMDB row carries that
- * name already ([com.hikari.app.data.MediaItem.originalTitle], filled from
+ * name already ([com.gworld06.streambox.data.MediaItem.originalTitle], filled from
  * TMDB's own response). An EXTENSION item does not: it is named whatever its
  * site calls it, so an Arabic repo's "فلم موانا" — a perfectly good display
  * name — was handed to every other repo as the search key, none of them
@@ -9281,9 +9281,9 @@ private fun EpisodeWatchBadge(
  * movie had servers everywhere. That is the reported asymmetry.
  *
  * So this translates the item's own name to English once (gtx, cached in
- * memory AND on disk by [com.hikari.app.data.Translator]), and the result rides
+ * memory AND on disk by [com.gworld06.streambox.data.Translator]), and the result rides
  * on the item as its original name — which is what
- * [com.hikari.app.data.MediaItem.searchTitle] prefers, and therefore what the
+ * [com.gworld06.streambox.data.MediaItem.searchTitle] prefers, and therefore what the
  * cross pass, the TMDB lookup behind the Cast/Trailers/Details rows and the
  * episode-name lookup all use.
  *

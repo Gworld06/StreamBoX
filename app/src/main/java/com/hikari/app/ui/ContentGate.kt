@@ -1,14 +1,14 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRow
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.NsfwGate
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRow
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.NsfwGate
 
 /**
  * The adult-content switch as Compose state, so a screen re-filters the moment it

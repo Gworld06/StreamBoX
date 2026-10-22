@@ -1,4 +1,4 @@
-package com.hikari.app
+package com.gworld06.streambox
 
 import android.os.Bundle
 import android.content.res.Configuration
@@ -19,16 +19,16 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.hikari.app.net.Updater
-import com.hikari.app.ui.AccentStore
-import com.hikari.app.ui.components.TelegramDialog
-import com.hikari.app.ui.components.UpdateDialog
-import com.hikari.app.ui.navigation.AppRoot
-import com.hikari.app.ui.theme.HikariAccent
-import com.hikari.app.ui.theme.HikariTheme
-import com.hikari.app.ui.theme.HikariThemeMode
-import com.hikari.app.tv.TvFocusProvider
-import com.hikari.app.tv.TvMode
+import com.gworld06.streambox.net.Updater
+import com.gworld06.streambox.ui.AccentStore
+import com.gworld06.streambox.ui.components.TelegramDialog
+import com.gworld06.streambox.ui.components.UpdateDialog
+import com.gworld06.streambox.ui.navigation.AppRoot
+import com.gworld06.streambox.ui.theme.HikariAccent
+import com.gworld06.streambox.ui.theme.HikariTheme
+import com.gworld06.streambox.ui.theme.HikariThemeMode
+import com.gworld06.streambox.tv.TvFocusProvider
+import com.gworld06.streambox.tv.TvMode
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
      *  Display size settings everywhere (Compose screens scale themselves in
      *  HikariTheme; this covers the Activity's View-based content too). */
     override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(com.hikari.app.ui.UiScale.wrap(newBase))
+        super.attachBaseContext(com.gworld06.streambox.ui.UiScale.wrap(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }.getOrNull() ?: TvMode.AUTO
         )
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "App",
             "layout: " + (if (TvMode.isTv) "television" else "phone/tablet") +
                 " (" + TvMode.describe(this) + ")",
@@ -222,21 +222,21 @@ class MainActivity : AppCompatActivity() {
                 // The mirror first (see [LanguageManager.stored]): with "" the
                 // interface would come up in the platform's language and then
                 // repaint into the user's chosen one a moment later.
-                initial = com.hikari.app.ui.LanguageManager.stored(this@MainActivity)
+                initial = com.gworld06.streambox.ui.LanguageManager.stored(this@MainActivity)
             )
             // The picker's choice is kept in memory (LanguageManager.pending)
             // until the store catches up, so the activity recreation the locale
             // change triggers can never show the previous language.
-            val languageTag = com.hikari.app.ui.LanguageManager.pending() ?: storedLanguage
+            val languageTag = com.gworld06.streambox.ui.LanguageManager.pending() ?: storedLanguage
             // The language the INTERFACE speaks. `languageTag` is Hikari's own
             // setting (which the TMDB title language follows), but when it is
             // empty — "System default" — the platform's answer (Android's
             // per-app language screen for Hikari, or the device locale) decides,
             // so choosing Arabic for the app ANYWHERE translates it. See
             // LanguageManager.effectiveTag.
-            val uiLanguageTag = com.hikari.app.ui.LanguageManager.effectiveTag(languageTag)
+            val uiLanguageTag = com.gworld06.streambox.ui.LanguageManager.effectiveTag(languageTag)
             val i18nMap = remember(uiLanguageTag) {
-                com.hikari.app.i18n.I18n.mapFor(this@MainActivity, uiLanguageTag)
+                com.gworld06.streambox.i18n.I18n.mapFor(this@MainActivity, uiLanguageTag)
             }
             // The language the UI is DRAWN in, applied through Compose instead of
             // by asking Android to rebuild the activity.
@@ -271,25 +271,25 @@ class MainActivity : AppCompatActivity() {
             }
             val rtl = localizedConfig.layoutDirection == android.view.View.LAYOUT_DIRECTION_RTL
             LaunchedEffect(i18nMap, uiLanguageTag) {
-                com.hikari.app.i18n.I18n.setCurrent(i18nMap, uiLanguageTag)
+                com.gworld06.streambox.i18n.I18n.setCurrent(i18nMap, uiLanguageTag)
                 // One line, deliberately: the interface language is the one
                 // thing a user reports as "I set Arabic and it is still
                 // English", and this says which tag was resolved, what Hikari's
                 // own setting held, and how many strings the dictionary
                 // actually had — the three questions that answer it.
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "i18n",
                     "interface language '$uiLanguageTag' (setting '$languageTag', " +
-                        "platform '${com.hikari.app.ui.LanguageManager.platformTag()}'), " +
+                        "platform '${com.gworld06.streambox.ui.LanguageManager.platformTag()}'), " +
                         "${i18nMap.size} strings",
                 )
             }
             LaunchedEffect(storedLanguage) {
-                com.hikari.app.ui.LanguageManager.reconcile(storedLanguage)
+                com.gworld06.streambox.ui.LanguageManager.reconcile(storedLanguage)
                 // Keep the synchronous mirror in step (both when this screen set
                 // it and when something else did — a backup restore, Android's
                 // own per-app language screen).
-                com.hikari.app.ui.LanguageManager.rememberStored(this@MainActivity, storedLanguage)
+                com.gworld06.streambox.ui.LanguageManager.rememberStored(this@MainActivity, storedLanguage)
             }
 
             // Accent colours (Settings → Appearance & Theme). The app accent repaints
@@ -330,7 +330,7 @@ class MainActivity : AppCompatActivity() {
             // first frame is already laid out at the saved scale instead of at
             // 100% and then jumping.
             val uiScaleMirror = remember {
-                com.hikari.app.ui.UiScale.current(this@MainActivity)
+                com.gworld06.streambox.ui.UiScale.current(this@MainActivity)
             }
             val uiScaleEnabled by uiScaleEnabledFlow.collectAsState(
                 initial = uiScaleMirror.first
@@ -342,7 +342,7 @@ class MainActivity : AppCompatActivity() {
             // View-based screens (player, WebView) and the next cold start
             // apply it without waiting on DataStore.
             LaunchedEffect(uiScaleEnabled, uiScale) {
-                com.hikari.app.ui.UiScale.sync(
+                com.gworld06.streambox.ui.UiScale.sync(
                     this@MainActivity, uiScaleEnabled, uiScale
                 )
             }
@@ -367,26 +367,26 @@ class MainActivity : AppCompatActivity() {
             // Seeded from the synchronous mirror for the same reason as the
             // accents and the scale.
             val appFontSaved = remember {
-                com.hikari.app.ui.AppFonts.current(this@MainActivity)
+                com.gworld06.streambox.ui.AppFonts.current(this@MainActivity)
             }
             val appFontKey by appFontFlow.collectAsState(initial = appFontSaved.key)
             val appFontFile by appFontFileFlow.collectAsState(initial = appFontSaved.fileName)
             var importedFontLabel by remember { mutableStateOf("") }
             LaunchedEffect(appFontKey, appFontFile) {
-                com.hikari.app.ui.AppFonts.sync(this@MainActivity, appFontKey, appFontFile)
-                importedFontLabel = if (appFontKey == com.hikari.app.ui.AppFonts.IMPORTED) {
+                com.gworld06.streambox.ui.AppFonts.sync(this@MainActivity, appFontKey, appFontFile)
+                importedFontLabel = if (appFontKey == com.gworld06.streambox.ui.AppFonts.IMPORTED) {
                     runCatching { store.appFontLabel() }.getOrDefault("")
                 } else {
                     ""
                 }
             }
             val appFontFamily = remember(appFontKey, appFontFile) {
-                com.hikari.app.ui.AppFonts.fontFamily(this@MainActivity, appFontKey, appFontFile)
+                com.gworld06.streambox.ui.AppFonts.fontFamily(this@MainActivity, appFontKey, appFontFile)
             }
 
             // Hide the explanation lines (Settings → App Layout → "Explanations"):
             // provided app-wide below, so every caption in the app answers to one
-            // switch. See [com.hikari.app.ui.components.LocalHideHelp].
+            // switch. See [com.gworld06.streambox.ui.components.LocalHideHelp].
             val hideHelpFlow = remember { store.hideHelpFlow() }
             val hideHelp by hideHelpFlow.collectAsState(initial = false)
 
@@ -397,7 +397,7 @@ class MainActivity : AppCompatActivity() {
             val tmdbLanguageFlow = remember { store.tmdbLanguageFlow() }
             val tmdbLanguageMode by tmdbLanguageFlow.collectAsState(initial = "")
             val tmdbLanguage = when (tmdbLanguageMode) {
-                "" -> com.hikari.app.data.TmdbLang.forAppLanguage(languageTag)
+                "" -> com.gworld06.streambox.data.TmdbLang.forAppLanguage(languageTag)
                 "none" -> ""
                 else -> tmdbLanguageMode
             }
@@ -436,7 +436,7 @@ class MainActivity : AppCompatActivity() {
             // Telegram/Reddit/Discord links to existing users too.
             var showTelegramDialog by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
-                val current = runCatching { com.hikari.app.BuildConfig.VERSION_NAME }.getOrDefault("")
+                val current = runCatching { com.gworld06.streambox.BuildConfig.VERSION_NAME }.getOrDefault("")
                 val dontShowFor = runCatching { store.communityDontShowVersion() }.getOrDefault("")
                 val seen = runCatching { store.communitySeenVersion() }.getOrDefault("")
                 if (dontShowFor != current && seen != current) {
@@ -469,10 +469,10 @@ class MainActivity : AppCompatActivity() {
                 LocalConfiguration provides localizedConfig,
                 LocalLayoutDirection provides
                     if (rtl) LayoutDirection.Rtl else LayoutDirection.Ltr,
-                com.hikari.app.i18n.I18n.LocalMap provides i18nMap,
+                com.gworld06.streambox.i18n.I18n.LocalMap provides i18nMap,
                 // One switch, every explanation line in the app (Settings → App
                 // Layout → "Explanations") — see LocalHideHelp.
-                com.hikari.app.ui.components.LocalHideHelp provides hideHelp,
+                com.gworld06.streambox.ui.components.LocalHideHelp provides hideHelp,
             ) {
             HikariTheme(
                 mode = themeMode,
@@ -492,7 +492,7 @@ class MainActivity : AppCompatActivity() {
                 // of AppRoot and of the dialogs below, so nothing of the app (a
                 // title, a poster, a notification about an update) can be read
                 // over the lock.
-                com.hikari.app.ui.AppLockGate(this@MainActivity) {
+                com.gworld06.streambox.ui.AppLockGate(this@MainActivity) {
                 AppRoot(themeMode.key)
                 if (showUpdateDialog) {
                     UpdateDialog(
@@ -508,7 +508,7 @@ class MainActivity : AppCompatActivity() {
                             scope.launch {
                                 runCatching {
                                     store.setCommunitySeenVersion(
-                                        com.hikari.app.BuildConfig.VERSION_NAME
+                                        com.gworld06.streambox.BuildConfig.VERSION_NAME
                                     )
                                 }
                             }
@@ -517,7 +517,7 @@ class MainActivity : AppCompatActivity() {
                             showTelegramDialog = false
                             scope.launch {
                                 runCatching {
-                                    val v = com.hikari.app.BuildConfig.VERSION_NAME
+                                    val v = com.gworld06.streambox.BuildConfig.VERSION_NAME
                                     store.setCommunitySeenVersion(v)
                                     store.setCommunityDontShowVersion(v)
                                 }
@@ -533,7 +533,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Feeds the television focus ring (see [com.hikari.app.tv.TvInput]).
+     * Feeds the television focus ring (see [com.gworld06.streambox.tv.TvInput]).
      *
      * A remote's key reaches the window here, before any composable sees it, so
      * this is the one place that knows the user is driving the app with a remote
@@ -542,14 +542,14 @@ class MainActivity : AppCompatActivity() {
      * consumed or altered: the event goes on to the rest of the app unchanged.
      */
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
-        com.hikari.app.tv.TvInput.noteKey(event)
+        com.gworld06.streambox.tv.TvInput.noteKey(event)
         return super.dispatchKeyEvent(event)
     }
 
     /** A finger means the platform ripple is wanted again (on a non-TV device). */
     override fun dispatchTouchEvent(event: android.view.MotionEvent): Boolean {
         if (event.actionMasked == android.view.MotionEvent.ACTION_DOWN) {
-            com.hikari.app.tv.TvInput.noteTouch()
+            com.gworld06.streambox.tv.TvInput.noteTouch()
         }
         return super.dispatchTouchEvent(event)
     }
@@ -652,19 +652,19 @@ class MainActivity : AppCompatActivity() {
         // able to open a verification page on its own (see ExtensionVerifyGuard).
         app.appScope.launch {
             runCatching {
-                com.hikari.app.net.ExtensionVerifyGuard.apply(
+                com.gworld06.streambox.net.ExtensionVerifyGuard.apply(
                     app,
                     app.store.extensionVerifyWebview(),
                 )
             }
         }
-        val path = com.hikari.app.cs3.Cs3PluginManager.pendingSettingsReload ?: return
-        com.hikari.app.cs3.Cs3PluginManager.pendingSettingsReload = null
+        val path = com.gworld06.streambox.cs3.Cs3PluginManager.pendingSettingsReload ?: return
+        com.gworld06.streambox.cs3.Cs3PluginManager.pendingSettingsReload = null
         app.appScope.launch {
             runCatching {
                 val file = java.io.File(path)
-                if (file.exists()) com.hikari.app.cs3.Cs3PluginManager.reload(app, file)
-                com.hikari.app.cs3.Cs3ProviderSync.reconcile(app, app.store)
+                if (file.exists()) com.gworld06.streambox.cs3.Cs3PluginManager.reload(app, file)
+                com.gworld06.streambox.cs3.Cs3ProviderSync.reconcile(app, app.store)
                 app.providers.refresh()
             }
         }
@@ -691,26 +691,26 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handleTrackerRedirect(intent: android.content.Intent?) {
         val url = intent?.data?.toString().orEmpty()
-        if (!url.startsWith(com.hikari.app.tracker.TrackerApi.REDIRECT_URI)) return
-        if (com.hikari.app.tracker.TrackerRedirect.dialogOpen) {
-            com.hikari.app.tracker.TrackerRedirect.deliver(url)
+        if (!url.startsWith(com.gworld06.streambox.tracker.TrackerApi.REDIRECT_URI)) return
+        if (com.gworld06.streambox.tracker.TrackerRedirect.dialogOpen) {
+            com.gworld06.streambox.tracker.TrackerRedirect.deliver(url)
             return
         }
-        val token = com.hikari.app.tracker.TrackerApi.tokenFromRedirect(url)
+        val token = com.gworld06.streambox.tracker.TrackerApi.tokenFromRedirect(url)
         val app = application as HikariApp
         if (token != null) {
             lifecycleScope.launch {
-                val client = runCatching { app.store.trackerClient(com.hikari.app.data.TrackerKind.ANILIST) }
-                    .getOrDefault(com.hikari.app.data.TrackerClient(com.hikari.app.data.TrackerKind.ANILIST))
+                val client = runCatching { app.store.trackerClient(com.gworld06.streambox.data.TrackerKind.ANILIST) }
+                    .getOrDefault(com.gworld06.streambox.data.TrackerClient(com.gworld06.streambox.data.TrackerKind.ANILIST))
                 if (client.id.isBlank()) {
                     toast(
-                        com.hikari.app.i18n.I18n.t("AniList signed you in, but this app does not know your client id yet — Settings → Trackers, paste it, then resend the link.")
+                        com.gworld06.streambox.i18n.I18n.t("AniList signed you in, but this app does not know your client id yet — Settings → Trackers, paste it, then resend the link.")
                     )
                     return@launch
                 }
-                val done = runCatching { com.hikari.app.tracker.TrackerApi.signInWithToken(client, token) }.getOrNull()
+                val done = runCatching { com.gworld06.streambox.tracker.TrackerApi.signInWithToken(client, token) }.getOrNull()
                 if (done == null) {
-                    toast(com.hikari.app.i18n.I18n.t("AniList: could not finish the sign-in from that link."))
+                    toast(com.gworld06.streambox.i18n.I18n.t("AniList: could not finish the sign-in from that link."))
                     return@launch
                 }
                 done.onSuccess { account ->
@@ -728,14 +728,14 @@ class MainActivity : AppCompatActivity() {
         // page opens (see TrackerApi.Pending), so the link can be finished here —
         // which is what makes a browser sign-in work even when Android reclaimed
         // the app in between, the case that used to end in "paste it yourself".
-        val code = com.hikari.app.tracker.TrackerApi.codeFromRedirect(url)
-        val echoed = com.hikari.app.tracker.TrackerApi.stateFromRedirect(url)
+        val code = com.gworld06.streambox.tracker.TrackerApi.codeFromRedirect(url)
+        val echoed = com.gworld06.streambox.tracker.TrackerApi.stateFromRedirect(url)
         if (code != null && echoed != null) {
             lifecycleScope.launch {
                 val pending = runCatching { app.store.trackerPending() }.getOrNull()
                 if (pending == null || pending.state != echoed) {
                     toast(
-                        com.hikari.app.i18n.I18n.t(
+                        com.gworld06.streambox.i18n.I18n.t(
                             "That sign-in link no longer matches a sign-in started in this app — " +
                                 "start it again from Settings → Trackers."
                         )
@@ -743,12 +743,12 @@ class MainActivity : AppCompatActivity() {
                     return@launch
                 }
                 val stored = runCatching { app.store.trackerClient(pending.kind) }
-                    .getOrDefault(com.hikari.app.data.TrackerClient(pending.kind))
+                    .getOrDefault(com.gworld06.streambox.data.TrackerClient(pending.kind))
                 // One link is one sign-in, whatever the outcome: dropping the
                 // record here is what stops a stale `state` being reused.
                 runCatching { app.store.setTrackerPending(null) }
                 val done = runCatching {
-                    com.hikari.app.tracker.TrackerApi.exchangeCode(
+                    com.gworld06.streambox.tracker.TrackerApi.exchangeCode(
                         if (stored.id.isBlank()) stored.copy(id = pending.clientId) else stored,
                         code,
                         pending.state,
@@ -756,7 +756,7 @@ class MainActivity : AppCompatActivity() {
                 }.getOrNull()
                 if (done == null) {
                     toast(
-                        com.hikari.app.i18n.I18n.t(
+                        com.gworld06.streambox.i18n.I18n.t(
                             "${pending.kind.label}: could not finish the sign-in from that link."
                         )
                     )
@@ -772,7 +772,7 @@ class MainActivity : AppCompatActivity() {
         // Nothing to exchange (no code, or no echoed state): the honest answer is
         // where to put the link. The dialog's paste box reads a code out of a
         // whole URL.
-        toast(com.hikari.app.i18n.I18n.t("This sign-in link has to be finished in the app: Settings → Trackers → paste it into the code field."))
+        toast(com.gworld06.streambox.i18n.I18n.t("This sign-in link has to be finished in the app: Settings → Trackers → paste it into the code field."))
     }
 
     /** A short message from a non-Compose place. */
@@ -790,17 +790,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * A repo link forwarded by [com.hikari.app.deeplink.RepoLinkActivity]
+     * A repo link forwarded by [com.gworld06.streambox.deeplink.RepoLinkActivity]
      * ("Open with → Hikari" on a repo link in a browser): published for AppRoot,
      * which switches to the Extensions tab — the Extensions screen installs it
      * into the section it belongs to and opens that repo's folder.
      */
     private fun handleRepoLink(intent: android.content.Intent?) {
-        val url = intent?.getStringExtra(com.hikari.app.deeplink.RepoLinkActivity.EXTRA_REPO_LINK)
+        val url = intent?.getStringExtra(com.gworld06.streambox.deeplink.RepoLinkActivity.EXTRA_REPO_LINK)
             .orEmpty().trim()
         if (url.isBlank()) return
         (application as HikariApp).repoLinkRequest.value = url
-        intent?.removeExtra(com.hikari.app.deeplink.RepoLinkActivity.EXTRA_REPO_LINK)
+        intent?.removeExtra(com.gworld06.streambox.deeplink.RepoLinkActivity.EXTRA_REPO_LINK)
     }
 
     /** Set MainAPI.app to this activity, whichever form the jar compiles it
@@ -835,7 +835,7 @@ class MainActivity : AppCompatActivity() {
      * plugin's own PathClassLoader, never this activity's.
      */
     /**
-     * Extension auto-open guard (see [com.hikari.app.net.ExtensionUiGuard]):
+     * Extension auto-open guard (see [com.gworld06.streambox.net.ExtensionUiGuard]):
      * external intents from extension code pass only on a user gesture (or
      * inside the allow-window). Our own calls always pass.
      *
@@ -843,11 +843,11 @@ class MainActivity : AppCompatActivity() {
      * proxy crashes EVERY dialog — ClassCastException on WindowManagerImpl).
      */
     override fun startActivity(intent: android.content.Intent) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
     }
 
     override fun startActivity(intent: android.content.Intent, options: android.os.Bundle?) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
             super.startActivity(intent, options)
         }
     }
@@ -858,7 +858,7 @@ class MainActivity : AppCompatActivity() {
      * Hikari's rule is that a Cloudflare/Turnstile verification page opens only
      * when the user taps the app's own verify (globe) button. Extensions cannot
      * be made to follow that rule by their preferences alone (see
-     * [com.hikari.app.net.ExtensionVerifyGuard.blocksPopup] for the disassembled
+     * [com.gworld06.streambox.net.ExtensionVerifyGuard.blocksPopup] for the disassembled
      * proof — Anichi ships `AnichiTurnstileDialog` and shows it by itself while
      * it resolves links), so this is the enforcement point: every fragment that
      * reaches this activity is offered to the guard, and one that looks like an
@@ -872,14 +872,14 @@ class MainActivity : AppCompatActivity() {
     private fun dismissExtensionPopup(fragment: androidx.fragment.app.Fragment) {
         if (fragment.javaClass.classLoader === javaClass.classLoader) return
         val popup = fragment as? androidx.fragment.app.DialogFragment ?: return
-        if (!com.hikari.app.net.ExtensionVerifyGuard.blocksPopup(
+        if (!com.gworld06.streambox.net.ExtensionVerifyGuard.blocksPopup(
                 fragment.javaClass.name,
                 fragment.tag,
             )
         ) {
             return
         }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Extensions",
             "closed a popup an extension opened on its own: " +
                 fragment.javaClass.name + " (tag=" + fragment.tag + ")",
@@ -945,7 +945,7 @@ class MainActivity : AppCompatActivity() {
             val size = dpToPx(context, 44)
             val close = android.widget.ImageButton(context).apply {
                 id = settingsCloseButtonId
-                contentDescription = com.hikari.app.i18n.I18n.t("Close settings")
+                contentDescription = com.gworld06.streambox.i18n.I18n.t("Close settings")
                 scaleType = android.widget.ImageView.ScaleType.CENTER
                 // Same touch feedback a Material icon button uses; falls back to
                 // a plain transparent background if the sheet's theme has none.

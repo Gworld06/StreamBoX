@@ -1,5 +1,5 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.i18n.tr
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,13 +42,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.HistoryEntry
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.tv.tvToggle
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.HistoryEntry
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.tv.tvToggle
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -70,11 +70,11 @@ fun HistoryScreen(nav: NavHostController, embedded: Boolean = false) {
     // Manga reading counts as history too (see the shelf below). Read through
     // the manga store's revision so a chapter read elsewhere appears instantly.
     val mangaRev = rememberMangaRevision()
-    val hasMangaProgress = remember(mangaRev) { com.hikari.app.manga.MangaStore.progress().isNotEmpty() }
+    val hasMangaProgress = remember(mangaRev) { com.gworld06.streambox.manga.MangaStore.progress().isNotEmpty() }
 
     LazyColumn(
         // History position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("history"),
+        state = com.gworld06.streambox.ui.components.keptListState("history"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,

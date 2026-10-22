@@ -1,7 +1,7 @@
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
-import com.hikari.app.data.Episode
-import com.hikari.app.data.StreamSource
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.StreamSource
 import com.lagradost.cloudstream3.app
 import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONObject

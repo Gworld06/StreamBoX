@@ -1,8 +1,8 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import androidx.media3.common.MimeTypes
-import com.hikari.app.HikariApp
-import com.hikari.app.data.StreamSource
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.StreamSource
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

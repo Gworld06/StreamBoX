@@ -1,11 +1,11 @@
-package com.hikari.app.nuvio
+package com.gworld06.streambox.nuvio
 
 import android.util.Base64
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.asyncFunction
 import com.dokar.quickjs.binding.function
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -84,7 +84,7 @@ object NuvioRuntime {
     private const val PERF_CONCURRENT = 5
     /**
      * [MAX_CONCURRENT] on a TELEVISION (see
-     * [com.hikari.app.data.PerfMode.tvDevice]): four engines at once.
+     * [com.gworld06.streambox.data.PerfMode.tvDevice]): four engines at once.
      *
      * Twelve native VMs is right on a phone, which the app expects to be waiting
      * on a search pass, and wrong on the 1-1.5GB boxes this is for: a detail page
@@ -122,14 +122,14 @@ object NuvioRuntime {
 
     /**
      * [ENGINE_MEMORY_LIMIT] as it applies on THIS device: the television value
-     * from [com.hikari.app.data.PerfMode.tvEngineMemoryLimit] when there is one
+     * from [com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit] when there is one
      * — a 1-1.5GB box, where opening a detail page boots several engines at once
      * and native QuickJS memory is what the low-memory killer acts on, so the app
      * is killed mid-load — otherwise the flat ceiling above. Read once per engine
      * creation, so it is a field read and a comparison per call.
      */
     private val engineMemoryLimit: Long
-        get() = com.hikari.app.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
+        get() = com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit ?: ENGINE_MEMORY_LIMIT
 
     /** The default User-Agent for nuvio bridge fetches, byte-identical to
      *  NuvioMobile's own FetchBridge fallback: providers that send no UA get
@@ -163,8 +163,8 @@ object NuvioRuntime {
         get() = when {
             // The television's own pool comes FIRST: the booster below is a
             // switch the user can turn off, and a 1GB box is not.
-            com.hikari.app.data.PerfMode.tvDevice -> tvConcurrency
-            com.hikari.app.data.PerfMode.active -> perfConcurrency
+            com.gworld06.streambox.data.PerfMode.tvDevice -> tvConcurrency
+            com.gworld06.streambox.data.PerfMode.active -> perfConcurrency
             else -> concurrency
         }
 
@@ -282,7 +282,7 @@ object NuvioRuntime {
     }
 
     private fun readAsset(path: String): String =
-        com.hikari.app.HikariApp.instance.assets.open(path).bufferedReader().readText()
+        com.gworld06.streambox.HikariApp.instance.assets.open(path).bufferedReader().readText()
 
     /**
      * Whether a provider's source wants the cheerio bundle.
@@ -331,7 +331,7 @@ object NuvioRuntime {
      * exactly the HTTP trail that provider's own call produced — which is what
      * makes "this engine found nothing" diagnosable from a log file instead of
      * only from the sources sheet. See the per-provider line in
-     * [com.hikari.app.nuvio.NuvioScraper].
+     * [com.gworld06.streambox.nuvio.NuvioScraper].
      */
     fun fetchLogMark(): Int = fetchLogCount.get()
 
@@ -353,7 +353,7 @@ object NuvioRuntime {
 
     fun settingsFile(providerId: String): File {
         val safe = providerId.replace(Regex("[^A-Za-z0-9_.-]"), "_")
-        return File(com.hikari.app.HikariApp.instance.filesDir, "nuvio/settings/$safe.json")
+        return File(com.gworld06.streambox.HikariApp.instance.filesDir, "nuvio/settings/$safe.json")
     }
 
     fun saveSettings(providerId: String, json: String) {
@@ -539,7 +539,7 @@ object NuvioRuntime {
         // the text does not spell out). One retry with the bundle on board is
         // cheap next to a provider that silently stops working, and it can only
         // ever happen for a call that was going to report an error anyway.
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Nuvio",
             "$providerId: failed without cheerio — retrying with it",
         )

@@ -1,4 +1,4 @@
-package com.hikari.app.core
+package com.gworld06.streambox.core
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Semaphore
@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantLock
  * Bounds and de-serialises the heavy "load a plugin archive" work.
  *
  * Hikari ships two plugin runtimes — CloudStream `.cs3` dex archives
- * ([com.hikari.app.cs3.Cs3PluginManager]) and Hikari `.hiki` archives
- * ([com.hikari.app.hiki.HikariPluginManager]) — and each used to guard itself
+ * ([com.gworld06.streambox.cs3.Cs3PluginManager]) and Hikari `.hiki` archives
+ * ([com.gworld06.streambox.hiki.HikariPluginManager]) — and each used to guard itself
  * with ONE global lock (a `ReentrantLock`, and `@Synchronized` respectively).
  * On a device with a few hundred installed extensions that meant every archive
  * loaded strictly one at a time: a cold Home, a cross-extension search and an

@@ -1,11 +1,11 @@
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
 import com.lagradost.cloudstream3.app
 import com.lagradost.cloudstream3.utils.Qualities
 import com.lagradost.cloudstream3.utils.loadExtractor
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withTimeoutOrNull

@@ -1,7 +1,7 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +16,7 @@ import java.io.File
  * WHY this exists. Every one of those three reads goes through a PROVIDER, and a
  * provider's first answer is expensive for reasons that have nothing to do with
  * the network: an Aniyomi extension has to class-load its APK before it can make
- * a request (the [com.hikari.app.aniyomi.AniyomiExtensionManager] registers
+ * a request (the [com.gworld06.streambox.aniyomi.AniyomiExtensionManager] registers
  * singletons, then ART verifies the extension's dex), a CloudStream/.hiki plugin
  * has to spin its runtime and its site session up, and a nuvio engine boots a
  * QuickJS VM. So the second time a user opens the same catalogue, the same

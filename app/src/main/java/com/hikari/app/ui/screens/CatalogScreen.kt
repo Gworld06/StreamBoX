@@ -1,10 +1,10 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.ui.components.QuickAddToLibrarySheet
-import com.hikari.app.ui.components.QuickMenuOverlay
-import com.hikari.app.ui.components.quickMenuGesture
-import com.hikari.app.ui.components.rememberQuickMenuState
-import com.hikari.app.tv.TvUi
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.ui.components.QuickAddToLibrarySheet
+import com.gworld06.streambox.ui.components.QuickMenuOverlay
+import com.gworld06.streambox.ui.components.quickMenuGesture
+import com.gworld06.streambox.ui.components.rememberQuickMenuState
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.i18n.tr
 
 import android.app.Application
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -73,30 +73,30 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MetaCache
-import com.hikari.app.data.TrackerLibraryRepository
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderType
-import com.hikari.app.i18n.I18n
-import com.hikari.app.manga.MangaProvider
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.IptvProvider
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.PosterStyle
-import com.hikari.app.ui.PosterTypes
-import com.hikari.app.ui.RatingBadge
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.components.ProviderSettingsDialog
-import com.hikari.app.ui.components.VerificationNudge
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberVisibleItems
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MetaCache
+import com.gworld06.streambox.data.TrackerLibraryRepository
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.manga.MangaProvider
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.IptvProvider
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.PosterStyle
+import com.gworld06.streambox.ui.PosterTypes
+import com.gworld06.streambox.ui.RatingBadge
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.components.ProviderSettingsDialog
+import com.gworld06.streambox.ui.components.VerificationNudge
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberVisibleItems
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -213,21 +213,21 @@ class CatalogViewModel(
     private fun providerReason(): String? {
         val p = manager.byId(providerId) ?: return null
         val raw = when (p.config.type) {
-            ProviderType.MANGA -> com.hikari.app.manga.MangaProvider.lastOutcome[p.config.id]
-            ProviderType.ANIYOMI -> com.hikari.app.aniyomi.AniyomiProvider.catalogErrors[p.config.id]
-            ProviderType.SKYSTREAM -> com.hikari.app.skystream.SkyStreamProvider.catalogErrors[p.config.id]
-            ProviderType.NUVIO -> com.hikari.app.nuvio.NuvioScraper.catalogErrors[p.config.id]
-            ProviderType.STREMIO -> com.hikari.app.providers.StremioAddon.catalogErrors[p.config.id]
-            ProviderType.CS3 -> com.hikari.app.cs3.Cs3MainApiProvider.catalogErrors[p.config.id]
-            ProviderType.VEGA -> com.hikari.app.providers.vega.VegaProvider.catalogErrors[p.config.id]
-            ProviderType.ZANGETSU -> com.hikari.app.zangetsu.ZangetsuProvider.catalogErrors[p.config.id]
-            ProviderType.HIKARI -> com.hikari.app.providers.HikariProviderAdapter.catalogErrors[p.config.id]
-            ProviderType.ANYMEX -> com.hikari.app.anymex.AnymexProvider.catalogErrors[p.config.id]
-                ?: com.hikari.app.anymex.AnymexProvider.lastOutcome[p.config.id]
-            ProviderType.ANYMEX_MANGA -> com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
-            ProviderType.SORA -> com.hikari.app.sora.SoraProvider.catalogErrors[p.config.id]
-                ?: com.hikari.app.sora.SoraProvider.lastOutcome[p.config.id]
-            ProviderType.FORK_VIDEO -> com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
+            ProviderType.MANGA -> com.gworld06.streambox.manga.MangaProvider.lastOutcome[p.config.id]
+            ProviderType.ANIYOMI -> com.gworld06.streambox.aniyomi.AniyomiProvider.catalogErrors[p.config.id]
+            ProviderType.SKYSTREAM -> com.gworld06.streambox.skystream.SkyStreamProvider.catalogErrors[p.config.id]
+            ProviderType.NUVIO -> com.gworld06.streambox.nuvio.NuvioScraper.catalogErrors[p.config.id]
+            ProviderType.STREMIO -> com.gworld06.streambox.providers.StremioAddon.catalogErrors[p.config.id]
+            ProviderType.CS3 -> com.gworld06.streambox.cs3.Cs3MainApiProvider.catalogErrors[p.config.id]
+            ProviderType.VEGA -> com.gworld06.streambox.providers.vega.VegaProvider.catalogErrors[p.config.id]
+            ProviderType.ZANGETSU -> com.gworld06.streambox.zangetsu.ZangetsuProvider.catalogErrors[p.config.id]
+            ProviderType.HIKARI -> com.gworld06.streambox.providers.HikariProviderAdapter.catalogErrors[p.config.id]
+            ProviderType.ANYMEX -> com.gworld06.streambox.anymex.AnymexProvider.catalogErrors[p.config.id]
+                ?: com.gworld06.streambox.anymex.AnymexProvider.lastOutcome[p.config.id]
+            ProviderType.ANYMEX_MANGA -> com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
+            ProviderType.SORA -> com.gworld06.streambox.sora.SoraProvider.catalogErrors[p.config.id]
+                ?: com.gworld06.streambox.sora.SoraProvider.lastOutcome[p.config.id]
+            ProviderType.FORK_VIDEO -> com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
             else -> null
         }
         return raw?.takeIf { it.isNotBlank() && !it.startsWith("✓") && !it.startsWith("✔") }
@@ -276,9 +276,9 @@ class CatalogViewModel(
         // to show the empty state for a beat.
         _loading.value = true
         // Keeps this page load running while the user is in another app (see
-        // [com.hikari.app.work.BackgroundWork]) — otherwise the OS freezes the
+        // [com.gworld06.streambox.work.BackgroundWork]) — otherwise the OS freezes the
         // process and the grid stops filling in until the app is reopened.
-        val work = com.hikari.app.work.BackgroundWork.begin("Loading $catalogName") {
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading $catalogName") {
             loadJob?.cancel()
         }
         loadJob = viewModelScope.launch {
@@ -308,7 +308,7 @@ class CatalogViewModel(
                     // answer this catalogue actually gave — so "Show all" shows
                     // what the Home row just showed instead of "Nothing here
                     // right now".
-                    com.hikari.app.data.ContentRepository.loadCatalogPage(
+                    com.gworld06.streambox.data.ContentRepository.loadCatalogPage(
                         provider,
                         ref,
                         page,
@@ -349,8 +349,8 @@ class CatalogViewModel(
                 _loading.value = false
                 return@launch
             }
-            val translated = if (providerId in com.hikari.app.data.Translator.enabledIds()) {
-                com.hikari.app.data.Translator.translateAll(fresh.map { it.title })
+            val translated = if (providerId in com.gworld06.streambox.data.Translator.enabledIds()) {
+                com.gworld06.streambox.data.Translator.translateAll(fresh.map { it.title })
                     .mapIndexed { i, t -> if (t != fresh[i].title) fresh[i].copy(title = t) else fresh[i] }
             } else {
                 fresh
@@ -397,7 +397,7 @@ class CatalogViewModel(
             }
             _loading.value = false
         }
-        loadJob?.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        loadJob?.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
     }
 
     /**
@@ -410,7 +410,7 @@ class CatalogViewModel(
     private fun loadTrackerNext() {
         if (_loading.value || _done.value) return
         _loading.value = true
-        val work = com.hikari.app.work.BackgroundWork.begin("Loading $catalogName") {
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading $catalogName") {
             loadJob?.cancel()
         }
         loadJob = viewModelScope.launch {
@@ -459,7 +459,7 @@ class CatalogViewModel(
             }
             _loading.value = false
         }
-        loadJob?.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+        loadJob?.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
     }
 
     /** "ClassName: message" from the ROOT cause of [t] — what the empty state
@@ -571,7 +571,7 @@ fun CatalogScreen(
     val verifyWanted = remember(providerId, catalogReason) {
         val prov = hikari.providers.byId(providerId)
         if (prov?.config?.type == ProviderType.MANGA) {
-            com.hikari.app.manga.MangaProvider.isWallOutcome(providerId)
+            com.gworld06.streambox.manga.MangaProvider.isWallOutcome(providerId)
         } else {
             val r = catalogReason
             r == null || WALL_HINT.containsMatchIn(r)
@@ -607,7 +607,7 @@ fun CatalogScreen(
             } else {
                 val host = runCatching { java.net.URI(site).host?.lowercase() }.getOrNull()
                 verifyLauncher.launch(
-                    android.content.Intent(context, com.hikari.app.web.WebViewActivity::class.java)
+                    android.content.Intent(context, com.gworld06.streambox.web.WebViewActivity::class.java)
                         .apply {
                             putExtra("url", site)
                             putExtra("title", "Verify: " + (host ?: providerName))
@@ -628,7 +628,7 @@ fun CatalogScreen(
     // it was left. Keys re-find the exact item when row order shifts, and the
     // waiter pulls more pages while the saved cell is not loaded yet.
     val catalogKeys = remember(items) { items.distinctBy { it.uniqueId }.map { it.uniqueId } }
-    val gridState = com.hikari.app.ui.components.keptGridState(
+    val gridState = com.gworld06.streambox.ui.components.keptGridState(
         "catalog:$providerId|$catalogId|$type|$selectedCatalog|$appliedQuery",
         itemKeys = catalogKeys,
         onNeedMore = { if (!done && !loading) vm.loadNext() },
@@ -638,7 +638,7 @@ fun CatalogScreen(
     // phone, which is the visible difference from the old 84dp adaptive grid
     // (four cramped columns). On a television the count is still derived from
     // the living-room cell size instead (see [TvUi.gridColumns]).
-    val isTvCatalog = com.hikari.app.tv.TvMode.current()
+    val isTvCatalog = com.gworld06.streambox.tv.TvMode.current()
     // IPTV shelves always draw cinema 16:9 cards (phone included): channel
     // logos on tall vertical posters looked broken, and nothing else changes —
     // every other engine keeps the user's own poster setting.
@@ -722,8 +722,8 @@ fun CatalogScreen(
         }
         // Television opens on the shared cinematic header; the phone keeps
         // its own title block.
-        if (com.hikari.app.tv.TvMode.current()) {
-            com.hikari.app.tv.TvScreenHeader(
+        if (com.gworld06.streambox.tv.TvMode.current()) {
+            com.gworld06.streambox.tv.TvScreenHeader(
                 title = tr(shownName),
                 subtitle = providerName.takeIf { it.isNotBlank() },
             )
@@ -734,7 +734,7 @@ fun CatalogScreen(
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 6.dp)
         ) {
-            if (!com.hikari.app.tv.TvMode.current()) {
+            if (!com.gworld06.streambox.tv.TvMode.current()) {
             Text(
                 tr(shownName),
                 style = MaterialTheme.typography.headlineMedium,
@@ -743,7 +743,7 @@ fun CatalogScreen(
                 overflow = TextOverflow.Ellipsis
             )
             }
-            if (!com.hikari.app.tv.TvMode.current() && providerName.isNotBlank()) {
+            if (!com.gworld06.streambox.tv.TvMode.current() && providerName.isNotBlank()) {
                 Text(
                     providerName,
                     style = MaterialTheme.typography.bodyMedium,
@@ -783,7 +783,7 @@ fun CatalogScreen(
             // grid keeps the shape it is about to have, instead of a lone
             // spinner that says nothing about what is coming.
             Box(Modifier.fillMaxSize()) {
-                CatalogSkeletonGrid(columns = columns, cinema = iptvCinema || rememberPosterStyle().isCinema(com.hikari.app.tv.TvMode.current()))
+                CatalogSkeletonGrid(columns = columns, cinema = iptvCinema || rememberPosterStyle().isCinema(com.gworld06.streambox.tv.TvMode.current()))
                 // The spinner, on its own, cannot say WHY nothing is arriving —
                 // and ten seconds in, the usual answer is a Cloudflare check the
                 // site wants a browser to pass (see [VerificationNudge]). The
@@ -843,7 +843,7 @@ fun CatalogScreen(
                 state = gridState,
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
-                    horizontal = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
+                    horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
                     vertical = 12.dp
                 ),
                 horizontalArrangement = Arrangement.spacedBy(if (isTvCatalog) 14.dp else 12.dp),
@@ -852,7 +852,7 @@ fun CatalogScreen(
                 items(uniqueItems, key = { it.uniqueId }) { item ->
                     if (isTvCatalog) {
                         if (style.isCinema(true)) {
-                            com.hikari.app.tv.TvCinemaCard(item = item, onClick = {
+                            com.gworld06.streambox.tv.TvCinemaCard(item = item, onClick = {
                                 Routes.safeNavigate(
                                     nav,
                                     if (rawType == "manga") Routes.mangaRoute(item.providerId, item.id, item.title, item.posterUrl)
@@ -860,7 +860,7 @@ fun CatalogScreen(
                                 )
                             })
                         } else {
-                            com.hikari.app.tv.TvVerticalCard(item = item, onClick = {
+                            com.gworld06.streambox.tv.TvVerticalCard(item = item, onClick = {
                                 Routes.safeNavigate(
                                     nav,
                                     if (rawType == "manga") Routes.mangaRoute(item.providerId, item.id, item.title, item.posterUrl)
@@ -1003,7 +1003,7 @@ private fun CatalogCard(
     // never wanted badges pays nothing.
     val badge = rememberPosterScore(item, style)
     val shape = RoundedCornerShape(style.corner.dp)
-    val cinema = style.isCinema(com.hikari.app.tv.TvMode.current())
+    val cinema = style.isCinema(com.gworld06.streambox.tv.TvMode.current())
     val hero = if (cinema) Artwork.heroModel(item) else null
     // 1-second-hold quick menu (info / play / library / close) — see PosterQuickMenu.
     val quickMenu = rememberQuickMenuState()
@@ -1060,7 +1060,7 @@ private fun CatalogCard(
                     contentDescription = item.title,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
-                    alignment = com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT
+                    alignment = com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT
                 )
             } else {
                 AsyncImage(
@@ -1071,7 +1071,7 @@ private fun CatalogCard(
                     // Wide art in a cinema frame crops exactly like the home
                     // rail does — a centred crop here is what beheaded the
                     // same poster Show All shows after the rail showed it fine.
-                    alignment = if (cinema) com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center
+                    alignment = if (cinema) com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center
                 )
             }
             if (badge != null) {
@@ -1124,7 +1124,7 @@ private fun CatalogCard(
  * float for the whole grid).
  */
 @Composable
-private fun CatalogSkeletonGrid(columns: Int, modifier: Modifier = Modifier, cinema: Boolean = com.hikari.app.tv.TvMode.current()) {
+private fun CatalogSkeletonGrid(columns: Int, modifier: Modifier = Modifier, cinema: Boolean = com.gworld06.streambox.tv.TvMode.current()) {
     val transition = rememberInfiniteTransition(label = "catalog-skeleton")
     val pulse by transition.animateFloat(
         initialValue = 0.30f,
@@ -1136,7 +1136,7 @@ private fun CatalogSkeletonGrid(columns: Int, modifier: Modifier = Modifier, cin
         label = "catalog-skeleton-pulse",
     )
     // Television skeleton boxes read elevated-black (desktop language).
-    val tvSkel = com.hikari.app.tv.TvMode.current()
+    val tvSkel = com.gworld06.streambox.tv.TvMode.current()
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
         modifier = modifier.fillMaxSize(),
@@ -1154,7 +1154,7 @@ private fun CatalogSkeletonGrid(columns: Int, modifier: Modifier = Modifier, cin
                         .aspectRatio(if (cinema) 16f / 9f else 2f / 3f)
                         .clip(RoundedCornerShape(if (tvSkel) 8.dp else 14.dp))
                         .background(
-                            if (tvSkel) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                            if (tvSkel) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                             else MaterialTheme.colorScheme.surfaceVariant
                         )
                 )
@@ -1165,7 +1165,7 @@ private fun CatalogSkeletonGrid(columns: Int, modifier: Modifier = Modifier, cin
                         .height(12.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(
-                            if (tvSkel) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                            if (tvSkel) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                             else MaterialTheme.colorScheme.surfaceVariant
                         )
                 )

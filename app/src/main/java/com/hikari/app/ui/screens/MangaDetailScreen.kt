@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -59,21 +59,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
-import com.hikari.app.manga.MangaChapter
-import com.hikari.app.manga.MangaMark
-import com.hikari.app.manga.MangaProvider
-import com.hikari.app.manga.MangaRecord
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.components.VerificationNudge
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.manga.MangaChapter
+import com.gworld06.streambox.manga.MangaMark
+import com.gworld06.streambox.manga.MangaProvider
+import com.gworld06.streambox.manga.MangaRecord
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.components.VerificationNudge
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.web.WebViewActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -93,7 +93,7 @@ import java.util.Locale
  *
  * Every load failure is a line on screen, never a crash: a manga source is
  * third-party code and can throw anything (see
- * [com.hikari.app.manga.MangaProvider], which turns every throw into a short
+ * [com.gworld06.streambox.manga.MangaProvider], which turns every throw into a short
  * message).
  */
 @Composable
@@ -244,8 +244,8 @@ fun MangaDetailScreen(
             // "24 titles (js)" where the chapter list belongs. Only a
             // chapter-shaped outcome is shown; otherwise the honest generic.
             val outcome = MangaProvider.lastOutcome[providerId]
-                ?: com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[providerId]
-                ?: com.hikari.app.lnreader.LnReaderProvider.lastOutcome[providerId]
+                ?: com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[providerId]
+                ?: com.gworld06.streambox.lnreader.LnReaderProvider.lastOutcome[providerId]
             error = if (outcome != null && outcome.contains("chapter", ignoreCase = true)) outcome
             else I18n.t("This engine returned no chapters. Pull refresh to try again.")
         }
@@ -308,7 +308,7 @@ fun MangaDetailScreen(
         LazyColumn(
             // Chapter list position held per title (see ScrollKeeper): Back
             // from a chapter lands where the list was.
-            state = com.hikari.app.ui.components.keptListState("mangaDetail:$key"),
+            state = com.gworld06.streambox.ui.components.keptListState("mangaDetail:$key"),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
                 start = 16.dp,

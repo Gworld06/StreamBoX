@@ -1,9 +1,9 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.StreamSource
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.StreamSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.concurrent.ConcurrentHashMap

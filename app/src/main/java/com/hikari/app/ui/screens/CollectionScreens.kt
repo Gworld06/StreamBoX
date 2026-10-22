@@ -1,9 +1,9 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.tv.TvUi
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import android.app.Application
 import android.content.Context
@@ -144,54 +144,54 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.CatalogRow
-import com.hikari.app.data.CatalogSource
-import com.hikari.app.data.CatalogSourceKind
-import com.hikari.app.data.Collection
-import com.hikari.app.data.CollectionFolder
-import com.hikari.app.data.CollectionViewModes
-import com.hikari.app.data.CollectionsRepository
-import com.hikari.app.data.CoverKinds
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.NuvioCatalogImport
-import com.hikari.app.data.NuvioCollectionsImport
-import com.hikari.app.data.NuvioCollectionsExport
-import com.hikari.app.data.RepoProvenance
-import com.hikari.app.data.TileShapes
-import com.hikari.app.data.TmdbGenre
-import com.hikari.app.data.TmdbGenres
-import com.hikari.app.data.TmdbHit
-import com.hikari.app.data.TmdbPreset
-import com.hikari.app.data.TmdbPresets
-import com.hikari.app.data.TmdbSort
-import com.hikari.app.data.TmdbSorts
-import com.hikari.app.data.TmdbSourceType
-import com.hikari.app.data.TmdbSources
-import com.hikari.app.data.TmdbSpec
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.FlagIcon
-import com.hikari.app.ui.PosterArt
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.PosterStyle
-import com.hikari.app.ui.ProviderFlags
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassCornerRadius
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.components.MediaRow
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.components.PosterImage
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.shape
-import com.hikari.app.ui.rememberVisibleItems
-import com.hikari.app.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.CatalogRow
+import com.gworld06.streambox.data.CatalogSource
+import com.gworld06.streambox.data.CatalogSourceKind
+import com.gworld06.streambox.data.Collection
+import com.gworld06.streambox.data.CollectionFolder
+import com.gworld06.streambox.data.CollectionViewModes
+import com.gworld06.streambox.data.CollectionsRepository
+import com.gworld06.streambox.data.CoverKinds
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.NuvioCatalogImport
+import com.gworld06.streambox.data.NuvioCollectionsImport
+import com.gworld06.streambox.data.NuvioCollectionsExport
+import com.gworld06.streambox.data.RepoProvenance
+import com.gworld06.streambox.data.TileShapes
+import com.gworld06.streambox.data.TmdbGenre
+import com.gworld06.streambox.data.TmdbGenres
+import com.gworld06.streambox.data.TmdbHit
+import com.gworld06.streambox.data.TmdbPreset
+import com.gworld06.streambox.data.TmdbPresets
+import com.gworld06.streambox.data.TmdbSort
+import com.gworld06.streambox.data.TmdbSorts
+import com.gworld06.streambox.data.TmdbSourceType
+import com.gworld06.streambox.data.TmdbSources
+import com.gworld06.streambox.data.TmdbSpec
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.FlagIcon
+import com.gworld06.streambox.ui.PosterArt
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.PosterStyle
+import com.gworld06.streambox.ui.ProviderFlags
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassCornerRadius
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.components.MediaRow
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.components.PosterImage
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.shape
+import com.gworld06.streambox.ui.rememberVisibleItems
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
@@ -204,9 +204,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.ByteArrayInputStream
 import kotlin.math.roundToInt
-import com.hikari.app.tv.tvToggle
-import com.hikari.app.tv.tvAdjust
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvToggle
+import com.gworld06.streambox.tv.tvAdjust
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * The Collections manager: the "New Collection" / "New Folder" screens of the
@@ -338,7 +338,7 @@ fun CollectionsScreen(nav: NavHostController, onBack: () -> Unit) {
             LazyColumn(
                 // Collections index position held across visits (see
                 // ScrollKeeper).
-                state = com.hikari.app.ui.components.keptListState("collections"),
+                state = com.gworld06.streambox.ui.components.keptListState("collections"),
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
             ) {
@@ -764,7 +764,7 @@ private fun CollectionEditorPage(
         )
         LazyColumn(
             // Collection editor position held per collection (see ScrollKeeper).
-            state = com.hikari.app.ui.components.keptListState("colEdit:${collection.id}"),
+            state = com.gworld06.streambox.ui.components.keptListState("colEdit:${collection.id}"),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 32.dp),
         ) {
@@ -1111,7 +1111,7 @@ private fun FolderEditorPage(
     // the scroll gesture.
     var liftedKey by remember { mutableStateOf<String?>(null) }
     // Editor position held per folder (see ScrollKeeper).
-    val listState = com.hikari.app.ui.components.keptListState("folderEdit:${folder.id}")
+    val listState = com.gworld06.streambox.ui.components.keptListState("folderEdit:${folder.id}")
     val dragScope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
     // Plain holders, not state: these are only ever read inside the drag
@@ -2802,7 +2802,7 @@ private fun ImportCollectionsSheet(
                         busy = false
                         val failure = summary.exceptionOrNull()
                         if (failure != null) {
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Collections",
                                 "import failed: ${failure.javaClass.name}: ${failure.message}"
                             )
@@ -3289,8 +3289,8 @@ private fun SheetDoneRow(onDone: () -> Unit) {
  *
  * A cover is one of: nothing (the folder glyph), an emoji, an image URL, or an
  * animated GIF URL — the four choices of the reference client's "Edit Folder"
- * screen. The value lives in [com.hikari.app.data.Collection] /
- * [com.hikari.app.data.CollectionFolder].
+ * screen. The value lives in [com.gworld06.streambox.data.Collection] /
+ * [com.gworld06.streambox.data.CollectionFolder].
  */
 private object CollectionCovers {
 
@@ -4332,7 +4332,7 @@ private const val TILE_CORNER_FRACTION = 0.16f
 /** One folder tile: its cover (or the collection's, when the folder has none of
  *  its own), name and catalog count. Public because Home draws the same tile
  *  for a personal catalog's folders (see
- *  [com.hikari.app.ui.screens.CollectionFoldersOnHome] in HomeScreen.kt). */
+ *  [com.gworld06.streambox.ui.screens.CollectionFoldersOnHome] in HomeScreen.kt). */
 @Composable
 fun FolderTile(
     folder: CollectionFolder,
@@ -4364,7 +4364,7 @@ fun FolderTile(
     // keeps it — this only overrides the device-level default. Read from the
     // synchronous mirror rather than the store, so a tile does not open a
     // second DataStore collection on every row.
-    val tvQuiet = com.hikari.app.data.PerfMode.tvDevice && com.hikari.app.data.PerfMode.tvOn
+    val tvQuiet = com.gworld06.streambox.data.PerfMode.tvDevice && com.gworld06.streambox.data.PerfMode.tvOn
     // The tile's rounded panel is DRAWN (fill + border in [panelShape]) rather
     // than CLIPPED — a `.clip` here is what used to slice the first and last
     // letters off a small tile's name, because the curve reached further in from
@@ -4565,7 +4565,7 @@ private fun FolderRowList(
     // exact row when sources finish in a different order.
     val rowKeys = remember(loaded) { loaded.distinctBy { it.key }.map { it.key } }
     val rowListState = if (keeperKey.isBlank()) androidx.compose.foundation.lazy.rememberLazyListState()
-    else com.hikari.app.ui.components.keptListState(keeperKey, itemKeys = rowKeys)
+    else com.gworld06.streambox.ui.components.keptListState(keeperKey, itemKeys = rowKeys)
     LazyColumn(
         state = rowListState,
         modifier = Modifier.fillMaxSize(),
@@ -4796,7 +4796,7 @@ class TmdbGridViewModel(
         if (_loading.value || _done.value) return
         if (preset == null && spec == null) return
         var jobHolder: kotlinx.coroutines.Job? = null
-        val work = com.hikari.app.work.BackgroundWork.begin("Loading " + label) {
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading " + label) {
             jobHolder?.cancel()
         }
         jobHolder = viewModelScope.launch {
@@ -4823,7 +4823,7 @@ class TmdbGridViewModel(
         }.also { job ->
             // `also` (not a chained `invokeOnCompletion`) — the latter returns a
             // DisposableHandle, not the Job this holder has to keep.
-            job.invokeOnCompletion { com.hikari.app.work.BackgroundWork.end(work) }
+            job.invokeOnCompletion { com.gworld06.streambox.work.BackgroundWork.end(work) }
         }
     }
 
@@ -4944,7 +4944,7 @@ fun TmdbGridScreen(
     // order shifts, and the waiter keeps pulling pages while the saved cell
     // is not loaded yet.
     val tmdbKeys = remember(shown) { shown.map { it.uniqueId } }
-    val gridState = com.hikari.app.ui.components.keptGridState(
+    val gridState = com.gworld06.streambox.ui.components.keptGridState(
         "tmdbGrid:$presetKey|$specJson|$needle|$kindKey",
         itemKeys = tmdbKeys,
         onNeedMore = { if (!done && !loading) vm.loadNext() },
@@ -5093,7 +5093,7 @@ fun TmdbGridScreen(
 @Composable
 private fun TmdbGridCard(item: MediaItem, style: PosterStyle, onClick: () -> Unit) {
     val badge = rememberPosterScore(item, style)
-    val cinema = style.isCinema(com.hikari.app.tv.TvMode.current())
+    val cinema = style.isCinema(com.gworld06.streambox.tv.TvMode.current())
     val hero = if (cinema) Artwork.heroModel(item) else null
     Column(
         Modifier
@@ -5114,7 +5114,7 @@ private fun TmdbGridCard(item: MediaItem, style: PosterStyle, onClick: () -> Uni
             // Fit with blank sides, never a centred crop that beheads the
             // same poster the rail shows fine.
             contentScale = ContentScale.Crop,
-            imageAlignment = if (cinema) com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center,
+            imageAlignment = if (cinema) com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(if (cinema) 16f / 9f else 2f / 3f),
@@ -5272,7 +5272,7 @@ fun CollectionGridScreen(nav: NavHostController, collectionId: String) {
         }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = TvUi.gridMinFor(84)),
-            state = com.hikari.app.ui.components.keptGridState("colGrid:$collectionId", itemKeys = colKeys),
+            state = com.gworld06.streambox.ui.components.keptGridState("colGrid:$collectionId", itemKeys = colKeys),
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),

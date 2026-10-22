@@ -1,6 +1,6 @@
-package com.hikari.app.reader.source
+package com.gworld06.streambox.reader.source
 
-import com.hikari.app.net.Http
+import com.gworld06.streambox.net.Http
 import eu.kanade.tachiyomi.source.model.Page
 import eu.kanade.tachiyomi.source.online.HttpSource
 import java.io.File
@@ -41,7 +41,7 @@ class HikariPageSource(
     /**
      * The extension's own source for the chapter being read — the object every
      * page of it is fetched through. Set by the reader on each page-list fetch
-     * (see [com.hikari.app.ui.screens.MangaReaderScreen]), because a chapter can
+     * (see [com.gworld06.streambox.ui.screens.MangaReaderScreen]), because a chapter can
      * belong to a different engine than the one this source was created for
      * (cross-engine chapter jumps are not a thing, but a re-resolved engine is).
      */

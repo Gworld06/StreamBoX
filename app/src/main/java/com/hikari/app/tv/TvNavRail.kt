@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,10 +46,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hikari.app.i18n.tr
-import com.hikari.app.tv.tvPress
-import com.hikari.app.ui.navigation.BottomTabs
-import com.hikari.app.ui.navigation.BottomTab
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.ui.navigation.BottomTabs
+import com.gworld06.streambox.ui.navigation.BottomTab
 import kotlinx.coroutines.launch
 
 /**

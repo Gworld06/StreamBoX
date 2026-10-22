@@ -1,14 +1,14 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.data.TmdbBrowse
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.data.TmdbBrowse
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -150,7 +150,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
          * debrid — and it is the one the player's "Load from internet" can use
          * immediately, so subtitles are reachable in a language the stream does
          * not carry on an install the user has not set anything up on yet. It is
-         * installed once and never re-added (see [com.hikari.app.HikariApp]),
+         * installed once and never re-added (see [com.gworld06.streambox.HikariApp]),
          * so removing it is permanent.
          */
         const val DEFAULT_ADDON_URL = "https://api3.subdl.com/manifest.json"
@@ -521,8 +521,8 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
      */
     private suspend fun tmdbOffset(): Int {
         val here = runCatching {
-            com.hikari.app.HikariApp.instance.store.providers()
-                .filter { it.type == com.hikari.app.data.ProviderType.STREMIO }
+            com.gworld06.streambox.HikariApp.instance.store.providers()
+                .filter { it.type == com.gworld06.streambox.data.ProviderType.STREMIO }
                 .sortedBy { it.name.lowercase() }
                 .indexOfFirst { it.id == config.id }
         }.getOrDefault(-1)
@@ -700,7 +700,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
         // can answer — and the TMDB fallback below would read those digits as
         // a TMDB id and return an unrelated show. Tracker details come from
         // AniList/Simkl instead (see TrackerAnimeResolver).
-        if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
+        if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
         // An item from our own TMDB rows/searches: its id is a TMDB id, so the
         // addon's /meta would answer nothing. TMDB is asked instead.
         if (usesTmdbBrowse() && isTmdbId(item.id)) return TmdbBrowse.meta(item)
@@ -757,7 +757,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
      * back unchanged, and any failure is silent.
      */
     private suspend fun tmdbFallbackMeta(item: MediaItem): MediaItem {
-        if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
+        if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item)) return item
         val tmdb = tmdbIdOf(item.id) ?: return item
         if (tmdb == item.id) return item
         val full = runCatching { TmdbBrowse.meta(item.copy(id = tmdb)) }.getOrNull() ?: return item
@@ -769,7 +769,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
         // document exists for it, and the TMDB fallback below would list
         // another show's episodes under this title. Tracker episodes come
         // from the tracker count / borrowed site lists instead.
-        if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item)) return null
+        if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item)) return null
         // A TMDB item's episode list comes from TMDB (the addon has no catalog
         // and would answer nothing for a TMDB id).
         if (usesTmdbBrowse() && isTmdbId(item.id)) return TmdbBrowse.episodes(item)
@@ -1031,7 +1031,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
             // (wrong details, S01E01 servers for episode 148). Those resolve
             // through the Simkl TMDB bridge below instead.
             val digits = tmdbDigitsOf(idPart)
-                .takeUnless { com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item) }
+                .takeUnless { com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item) }
                 .orEmpty()
             val kind = if (item.type == MediaType.SERIES) "tv" else "movie"
             if (digits.isNotEmpty() && acceptsPrefix("tmdb:")) {
@@ -1040,7 +1040,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
             // Kitsu ids are a native Stremio namespace: anime addons answer
             // `kitsu:<id>:season:episode` directly, while the bare digits the
             // tracker row carries match nothing they declare.
-            if (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item) &&
+            if (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item) &&
                 item.providerId.equals("kitsu", ignoreCase = true) &&
                 (acceptsPrefix("kitsu:") || acceptsId(idPart))
             ) {
@@ -1053,9 +1053,9 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
                 digits.isNotEmpty() && (usesTmdbBrowse() || !acceptsId(idPart)) ->
                     TmdbBrowse.imdbId(digits, kind)
                 digits.isEmpty() &&
-                    (com.hikari.app.data.TrackerAnimeResolver.isTrackerAnime(item) || !acceptsId(idPart)) &&
-                    com.hikari.app.nuvio.TmdbResolver.isLikelyResolvable(item) ->
-                    com.hikari.app.nuvio.TmdbResolver.resolve(item)?.let { resolved ->
+                    (com.gworld06.streambox.data.TrackerAnimeResolver.isTrackerAnime(item) || !acceptsId(idPart)) &&
+                    com.gworld06.streambox.nuvio.TmdbResolver.isLikelyResolvable(item) ->
+                    com.gworld06.streambox.nuvio.TmdbResolver.resolve(item)?.let { resolved ->
                         // The resolved TMDB id is offered in the addon's own
                         // `tmdb:` namespace too, so a title that came from a site
                         // scraper gets the same two routes a TMDB item does.
@@ -1622,7 +1622,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
      *
      * A site-scraper item has no id any addon recognises — its id belongs to the
      * site it came from, not to a database — so the title is resolved through
-     * TMDB ([com.hikari.app.nuvio.TmdbResolver], the same resolver the rest of
+     * TMDB ([com.gworld06.streambox.nuvio.TmdbResolver], the same resolver the rest of
      * the app uses, cached and single-flight): the IMDb id first, because
      * OpenSubtitles v3 declares `idPrefixes: ["tt"]` and answers nothing else,
      * then the `tmdb:<id>` form SubDL is happiest with.
@@ -1633,7 +1633,7 @@ class StremioAddon(override val config: ProviderConfig) : ContentProvider {
         kind: String,
     ): List<String> = withTimeoutOrNull(RESOLVE_TIMEOUT_MS) {
         val resolved = runCatching {
-            com.hikari.app.nuvio.TmdbResolver.resolve(item)
+            com.gworld06.streambox.nuvio.TmdbResolver.resolve(item)
         }.getOrNull() ?: return@withTimeoutOrNull emptyList()
         val epSuffix = if (episode != null) ":${episode.season}:${episode.number}" else ""
         val media = resolved.mediaType.ifBlank { kind }

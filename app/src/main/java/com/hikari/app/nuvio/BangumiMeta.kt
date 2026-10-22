@@ -1,7 +1,7 @@
-package com.hikari.app.nuvio
+package com.gworld06.streambox.nuvio
 
-import com.hikari.app.data.TmdbMeta
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.TmdbMeta
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray

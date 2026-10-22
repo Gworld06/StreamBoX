@@ -1,7 +1,7 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.tr
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.tr
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -53,16 +53,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hikari.app.HikariApp
-import com.hikari.app.R
-import com.hikari.app.player.PlayerControl
-import com.hikari.app.player.PlayerControlSlot
-import com.hikari.app.player.PlayerControlsConfig
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.tv.tvToggle
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.R
+import com.gworld06.streambox.player.PlayerControl
+import com.gworld06.streambox.player.PlayerControlSlot
+import com.gworld06.streambox.player.PlayerControlsConfig
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.tv.tvToggle
 import kotlinx.coroutines.launch
 
 /**
@@ -93,7 +93,7 @@ fun PlayerControlsPage(app: HikariApp, onBack: () -> Unit) {
     // that reads oddly as a glyph.
     var iconsPreview by remember { mutableStateOf(true) }
     // Page position held across visits (see ScrollKeeper).
-    val listState = com.hikari.app.ui.components.keptListState("playerControls")
+    val listState = com.gworld06.streambox.ui.components.keptListState("playerControls")
 
     // Brightness/volume swipes (AppStore.playerSwipesFlow, ON by default),
     // plus slide-to-seek (AppStore.playerSlideSeekFlow, ON by default),

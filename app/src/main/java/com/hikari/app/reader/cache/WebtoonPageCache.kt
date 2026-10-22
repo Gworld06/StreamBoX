@@ -1,7 +1,7 @@
-package com.hikari.app.reader.cache
+package com.gworld06.streambox.reader.cache
 
 import android.graphics.BitmapFactory
-import com.hikari.app.reader.source.MangaSource
+import com.gworld06.streambox.reader.source.MangaSource
 import java.io.File
 import java.io.IOException
 import java.security.MessageDigest

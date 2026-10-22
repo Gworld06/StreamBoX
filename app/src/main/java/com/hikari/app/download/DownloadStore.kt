@@ -1,4 +1,4 @@
-package com.hikari.app.download
+package com.gworld06.streambox.download
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -33,7 +33,7 @@ object DownloadStore {
 
     /**
      * The queue exactly as stored, for a profile snapshot (see
-     * [com.hikari.app.data.Profiles]): the download FILES stay on the device and
+     * [com.gworld06.streambox.data.Profiles]): the download FILES stay on the device and
      * are shared, but which of them the app thinks it has queued or finished is
      * part of the setup a profile carries. Empty/absent reads as `""`.
      */

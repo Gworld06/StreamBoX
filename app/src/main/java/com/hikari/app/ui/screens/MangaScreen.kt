@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -67,25 +67,25 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
-import com.hikari.app.manga.MangaProvider
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.manga.MangaProgress
-import com.hikari.app.manga.MangaRecord
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.tv.TvUi
-import com.hikari.app.tv.tvPress
-import com.hikari.app.ui.ExtensionIcons
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberVisibleItems
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.manga.MangaProvider
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.manga.MangaProgress
+import com.gworld06.streambox.manga.MangaRecord
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.ui.ExtensionIcons
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberVisibleItems
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -106,13 +106,13 @@ import kotlinx.coroutines.withTimeoutOrNull
  * [MangaReaderScreen] at the page you stopped on.
  *
  * The engine list is discovered, not configured: a manga engine is an ordinary
- * provider of [com.hikari.app.data.ProviderType.MANGA], installed through the
+ * provider of [com.gworld06.streambox.data.ProviderType.MANGA], installed through the
  * very same Extensions screen as an Aniyomi extension (the two are the same
  * file format), so this screen shows whatever is installed the moment it is
  * installed. With nothing installed the tab explains how to get one.
  *
  * Like IPTV, the tab's button is OFF by default — see Settings → Taskbar
- * buttons, and [com.hikari.app.data.AppStore.mangaTabFlow].
+ * buttons, and [com.gworld06.streambox.data.AppStore.mangaTabFlow].
  */
 /**
  * Whether a search hit belongs in a TAG search: items whose known genre
@@ -141,10 +141,10 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
     val engines = remember(all) {
         all.filter { p ->
             p is MangaProvider ||
-                p is com.hikari.app.lnreader.LnReaderProvider ||
-                p.config.type == com.hikari.app.data.ProviderType.ANYMEX_MANGA ||
-                (p.config.type == com.hikari.app.data.ProviderType.UNIVERSAL &&
-                    com.hikari.app.providers.UniversalScraper.isImageMode(p.config))
+                p is com.gworld06.streambox.lnreader.LnReaderProvider ||
+                p.config.type == com.gworld06.streambox.data.ProviderType.ANYMEX_MANGA ||
+                (p.config.type == com.gworld06.streambox.data.ProviderType.UNIVERSAL &&
+                    com.gworld06.streambox.providers.UniversalScraper.isImageMode(p.config))
         }
     }
     val engineKey = remember(engines) { engines.joinToString(",") { it.config.id } }
@@ -220,7 +220,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
             } else {
                 val host = runCatching { java.net.URI(site).host?.lowercase() }.getOrNull()
                 verifyLauncher.launch(
-                    android.content.Intent(context, com.hikari.app.web.WebViewActivity::class.java)
+                    android.content.Intent(context, com.gworld06.streambox.web.WebViewActivity::class.java)
                         .apply {
                             putExtra("url", site)
                             putExtra("title", "Verify: " + (host ?: engine.config.name))
@@ -273,7 +273,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
                                 val found = withTimeoutOrNull(25_000L) {
                                     runCatching {
                                         if (tag.isNotBlank()) {
-                                            (p as? com.hikari.app.manga.MangaProvider)?.searchByGenre(tag, page)
+                                            (p as? com.gworld06.streambox.manga.MangaProvider)?.searchByGenre(tag, page)
                                                 ?: p.search(keyword, page)
                                         } else p.search(typed, page)
                                     }.getOrNull()
@@ -366,7 +366,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
                         val found = withTimeoutOrNull(25_000L) {
                             runCatching {
                                 if (tag.isNotBlank()) {
-                                    (p as? com.hikari.app.manga.MangaProvider)?.searchByGenre(tag, 1)
+                                    (p as? com.gworld06.streambox.manga.MangaProvider)?.searchByGenre(tag, 1)
                                         ?: p.search(keyword, 1)
                                 } else p.search(typed, 1)
                             }.getOrNull()
@@ -403,7 +403,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
     }
 
     // The adult-content switch filters these results too (see
-    // [com.hikari.app.data.NsfwGate]). It has to run HERE, above the grid rather
+    // [com.gworld06.streambox.data.NsfwGate]). It has to run HERE, above the grid rather
     // than inside it: a lazy grid's builder is not a composable scope, so the
     // gate's composable helper cannot be called from within it.
     val visibleResults = rememberVisibleItems(results)
@@ -412,7 +412,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
         columns = GridCells.Adaptive(minSize = TvUi.gridMinFor(104)),
         // Results position held per query (see ScrollKeeper): Back from a
         // title lands where the grid was.
-        state = com.hikari.app.ui.components.keptGridState("manga:$typed|$genreTag|$enginePick|$engineKey"),
+        state = com.gworld06.streambox.ui.components.keptGridState("manga:$typed|$genreTag|$enginePick|$engineKey"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -575,7 +575,7 @@ fun MangaScreen(nav: NavHostController, initialQuery: String = "", initialGenre:
                             Routes.safeNavigate(
                                 nav,
                                 if (engines.firstOrNull { it.config.id == item.providerId }?.config?.type ==
-                                    com.hikari.app.data.ProviderType.UNIVERSAL
+                                    com.gworld06.streambox.data.ProviderType.UNIVERSAL
                                 ) {
                                     Routes.detail(
                                         item.providerId, item.type, item.id,
@@ -883,7 +883,7 @@ private fun EngineRow(
 ) {
     val providerId = engine.config.id
     val name = engine.config.name
-    val catalogRawType = if (engine.config.type == com.hikari.app.data.ProviderType.UNIVERSAL) "" else "manga"
+    val catalogRawType = if (engine.config.type == com.gworld06.streambox.data.ProviderType.UNIVERSAL) "" else "manga"
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     // Read here (a composable position) — `tr` cannot be called from inside a
@@ -1009,7 +1009,7 @@ private fun EngineRow(
                             context.startActivity(
                                 android.content.Intent(
                                     context,
-                                    com.hikari.app.web.WebViewActivity::class.java,
+                                    com.gworld06.streambox.web.WebViewActivity::class.java,
                                 ).apply {
                                     putExtra("url", site)
                                     putExtra("title", "Verify: " + (host ?: name))

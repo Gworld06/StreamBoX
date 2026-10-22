@@ -1,8 +1,8 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.providers.ContentProvider
 
 /**
  * One row of a provider list.
@@ -66,7 +66,7 @@ class ProviderPack(
         // This member IS the extension's own name (the generic, multi-audio
         // source of a language pack) — the one row of the group with nothing to
         // add to it.
-        return com.hikari.app.i18n.I18n.t("Default")
+        return com.gworld06.streambox.i18n.I18n.t("Default")
     }
 
     /** The engine that published one member ("Nuvio", "CloudStream", …) — the
@@ -85,7 +85,7 @@ object ProviderPacks {
      * The extension a provider row was published by, or null for every engine
      * whose providers are not one-source-of-many (`aniyomi|<pkg>|<index>` and
      * `manga|<pkg>|<index>` are the two that are — see
-     * [com.hikari.app.aniyomi.AniyomiExtensionManager]).
+     * [com.gworld06.streambox.aniyomi.AniyomiExtensionManager]).
      */
     fun packKeyOf(config: ProviderConfig): String? {
         val prefix = when (config.type) {

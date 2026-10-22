@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -71,15 +71,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.Profiles
-import com.hikari.app.i18n.tr
-import com.hikari.app.tv.tvTextFieldKeys
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.tv.tvTextFieldKeys
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -104,7 +104,7 @@ fun ProfilesScreen(app: HikariApp, onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     // Profiles position held across visits (see ScrollKeeper).
-    val listState = com.hikari.app.ui.components.keptListState("profiles")
+    val listState = com.gworld06.streambox.ui.components.keptListState("profiles")
 
     val profiles by Profiles.all.collectAsState()
     val activeId by Profiles.activeId.collectAsState()
@@ -558,7 +558,7 @@ fun ProfilesScreen(app: HikariApp, onBack: () -> Unit) {
                 val run = pendingGate
                 scope.launch {
                     val ok = withContext(Dispatchers.IO) {
-                        com.hikari.app.lock.AppLock.verify(pw, sec)
+                        com.gworld06.streambox.lock.AppLock.verify(pw, sec)
                     }
                     gateBusy = false
                     if (ok) {
@@ -1195,7 +1195,7 @@ private fun ProfileRow(
 /** The app-lock password prompt that guards creating, renaming, deleting and
  *  opening a profile. The password itself is never stored — it is verified
  *  against the lock's derivation and dropped (see
- *  [com.hikari.app.lock.AppLock]). */
+ *  [com.gworld06.streambox.lock.AppLock]). */
 @Composable
 private fun ProfileLockDialog(
     title: String? = null,

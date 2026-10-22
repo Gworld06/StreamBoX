@@ -1,9 +1,9 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.Logs
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -60,7 +60,7 @@ object ExtensionRecovery {
     /** Records any real answer (servers OR an honest empty): the provider lives. */
     fun noteSuccess(providerId: String) {
         consecutiveStalls.remove(providerId)
-        com.hikari.app.data.ContentRepository.clearHung(providerId)
+        com.gworld06.streambox.data.ContentRepository.clearHung(providerId)
     }
 
     /** True when the provider may be recovered right now (count + cooldown). */
@@ -107,20 +107,20 @@ object ExtensionRecovery {
                     (app.providers.byId(config.id) as? StallResettable)?.resetForStall()
                     runCatching {
                         val f = java.io.File(config.url)
-                        if (f.isFile) com.hikari.app.hiki.HikariPluginManager.evict(config.url)
+                        if (f.isFile) com.gworld06.streambox.hiki.HikariPluginManager.evict(config.url)
                     }
                 }
                 ProviderType.CS3 -> {
                     runCatching {
                         val f = java.io.File(config.url)
                         if (f.isFile) {
-                            com.hikari.app.cs3.Cs3PluginManager.reload(app, f)
+                            com.gworld06.streambox.cs3.Cs3PluginManager.reload(app, f)
                         }
                     }
                 }
                 ProviderType.ANIYOMI -> {
                     runCatching {
-                        com.hikari.app.aniyomi.AniyomiExtensionManager.evict(config.url)
+                        com.gworld06.streambox.aniyomi.AniyomiExtensionManager.evict(config.url)
                     }
                 }
                 ProviderType.MANGA -> {
@@ -129,31 +129,31 @@ object ExtensionRecovery {
                         // in the registry (no .ext file), so a wedged one is
                         // evicted there; fork parsers likewise; file extensions
                         // evict their APK copy.
-                        if (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
-                            com.hikari.app.kotatsu.KotatsuRegistry.evict(
-                                com.hikari.app.kotatsu.KotatsuRegistry.enumNameOf(config.id)
+                        if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
+                            com.gworld06.streambox.kotatsu.KotatsuRegistry.evict(
+                                com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOf(config.id)
                             )
-                        } else if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
-                            com.hikari.app.kotatsu.KotatsuRegistry.evictFork(config.id)
+                        } else if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
+                            com.gworld06.streambox.kotatsu.KotatsuRegistry.evictFork(config.id)
                         } else {
-                            com.hikari.app.manga.MangaExtensionManager.evict(config.url)
+                            com.gworld06.streambox.manga.MangaExtensionManager.evict(config.url)
                         }
                     }
                 }
                 ProviderType.FORK_VIDEO -> {
                     runCatching {
-                        com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome.remove(config.id)
-                        com.hikari.app.kotatsu.fork.ForkVideoProvider.streamErrors.remove(config.id)
-                        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkId(config.id) ||
-                            com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerOf(config.id) ==
-                            com.hikari.app.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN
+                        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome.remove(config.id)
+                        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.streamErrors.remove(config.id)
+                        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkId(config.id) ||
+                            com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerOf(config.id) ==
+                            com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN
                         ) {
-                            com.hikari.app.kotatsu.fork.SkepsunBridge.evict(
-                                com.hikari.app.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
+                            com.gworld06.streambox.kotatsu.fork.SkepsunBridge.evict(
+                                com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
                             )
                         } else {
-                            com.hikari.app.kotatsu.fork.Hany18hBridge.evict(
-                                com.hikari.app.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
+                            com.gworld06.streambox.kotatsu.fork.Hany18hBridge.evict(
+                                com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
                             )
                         }
                     }
@@ -161,7 +161,7 @@ object ExtensionRecovery {
                 else -> Unit
             }
             // 3. Ask it again right away.
-            com.hikari.app.data.ContentRepository.clearHung(config.id)
+            com.gworld06.streambox.data.ContentRepository.clearHung(config.id)
         }
         return true
     }
@@ -188,48 +188,48 @@ object ExtensionRecovery {
                     (app.providers.byId(config.id) as? StallResettable)?.resetForStall()
                     runCatching {
                         val f = java.io.File(config.url)
-                        if (f.isFile) com.hikari.app.hiki.HikariPluginManager.evict(config.url)
+                        if (f.isFile) com.gworld06.streambox.hiki.HikariPluginManager.evict(config.url)
                     }
                 }
                 ProviderType.CS3 -> {
                     runCatching {
                         val f = java.io.File(config.url)
                         if (f.isFile) {
-                            com.hikari.app.cs3.Cs3PluginManager.reload(app, f)
+                            com.gworld06.streambox.cs3.Cs3PluginManager.reload(app, f)
                         }
                     }
                 }
                 ProviderType.ANIYOMI -> {
                     runCatching {
-                        com.hikari.app.aniyomi.AniyomiExtensionManager.evict(config.url)
+                        com.gworld06.streambox.aniyomi.AniyomiExtensionManager.evict(config.url)
                     }
                 }
                 ProviderType.MANGA -> {
                     runCatching {
-                        if (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
-                            com.hikari.app.kotatsu.KotatsuRegistry.evict(
-                                com.hikari.app.kotatsu.KotatsuRegistry.enumNameOf(config.id)
+                        if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
+                            com.gworld06.streambox.kotatsu.KotatsuRegistry.evict(
+                                com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOf(config.id)
                             )
-                        } else if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
-                            com.hikari.app.kotatsu.KotatsuRegistry.evictFork(config.id)
+                        } else if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
+                            com.gworld06.streambox.kotatsu.KotatsuRegistry.evictFork(config.id)
                         } else {
-                            com.hikari.app.manga.MangaExtensionManager.evict(config.url)
+                            com.gworld06.streambox.manga.MangaExtensionManager.evict(config.url)
                         }
                     }
                 }
                 ProviderType.FORK_VIDEO -> {
                     runCatching {
-                        com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome.remove(config.id)
-                        com.hikari.app.kotatsu.fork.ForkVideoProvider.streamErrors.remove(config.id)
-                        if (com.hikari.app.kotatsu.fork.ForkVideoProvider.ownerOf(config.id) ==
-                            com.hikari.app.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN
+                        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome.remove(config.id)
+                        com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.streamErrors.remove(config.id)
+                        if (com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.ownerOf(config.id) ==
+                            com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.OWNER_SKEPSUN
                         ) {
-                            com.hikari.app.kotatsu.fork.SkepsunBridge.evict(
-                                com.hikari.app.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
+                            com.gworld06.streambox.kotatsu.fork.SkepsunBridge.evict(
+                                com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
                             )
                         } else {
-                            com.hikari.app.kotatsu.fork.Hany18hBridge.evict(
-                                com.hikari.app.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
+                            com.gworld06.streambox.kotatsu.fork.Hany18hBridge.evict(
+                                com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.enumNameOf(config.id),
                             )
                         }
                     }
@@ -238,7 +238,7 @@ object ExtensionRecovery {
             }
             // 3. Ask it again right away — the skip-list would otherwise keep
             // it out of the search for two minutes after we just fixed it.
-            com.hikari.app.data.ContentRepository.clearHung(config.id)
+            com.gworld06.streambox.data.ContentRepository.clearHung(config.id)
         }
     }
 }

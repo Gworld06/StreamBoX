@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList
  * reporting "No playable sources found" purely because a response arrived late.
  *
  * Off by default, so a fast connection keeps its snappy timeouts. The flag is
- * persisted in [com.hikari.app.data.AppStore] and mirrored here at startup and
+ * persisted in [com.gworld06.streambox.data.AppStore] and mirrored here at startup and
  * on every change, so the network layer can read it synchronously (the
  * timeouts it feeds are plain constants used all over the search/probe code).
  */
@@ -24,7 +24,7 @@ object NetTuning {
         private set
 
     /** Key of the chosen [DnsProviders] entry (Settings → Network and Internet →
-     *  DNS mode), mirrored from [com.hikari.app.data.AppStore] the same way. */
+     *  DNS mode), mirrored from [com.gworld06.streambox.data.AppStore] the same way. */
     @Volatile
     var dnsProvider: String = DnsProviders.SYSTEM
         private set

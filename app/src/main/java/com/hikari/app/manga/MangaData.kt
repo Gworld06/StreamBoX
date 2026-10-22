@@ -1,7 +1,7 @@
-package com.hikari.app.manga
+package com.gworld06.streambox.manga
 
 import android.content.Context
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -482,7 +482,7 @@ fun mangaStatusLabel(status: Int): String? = when (status) {
  * vertical strip: opening it one page at a time shows a tall page cut at the
  * knee and makes the reader swipe four times per panel. The two paged modes are
  * still one tap away in the reader's settings (and stick once chosen — see
- * [com.hikari.app.data.AppStore.mangaReadModeFlow]).
+ * [com.gworld06.streambox.data.AppStore.mangaReadModeFlow]).
  */
 object MangaReadMode {
     const val PAGED_LTR = "ltr"

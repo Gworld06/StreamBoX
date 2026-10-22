@@ -1,8 +1,8 @@
-package com.hikari.app.work
+package com.gworld06.streambox.work
 
 import android.os.Handler
 import android.os.Looper
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 
 /**
  * Refcounted registry of "Hikari must keep working" tasks.
@@ -158,7 +158,7 @@ object BackgroundWork {
             WorkService.stop()
             return
         }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Work",
             "cancelling ${dropped.size} background task(s) (" +
                 dropped.joinToString(", ") { "\"" + it.label + "\"" } + ") — " + reason,
@@ -220,7 +220,7 @@ object BackgroundWork {
             stale.size
         }
         if (expired > 0) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Work",
                 "dropped $expired stale background task(s) that never reported finishing",
             )

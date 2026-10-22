@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -96,7 +96,7 @@ open class ExtensionCloudflareInterceptor(
 
     /** The UA a Cloudflare clearance is minted for on this device. */
     private fun webViewUa(): String = runCatching {
-        com.hikari.app.HikariApp.instance.effectiveWebViewUa()
+        com.gworld06.streambox.HikariApp.instance.effectiveWebViewUa()
     }.getOrNull().orEmpty().ifBlank { defaultUserAgent() }
 
     /**

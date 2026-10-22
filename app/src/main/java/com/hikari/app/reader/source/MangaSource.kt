@@ -1,4 +1,4 @@
-package com.hikari.app.reader.source
+package com.gworld06.streambox.reader.source
 
 import java.io.File
 
@@ -66,7 +66,7 @@ interface MangaSource {
      * ordinary Coil image takes a model instead — and for an extension source
      * that model has to carry the source, so the request goes out with the
      * extension's own headers (see
-     * [com.hikari.app.reader.source.ExtensionPageImageFetcher]).
+     * [com.gworld06.streambox.reader.source.ExtensionPageImageFetcher]).
      *
      * The default is deliberately empty rather than "the plain URLs": a page
      * fetched through a generic client is exactly the request these CDNs refuse,

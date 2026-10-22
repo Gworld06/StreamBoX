@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -98,37 +98,37 @@ import androidx.media3.ui.PlayerView
 import androidx.media3.ui.SubtitleView
 import coil.load
 import com.google.common.collect.ImmutableList
-import com.hikari.app.HikariApp
-import com.hikari.app.R
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.HistoryEntry
-import com.hikari.app.data.DrmSpec
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.MediaItem as AppMediaItem
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.data.ServerMeta
-import com.hikari.app.data.WatchProgress
-import com.hikari.app.data.WatchStats
-import com.hikari.app.download.DownloadEngine
-import com.hikari.app.download.DownloadKind
-import com.hikari.app.download.DownloadStatus
-import com.hikari.app.download.DownloadTask
-import com.hikari.app.download.DownloadsRepository
-import com.hikari.app.i18n.I18n
-import com.hikari.app.net.Http
-import com.hikari.app.net.NetTuning
-import com.hikari.app.net.PlayerHttp
-import com.hikari.app.net.SlowNetTip
-import com.hikari.app.net.StreamProbe
-import com.hikari.app.tracker.TrackerSync
-import com.hikari.app.tv.TvInput
-import com.hikari.app.tv.TvMode
-import com.hikari.app.ui.AccentStore
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.UiScale
-import com.hikari.app.ui.theme.HikariAccent
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.R
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.HistoryEntry
+import com.gworld06.streambox.data.DrmSpec
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.MediaItem as AppMediaItem
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.data.ServerMeta
+import com.gworld06.streambox.data.WatchProgress
+import com.gworld06.streambox.data.WatchStats
+import com.gworld06.streambox.download.DownloadEngine
+import com.gworld06.streambox.download.DownloadKind
+import com.gworld06.streambox.download.DownloadStatus
+import com.gworld06.streambox.download.DownloadTask
+import com.gworld06.streambox.download.DownloadsRepository
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.NetTuning
+import com.gworld06.streambox.net.PlayerHttp
+import com.gworld06.streambox.net.SlowNetTip
+import com.gworld06.streambox.net.StreamProbe
+import com.gworld06.streambox.tracker.TrackerSync
+import com.gworld06.streambox.tv.TvInput
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.ui.AccentStore
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.UiScale
+import com.gworld06.streambox.ui.theme.HikariAccent
 import io.github.anilbeesetti.nextlib.media3ext.ffdecoder.NextRenderersFactory
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -266,7 +266,7 @@ class PlayerActivity : ComponentActivity() {
     /** How long one addon's subtitle lookup may take. The lookup itself walks
      *  a title → id resolution (TMDB by name, then IMDb's suggestion endpoint)
      *  before it asks for tracks, and that walk is allowed 20s inside
-     *  [com.hikari.app.providers.StremioAddon] — a shorter budget here cut it
+     *  [com.gworld06.streambox.providers.StremioAddon] — a shorter budget here cut it
      *  off mid-walk and left only a `tmdb:` id, which OpenSubtitles v3 answers
      *  with nothing (the "no subtitles found for every movie" report). */
     private val ADDON_SUBTITLE_MS = 30_000L
@@ -278,7 +278,7 @@ class PlayerActivity : ComponentActivity() {
     private val MAX_AUTO_SITE_SUBS = 4
 
     /** How long ONE subtitle site gets to answer (see
-     *  [com.hikari.app.subtitles.SubtitleSites]). Every site runs at the same
+     *  [com.gworld06.streambox.subtitles.SubtitleSites]). Every site runs at the same
      *  time, so a site that has gone down costs this and nothing else — the
      *  others have already published their tracks by then. 18s is generous for
      *  the two-request sites (SubDL, SubtitleCat, Subscene), which do a search
@@ -328,7 +328,7 @@ class PlayerActivity : ComponentActivity() {
             // (decoder + pattern, not just a total).
             if (dropCount - lastLoggedDrops >= 25) {
                 lastLoggedDrops = dropCount
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Player",
                     "dropped frames total=$dropCount (+$droppedFrames) " +
                         "decoder=${videoDecoderName ?: "?"} " +
@@ -455,7 +455,7 @@ class PlayerActivity : ComponentActivity() {
         if (player == null) return
         hwOnlyDecode = true
         hwOnlyAttemptUrl = url
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "sustained frame loss ($dropCount dropped) on " +
                 (if (software) "software decoder $name" else "unknown decoder") +
@@ -523,7 +523,7 @@ class PlayerActivity : ComponentActivity() {
         if (player == null) return false
         swPreferDecode = true
         swPreferAttemptUrl = url
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "audio but no picture from \"${src.name}\" " +
                 "(server ${index + 1}/${sources.size}) with effects disarmed — " +
@@ -575,7 +575,7 @@ class PlayerActivity : ComponentActivity() {
         val drops = dropCount
         runOnUiThread {
             if (isFinishing || isDestroyed) return@runOnUiThread
-            val modeLabel = com.hikari.app.data.AppStore.DecoderModes.label(decoderMode)
+            val modeLabel = com.gworld06.streambox.data.AppStore.DecoderModes.label(decoderMode)
             val decoderLabel = decoderName ?: I18n.t("unknown decoder")
             showGlassMenu(
                 I18n.t("Video is lagging"),
@@ -607,13 +607,13 @@ class PlayerActivity : ComponentActivity() {
                             (applicationContext as HikariApp).store.setPlayerDecoderMode("auto")
                         }
                     }
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "decoder stutter accepted ($drops dropped on $decoderLabel) — shifted to Best (auto)",
                     )
                     silentDecoderRebuild()
                 } else {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "decoder stutter kept ($drops dropped on $decoderLabel) — staying on $modeLabel per user",
                     )
@@ -646,7 +646,7 @@ class PlayerActivity : ComponentActivity() {
 
     /** Applies a gear-menu decoder pick now (silent rebuild) and remembers it. */
     private fun applyDecoderMode(mode: String) {
-        val clean = com.hikari.app.data.AppStore.DecoderModes.normalize(mode)
+        val clean = com.gworld06.streambox.data.AppStore.DecoderModes.normalize(mode)
         decoderMode = clean
         if (clean == "sw") {
             // An explicit software pick must never be silently overridden by
@@ -663,7 +663,7 @@ class PlayerActivity : ComponentActivity() {
                 (applicationContext as HikariApp).store.setPlayerDecoderMode(clean)
             }
         }
-        com.hikari.app.data.Logs.log("Player", "decoder mode → $clean (silent rebuild)")
+        com.gworld06.streambox.data.Logs.log("Player", "decoder mode → $clean (silent rebuild)")
         silentDecoderRebuild()
     }
 
@@ -672,7 +672,7 @@ class PlayerActivity : ComponentActivity() {
     private fun releaseTelegramFile(url: String) {
         if (!url.startsWith("hikari-td:")) return
         val id = Regex("[?&]id=(\\d+)").find(url)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: return
-        runCatching { com.hikari.app.telegram.Td.forgetPlayedFile(id) }
+        runCatching { com.gworld06.streambox.telegram.Td.forgetPlayedFile(id) }
     }
 
     /** The Player UI skin in force for this playback session (Settings → Player
@@ -828,7 +828,7 @@ class PlayerActivity : ComponentActivity() {
         // servers' own NAMES are the only quality data this app gets
         // ("MovieBlast 1080p", "4KHDHub 2160p") — so this is where the best of
         // them is filed for the title, for the poster's optional quality badge to
-        // read back (see [com.hikari.app.data.TitleQuality]). The player used to
+        // read back (see [com.gworld06.streambox.data.TitleQuality]). The player used to
         // record it only when the user switched EPISODE, which is why a title
         // that was simply played showed no badge on its poster.
         rememberTitleQuality()
@@ -857,7 +857,7 @@ class PlayerActivity : ComponentActivity() {
     private var rebuildPosted = false
 
     /** Files the best quality among the servers currently known for this title
-     *  (see [com.hikari.app.data.TitleQuality]). Cheap and idempotent: the store
+     *  (see [com.gworld06.streambox.data.TitleQuality]). Cheap and idempotent: the store
      *  only ever keeps/upgrades a label and does its file I/O on its own scope,
      *  so this is safe from the background threads that append servers. */
     private fun rememberTitleQuality() {
@@ -865,7 +865,7 @@ class PlayerActivity : ComponentActivity() {
         if (list.isEmpty()) return
         val item = favouriteItem ?: return
         runCatching {
-            com.hikari.app.data.TitleQuality.remember(item, list.map { it.toStreamSource() })
+            com.gworld06.streambox.data.TitleQuality.remember(item, list.map { it.toStreamSource() })
         }
     }
 
@@ -1118,7 +1118,7 @@ class PlayerActivity : ComponentActivity() {
      */
     private fun releaseSweepThrottled() {
         val id = liveSessionId ?: return
-        if (!com.hikari.app.data.PerfMode.tvDevice) {
+        if (!com.gworld06.streambox.data.PerfMode.tvDevice) {
             StreamsLive.releaseSweep(id)
             return
         }
@@ -1311,7 +1311,7 @@ class PlayerActivity : ComponentActivity() {
      * comes back with every season's subtitles at once.
      *
      * The episode rides in the TEXT only. The search itself still sends the
-     * structured season/episode ([com.hikari.app.subtitles.SubtitleQuery]) beside
+     * structured season/episode ([com.gworld06.streambox.subtitles.SubtitleQuery]) beside
      * the clean title, so the sites that want them separately still get them;
      * the box says what the user is looking for, which is the point of showing
      * it at all ("show the search bar with auto entering the name of that movie
@@ -1346,13 +1346,13 @@ class PlayerActivity : ComponentActivity() {
     private var loadingSpinnerStatus: TextView? = null
     /** POSTER style's poster tile and SPOTLIGHT style's accent bloom — both
      *  GONE unless the user picked that style in Settings (see
-     *  [com.hikari.app.ui.LoadingStyles] and [showLoadingBanner]). */
+     *  [com.gworld06.streambox.ui.LoadingStyles] and [showLoadingBanner]). */
     private var loadingCardPoster: ImageView? = null
     private var loadingGlow: View? = null
     /** The chosen loading EFFECT's views (Settings → App Layout → Loading screen
      *  → Effect): a ring behind the title, a band of light sweeping across the
      *  cover, and the gallery frame around it. All GONE unless that effect is
-     *  chosen — see [com.hikari.app.ui.LoadingEffects] and [showLoadingBanner]. */
+     *  chosen — see [com.gworld06.streambox.ui.LoadingEffects] and [showLoadingBanner]. */
     private var loadingEffectRing: View? = null
     private var loadingEffectSheen: View? = null
     private var loadingEffectFrame: View? = null
@@ -1369,19 +1369,19 @@ class PlayerActivity : ComponentActivity() {
     /** Which look the cover wears — the same choice the detail screen's
      *  full-screen card uses, so the hand-off from the detail page into the
      *  player never changes the design under the user. See
-     *  [com.hikari.app.ui.LoadingStyles]. */
-    private var loadingStyle = com.hikari.app.ui.LoadingStyles.CINEMATIC
+     *  [com.gworld06.streambox.ui.LoadingStyles]. */
+    private var loadingStyle = com.gworld06.streambox.ui.LoadingStyles.CINEMATIC
 
     /** Which treatments are drawn over that cover (Settings → App Layout →
      *  Loading screen → Effect) — a set of
-     *  [com.hikari.app.ui.LoadingEffects], handed over by the detail screen so
+     *  [com.gworld06.streambox.ui.LoadingEffects], handed over by the detail screen so
      *  the two covers stay identical through the hand-off. More than one can be
      *  on at once; the extra carries them as a comma-joined list. */
     private var loadingEffects: Set<String> = emptySet()
 
     /** The colour of the loading cover's aura ring, as ARGB — the detail screen
      *  resolves it (Settings → App Layout → Loading screen → Aura ring colour,
-     *  see [com.hikari.app.ui.AuraColors]) and hands it over with the other
+     *  see [com.gworld06.streambox.ui.AuraColors]) and hands it over with the other
      *  cover extras, so both screens draw the identical ring. 0 = not sent;
      *  [showLoadingBanner] then falls back to the player's own accent. */
     private var auraRingColor = 0
@@ -1775,7 +1775,7 @@ class PlayerActivity : ComponentActivity() {
     }
 
     /**
-     * Extension auto-open guard (see [com.hikari.app.net.ExtensionUiGuard]):
+     * Extension auto-open guard (see [com.gworld06.streambox.net.ExtensionUiGuard]):
      * external intents from extension code pass only on a user gesture (or
      * inside the allow-window). Our own calls always pass.
      *
@@ -1783,11 +1783,11 @@ class PlayerActivity : ComponentActivity() {
      * proxy crashes EVERY dialog — ClassCastException on WindowManagerImpl).
      */
     override fun startActivity(intent: android.content.Intent) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
     }
 
     override fun startActivity(intent: android.content.Intent, options: android.os.Bundle?) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
             super.startActivity(intent, options)
         }
     }
@@ -1802,7 +1802,7 @@ class PlayerActivity : ComponentActivity() {
         setContentView(R.layout.activity_player)
         // The app font (Settings → Appearance & Theme → App font) reaches this View-based
         // screen by walking the inflated hierarchy — the Compose theme cannot.
-        com.hikari.app.ui.AppFonts.applyToContent(this, window.decorView)
+        com.gworld06.streambox.ui.AppFonts.applyToContent(this, window.decorView)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         hideSystemUi()
 
@@ -1971,14 +1971,14 @@ class PlayerActivity : ComponentActivity() {
         loadingScrim = findViewById(R.id.loading_scrim)
 
         bannerMode = intent.getBooleanExtra("showLoadingBanner", true)
-        loadingStyle = com.hikari.app.ui.LoadingStyles.normalize(
+        loadingStyle = com.gworld06.streambox.ui.LoadingStyles.normalize(
             intent.getStringExtra("loadingStyle")
         )
         // The treatments over that card — same hand-off, same look (see
-        // [com.hikari.app.ui.LoadingEffects]). Several can be on at once, so the
+        // [com.gworld06.streambox.ui.LoadingEffects]). Several can be on at once, so the
         // extra is a comma-joined list; a single key from an older screen, or no
         // extra at all, is read the same way.
-        loadingEffects = com.hikari.app.ui.LoadingEffects.parse(
+        loadingEffects = com.gworld06.streambox.ui.LoadingEffects.parse(
             intent.getStringExtra("loadingEffect")
         )
         // The aura ring's colour, already resolved to ARGB by the detail screen
@@ -2099,7 +2099,7 @@ class PlayerActivity : ComponentActivity() {
                         // apply from the next rebuild and prompt on stutter.
                         GlassOption(
                             I18n.t("Decoder"),
-                            com.hikari.app.data.AppStore.DecoderModes.label(decoderMode),
+                            com.gworld06.streambox.data.AppStore.DecoderModes.label(decoderMode),
                             iconRes = R.drawable.ic_codec, marker = RowMarker.ICON,
                             chevron = true,
                         ),
@@ -2260,7 +2260,7 @@ class PlayerActivity : ComponentActivity() {
             // black screen). In-memory only — no persisted flag is written.
             if (!enhanceUnsupported && isShieldTv()) {
                 enhanceUnsupported = true
-                com.hikari.app.data.Logs.log("Player", "Shield TV detected — starting with video effects off")
+                com.gworld06.streambox.data.Logs.log("Player", "Shield TV detected — starting with video effects off")
             }
             applyVideoEnhance(force = true)
         }
@@ -2333,7 +2333,7 @@ class PlayerActivity : ComponentActivity() {
         // gear menu below). Best (auto) until the answer lands.
         lifecycleScope.launch {
             decoderMode = runCatching {
-                com.hikari.app.data.AppStore.DecoderModes.normalize(
+                com.gworld06.streambox.data.AppStore.DecoderModes.normalize(
                     (applicationContext as HikariApp).store.playerDecoderMode()
                 )
             }.getOrDefault("auto")
@@ -2720,7 +2720,7 @@ class PlayerActivity : ComponentActivity() {
         // One line per playback in the on-device log: which title, from which
         // provider, with how many servers — the starting point of every "why
         // didn't it play / why was this server missing" report.
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "open \"${intent.getStringExtra("title")}\" origin=" +
                 "$originProviderName ($originProviderId) sources=${sources.size} live=${!liveId.isNullOrBlank()}",
@@ -2796,7 +2796,7 @@ class PlayerActivity : ComponentActivity() {
                             // releases anything (see the note above) — this is the
                             // line that says WHICH provider answered and how many
                             // servers were on the list by then.
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Player",
                                 "origin \"$originProviderName\" ($originProviderId) answered " +
                                     "(${sources.size} server(s) in hand)",
@@ -2818,7 +2818,7 @@ class PlayerActivity : ComponentActivity() {
                         // on the cover instead of failing.
                         if (!originSettled) {
                             StreamsLive.setStatus(liveId, "Still searching for servers…")
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Player",
                                 "no server yet after ${LIVE_WAIT_TIMEOUT_MS / 1000}s but the origin " +
                                     "has not answered — waiting on (cap ${(LIVE_WAIT_TIMEOUT_MS + LIVE_WAIT_EXTENSION_MS) / 1000}s)",
@@ -2867,7 +2867,7 @@ class PlayerActivity : ComponentActivity() {
                     delay(SEARCH_RESCUE_MS)
                     if (playbackCommitted || sources.isNotEmpty() || liveSearchDone) return@launch
                     rescueRefreshUsed = true
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "SEARCH RESCUE: no live server after " + (SEARCH_RESCUE_MS / 1000) +
                             "s — requesting a fresh lookup"
@@ -2918,7 +2918,7 @@ class PlayerActivity : ComponentActivity() {
                             continue
                         }
                         if (now - firstBatchAt < START_FAILSAFE_MS) continue
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Player",
                             "FAILSAFE: ${sources.size} server(s) in hand for " +
                                 "${START_FAILSAFE_MS / 1000}s and playback had not started " +
@@ -3406,7 +3406,7 @@ class PlayerActivity : ComponentActivity() {
         val modes = listOf("auto", "hw", "sw")
         val options = modes.map { mode ->
             GlassOption(
-                label = com.hikari.app.data.AppStore.DecoderModes.label(mode),
+                label = com.gworld06.streambox.data.AppStore.DecoderModes.label(mode),
                 sub = when (mode) {
                     "hw" -> I18n.t("Never decode on CPU")
                     "sw" -> I18n.t("Prefer CPU decoding")
@@ -3873,7 +3873,7 @@ class PlayerActivity : ComponentActivity() {
 
     /**
      * Counts what is watching, for the Stats page (see
-     * [com.hikari.app.data.WatchStats]): wall-clock seconds of ACTUAL playback
+     * [com.gworld06.streambox.data.WatchStats]): wall-clock seconds of ACTUAL playback
      * and one "item consumed" per session.
      *
      * Wall clock rather than the position, deliberately: seeking and
@@ -5255,7 +5255,7 @@ class PlayerActivity : ComponentActivity() {
         runCatching { p.setVideoEffects(effectiveEnhanceEffects(key, hdr)) }
             .onFailure {
                 enhanceUnsupported = true
-                com.hikari.app.data.Logs.logError("Player", "video effects unavailable", it)
+                com.gworld06.streambox.data.Logs.logError("Player", "video effects unavailable", it)
                 android.util.Log.w("HikariPlayer", "video effects unavailable", it)
             }
     }
@@ -5335,7 +5335,7 @@ class PlayerActivity : ComponentActivity() {
      *  [setEnhanceKey] and the custom-preset editor's live preview. */
     private fun armPipelineForKey(key: String, label: String) {
         if (player == null || currentIndex !in sources.indices) return
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "arming video effects pipeline for $key (reopening current source)"
         )
@@ -5626,7 +5626,7 @@ class PlayerActivity : ComponentActivity() {
             addView(content)
             isFillViewport = true
         }
-        com.hikari.app.ui.AppFonts.applyToViewTree(scroll, com.hikari.app.ui.AppFonts.appTypeface(this))
+        com.gworld06.streambox.ui.AppFonts.applyToViewTree(scroll, com.gworld06.streambox.ui.AppFonts.appTypeface(this))
         // A definite but SMALL box, not shrink-to-content and not full-screen:
         // five slider rows plus the name field plus the buttons never fit a
         // wrapped panel on a small phone (so the content scrolls inside the
@@ -5753,7 +5753,7 @@ class PlayerActivity : ComponentActivity() {
          *  the reference Sources screen. Null for plain menu rows. */
         val topLabel: String? = null,
         /** Fact chips under a server card ("1080p", "HEVC", "3.82 GB" is the
-         *  badge instead) — see [com.hikari.app.data.ServerMeta.chipsOf]. */
+         *  badge instead) — see [com.gworld06.streambox.data.ServerMeta.chipsOf]. */
         val chips: List<String> = emptyList(),
     ) {
         /** The same row with a different selection state. */
@@ -6895,7 +6895,7 @@ class PlayerActivity : ComponentActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
         )
-        com.hikari.app.ui.AppFonts.applyToViewTree(root, com.hikari.app.ui.AppFonts.appTypeface(this))
+        com.gworld06.streambox.ui.AppFonts.applyToViewTree(root, com.gworld06.streambox.ui.AppFonts.appTypeface(this))
         dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(cancelable)
         dialog.setCancelable(cancelable)
@@ -7224,7 +7224,7 @@ class PlayerActivity : ComponentActivity() {
             panel,
             ViewGroup.LayoutParams(w + 2 * halo, ViewGroup.LayoutParams.WRAP_CONTENT)
         )
-        com.hikari.app.ui.AppFonts.applyToViewTree(panel, com.hikari.app.ui.AppFonts.appTypeface(this))
+        com.gworld06.streambox.ui.AppFonts.applyToViewTree(panel, com.gworld06.streambox.ui.AppFonts.appTypeface(this))
         dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(cancelable)
@@ -7427,8 +7427,8 @@ class PlayerActivity : ComponentActivity() {
         if (playerSources.isEmpty()) return
         // Same as the detail page's search: the server names are the only
         // quality data the app gets, and the poster's quality badge reads it
-        // back (see [com.hikari.app.data.TitleQuality]).
-        runCatching { com.hikari.app.data.TitleQuality.remember(item, playerSources.map { it.toStreamSource() }) }
+        // back (see [com.gworld06.streambox.data.TitleQuality]).
+        runCatching { com.gworld06.streambox.data.TitleQuality.remember(item, playerSources.map { it.toStreamSource() }) }
         // The origin session's servers belong to the episode we just left —
         // stop appending them, and stop restoring its remembered server.
         liveStreamsJob?.cancel()
@@ -7484,7 +7484,7 @@ class PlayerActivity : ComponentActivity() {
      * never moves — so playback in flight and an open chooser are undisturbed
      * while the enrich pass lands more servers behind them.
      */
-    private fun appendSources(cumulative: List<com.hikari.app.data.StreamSource>) {
+    private fun appendSources(cumulative: List<com.gworld06.streambox.data.StreamSource>) {
         if (cumulative.isEmpty()) return
         val seen = HashSet<String>(sources.size + cumulative.size)
         for (s in sources) seen.add(s.identityKey())
@@ -7838,7 +7838,7 @@ class PlayerActivity : ComponentActivity() {
             }
             if (added) {
                 sources = out
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Player",
                     "chooser sync: adopted ${out.size - hadBefore} server(s) from the live session " +
                         "(${current.size} in session, had $hadBefore); list now ${out.size}",
@@ -8183,7 +8183,7 @@ class PlayerActivity : ComponentActivity() {
                     // empty "Select server"). syncFromSession above converges
                     // the list; this line makes any remaining gap answerable
                     // from the shared log instead of guessed at.
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "chooser empty with $sessionSize server(s) in the live session " +
                             "(sources=${sources.size}, chip=$chip, sections=${runCatching { sections().size }.getOrDefault(-1)}" +
@@ -8483,7 +8483,7 @@ class PlayerActivity : ComponentActivity() {
             // returns on identical input), so a poisoned list cannot loop.
             val beforeRecover = list.childCount
             if (dialog.isShowing && sources.isNotEmpty() && (list.childCount - 1) <= 0) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Player",
                     "chooser paint left zero rows over ${sources.size} server(s); recovering in place",
                 )
@@ -8858,7 +8858,7 @@ class PlayerActivity : ComponentActivity() {
         // Cloudflare.") is likewise not something to read in a server chooser.
         val allVerdicts = tally.verdict.values.toList()
         val verdicts = allVerdicts.filterNot {
-            com.hikari.app.net.CloudflareVerifier.isVerificationMessage(it.substringAfter(" — ", it)) ||
+            com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(it.substringAfter(" — ", it)) ||
                 ContentRepository.crossReasonBucket(it.substringAfter(" — ", it)) in
                 ContentRepository.CROSS_QUIET_BUCKETS
         }
@@ -9557,7 +9557,7 @@ class PlayerActivity : ComponentActivity() {
             hint = if (autoSubtitleSites) {
                 I18n.t("Applies while captions are on.") + " · " +
                     I18n.t("Searches %s subtitle sites and every addon")
-                        .replace("%s", com.hikari.app.subtitles.SubtitleSites.ALL.size.toString())
+                        .replace("%s", com.gworld06.streambox.subtitles.SubtitleSites.ALL.size.toString())
             } else {
                 I18n.t("Applies while captions are on.")
             },
@@ -9567,7 +9567,7 @@ class PlayerActivity : ComponentActivity() {
     }
 
     /**
-     * "Load from internet": ask every subtitle SITE ([com.hikari.app.subtitles.SubtitleSites])
+     * "Load from internet": ask every subtitle SITE ([com.gworld06.streambox.subtitles.SubtitleSites])
      * and every installed subtitle addon for this title — the episode's, when
      * what is playing is an episode — and apply whichever track the user taps.
      *
@@ -9575,7 +9575,7 @@ class PlayerActivity : ComponentActivity() {
      * CloudStream-style extensions and no subtitle addon used to be told "No
      * subtitle addon is installed" and had no way to get a subtitle at all, and
      * an install WITH one got "no subtitles found" for every title whose `tt` id
-     * could not be resolved (see [com.hikari.app.subtitles.OpenSubtitlesSite]).
+     * could not be resolved (see [com.gworld06.streambox.subtitles.OpenSubtitlesSite]).
      * The sites answer by name, by id and in thirty-odd languages, and each one
      * is asked concurrently with its own timeout, so a site that is down costs
      * nothing but its own row going missing.
@@ -9700,7 +9700,7 @@ class PlayerActivity : ComponentActivity() {
 
         val episode = currentEpisode()
         val base = favouriteItem
-        val wanted = com.hikari.app.i18n.I18n.currentTag.substringBefore('-').lowercase()
+        val wanted = com.gworld06.streambox.i18n.I18n.currentTag.substringBefore('-').lowercase()
 
         // The language bar's state. It is built further down, once [render]
         // exists — a local function cannot be referenced before it is declared —
@@ -9720,7 +9720,7 @@ class PlayerActivity : ComponentActivity() {
         // the panel shows the search happening instead of a spinner for the
         // slowest site — so each collection is synchronized.
         val siteTracks = java.util.Collections.synchronizedList(
-            ArrayList<com.hikari.app.subtitles.SiteTrack>()
+            ArrayList<com.gworld06.streambox.subtitles.SiteTrack>()
         )
         val addonTracks = java.util.Collections.synchronizedList(ArrayList<SubtitleSource>())
         val counts = java.util.Collections.synchronizedMap(LinkedHashMap<String, Int>())
@@ -9743,7 +9743,7 @@ class PlayerActivity : ComponentActivity() {
             // answering "Arabic" and one answering "ara" are the same language.
             val filterCode = langFilter
             fun keep(lang: String): Boolean = filterCode.isBlank() ||
-                com.hikari.app.subtitles.SubtitleLang.of(lang).code == filterCode
+                com.gworld06.streambox.subtitles.SubtitleLang.of(lang).code == filterCode
 
             // The user's own language first, then English, then the rest — each
             // group keeping the order the site itself offered (which is by
@@ -9752,7 +9752,7 @@ class PlayerActivity : ComponentActivity() {
                 siteTracks.withIndex()
                     .sortedWith(
                         compareBy(
-                            { com.hikari.app.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
+                            { com.gworld06.streambox.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
                             { -it.value.downloads },
                             { it.index },
                         )
@@ -9763,7 +9763,7 @@ class PlayerActivity : ComponentActivity() {
                 addonTracks.withIndex()
                     .sortedWith(
                         compareBy(
-                            { com.hikari.app.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
+                            { com.gworld06.streambox.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
                             { it.index },
                         )
                     )
@@ -9783,7 +9783,7 @@ class PlayerActivity : ComponentActivity() {
                 counts.entries.joinToString(" · ") { "${it.key} ${it.value}" }
             }
             val langName = if (filterCode.isBlank()) ""
-            else com.hikari.app.subtitles.SubtitleLang.of(filterCode).label
+            else com.gworld06.streambox.subtitles.SubtitleLang.of(filterCode).label
             results.removeAllViews()
             when {
                 !isDone -> setStatus(
@@ -9836,7 +9836,7 @@ class PlayerActivity : ComponentActivity() {
                             ),
                         ) {
                             dialog.dismiss()
-                            applyRemoteSubtitle(com.hikari.app.subtitles.SubtitleSites.toSource(t))
+                            applyRemoteSubtitle(com.gworld06.streambox.subtitles.SubtitleSites.toSource(t))
                         }
                     }
                     for (s in addonList) {
@@ -9878,11 +9878,11 @@ class PlayerActivity : ComponentActivity() {
             searchDone = false
             setStatus(I18n.t("Searching…"))
             setBusy(true)
-            val sites = com.hikari.app.subtitles.SubtitleSites.ALL
+            val sites = com.gworld06.streambox.subtitles.SubtitleSites.ALL
             lifecycleScope.launch {
                 val addons = runCatching {
                     (applicationContext as HikariApp).providers.providers.value
-                        .filterIsInstance<com.hikari.app.providers.StremioAddon>()
+                        .filterIsInstance<com.gworld06.streambox.providers.StremioAddon>()
                         .filter { it.config.enabled }
                 }.getOrDefault(emptyList())
                 if (isFinishing || isDestroyed) return@launch
@@ -9916,13 +9916,13 @@ class PlayerActivity : ComponentActivity() {
                 // resolver already knows how to find one for a title scraped
                 // from a site (which carries no id any database recognises).
                 val imdb = if (known.startsWith("tt")) known else withContext(Dispatchers.IO) {
-                    com.hikari.app.subtitles.SubtitleIds.imdb(
+                    com.gworld06.streambox.subtitles.SubtitleIds.imdb(
                         if (sameTitle) base else null, query, year, isSeries,
                     )
                 }
                 if (isFinishing || isDestroyed) return@launch
                 if (imdb.isNotBlank()) idsTried.add(imdb)
-                val q = com.hikari.app.subtitles.SubtitleQuery(
+                val q = com.gworld06.streambox.subtitles.SubtitleQuery(
                     title = query,
                     year = year,
                     imdbId = imdb,
@@ -10018,7 +10018,7 @@ class PlayerActivity : ComponentActivity() {
         val langChips = LinkedHashMap<String, TextView>()
         fun langLabelOf(code: String): String =
             if (code.isBlank()) I18n.t("All")
-            else com.hikari.app.subtitles.SubtitleLang.of(code).label
+            else com.gworld06.streambox.subtitles.SubtitleLang.of(code).label
         fun paintChips() {
             for ((code, chip) in langChips) {
                 val on = code == langFilter
@@ -10108,10 +10108,10 @@ class PlayerActivity : ComponentActivity() {
                     .replaceFirst("%s", "${episode.season}")
                     .replaceFirst("%s", "${episode.number}") + " · " +
                     I18n.t("Searches %s subtitle sites and every addon")
-                        .replace("%s", com.hikari.app.subtitles.SubtitleSites.ALL.size.toString())
+                        .replace("%s", com.gworld06.streambox.subtitles.SubtitleSites.ALL.size.toString())
             } else {
                 I18n.t("Searches %s subtitle sites and every addon")
-                    .replace("%s", com.hikari.app.subtitles.SubtitleSites.ALL.size.toString())
+                    .replace("%s", com.gworld06.streambox.subtitles.SubtitleSites.ALL.size.toString())
             },
             iconRes = R.drawable.ic_search,
             rowHosts = listOf(results),
@@ -10957,10 +10957,10 @@ class PlayerActivity : ComponentActivity() {
             // Same CloudStream parity as the main path below (CS3-only): shared
             // app.baseClient plus the provider's video interceptor when declared.
             val isCs3Audio = src.providerId.startsWith("cs3|")
-            var audioClient = if (isCs3Audio) com.hikari.app.cs3.Cs3MainApiProvider.cs3BaseClient() else client
+            var audioClient = if (isCs3Audio) com.gworld06.streambox.cs3.Cs3MainApiProvider.cs3BaseClient() else client
             if (isCs3Audio) {
                 runCatching {
-                    com.hikari.app.cs3.Cs3MainApiProvider.videoInterceptorFor(src.url)
+                    com.gworld06.streambox.cs3.Cs3MainApiProvider.videoInterceptorFor(src.url)
                 }.getOrNull()?.let { inter ->
                     audioClient = audioClient.newBuilder().addInterceptor(inter).build()
                 }
@@ -11000,7 +11000,7 @@ class PlayerActivity : ComponentActivity() {
             // failure instead of silence.
             dual.addListener(object : Player.Listener {
                 override fun onPlayerError(error: PlaybackException) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "dual audio error on \"${src.name}\": ${rootMessage(error).take(220)}",
                     )
@@ -11113,7 +11113,7 @@ class PlayerActivity : ComponentActivity() {
             if (!multi) {
                 // Single-language second server: nothing to choose, sound just plays.
                 if (count == 0) {
-                    com.hikari.app.data.Logs.log("Player", "dual audio has no audio tracks (yet) on \"${srcName.take(80)}\"")
+                    com.gworld06.streambox.data.Logs.log("Player", "dual audio has no audio tracks (yet) on \"${srcName.take(80)}\"")
                 }
                 return@launch
             }
@@ -11372,7 +11372,7 @@ class PlayerActivity : ComponentActivity() {
                         val playable = runCatching { transformTorrent(snap) }.getOrNull()
                         if (playable != null && torrentPrefetchKey == myKey) {
                             torrentPrefetched[idx] = playable
-                            com.hikari.app.data.Logs.log("Player", "torrent prefetch ready — tap plays instantly")
+                            com.gworld06.streambox.data.Logs.log("Player", "torrent prefetch ready — tap plays instantly")
                         }
                     }
                 }.awaitAll()
@@ -11450,7 +11450,7 @@ class PlayerActivity : ComponentActivity() {
         }?.let { (sibIdx, playable) ->
             val sib = sources.getOrNull(sibIdx)
             if (sib != null) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Player",
                     "torrent row $index cold but sibling $sibIdx ready — playing first-ready",
                 )
@@ -11590,7 +11590,7 @@ class PlayerActivity : ComponentActivity() {
         }
         val who = stats.firstOrNull { (it.id ?: stats.indexOf(it)) == want }
             ?.path?.substringAfterLast('/') ?: "file $want"
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "torrent file auto-pick: index $want ($who) — addon gave no fileIdx",
         )
@@ -11858,7 +11858,7 @@ class PlayerActivity : ComponentActivity() {
         lifecycleScope.launch {
             val resolved = withContext(Dispatchers.IO) {
                 runCatching {
-                    com.hikari.app.aniyomi.AniyomiProvider.resolveForPlay(src.providerId, src.url)
+                    com.gworld06.streambox.aniyomi.AniyomiProvider.resolveForPlay(src.providerId, src.url)
                 }.getOrNull()
             }
             slowJob.cancel()
@@ -11931,12 +11931,12 @@ class PlayerActivity : ComponentActivity() {
             val base = if (isCs3Probe) clean
                 else loopbackQueryHeaders(src.url).let { if (it.isEmpty() || !isLoopbackHost(src.url)) clean else it + clean }
             val mandatoryRef = runCatching {
-                com.hikari.app.cs3.Cs3MainApiProvider.isRefererMandatory(src.url)
+                com.gworld06.streambox.cs3.Cs3MainApiProvider.isRefererMandatory(src.url)
             }.getOrDefault(false)
             // Warm the signed-CDN session (cookies) before the first byte, CS3 only.
             if (isCs3Probe) {
                 try {
-                    com.hikari.app.cs3.Cs3MainApiProvider.warmPlaybackSession(src.url, clean)
+                    com.gworld06.streambox.cs3.Cs3MainApiProvider.warmPlaybackSession(src.url, clean)
                 } catch (_: Throwable) { }
             }
             val headers = if (isCs3Probe) clean else when (headerVariant) {
@@ -12022,8 +12022,8 @@ class PlayerActivity : ComponentActivity() {
         // and the player's own window request supersedes it at the same offset.
         if (src.url.startsWith("hikari-td:")) {
             runCatching {
-                val id = com.hikari.app.telegram.TdFileDataSource.fileIdOf(src.url)
-                if (id != 0) com.hikari.app.telegram.Td.prewarm(id)
+                val id = com.gworld06.streambox.telegram.TdFileDataSource.fileIdOf(src.url)
+                if (id != 0) com.gworld06.streambox.telegram.Td.prewarm(id)
             }
         }
         // Remember what we've actually handed to ExoPlayer this session — a
@@ -12132,7 +12132,7 @@ class PlayerActivity : ComponentActivity() {
         val baseHeaders = if (isCs3Source) cleanHeaders
             else loopbackQueryHeaders(src.url).let { if (it.isEmpty() || !isLoopbackHost(src.url)) cleanHeaders else it + cleanHeaders }
         val mandatoryRef2 = runCatching {
-            com.hikari.app.cs3.Cs3MainApiProvider.isRefererMandatory(src.url)
+            com.gworld06.streambox.cs3.Cs3MainApiProvider.isRefererMandatory(src.url)
         }.getOrDefault(false)
         val sourceHeaders = if (isCs3Source) cleanHeaders else when (headerVariant) {
             1 -> if (mandatoryRef2) baseHeaders else baseHeaders.filterKeys { !it.equals("Referer", ignoreCase = true) }
@@ -12158,13 +12158,13 @@ class PlayerActivity : ComponentActivity() {
         // removed as a variable.
         val isLoopbackUrl = isLoopbackHost(src.url)
         var playbackClient = when {
-            isCs3Source -> com.hikari.app.cs3.Cs3MainApiProvider.cs3BaseClient()
+            isCs3Source -> com.gworld06.streambox.cs3.Cs3MainApiProvider.cs3BaseClient()
             isLoopbackUrl -> PlayerHttp.loopbackClient
             else -> client
         }
         if (isCs3Source) {
             runCatching {
-                com.hikari.app.cs3.Cs3MainApiProvider.videoInterceptorFor(src.url)
+                com.gworld06.streambox.cs3.Cs3MainApiProvider.videoInterceptorFor(src.url)
             }.getOrNull()?.let { inter ->
                 playbackClient = playbackClient.newBuilder().addInterceptor(inter).build()
             }
@@ -12183,10 +12183,10 @@ class PlayerActivity : ComponentActivity() {
         // routes file:/data:/content: locally and hands everything else to
         // OkHttp, so the network behaviour (UA, headers, retry policy) is
         // unchanged.
-        val dataSourceFactory: DataSource.Factory = com.hikari.app.telegram.TdDataSourceFactory(
+        val dataSourceFactory: DataSource.Factory = com.gworld06.streambox.telegram.TdDataSourceFactory(
             // …and a hikari-td: URI is answered by TDLib instead of HTTP, which
             // is what plays a video that lives in the user's Telegram account
-            // (see com.hikari.app.telegram.TdFileDataSource). Everything else
+            // (see com.gworld06.streambox.telegram.TdFileDataSource). Everything else
             // goes through the chain below, exactly as before.
             DefaultDataSource.Factory(this, networkFactory)
         )
@@ -12361,7 +12361,7 @@ class PlayerActivity : ComponentActivity() {
                 videoSinkArmed = true
             }.onFailure {
                 videoSinkArmed = false
-                com.hikari.app.data.Logs.logError(
+                com.gworld06.streambox.data.Logs.logError(
                     "Player",
                     "could not arm the video effects pipeline",
                     it
@@ -12435,7 +12435,7 @@ class PlayerActivity : ComponentActivity() {
                         firstFrameTask = this
                         bufferingWatchdog.postDelayed(this, firstFramePollMs)
                     } else {
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Player",
                             "audio-only source \"${sources.getOrNull(index)?.name ?: "?"}\" " +
                                 "(server ${index + 1}/${sources.size}): no video track " +
@@ -12501,7 +12501,7 @@ class PlayerActivity : ComponentActivity() {
      *
      * Two answers, because either one alone misses a case: an IPTV channel is
      * live by construction (its provider id is minted as `iptv|…` — see
-     * [com.hikari.app.data.IptvMark]) — except a saved network stream, which is
+     * [com.gworld06.streambox.data.IptvMark]) — except a saved network stream, which is
      * one file on an IPTV-type row and is answered by media3's live state below
      * instead — and a plain HLS link from any other
      * provider can be a live channel too, which media3 knows from the timeline
@@ -12514,14 +12514,14 @@ class PlayerActivity : ComponentActivity() {
         // without this it plays as a live channel ("Reconnecting to the live
         // stream…") instead of going to the torrent engine.
         if (src.isTorrent) return false
-        if (src.providerId.startsWith(com.hikari.app.data.IptvMark.ID_PREFIX)) {
+        if (src.providerId.startsWith(com.gworld06.streambox.data.IptvMark.ID_PREFIX)) {
             // A saved NETWORK STREAM rides on an IPTV-type row but is a file, not a live
             // channel: forcing LIVE here gave it live-TV retries ("Reconnecting to the live
             // stream…") and no seek bar. Let media3's own live state decide instead — a VOD
             // link then plays as VOD, while a genuinely live HLS link still plays as live.
             val netStream = runCatching {
-                val cfg = com.hikari.app.HikariApp.instance.providers.byId(src.providerId)?.config
-                cfg != null && com.hikari.app.data.NetworkStream.isStream(cfg)
+                val cfg = com.gworld06.streambox.HikariApp.instance.providers.byId(src.providerId)?.config
+                cfg != null && com.gworld06.streambox.data.NetworkStream.isStream(cfg)
             }.getOrDefault(false)
             if (!netStream) return true
         }
@@ -12562,7 +12562,7 @@ class PlayerActivity : ComponentActivity() {
             // (see [maybePreferSoftwareDecode]) — a genuinely dead link just
             // returns false and the error below stands.
             if (maybePreferSoftwareDecode(currentIndex)) return
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "live stream \"${src.name}\" did not start after " +
                     "$liveStartRetries re-opens (${budgetMs / 1000}s each) — giving up",
@@ -12573,7 +12573,7 @@ class PlayerActivity : ComponentActivity() {
             )
             return
         }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "live stream \"${src.name}\" has not started — re-opening " +
                 "($liveStartRetries/$maxLiveStartRetries)",
@@ -12611,7 +12611,7 @@ class PlayerActivity : ComponentActivity() {
      */
     private fun scheduleLiveReconnect(reason: String) {
         val src = sources.getOrNull(currentIndex)
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "live stream \"${src?.name ?: "?"}\" $reason — re-opening, not re-searching",
         )
@@ -12707,7 +12707,7 @@ class PlayerActivity : ComponentActivity() {
         // straight to the honest error instead of nagging again.
         liveFailoverSpentUrl = src.url
         val deadMessage = liveDeadMessage(httpStatus, dnsDead, src.name)
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "live stream \"${src.name}\" link is dead " +
                 "(http=${httpStatus ?: "?"}, dns=$dnsDead) — asking before any sibling hunt",
@@ -12719,7 +12719,7 @@ class PlayerActivity : ComponentActivity() {
                 runCatching { (applicationContext as HikariApp).store.providers() }
                     .getOrDefault(emptyList())
                     .count {
-                        it.type == com.hikari.app.data.ProviderType.IPTV &&
+                        it.type == com.gworld06.streambox.data.ProviderType.IPTV &&
                             it.enabled && it.id != src.providerId
                     }
             }
@@ -12822,7 +12822,7 @@ class PlayerActivity : ComponentActivity() {
             liveStartRetries = 0
             noSubsRetry = false
             resetHeaderWalk()
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "live stream \"${src.name}\" continuing on sibling feed ${alt.providerName}",
             )
@@ -12860,7 +12860,7 @@ class PlayerActivity : ComponentActivity() {
     private suspend fun findLiveAlternative(src: PlayerSource): AltFeed? {
         val store = (applicationContext as HikariApp).store
         val all = runCatching { store.providers() }.getOrDefault(emptyList())
-            .filter { it.type == com.hikari.app.data.ProviderType.IPTV && it.enabled }
+            .filter { it.type == com.gworld06.streambox.data.ProviderType.IPTV && it.enabled }
         if (all.isEmpty()) return null
         val want = liveChannelKey(src.name)
         if (want.isEmpty()) return null
@@ -12893,7 +12893,7 @@ class PlayerActivity : ComponentActivity() {
     ): AltFeed? {
         val cfg = runCatching { (applicationContext as HikariApp).store.providers() }
             .getOrDefault(emptyList()).firstOrNull { it.id == providerId } ?: return null
-        val provider = com.hikari.app.providers.IptvProvider(cfg)
+        val provider = com.gworld06.streambox.providers.IptvProvider(cfg)
         val channels = runCatching { provider.channels(force) }.getOrDefault(emptyList())
         // Exact normalized name first, then a containment fallback — but never
         // the dead URL itself and never a different stream on a shared stub.
@@ -13014,9 +13014,9 @@ class PlayerActivity : ComponentActivity() {
         if (item.title.isBlank()) return
         // A live channel is not a title any subtitle site knows, and an IPTV
         // item is never looked up outside its own playlist (see
-        // [com.hikari.app.data.IptvMark]) — the automatic pass does not run for
+        // [com.gworld06.streambox.data.IptvMark]) — the automatic pass does not run for
         // one. The manual "Load from internet" panel still does, on request.
-        if (com.hikari.app.data.IptvMark.of(item)) return
+        if (com.gworld06.streambox.data.IptvMark.of(item)) return
         // `force` = the user just switched "Find subtitles automatically" on
         // while the video was already playing: that is a request for a subtitle
         // NOW, so the once-per-title guards are cleared for this run.
@@ -13030,10 +13030,10 @@ class PlayerActivity : ComponentActivity() {
         lifecycleScope.launch {
             val addons = runCatching {
                 (applicationContext as HikariApp).providers.providers.value
-                    .filterIsInstance<com.hikari.app.providers.StremioAddon>()
+                    .filterIsInstance<com.gworld06.streambox.providers.StremioAddon>()
                     .filter { it.config.enabled }
             }.getOrDefault(emptyList())
-            val wanted = com.hikari.app.i18n.I18n.currentTag.substringBefore('-').lowercase()
+            val wanted = com.gworld06.streambox.i18n.I18n.currentTag.substringBefore('-').lowercase()
             var definitive = true
             val tracks = withContext(Dispatchers.IO) {
                 val lookups = kotlinx.coroutines.coroutineScope {
@@ -13094,7 +13094,7 @@ class PlayerActivity : ComponentActivity() {
             if (isFinishing || isDestroyed) return@launch
             if (tracks.isEmpty()) return@launch
             addonSubs = tracks
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "subtitles: ${tracks.size} track(s) — " +
                     tracks.joinToString(", ") { it.name.ifBlank { it.lang } }.take(220),
@@ -13134,9 +13134,9 @@ class PlayerActivity : ComponentActivity() {
             val title = item.searchTitle.trim()
             if (title.isBlank()) return@withContext emptyList()
             val imdb = if (item.id.startsWith("tt")) item.id else withContext(Dispatchers.IO) {
-                com.hikari.app.subtitles.SubtitleIds.imdb(item, title, item.year, isSeries)
+                com.gworld06.streambox.subtitles.SubtitleIds.imdb(item, title, item.year, isSeries)
             }
-            val q = com.hikari.app.subtitles.SubtitleQuery(
+            val q = com.gworld06.streambox.subtitles.SubtitleQuery(
                 title = title,
                 year = item.year,
                 imdbId = imdb,
@@ -13146,7 +13146,7 @@ class PlayerActivity : ComponentActivity() {
                 locale = wanted,
             )
             val found = coroutineScope {
-                com.hikari.app.subtitles.SubtitleSites.ALL.map { site ->
+                com.gworld06.streambox.subtitles.SubtitleSites.ALL.map { site ->
                     async {
                         runCatching {
                             withTimeoutOrNull(SITE_SUBTITLE_MS) { site.search(q) }
@@ -13157,16 +13157,16 @@ class PlayerActivity : ComponentActivity() {
             found.withIndex()
                 .sortedWith(
                     compareBy(
-                        { com.hikari.app.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
+                        { com.gworld06.streambox.subtitles.SubtitleLang.rank(it.value.lang, wanted) },
                         { -it.value.downloads },
                         { it.index },
                     )
                 )
                 .map { it.value }
-                .filter { com.hikari.app.subtitles.SubtitleLang.rank(it.lang, wanted) <= 2 }
+                .filter { com.gworld06.streambox.subtitles.SubtitleLang.rank(it.lang, wanted) <= 2 }
                 .distinctBy { it.langLabel }
                 .take(MAX_AUTO_SITE_SUBS)
-                .map { com.hikari.app.subtitles.SubtitleSites.toSource(it) }
+                .map { com.gworld06.streambox.subtitles.SubtitleSites.toSource(it) }
         }.getOrDefault(emptyList())
     }
 
@@ -13193,14 +13193,14 @@ class PlayerActivity : ComponentActivity() {
         // still legitimately starting, which is the reported "Playback failed /
         // Server is not responding (still buffering after 20s)".
         val telegram = currentIndex in sources.indices &&
-            sources[currentIndex].url.startsWith(com.hikari.app.telegram.TdFileDataSource.SCHEME + "://")
+            sources[currentIndex].url.startsWith(com.gworld06.streambox.telegram.TdFileDataSource.SCHEME + "://")
         // A live channel gets the live budget, not the file budget — and, more
         // importantly, a different ANSWER when it runs out (see the task below).
         val liveHint = isLiveSource(sources.getOrNull(currentIndex))
         val budget = waitBudget ?: when {
             liveHint -> liveStartBudgetMs
             torrent -> 50_000L
-            telegram -> com.hikari.app.telegram.TdFileDataSource.PLAYER_START_BUDGET_MS
+            telegram -> com.gworld06.streambox.telegram.TdFileDataSource.PLAYER_START_BUDGET_MS
             else -> 20_000L
         }
         val task = Runnable {
@@ -13253,7 +13253,7 @@ class PlayerActivity : ComponentActivity() {
             enhanceUnsupported = true
             appliedEnhanceKey = null
             appliedEnhanceHdr = null
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "FAILSAFE: no picture with effects armed — disarming pipeline and replaying same server",
             )
@@ -13269,7 +13269,7 @@ class PlayerActivity : ComponentActivity() {
         // host, walked off the end of the one-item list and then waited three
         // minutes for a replacement an IPTV playlist cannot produce.
         if (isLiveSource(src)) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "FAILSAFE: live stream \"${src?.name ?: "?"}\" drew no picture after " +
                     "${firstFrameMs / 1000}s — re-opening instead of walking the list",
@@ -13277,7 +13277,7 @@ class PlayerActivity : ComponentActivity() {
             retryLiveStart(firstFrameMs)
             return
         }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Player",
             "FAILSAFE: no picture from server ${index + 1}/${sources.size} " +
                 "(\"${src?.name ?: "?"}\") after ${firstFrameMs / 1000}s " +
@@ -14307,7 +14307,7 @@ class PlayerActivity : ComponentActivity() {
             // variant that got us here, so the next replay of this video jumps
             // straight onto it (no re-probe, no header trial-and-error).
             sources.getOrNull(currentIndex)?.let { rememberPlayedSource(currentIndex, it) }
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "playing ${sources.getOrNull(currentIndex)?.name ?: "?"} " +
                     "(server ${currentIndex + 1}/${sources.size})",
@@ -14417,7 +14417,7 @@ class PlayerActivity : ComponentActivity() {
             // Every playback error is recorded with the server it came from, so
             // a "the play button spins and then it fails / goes black" report is
             // a readable line in the shared log instead of a guess.
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Player",
                 "playback error on ${sources.getOrNull(currentIndex)?.name ?: "?"} " +
                     "(server ${currentIndex + 1}/${sources.size}): " +
@@ -14473,7 +14473,7 @@ class PlayerActivity : ComponentActivity() {
                                 }
                             }
                         }.getOrNull() ?: "no answer"
-                        com.hikari.app.data.Logs.log("Player", "loopback diag: $diag".take(400))
+                        com.gworld06.streambox.data.Logs.log("Player", "loopback diag: $diag".take(400))
                     }
                 }
             }
@@ -14513,7 +14513,7 @@ class PlayerActivity : ComponentActivity() {
                 appliedEnhanceKey = null
                 appliedEnhanceHdr = null
                 enhancePresetKey = EnhancePreset.NATURAL.key
-                com.hikari.app.data.Logs.logError(
+                com.gworld06.streambox.data.Logs.logError(
                     "Player",
                     "video effects failed on this device — enhance disabled",
                     error
@@ -14573,7 +14573,7 @@ class PlayerActivity : ComponentActivity() {
                 if (rescue != null) {
                     triedUrls.add(rescue.url)
                     sources = sources.toMutableList().also { it[currentIndex] = rescue }
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Player",
                         "loopback proxy unusable — playing its upstream directly",
                     )
@@ -14988,9 +14988,9 @@ class PlayerActivity : ComponentActivity() {
     private fun showLoadingBanner() {
         val banner = loadingBanner ?: return
         val box = loadingTitleBox ?: return
-        val tvLayout = com.hikari.app.tv.TvMode.isTv
-        val style = if (tvLayout) com.hikari.app.ui.LoadingStyles.CINEMATIC
-            else com.hikari.app.ui.LoadingStyles.normalize(loadingStyle)
+        val tvLayout = com.gworld06.streambox.tv.TvMode.isTv
+        val style = if (tvLayout) com.gworld06.streambox.ui.LoadingStyles.CINEMATIC
+            else com.gworld06.streambox.ui.LoadingStyles.normalize(loadingStyle)
         loadingTitle?.text = intent.getStringExtra("title").orEmpty().ifBlank { "Loading" }.uppercase()
 
         // The title WORDMARK (Settings → App Layout → Loading screen → Title
@@ -15080,7 +15080,7 @@ class PlayerActivity : ComponentActivity() {
             loadingDetail?.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             backdropAlpha = 1f
         } else when (style) {
-            com.hikari.app.ui.LoadingStyles.MINIMAL -> {
+            com.gworld06.streambox.ui.LoadingStyles.MINIMAL -> {
                 // Flat and quiet: no artwork at all, a small title, the spinner.
                 backdropVisible = false
                 breath = false
@@ -15091,7 +15091,7 @@ class PlayerActivity : ComponentActivity() {
                 }
                 loadingTitle?.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
             }
-            com.hikari.app.ui.LoadingStyles.SPOTLIGHT -> {
+            com.gworld06.streambox.ui.LoadingStyles.SPOTLIGHT -> {
                 // No artwork either — an accent bloom behind the title instead.
                 backdropVisible = false
                 loadingGlow?.visibility = View.VISIBLE
@@ -15101,7 +15101,7 @@ class PlayerActivity : ComponentActivity() {
                 }
                 loadingTitle?.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
             }
-            com.hikari.app.ui.LoadingStyles.POSTER -> {
+            com.gworld06.streambox.ui.LoadingStyles.POSTER -> {
                 // The poster itself, on a glass card, over a dimmed blown-up
                 // copy of the same art so the card floats on its own poster.
                 loadingGlow?.visibility = View.GONE
@@ -15131,29 +15131,29 @@ class PlayerActivity : ComponentActivity() {
         // Effect) ----
         //
         // Drawn over whichever style was chosen, so all four styles offer the
-        // same treatments (see [com.hikari.app.ui.LoadingEffects]). Applied here
+        // same treatments (see [com.gworld06.streambox.ui.LoadingEffects]). Applied here
         // rather than inside the style branches above: the treatments are
         // independent of the style by design ("Minimal + gallery frame" is one
         // setting each), and MORE THAN ONE can be on at once — each is its own
         // view, so a sheen and an aura ring simply both show.
-        val effects = com.hikari.app.ui.LoadingEffects.normalizeSet(loadingEffects)
+        val effects = com.gworld06.streambox.ui.LoadingEffects.normalizeSet(loadingEffects)
         loadingEffectRing?.visibility =
-            if (com.hikari.app.ui.LoadingEffects.AURA in effects) View.VISIBLE else View.GONE
+            if (com.gworld06.streambox.ui.LoadingEffects.AURA in effects) View.VISIBLE else View.GONE
         // Painted from this session's colour (see [auraRingColor]): the ring has
         // its own setting now, so the XML drawable's accent-tinted stroke is only
         // the colour of the very first frame before the intent's value lands.
-        if (com.hikari.app.ui.LoadingEffects.AURA in effects) {
+        if (com.gworld06.streambox.ui.LoadingEffects.AURA in effects) {
             val ringColor = if (auraRingColor != 0) auraRingColor else accentMidColor
             loadingEffectRing?.background = auraRingDrawable(ringColor)
         }
         loadingEffectSheen?.visibility =
-            if (com.hikari.app.ui.LoadingEffects.SHEEN in effects) View.VISIBLE else View.GONE
+            if (com.gworld06.streambox.ui.LoadingEffects.SHEEN in effects) View.VISIBLE else View.GONE
         loadingEffectFrame?.visibility =
-            if (com.hikari.app.ui.LoadingEffects.FRAME in effects) View.VISIBLE else View.GONE
+            if (com.gworld06.streambox.ui.LoadingEffects.FRAME in effects) View.VISIBLE else View.GONE
         // The accent bloom behind the title is drawn for two reasons — the
         // SPOTLIGHT style (above) and the "Accent glow" treatment — so a
         // treatment can only ever switch it ON, never off.
-        if (com.hikari.app.ui.LoadingEffects.usesGlow(effects)) {
+        if (com.gworld06.streambox.ui.LoadingEffects.usesGlow(effects)) {
             loadingGlow?.visibility = View.VISIBLE
         }
 
@@ -15722,7 +15722,7 @@ class PlayerActivity : ComponentActivity() {
      */
     private fun episodeNameSuffix(name: String?): String {
         val n = name?.trim().orEmpty()
-        if (n.isEmpty() || com.hikari.app.nuvio.EpisodeTitles.isGeneric(n)) return ""
+        if (n.isEmpty() || com.gworld06.streambox.nuvio.EpisodeTitles.isGeneric(n)) return ""
         return " · $n"
     }
 

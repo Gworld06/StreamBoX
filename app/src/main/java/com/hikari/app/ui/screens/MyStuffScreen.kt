@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,10 +50,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.compose.ui.platform.LocalContext
-import com.hikari.app.HikariApp
-import com.hikari.app.i18n.tr
-import com.hikari.app.lock.AppLock
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.lock.AppLock
+import com.gworld06.streambox.tv.tvTextFieldKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -69,7 +69,7 @@ import kotlinx.coroutines.withContext
  * small segmented strip at the top of the page (the History | Updates pill the
  * user asked for, from their own Nekoread).
  *
- * Each of the three is still its own ROUTE ([com.hikari.app.ui.navigation.Routes]
+ * Each of the three is still its own ROUTE ([com.gworld06.streambox.ui.navigation.Routes]
  * .LIBRARY/.HISTORY/.DOWNLOADS), so every existing entry point (an empty state's
  * "Browse", a Continue-watching row's "See all", a deep link) lands on the right
  * section instead of breaking — those routes now render this screen with the
@@ -87,12 +87,12 @@ import kotlinx.coroutines.withContext
  * rule a hidden tab obeys.
  */
 object MyStuff {
-    const val LIBRARY = com.hikari.app.data.MyStuffSection.LIBRARY
-    const val HISTORY = com.hikari.app.data.MyStuffSection.HISTORY
-    const val DOWNLOADS = com.hikari.app.data.MyStuffSection.DOWNLOADS
+    const val LIBRARY = com.gworld06.streambox.data.MyStuffSection.LIBRARY
+    const val HISTORY = com.gworld06.streambox.data.MyStuffSection.HISTORY
+    const val DOWNLOADS = com.gworld06.streambox.data.MyStuffSection.DOWNLOADS
 
     /** The sections, in the order the strip draws them. */
-    val ALL = com.hikari.app.data.MyStuffSection.ALL
+    val ALL = com.gworld06.streambox.data.MyStuffSection.ALL
 }
 
 /** Process-memory unlock for the My Stuff lock: false on every fresh process
@@ -181,7 +181,7 @@ fun MyStuffScreen(nav: NavHostController, initial: String = MyStuff.LIBRARY) {
     // overscroll spring-back. On TV there is no pager at all (see below): the
     // section draws directly and the pills are the only switcher, so nothing
     // can move the screen sideways again.
-    val tvPager = com.hikari.app.tv.TvMode.current()
+    val tvPager = com.gworld06.streambox.tv.TvMode.current()
     val pager = androidx.compose.foundation.pager.rememberPagerState(
         initialPage = strip.indexOf(section).coerceAtLeast(0),
         pageCount = { strip.size },
@@ -289,14 +289,14 @@ private fun MyStuffLockGate(onUnlock: () -> Unit) {
             Text(
                 tr("My Stuff is locked"),
                 style = MaterialTheme.typography.titleLarge,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                 else Color.Unspecified,
             )
             Spacer(Modifier.height(6.dp))
             Text(
                 tr("Enter the My Stuff password to see your library, history and downloads."),
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(Modifier.height(16.dp))
@@ -361,12 +361,12 @@ private fun MyStuffStrip(sections: List<String>, current: String, onPick: (Strin
         Modifier
             .fillMaxWidth()
             .padding(
-                start = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
-                end = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
-                top = if (com.hikari.app.tv.TvMode.current()) 14.dp else 12.dp,
+                start = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
+                end = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
+                top = if (com.gworld06.streambox.tv.TvMode.current()) 14.dp else 12.dp,
                 bottom = 2.dp
             ),
-        horizontalArrangement = Arrangement.spacedBy(if (com.hikari.app.tv.TvMode.current()) 10.dp else 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(if (com.gworld06.streambox.tv.TvMode.current()) 10.dp else 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // The labels are read HERE (a composable position) because `tr` is
@@ -414,7 +414,7 @@ private fun MyStuffPill(
     onClick: () -> Unit,
 ) {
     val fg = if (selected) MaterialTheme.colorScheme.onPrimary
-    else if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+    else if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
     else MaterialTheme.colorScheme.onSurfaceVariant
     val density = LocalDensity.current
     val measurer = rememberTextMeasurer()
@@ -459,10 +459,10 @@ private fun MyStuffPill(
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(50),
             color = if (selected) MaterialTheme.colorScheme.primary
-            else if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.SurfaceCard
+            else if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.SurfaceCard
             else MaterialTheme.colorScheme.surfaceVariant,
-            border = if (!selected && com.hikari.app.tv.TvMode.current())
-                androidx.compose.foundation.BorderStroke(1.dp, com.hikari.app.tv.TvDesktop.GlassEdge)
+            border = if (!selected && com.gworld06.streambox.tv.TvMode.current())
+                androidx.compose.foundation.BorderStroke(1.dp, com.gworld06.streambox.tv.TvDesktop.GlassEdge)
             else null,
         ) {
             Row(

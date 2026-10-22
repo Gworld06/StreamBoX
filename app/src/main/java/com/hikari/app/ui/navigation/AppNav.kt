@@ -1,5 +1,5 @@
-package com.hikari.app.ui.navigation
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.navigation
+import com.gworld06.streambox.i18n.tr
 
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
@@ -90,39 +90,39 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.hikari.app.HikariApp
-import com.hikari.app.data.MediaType
-import com.hikari.app.ui.screens.AnimeCalendarScreen
-import com.hikari.app.ui.screens.CatalogScreen
-import com.hikari.app.ui.screens.CollectionGridScreen
-import com.hikari.app.ui.screens.CollectionViewScreen
-import com.hikari.app.ui.screens.CollectionsScreen
-import com.hikari.app.ui.screens.DetailScreen
-import com.hikari.app.ui.screens.DownloadsScreen
-import com.hikari.app.ui.screens.ExtensionsScreen
-import com.hikari.app.ui.screens.HistoryScreen
-import com.hikari.app.ui.screens.HomeScreen
-import com.hikari.app.ui.screens.IptvPlaylistScreen
-import com.hikari.app.ui.screens.IptvScreen
-import com.hikari.app.ui.screens.LibraryScreen
-import com.hikari.app.ui.screens.MangaDetailScreen
-import com.hikari.app.ui.screens.MangaReaderScreen
-import com.hikari.app.ui.screens.NovelReaderScreen
-import com.hikari.app.ui.screens.ScraperReaderScreen
-import com.hikari.app.ui.screens.MangaScreen
-import com.hikari.app.ui.screens.MyStuff
-import com.hikari.app.ui.screens.MyStuffScreen
-import com.hikari.app.ui.screens.SearchScreen
-import com.hikari.app.ui.screens.SettingsScreen
-import com.hikari.app.ui.screens.StatsScreen
-import com.hikari.app.ui.screens.TelegramScreen
-import com.hikari.app.ui.screens.TmdbGridScreen
-import com.hikari.app.ui.theme.HikariThemeMode
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.tv.TvMode
-import com.hikari.app.tv.TvMouseCursorOverlay
-import com.hikari.app.tv.TvNavRail
-import com.hikari.app.tv.TvUi
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.ui.screens.AnimeCalendarScreen
+import com.gworld06.streambox.ui.screens.CatalogScreen
+import com.gworld06.streambox.ui.screens.CollectionGridScreen
+import com.gworld06.streambox.ui.screens.CollectionViewScreen
+import com.gworld06.streambox.ui.screens.CollectionsScreen
+import com.gworld06.streambox.ui.screens.DetailScreen
+import com.gworld06.streambox.ui.screens.DownloadsScreen
+import com.gworld06.streambox.ui.screens.ExtensionsScreen
+import com.gworld06.streambox.ui.screens.HistoryScreen
+import com.gworld06.streambox.ui.screens.HomeScreen
+import com.gworld06.streambox.ui.screens.IptvPlaylistScreen
+import com.gworld06.streambox.ui.screens.IptvScreen
+import com.gworld06.streambox.ui.screens.LibraryScreen
+import com.gworld06.streambox.ui.screens.MangaDetailScreen
+import com.gworld06.streambox.ui.screens.MangaReaderScreen
+import com.gworld06.streambox.ui.screens.NovelReaderScreen
+import com.gworld06.streambox.ui.screens.ScraperReaderScreen
+import com.gworld06.streambox.ui.screens.MangaScreen
+import com.gworld06.streambox.ui.screens.MyStuff
+import com.gworld06.streambox.ui.screens.MyStuffScreen
+import com.gworld06.streambox.ui.screens.SearchScreen
+import com.gworld06.streambox.ui.screens.SettingsScreen
+import com.gworld06.streambox.ui.screens.StatsScreen
+import com.gworld06.streambox.ui.screens.TelegramScreen
+import com.gworld06.streambox.ui.screens.TmdbGridScreen
+import com.gworld06.streambox.ui.theme.HikariThemeMode
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.tv.TvMouseCursorOverlay
+import com.gworld06.streambox.tv.TvNavRail
+import com.gworld06.streambox.tv.TvUi
 import androidx.compose.runtime.collectAsState
 
 object Routes {
@@ -138,7 +138,7 @@ object Routes {
     /**
      * The IPTV tab. Hidden by default — it appears in the taskbar only once the
      * user switches it on in Settings → Taskbar buttons (see
-     * [com.hikari.app.data.AppStore.iptvTabFlow]), because most installs have no
+     * [com.gworld06.streambox.data.AppStore.iptvTabFlow]), because most installs have no
      * playlist at all and an eighth button costs every one of them room.
      */
     const val IPTV = "iptv"
@@ -148,7 +148,7 @@ object Routes {
     /**
      * The Manga tab — the same kind of extra page as [IPTV]: OFF by default and
      * switched on in Settings → Taskbar buttons (see
-     * [com.hikari.app.data.AppStore.mangaTabFlow]), because an install with no
+     * [com.gworld06.streambox.data.AppStore.mangaTabFlow]), because an install with no
      * manga engine has no use for it and a button costs every install room.
      */
     const val MANGA = "manga"
@@ -175,7 +175,7 @@ object Routes {
         "manga-reader?providerId={providerId}&url={url}&chapter={chapter}&title={title}&poster={poster}"
     /**
      * The novel reader: text chapters from plain novel sources (see
-     * [com.hikari.app.manga.MangaExtensionManager.isNovelId]). A destination
+     * [com.gworld06.streambox.manga.MangaExtensionManager.isNovelId]). A destination
      * of its own rather than a mode of the image reader, so text layout,
      * themes and progress stay out of the image pipeline entirely.
      */
@@ -185,7 +185,7 @@ object Routes {
 
     /**
      * The Stats tab: what the user watched and read, and for how long (see
-     * [com.hikari.app.ui.screens.StatsScreen]). OFF by default and switched on
+     * [com.gworld06.streambox.ui.screens.StatsScreen]). OFF by default and switched on
      * in Settings → Taskbar buttons, like [IPTV] and [MANGA] — it is a page a
      * user goes looking for rather than one every install needs a button for,
      * and the Settings index has its own door to it either way.
@@ -195,7 +195,7 @@ object Routes {
     /**
      * The Telegram tab: the videos on the public Telegram channels the user
      * added, played in Hikari's own player (see
-     * [com.hikari.app.ui.screens.TelegramScreen]). OFF by default and switched
+     * [com.gworld06.streambox.ui.screens.TelegramScreen]). OFF by default and switched
      * on in Settings → Taskbar buttons, like [IPTV] and [STATS] — an install
      * with no channels should not carry a spare button.
      */
@@ -270,9 +270,9 @@ object Routes {
         title: String,
         posterUrl: String? = null,
     ): String {
-        val novel = com.hikari.app.manga.MangaExtensionManager.isNovelId(providerId) ||
-            com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(providerId) ||
-            com.hikari.app.kotatsu.fork.ForkRegistry.isForkNovelId(providerId)
+        val novel = com.gworld06.streambox.manga.MangaExtensionManager.isNovelId(providerId) ||
+            com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(providerId) ||
+            com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkNovelId(providerId)
         return if (novel) novelReader(providerId, url, chapterUrl, title, posterUrl)
         else mangaReader(providerId, url, chapterUrl, title, posterUrl)
     }
@@ -361,7 +361,7 @@ object Routes {
     fun tmdbGrid(presetKey: String, title: String): String =
         "tmdb-grid?preset=${Uri.encode(presetKey)}&title=${Uri.encode(title)}"
 
-    /** Opens one saved [com.hikari.app.data.TmdbSpec] as a full grid. */
+    /** Opens one saved [com.gworld06.streambox.data.TmdbSpec] as a full grid. */
     fun tmdbGridSpec(specJson: String, title: String): String =
         "tmdb-grid-spec?spec=${Uri.encode(specJson)}&title=${Uri.encode(title)}"
 
@@ -989,7 +989,7 @@ val BottomTabs = listOf(
     // (saved titles, what you played, what you saved offline) rather than
     // "find something to watch", and three buttons for them left the taskbar
     // with no room for the manga reader. The three are a small segmented strip
-    // at the top of this page (see [com.hikari.app.ui.screens.MyStuffScreen]),
+    // at the top of this page (see [com.gworld06.streambox.ui.screens.MyStuffScreen]),
     // and each keeps its own route so every existing link still lands right.
     BottomTab(Routes.LIBRARY, "My Stuff", Icons.Filled.VideoLibrary),
     // Manga sits beside it as its own tab, ON by default (Settings → Taskbar
@@ -1079,7 +1079,7 @@ fun AppRoot(themeKey: String = HikariThemeMode.DEFAULT.key) {
     // what actually brings the bars back).
     val fullscreenOffFlow = remember { app.store.fullscreenOffFlow() }
     val fullscreenOff by fullscreenOffFlow.collectAsState(initial = false)
-    // ---- Television (one APK, two layouts — see com.hikari.app.tv.TvMode) ----
+    // ---- Television (one APK, two layouts — see com.gworld06.streambox.tv.TvMode) ----
     //
     // Subscribes to the user's choice, so switching "This device is a TV" in
     // Settings re-lays-out the app on the spot. What changes on a television:
@@ -1161,17 +1161,17 @@ fun AppRoot(themeKey: String = HikariThemeMode.DEFAULT.key) {
     // what gets pressed.
     val mouseView = LocalView.current
     val mouseDrive = Modifier.onPreviewKeyEvent { event ->
-        if (!com.hikari.app.tv.MouseMode.enabled) return@onPreviewKeyEvent false
+        if (!com.gworld06.streambox.tv.MouseMode.enabled) return@onPreviewKeyEvent false
         if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
-        val step = com.hikari.app.tv.MouseMode.STEP
+        val step = com.gworld06.streambox.tv.MouseMode.STEP
         when (event.key) {
-            Key.DirectionUp -> { com.hikari.app.tv.MouseMode.move(0f, -step); true }
-            Key.DirectionDown -> { com.hikari.app.tv.MouseMode.move(0f, step); true }
-            Key.DirectionLeft -> { com.hikari.app.tv.MouseMode.move(-step, 0f); true }
-            Key.DirectionRight -> { com.hikari.app.tv.MouseMode.move(step, 0f); true }
+            Key.DirectionUp -> { com.gworld06.streambox.tv.MouseMode.move(0f, -step); true }
+            Key.DirectionDown -> { com.gworld06.streambox.tv.MouseMode.move(0f, step); true }
+            Key.DirectionLeft -> { com.gworld06.streambox.tv.MouseMode.move(-step, 0f); true }
+            Key.DirectionRight -> { com.gworld06.streambox.tv.MouseMode.move(step, 0f); true }
             Key.DirectionCenter, Key.Enter, Key.NumPadEnter -> {
                 if (event.nativeKeyEvent.repeatCount != 0) return@onPreviewKeyEvent true
-                com.hikari.app.tv.MouseMode.clickAt(mouseView)
+                com.gworld06.streambox.tv.MouseMode.clickAt(mouseView)
                 true
             }
             else -> false

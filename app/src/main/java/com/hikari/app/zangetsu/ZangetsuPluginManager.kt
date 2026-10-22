@@ -1,15 +1,15 @@
-package com.hikari.app.zangetsu
+package com.gworld06.streambox.zangetsu
 
 import android.content.Context
-import com.hikari.app.HikariApp
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
-import com.hikari.app.data.SourceUrls
-import com.hikari.app.net.Http
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.data.SourceUrls
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -187,7 +187,7 @@ object ZangetsuPluginManager {
             )
         )
         HikariApp.instance.providers.refresh()
-        runCatching { com.hikari.app.data.MetaCache.bumpEpisodesEpoch() }
+        runCatching { com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch() }
         Result.success(1)
     }
 

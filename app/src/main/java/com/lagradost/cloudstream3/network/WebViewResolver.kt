@@ -12,8 +12,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.hikari.app.HikariApp
-import com.hikari.app.net.CloudflareVerifier
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.CloudflareVerifier
 import com.lagradost.cloudstream3.USER_AGENT
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -93,7 +93,7 @@ class WebViewResolver(
         @JvmStatic
         fun getWebViewUserAgent1(): String =
             webViewUserAgent
-                ?: runCatching { com.hikari.app.HikariApp.instance.effectiveWebViewUa() }
+                ?: runCatching { com.gworld06.streambox.HikariApp.instance.effectiveWebViewUa() }
                     .getOrNull()
                 ?: USER_AGENT
 

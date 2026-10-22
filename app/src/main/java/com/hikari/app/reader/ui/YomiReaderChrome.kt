@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.hikari.app.reader.ui
+package com.gworld06.streambox.reader.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -99,16 +99,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.hikari.app.reader.ReaderChapter
-import com.hikari.app.reader.ReaderBg
-import com.hikari.app.reader.ReaderFit
-import com.hikari.app.reader.ReaderHideThreshold
-import com.hikari.app.reader.ReaderMode
-import com.hikari.app.reader.ReaderOrientation
-import com.hikari.app.reader.TappingInvertMode
-import com.hikari.app.reader.WebtoonScaleType
-import com.hikari.app.tv.tvAdjust
-import com.hikari.app.tv.tvToggle
+import com.gworld06.streambox.reader.ReaderChapter
+import com.gworld06.streambox.reader.ReaderBg
+import com.gworld06.streambox.reader.ReaderFit
+import com.gworld06.streambox.reader.ReaderHideThreshold
+import com.gworld06.streambox.reader.ReaderMode
+import com.gworld06.streambox.reader.ReaderOrientation
+import com.gworld06.streambox.reader.TappingInvertMode
+import com.gworld06.streambox.reader.WebtoonScaleType
+import com.gworld06.streambox.tv.tvAdjust
+import com.gworld06.streambox.tv.tvToggle
 
 private val ChromeBarColor = Color(0xCC161926)
 private val SheetColor = Color(0xFF1B1E2A)

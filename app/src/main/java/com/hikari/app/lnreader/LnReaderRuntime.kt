@@ -1,10 +1,10 @@
-package com.hikari.app.lnreader
+package com.gworld06.streambox.lnreader
 
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.asyncFunction
 import com.dokar.quickjs.binding.function
-import com.hikari.app.HikariApp
-import com.hikari.app.data.PerfMode
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.PerfMode
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Semaphore
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * Runs LNReader novel-source plugins (compiled CommonJS off
  * `github.com/lnreader/lnreader-plugins`) inside a fresh embedded QuickJS
- * engine per call — the same shape as [com.hikari.app.nuvio.NuvioRuntime]:
+ * engine per call — the same shape as [com.gworld06.streambox.nuvio.NuvioRuntime]:
  * one `QuickJs.create` per call, boot.js polyfills + the real cheerio bundle
  * + the nuvio provider harness evaluated in, every network request through the
  * same asynchronous fetch bridge (OkHttp, no WebView, no Cloudflare solving).
@@ -373,7 +373,7 @@ object LnReaderRuntime {
             val headersJson = args.getOrNull(2)?.toString() ?: "{}"
             val body = args.getOrNull(3)?.toString() ?: ""
             val followRedirects = args.getOrNull(4) as? Boolean ?: true
-            com.hikari.app.nuvio.NuvioRuntime.bridgeFetchAsync(url, method, headersJson, body, followRedirects)
+            com.gworld06.streambox.nuvio.NuvioRuntime.bridgeFetchAsync(url, method, headersJson, body, followRedirects)
         }
         qjs.function("__hikariOnLnDone") { args ->
             val payload = args.getOrNull(1)?.toString() ?: ""
@@ -384,7 +384,7 @@ object LnReaderRuntime {
             android.util.Log.d("LnReader", args.getOrNull(0)?.toString() ?: "")
             ""
         }
-        com.hikari.app.nuvio.NuvioCryptoBridge.bindAll(qjs)
+        com.gworld06.streambox.nuvio.NuvioCryptoBridge.bindAll(qjs)
         qjs.evaluateCached("boot.js", bootJs)
         qjs.evaluateCached("cheerio-head.js", "var __nuvioModule = { exports: {} }; var module = __nuvioModule; var exports = module.exports;")
         qjs.evaluateCached("cheerio.js", cheerioJs)

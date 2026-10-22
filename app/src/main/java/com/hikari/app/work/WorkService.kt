@@ -1,6 +1,6 @@
-package com.hikari.app.work
+package com.gworld06.streambox.work
 
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.i18n.I18n
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -15,8 +15,8 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.hikari.app.MainActivity
-import com.hikari.app.R
+import com.gworld06.streambox.MainActivity
+import com.gworld06.streambox.R
 
 /**
  * Keeps the process alive (and awake) while [BackgroundWork] has registered
@@ -101,7 +101,7 @@ class WorkService : Service() {
             // If this ever fails the platform will kill the process, so make
             // sure the reason ends up in the on-device log instead of only in
             // logcat.
-            com.hikari.app.data.Logs.logError("Work", "startForeground failed", it)
+            com.gworld06.streambox.data.Logs.logError("Work", "startForeground failed", it)
         }
     }
 
@@ -190,7 +190,7 @@ class WorkService : Service() {
     companion object {
         private const val CHANNEL_ID = "hikari_work"
         private const val NOTIF_ID = 0x484b02
-        private const val ACTION_STOP = "com.hikari.app.work.STOP"
+        private const val ACTION_STOP = "com.gworld06.streambox.work.STOP"
         private const val WAKELOCK_TAG = "hikari:background-work"
         private const val WAKELOCK_TIMEOUT_MS = 30L * 60 * 1000
 

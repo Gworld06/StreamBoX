@@ -56,7 +56,7 @@ class MainActivity : android.app.Activity() {
         super.onCreate(savedInstanceState)
         runCatching {
             startActivity(
-                Intent(this, com.hikari.app.MainActivity::class.java).addFlags(
+                Intent(this, com.gworld06.streambox.MainActivity::class.java).addFlags(
                     Intent.FLAG_ACTIVITY_NEW_TASK or
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
                         Intent.FLAG_ACTIVITY_SINGLE_TOP

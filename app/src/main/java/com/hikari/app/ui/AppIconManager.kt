@@ -1,16 +1,16 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.annotation.DrawableRes
-import com.hikari.app.R
+import com.gworld06.streambox.R
 
 /**
  * The launcher icons the user can pick between in Settings → Appearance & Theme.
  *
  * Every entry has its own `activity-alias` in AndroidManifest.xml, all of them
- * pointing at [com.hikari.app.MainActivity]. Exactly one alias is enabled at a
+ * pointing at [com.gworld06.streambox.MainActivity]. Exactly one alias is enabled at a
  * time, and the enabled one is the launcher entry (and the icon the launcher
  * shows) — MainActivity itself is never disabled, so the PendingIntents in
  * DownloadService/WorkService that name `MainActivity::class.java` keep
@@ -40,17 +40,17 @@ data class AppIconVariant(
 
 /** Order = the order of the tiles in the chooser. */
 val AppIconVariants: List<AppIconVariant> = listOf(
-    AppIconVariant("classic", "Hikari Gold", "com.hikari.app.icon.Classic", R.mipmap.ic_launcher, R.mipmap.ic_launcher),
-    AppIconVariant("cine", "Cine H", "com.hikari.app.icon.Cine", R.mipmap.ic_launcher_v2, R.drawable.ic_launcher_v2_fg),
-    AppIconVariant("orbit", "Orbit Play", "com.hikari.app.icon.OrbitPlay", R.mipmap.ic_launcher_v3, R.drawable.ic_launcher_v3_fg),
-    AppIconVariant("moon", "Moon Star", "com.hikari.app.icon.MoonStar", R.mipmap.ic_launcher_v4, R.drawable.ic_launcher_v4_fg),
-    AppIconVariant("redplay", "Red Play", "com.hikari.app.icon.RedPlay", R.mipmap.ic_launcher_v5, R.drawable.ic_launcher_v5_fg),
-    AppIconVariant("sakura", "Sakura", "com.hikari.app.icon.Sakura", R.mipmap.ic_launcher_v6, R.drawable.ic_launcher_v6_fg),
-    AppIconVariant("enso", "Enso Play", "com.hikari.app.icon.EnsoPlay", R.mipmap.ic_launcher_v7, R.drawable.ic_launcher_v7_fg),
-    AppIconVariant("silver", "Silver H", "com.hikari.app.icon.SilverH", R.mipmap.ic_launcher_v8, R.drawable.ic_launcher_v8_fg),
-    AppIconVariant("violet", "Violet Play", "com.hikari.app.icon.VioletPlay", R.mipmap.ic_launcher_v9, R.drawable.ic_launcher_v9_fg),
-    AppIconVariant("horizon", "Horizon", "com.hikari.app.icon.Horizon", R.mipmap.ic_launcher_v10, R.drawable.ic_launcher_v10_fg),
-    AppIconVariant("neko", "Neko Moon", "com.hikari.app.icon.NekoMoon", R.mipmap.ic_launcher_v11, R.drawable.ic_launcher_v11_fg),
+    AppIconVariant("classic", "Hikari Gold", "com.gworld06.streambox.icon.Classic", R.mipmap.ic_launcher, R.mipmap.ic_launcher),
+    AppIconVariant("cine", "Cine H", "com.gworld06.streambox.icon.Cine", R.mipmap.ic_launcher_v2, R.drawable.ic_launcher_v2_fg),
+    AppIconVariant("orbit", "Orbit Play", "com.gworld06.streambox.icon.OrbitPlay", R.mipmap.ic_launcher_v3, R.drawable.ic_launcher_v3_fg),
+    AppIconVariant("moon", "Moon Star", "com.gworld06.streambox.icon.MoonStar", R.mipmap.ic_launcher_v4, R.drawable.ic_launcher_v4_fg),
+    AppIconVariant("redplay", "Red Play", "com.gworld06.streambox.icon.RedPlay", R.mipmap.ic_launcher_v5, R.drawable.ic_launcher_v5_fg),
+    AppIconVariant("sakura", "Sakura", "com.gworld06.streambox.icon.Sakura", R.mipmap.ic_launcher_v6, R.drawable.ic_launcher_v6_fg),
+    AppIconVariant("enso", "Enso Play", "com.gworld06.streambox.icon.EnsoPlay", R.mipmap.ic_launcher_v7, R.drawable.ic_launcher_v7_fg),
+    AppIconVariant("silver", "Silver H", "com.gworld06.streambox.icon.SilverH", R.mipmap.ic_launcher_v8, R.drawable.ic_launcher_v8_fg),
+    AppIconVariant("violet", "Violet Play", "com.gworld06.streambox.icon.VioletPlay", R.mipmap.ic_launcher_v9, R.drawable.ic_launcher_v9_fg),
+    AppIconVariant("horizon", "Horizon", "com.gworld06.streambox.icon.Horizon", R.mipmap.ic_launcher_v10, R.drawable.ic_launcher_v10_fg),
+    AppIconVariant("neko", "Neko Moon", "com.gworld06.streambox.icon.NekoMoon", R.mipmap.ic_launcher_v11, R.drawable.ic_launcher_v11_fg),
 )
 
 object AppIconManager {

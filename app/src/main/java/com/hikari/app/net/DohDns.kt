@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import okhttp3.Dns
 import okhttp3.HttpUrl.Companion.toHttpUrl

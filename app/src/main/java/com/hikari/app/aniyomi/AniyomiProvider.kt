@@ -1,17 +1,17 @@
-package com.hikari.app.aniyomi
+package com.gworld06.streambox.aniyomi
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.screenTypeFor
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderGate
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.screenTypeFor
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderGate
 import eu.kanade.tachiyomi.animesource.AnimeSource
 import eu.kanade.tachiyomi.animesource.model.AnimeFilterList
 import eu.kanade.tachiyomi.animesource.model.Hoster
@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Adapts ONE source of an installed **Aniyomi** extension to Hikari's
- * [ContentProvider] contract — the same shape [com.hikari.app.skystream.SkyStreamProvider]
+ * [ContentProvider] contract — the same shape [com.gworld06.streambox.skystream.SkyStreamProvider]
  * gives a SkyStream plugin, but speaking Aniyomi's `AnimeSource` API:
  *
  *   catalogs()             <- "Popular", plus "Latest" when the source supports it
@@ -389,7 +389,7 @@ class AniyomiProvider(override val config: ProviderConfig) : ContentProvider {
             m.isAccessible = true
             ((m.invoke(src, page) as? okhttp3.Request)?.url?.toString())
         }.getOrNull()?.takeIf { it.isNotBlank() } ?: return items
-        val html = com.hikari.app.net.Http.getString(catalogUrl) ?: return items
+        val html = com.gworld06.streambox.net.Http.getString(catalogUrl) ?: return items
         val doc = runCatching { org.jsoup.Jsoup.parse(html, catalogUrl) }.getOrNull() ?: return items
         val byUrl = HashMap<String, String>()
         for (el in doc.select("article.item, div.items article, div.movies-list article, .items .item")) {
@@ -433,10 +433,10 @@ class AniyomiProvider(override val config: ProviderConfig) : ContentProvider {
      * "One moment, please" challenge body.
      *
      * The extension client clears these by itself where it can (see
-     * [com.hikari.app.net.CloudflareSolver], wired in on
+     * [com.gworld06.streambox.net.CloudflareSolver], wired in on
      * [eu.kanade.tachiyomi.network.NetworkHelper]'s client), and this is what
      * happens when even that did not work: the host lands in
-     * [com.hikari.app.net.CloudflareVerifier], which is what lets Home offer the
+     * [com.gworld06.streambox.net.CloudflareVerifier], which is what lets Home offer the
      * globe ("Verify site") for exactly this extension instead of reporting it
      * as broken, and what keeps the cross-extension search from asking the same
      * walled site on every lookup.
@@ -449,9 +449,9 @@ class AniyomiProvider(override val config: ProviderConfig) : ContentProvider {
         if (text.isBlank()) return
         if (!WALL_MESSAGE.containsMatchIn(text)) return
         val site = runCatching {
-            com.hikari.app.aniyomi.AniyomiExtensionManager.siteUrlOf(config)
+            com.gworld06.streambox.aniyomi.AniyomiExtensionManager.siteUrlOf(config)
         }.getOrNull()
-        if (!site.isNullOrBlank()) com.hikari.app.net.CloudflareVerifier.markBlocked(site)
+        if (!site.isNullOrBlank()) com.gworld06.streambox.net.CloudflareVerifier.markBlocked(site)
     }
 
     /** A wall's own words. Deliberately not "any 4xx": a 404 is a missing page,
@@ -513,9 +513,9 @@ class AniyomiProvider(override val config: ProviderConfig) : ContentProvider {
         val base = artSite() ?: return
         runCatching {
             val host = java.net.URI(url).host?.lowercase() ?: return@runCatching
-            com.hikari.app.cs3.Cs3MainApiProvider.imageHeaders[url] =
+            com.gworld06.streambox.cs3.Cs3MainApiProvider.imageHeaders[url] =
                 mapOf("Referer" to base + "/", "User-Agent" to Http.UA)
-            com.hikari.app.cs3.Cs3MainApiProvider.imageHostReferers[host] = base + "/"
+            com.gworld06.streambox.cs3.Cs3MainApiProvider.imageHostReferers[host] = base + "/"
         }
     }
 
@@ -811,7 +811,7 @@ class AniyomiProvider(override val config: ProviderConfig) : ContentProvider {
         lastOutcome[config.id] = "✓ ${out.size} source${if (out.size == 1) "" else "s"} in " +
             "${(System.currentTimeMillis() - startedAt) / 1000}s"
         val distinct = out.distinctBy { it.url }
-        com.hikari.app.net.StreamProbe.warmAsync(distinct)
+        com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
         return distinct
     }
 

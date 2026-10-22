@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * Identity helpers for extension source URLs.
@@ -78,7 +78,7 @@ object SourceUrls {
      *
      * These helpers run on the DRAW path — every provider row's "is this
      * installed / is there an update" check goes through [anyKeyIn], the
-     * Extensions lists resolve [com.hikari.app.data.RepoProvenance] for every
+     * Extensions lists resolve [com.gworld06.streambox.data.RepoProvenance] for every
      * provider, and Home's picker builds that map for the whole installed list
      * the moment it opens. Each call used to re-run up to six regexes over the
      * URL, and the same few hundred URLs were re-parsed thousands of times; the
@@ -320,7 +320,7 @@ object SourceUrls {
      * (the install remembers the extension FILE, the repo list remembers the
      * repo's own index URL, and a CI-built repo publishes its files as release
      * assets), so a whole-path comparison answers nothing; the repository
-     * answers everything. See [com.hikari.app.data.RepoProvenance].
+     * answers everything. See [com.gworld06.streambox.data.RepoProvenance].
      */
     fun githubRoot(raw: String): String? =
         githubParts(raw)?.let { "${it.first}/${it.second}" }

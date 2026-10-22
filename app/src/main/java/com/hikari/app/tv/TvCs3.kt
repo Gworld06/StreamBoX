@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -63,9 +63,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
-import com.hikari.app.data.RatingSource
-import com.hikari.app.data.TitleRating
-import com.hikari.app.ui.components.PosterImage
+import com.gworld06.streambox.data.RatingSource
+import com.gworld06.streambox.data.TitleRating
+import com.gworld06.streambox.ui.components.PosterImage
 
 /**
  * The CloudStream desktop client's visual language, rebuilt for the
@@ -1001,7 +1001,7 @@ fun Cs3PluginCard(
                             modifier = Modifier.weight(1f, fill = false),
                         )
                         if (!flagCode.isNullOrBlank()) {
-                            com.hikari.app.ui.FlagIcon(code = flagCode, size = 20.dp)
+                            com.gworld06.streambox.ui.FlagIcon(code = flagCode, size = 20.dp)
                         }
                     }
                     Spacer(modifier = Modifier.height(2.dp))
@@ -1191,7 +1191,7 @@ fun Cs3ProviderBox(
         Cs3PluginIcon(iconUrl = iconUrl, name = name)
         if (!flagCode.isNullOrBlank()) {
             Spacer(modifier = Modifier.width(8.dp))
-            com.hikari.app.ui.FlagIcon(code = flagCode, size = 20.dp)
+            com.gworld06.streambox.ui.FlagIcon(code = flagCode, size = 20.dp)
         }
         Spacer(modifier = Modifier.width(10.dp))
         Column(Modifier.weight(1f)) {

@@ -1,6 +1,6 @@
-package com.hikari.app.kotatsu.fork
+package com.gworld06.streambox.kotatsu.fork
 
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import eu.kanade.tachiyomi.source.CatalogueSource
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
@@ -19,8 +19,8 @@ import org.hany18h.parsers.model.SortOrder
 
 /**
  * A vendored hany18h [MangaParser] speaking the Tachiyomi [CatalogueSource] API —
- * the same bridge [com.hikari.app.kotatsu.KotatsuBridge] is for the official
- * parsers, so [com.hikari.app.manga.MangaProvider] drives fork manga/novel rows
+ * the same bridge [com.gworld06.streambox.kotatsu.KotatsuBridge] is for the official
+ * parsers, so [com.gworld06.streambox.manga.MangaProvider] drives fork manga/novel rows
  * unchanged (Popular / Latest, search, details, chapters, pages).
  *
  * Id mapping mirrors the official bridge: per-site Long ids collide across sites,

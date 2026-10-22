@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
@@ -54,10 +54,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hikari.app.data.MediaItem
-import com.hikari.app.i18n.tr
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.components.PosterImage
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.components.PosterImage
 
 /**
  * The television home hero: full-bleed cinematic backdrop with the title,
@@ -94,7 +94,7 @@ fun TvCinematicHero(
     val heroId = item.uniqueId
     androidx.compose.runtime.LaunchedEffect(heroId) {
         if (!heroLogos.containsKey(heroId)) {
-            heroLogos[heroId] = runCatching { com.hikari.app.data.TmdbMeta.logo(item) }.getOrNull()
+            heroLogos[heroId] = runCatching { com.gworld06.streambox.data.TmdbMeta.logo(item) }.getOrNull()
         }
     }
     val heroLogo = heroLogos[heroId]
@@ -161,7 +161,7 @@ fun TvCinematicHero(
                         if (!fadeArt.second) Modifier.blur(20.dp, BlurredEdgeTreatment.Unbounded) else Modifier
                     ),
                     contentScale = ContentScale.Crop,
-                    alignment = com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT,
+                    alignment = com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT,
                 )
                 if (!fadeArt.second && fadeArt.first != null) {
                     Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.32f)))

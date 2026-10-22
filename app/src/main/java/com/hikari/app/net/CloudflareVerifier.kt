@@ -1,7 +1,7 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import android.webkit.CookieManager
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response

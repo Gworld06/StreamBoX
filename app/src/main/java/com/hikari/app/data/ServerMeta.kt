@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.R
+import com.gworld06.streambox.R
 
 /**
  * Best-effort server-row details for EVERY engine.

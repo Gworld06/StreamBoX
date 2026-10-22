@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import org.json.JSONArray
 import org.json.JSONObject

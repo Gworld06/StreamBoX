@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * The one genre vocabulary both genre strips offer — Home's "Browse by genre"
@@ -25,7 +25,7 @@ package com.hikari.app.data
  *    genre id for at all (Isekai, Harem, School Life, …). TMDB's keyword
  *    vocabulary does have those — "isekai", "harem", "high school" — and a
  *    keyword can be turned into the `with_keywords` ids discover needs (see
- *    [com.hikari.app.data.TmdbSources]). Without this an anime genre would be a
+ *    [com.gworld06.streambox.data.TmdbSources]). Without this an anime genre would be a
  *    chip that opens an empty grid.
  */
 object Genres {

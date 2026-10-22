@@ -1,9 +1,9 @@
-package com.hikari.app.kotatsu
+package com.gworld06.streambox.kotatsu
 
-import com.hikari.app.data.Logs
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.DohDns
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.DohDns
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Cookie

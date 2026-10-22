@@ -1,13 +1,13 @@
-package com.hikari.app.zangetsu
+package com.gworld06.streambox.zangetsu
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -263,7 +263,7 @@ class ZangetsuProvider(override val config: ProviderConfig) : ContentProvider {
                     val repacked = scheme + java.net.URLEncoder.encode(JSONArray(hrefs).toString(), "UTF-8")
                     if (repacked != epUrl) {
                         epUrl = repacked
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Zangetsu",
                             "$sourceId getVideoSources: re-asking packed with ${hrefs.size} harvested links",
                         )
@@ -274,7 +274,7 @@ class ZangetsuProvider(override val config: ProviderConfig) : ContentProvider {
                 if (data == null || data.length() == 0) {
                     val direct = harvestDirectMedia(item.id.trim())
                     if (direct.isNotEmpty()) {
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Zangetsu",
                             "$sourceId getVideoSources: playing ${direct.size} direct file(s) from the page",
                         )
@@ -377,7 +377,7 @@ class ZangetsuProvider(override val config: ProviderConfig) : ContentProvider {
                 "var p = /thenaukriadda|\\?sid=|&sid=/.test(l) ? _bypassNaukri(link) : (/unblockedgames|hrefli|href\\.li|\\?go=|\\/go\\b/.test(l) ? _bypassHrefli(link) : Promise.resolve(link));"
             if (!js.contains("function _resolveOne(link) {")
             ) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Zangetsu",
                     "uhdmovies patch skipped: selectors moved upstream",
                 )
@@ -394,12 +394,12 @@ class ZangetsuProvider(override val config: ProviderConfig) : ContentProvider {
             js = js.replace("function _resolveOne(link) {", uhdNaukriJs + "\nfunction _resolveOne(link) {")
             if (!js.contains(uhdNaukriMarker)) return
             f.writeText(js)
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Zangetsu",
                 "uhdmovies provider patched for thenaukriadda (?sid=) links",
             )
         } catch (t: Throwable) {
-            com.hikari.app.data.Logs.log("Zangetsu", "uhdmovies patch skipped: ${t.message}")
+            com.gworld06.streambox.data.Logs.log("Zangetsu", "uhdmovies patch skipped: ${t.message}")
         }
     }
 
@@ -557,7 +557,7 @@ function _bypassNaukri(url) {
             name = config.name.ifBlank { sourceId } + " [direct]",
             url = url,
             headers = mapOf(
-                "User-Agent" to com.hikari.app.net.Http.UA,
+                "User-Agent" to com.gworld06.streambox.net.Http.UA,
                 "Referer" to referer,
             ),
             isM3u8 = ".m3u8" in lower,
@@ -571,9 +571,9 @@ function _bypassNaukri(url) {
 
     private fun fetchPageHtml(pageUrl: String): String {
         return runCatching {
-            com.hikari.app.net.Http.getString(
+            com.gworld06.streambox.net.Http.getString(
                 pageUrl,
-                mapOf("User-Agent" to com.hikari.app.net.Http.UA),
+                mapOf("User-Agent" to com.gworld06.streambox.net.Http.UA),
             )
         }.getOrNull().orEmpty()
     }

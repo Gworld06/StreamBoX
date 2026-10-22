@@ -1,5 +1,5 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.i18n.tr
 
 import android.content.Context
 import android.content.Intent
@@ -47,16 +47,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.data.MediaType
-import com.hikari.app.download.DownloadKind
-import com.hikari.app.download.DownloadStatus
-import com.hikari.app.download.DownloadTask
-import com.hikari.app.download.DownloadsRepository
-import com.hikari.app.player.PlayerActivity
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.download.DownloadKind
+import com.gworld06.streambox.download.DownloadStatus
+import com.gworld06.streambox.download.DownloadTask
+import com.gworld06.streambox.download.DownloadsRepository
+import com.gworld06.streambox.player.PlayerActivity
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -71,7 +71,7 @@ fun DownloadsScreen(nav: NavHostController, embedded: Boolean = false) {
 
     LazyColumn(
         // Downloads position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("downloads"),
+        state = com.gworld06.streambox.ui.components.keptListState("downloads"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -147,7 +147,7 @@ fun DownloadsScreen(nav: NavHostController, embedded: Boolean = false) {
 private fun DownloadRow(t: DownloadTask, onDelete: () -> Unit) {
     val context = LocalContext.current
     // Television rows read white/muted on the black page (desktop language).
-    val tvDl = com.hikari.app.tv.TvMode.current()
+    val tvDl = com.gworld06.streambox.tv.TvMode.current()
     Row(
         Modifier
             .fillMaxWidth()
@@ -170,7 +170,7 @@ private fun DownloadRow(t: DownloadTask, onDelete: () -> Unit) {
                     .size(64.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(
-                        if (tvDl) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                        if (tvDl) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                         else MaterialTheme.colorScheme.surfaceVariant
                     ),
                 contentAlignment = Alignment.Center
@@ -188,7 +188,7 @@ private fun DownloadRow(t: DownloadTask, onDelete: () -> Unit) {
                 t.title,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = if (tvDl) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+                color = if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -199,7 +199,7 @@ private fun DownloadRow(t: DownloadTask, onDelete: () -> Unit) {
             Text(
                 subtitle,
                 style = MaterialTheme.typography.bodySmall,
-                color = if (tvDl) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -211,7 +211,7 @@ private fun DownloadRow(t: DownloadTask, onDelete: () -> Unit) {
                 color = when (t.status) {
                     DownloadStatus.FAILED -> MaterialTheme.colorScheme.error
                     DownloadStatus.DONE -> MaterialTheme.colorScheme.primary
-                    else -> if (tvDl) com.hikari.app.tv.TvDesktop.TextMuted
+                    else -> if (tvDl) com.gworld06.streambox.tv.TvDesktop.TextMuted
                     else MaterialTheme.colorScheme.onSurfaceVariant
                 },
                 maxLines = 2,

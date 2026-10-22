@@ -1,6 +1,6 @@
-package com.hikari.app.kotatsu
+package com.gworld06.streambox.kotatsu
 
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import eu.kanade.tachiyomi.source.CatalogueSource
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
@@ -19,7 +19,7 @@ import org.koitharu.kotatsu.parsers.model.SortOrder
 
 /**
  * A Kotatsu [MangaParser] speaking the Tachiyomi [CatalogueSource] API, so
- * [com.hikari.app.manga.MangaProvider] drives it like any manga extension:
+ * [com.gworld06.streambox.manga.MangaProvider] drives it like any manga extension:
  * Popular / Latest catalogues, search, details, chapters and pages.
  *
  * Id mapping: Kotatsu ids are per-site Longs that collide across sites, so the

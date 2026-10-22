@@ -1,6 +1,6 @@
-package com.hikari.app.ui.components
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.components
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -48,26 +48,26 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.hikari.app.HikariApp
-import com.hikari.app.data.TrackerAccount
-import com.hikari.app.data.TrackerClient
-import com.hikari.app.data.TrackerFlow
-import com.hikari.app.data.TrackerKind
-import com.hikari.app.data.Logs
-import com.hikari.app.net.Http
-import com.hikari.app.tracker.TrackerApi
-import com.hikari.app.tracker.TrackerRedirect
-import com.hikari.app.ui.openUrl
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.TrackerAccount
+import com.gworld06.streambox.data.TrackerClient
+import com.gworld06.streambox.data.TrackerFlow
+import com.gworld06.streambox.data.TrackerKind
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.tracker.TrackerApi
+import com.gworld06.streambox.tracker.TrackerRedirect
+import com.gworld06.streambox.ui.openUrl
+import com.gworld06.streambox.web.WebViewActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * Signing in to a tracker (Settings → Trackers).
  *
  * When the app ships its own registration for the service (see
- * [com.hikari.app.data.TrackerBuiltIn] — Kitsu needs none at all), there is
+ * [com.gworld06.streambox.data.TrackerBuiltIn] — Kitsu needs none at all), there is
  * no first step: the sign-in opens straight away and the flow is tap → Sign
  * in → the service's own login page in the user's browser → approve → back
  * in the app, which names the account it signed in as. Only when nothing is
@@ -124,7 +124,7 @@ fun TrackerLoginDialog(
     var credentialsDone by remember { mutableStateOf(false) }
     /** Whether the app ships its own registration for this service. */
     val hasBuiltIn = remember(kind) {
-        com.hikari.app.data.TrackerBuiltIn.clientFor(kind) != null
+        com.gworld06.streambox.data.TrackerBuiltIn.clientFor(kind) != null
     }
 
     // Strings used from NON-composable places (callbacks, coroutines): `tr` is
@@ -175,7 +175,7 @@ fun TrackerLoginDialog(
             runCatching { app.store.setTrackerClient(made) }
             // An explicitly typed id sticks per device (it shadows the
             // shipped one until reset); re-typing the shipped id re-adopts it.
-            val builtIn = com.hikari.app.data.TrackerBuiltIn.clientFor(kind)
+            val builtIn = com.gworld06.streambox.data.TrackerBuiltIn.clientFor(kind)
             runCatching {
                 app.store.setTrackerClientOverride(
                     kind,
@@ -338,7 +338,7 @@ fun TrackerLoginDialog(
     // manual fields, and Continue there sticks per device until reset.
     LaunchedEffect(kind) {
         val stored = runCatching { app.store.trackerClient(kind) }.getOrDefault(TrackerClient(kind))
-        val builtIn = com.hikari.app.data.TrackerBuiltIn.clientFor(kind)
+        val builtIn = com.gworld06.streambox.data.TrackerBuiltIn.clientFor(kind)
         val override = runCatching { app.store.trackerClientOverride(kind) }.getOrDefault(false)
         val effective = if (override && stored.ready) stored
         else builtIn ?: stored
@@ -490,7 +490,7 @@ fun TrackerLoginDialog(
                         TextButton(onClick = {
                             scope.launch {
                                 runCatching { app.store.setTrackerClientOverride(kind, false) }
-                                com.hikari.app.data.TrackerBuiltIn.clientFor(kind)?.let {
+                                com.gworld06.streambox.data.TrackerBuiltIn.clientFor(kind)?.let {
                                     client = it
                                     idField = it.id
                                     secretField = it.secret

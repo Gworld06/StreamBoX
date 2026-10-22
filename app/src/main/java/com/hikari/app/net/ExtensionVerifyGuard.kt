@@ -1,10 +1,10 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import com.lagradost.cloudstream3.CloudStreamApp
 import java.io.File
 
@@ -13,7 +13,7 @@ import java.io.File
  *
  * Hikari's own rule is that nothing loads a Cloudflare challenge unless the user
  * taps the WebView (globe) button themselves — every launch of Hikari's
- * [com.hikari.app.web.WebViewActivity] is inside a click handler, and the
+ * [com.gworld06.streambox.web.WebViewActivity] is inside a click handler, and the
  * requests are replayed with the clearance that tap earned
  * (see [CloudflareVerifier]). Extensions can't be forced to follow that rule
  * from the outside: several of them ship their own Cloudflare WebView, and a

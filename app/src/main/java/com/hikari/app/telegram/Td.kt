@@ -1,9 +1,9 @@
-package com.hikari.app.telegram
+package com.gworld06.streambox.telegram
 
 import android.content.Context
 import android.os.Build
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -1023,7 +1023,7 @@ object Td {
      *
      * This is what makes a channel playable when the anonymous web preview
      * cannot publish its videos (see
-     * [com.hikari.app.telegram.TelegramPage.unpublished]) — the file is
+     * [com.gworld06.streambox.telegram.TelegramPage.unpublished]) — the file is
      * the same one the user's own Telegram client plays.
      *
      * Returns null when there is no client, the name is unknown, or Telegram
@@ -1762,7 +1762,7 @@ object Td {
                 Client.ResultHandler { result ->
                     if (result is TdApi.Error) {
                         downloadErrors[fileId] = result.message
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Telegram",
                             "TDLib refused to download file $fileId from $offset: ${result.message}",
                         )

@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,11 +53,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.data.Profiles
-import com.hikari.app.ui.FlagIcon
-import com.hikari.app.ui.ProviderFlags
-import com.hikari.app.i18n.tr
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.ui.FlagIcon
+import com.gworld06.streambox.ui.ProviderFlags
+import com.gworld06.streambox.i18n.tr
 
 /**
  * The television top-right cluster, in the shape of the CloudStream desktop
@@ -250,7 +250,7 @@ fun TvHomeHeaderBar(
             Icon(Icons.Filled.Search, contentDescription = tr("Search"), tint = accent)
         }
         selected?.let { pid ->
-            val translateOn = com.hikari.app.data.Translator.isOn(pid)
+            val translateOn = com.gworld06.streambox.data.Translator.isOn(pid)
             IconButton(onClick = onTranslate) {
                 Text(
                     tr("A\u3042"),

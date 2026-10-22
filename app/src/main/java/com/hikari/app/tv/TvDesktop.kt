@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState

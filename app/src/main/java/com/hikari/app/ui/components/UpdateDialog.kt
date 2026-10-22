@@ -1,6 +1,6 @@
-package com.hikari.app.ui.components
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+package com.gworld06.streambox.ui.components
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import android.content.Context
 import android.content.Intent
@@ -27,8 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.hikari.app.net.Updater
-import com.hikari.app.net.Updater.UpdateStatus
+import com.gworld06.streambox.net.Updater
+import com.gworld06.streambox.net.Updater.UpdateStatus
 import kotlinx.coroutines.launch
 import java.io.File
 

@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 import android.app.Activity
 import android.app.Dialog
@@ -25,8 +25,8 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import com.hikari.app.i18n.I18n
-import com.hikari.app.tv.TvMode
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.tv.TvMode
 
 /**
  * A full HSV colour picker drawn on a glass panel, for the subtitle style

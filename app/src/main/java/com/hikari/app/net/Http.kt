@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -68,7 +68,7 @@ object Http {
 
     /**
      * A request that bypasses [CloudflareVerifier] entirely. Used by the
-     * background decorating lookups ([com.hikari.app.data.Ratings]): those go to
+     * background decorating lookups ([com.gworld06.streambox.data.Ratings]): those go to
      * third-party review sites that put a challenge in front of a plain HTTP
      * client, and the interceptor would record that host as "blocked" — the flag
      * the Home screen turns into "verification needed on X". That banner is
@@ -148,7 +148,7 @@ object Http {
 
     /**
      * [postString] without [CloudflareVerifier]: for the background decorating
-     * lookups (anime characters from AniList, see [com.hikari.app.data.AnimeCast])
+     * lookups (anime characters from AniList, see [com.gworld06.streambox.data.AnimeCast])
      * whose host must never be able to raise the Home screen's "verification
      * needed" banner — that banner is about the user's own extensions.
      */

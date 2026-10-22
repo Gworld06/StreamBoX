@@ -127,5 +127,5 @@ class CloudflareKiller : Interceptor {
      *  minted against, so it is also the UA the retry must use. */
     private fun userAgent(): String? =
         WebViewResolver.webViewUserAgent
-            ?: runCatching { com.hikari.app.HikariApp.instance.effectiveWebViewUa() }.getOrNull()
+            ?: runCatching { com.gworld06.streambox.HikariApp.instance.effectiveWebViewUa() }.getOrNull()
 }

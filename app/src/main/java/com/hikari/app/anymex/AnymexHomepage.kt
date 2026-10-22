@@ -1,9 +1,9 @@
-package com.hikari.app.anymex
+package com.gworld06.streambox.anymex
 
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.net.Http
 
 /**
  * The last resort for an Anymex catalogue that the extension's own calls

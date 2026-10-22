@@ -1,11 +1,11 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
 import android.content.Context
-import com.hikari.app.cs3.Cs3MainApiProvider
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.ExtensionNsfw
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
+import com.gworld06.streambox.cs3.Cs3MainApiProvider
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.ExtensionNsfw
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +33,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
      * Builds the provider list from the stored configs.
      *
      * The adult-content switch is applied HERE, at the source, rather than in
-     * each screen that lists providers (see [com.hikari.app.data.NsfwGate]): a
+     * each screen that lists providers (see [com.gworld06.streambox.data.NsfwGate]): a
      * provider that is not in this list is not instantiated, not asked for
      * catalogues, not searched, and not shown — so with the switch off an 18+
      * extension's titles cannot reach Home, a collection, the search queue or
@@ -42,7 +42,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
      *
      * Flipping the switch is therefore the one thing that makes an adult
      * provider appear or disappear mid-session, and
-     * [com.hikari.app.HikariApp] re-runs this when the preference changes.
+     * [com.gworld06.streambox.HikariApp] re-runs this when the preference changes.
      */
     suspend fun refresh() = withContext(Dispatchers.IO) {
         // COALESCED. An install asks for a rebuild when it finishes AND the
@@ -79,7 +79,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
                 // back means the repair survives the next launch.
                 val unique = stored.distinctBy { it.id }
                 if (unique.size != stored.size) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Providers",
                         "pruned ${stored.size - unique.size} duplicate row(s) from the installed list",
                     )
@@ -94,7 +94,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
                 val configs = runCatching {
                     ExtensionNsfw.filter(context, unique)
                 }.onFailure { error ->
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Providers",
                         "NSFW provider filter failed; keeping installed providers: " +
                             (error.message ?: error.javaClass.simpleName),
@@ -120,7 +120,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
                 _providers.value = configs.mapNotNull { config ->
                     runCatching { instantiate(config) }
                         .onFailure { error ->
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Providers",
                                 "failed to load ${config.id}: ${error.message ?: error.javaClass.simpleName}",
                             )
@@ -153,7 +153,7 @@ class ProviderManager(private val store: AppStore, private val context: Context)
      * caller should [refresh] again so it actually disappears.
      */
     suspend fun learnAdultFlags(limit: Int = 40): Boolean = withContext(Dispatchers.IO) {
-        if (com.hikari.app.data.NsfwGate.enabled) return@withContext false
+        if (com.gworld06.streambox.data.NsfwGate.enabled) return@withContext false
         var learnedAdult = false
         var asked = 0
         for (c in store.providers()) {
@@ -180,20 +180,20 @@ class ProviderManager(private val store: AppStore, private val context: Context)
         ProviderType.UNIVERSAL -> UniversalScraper(c)
         ProviderType.CS3 -> Cs3MainApiProvider(c)
         ProviderType.HIKARI -> HikariProviderAdapter(c)
-        ProviderType.NUVIO -> com.hikari.app.nuvio.NuvioScraper(c)
-        ProviderType.SKYSTREAM -> com.hikari.app.skystream.SkyStreamProvider(c)
-        ProviderType.ANIYOMI -> com.hikari.app.aniyomi.AniyomiProvider(c)
+        ProviderType.NUVIO -> com.gworld06.streambox.nuvio.NuvioScraper(c)
+        ProviderType.SKYSTREAM -> com.gworld06.streambox.skystream.SkyStreamProvider(c)
+        ProviderType.ANIYOMI -> com.gworld06.streambox.aniyomi.AniyomiProvider(c)
         // LNReader novel sources ride the MANGA type (manga tab, novel
         // reader) under an `lnreader|` id prefix — no new ProviderType, so
         // every exhaustive type when keeps compiling untouched.
-        ProviderType.MANGA -> if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(c.id)) com.hikari.app.lnreader.LnReaderProvider(c) else com.hikari.app.manga.MangaProvider(c)
+        ProviderType.MANGA -> if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(c.id)) com.gworld06.streambox.lnreader.LnReaderProvider(c) else com.gworld06.streambox.manga.MangaProvider(c)
         ProviderType.IPTV -> IptvProvider(c)
-        ProviderType.VEGA -> com.hikari.app.providers.vega.VegaProvider(c)
-        ProviderType.SORA -> com.hikari.app.sora.SoraProvider(c)
-        ProviderType.ANYMEX -> com.hikari.app.anymex.AnymexProvider(c)
-        ProviderType.ANYMEX_MANGA -> com.hikari.app.anymex.AnymexMangaProvider(c)
-        ProviderType.ZANGETSU -> com.hikari.app.zangetsu.ZangetsuProvider(c)
-        ProviderType.FORK_VIDEO -> com.hikari.app.kotatsu.fork.ForkVideoProvider(c)
+        ProviderType.VEGA -> com.gworld06.streambox.providers.vega.VegaProvider(c)
+        ProviderType.SORA -> com.gworld06.streambox.sora.SoraProvider(c)
+        ProviderType.ANYMEX -> com.gworld06.streambox.anymex.AnymexProvider(c)
+        ProviderType.ANYMEX_MANGA -> com.gworld06.streambox.anymex.AnymexMangaProvider(c)
+        ProviderType.ZANGETSU -> com.gworld06.streambox.zangetsu.ZangetsuProvider(c)
+        ProviderType.FORK_VIDEO -> com.gworld06.streambox.kotatsu.fork.ForkVideoProvider(c)
     }
 
     fun byId(id: String): ContentProvider? =
@@ -314,7 +314,7 @@ object ProviderGate {
      * Thrown when a provider call cannot even START because an earlier call
      * into the same extension never let go of its lock. This is the signal
      * that the extension's runtime is wedged — not slow, wedged — and it is
-     * what [com.hikari.app.providers.ExtensionRecovery] acts on. A plain
+     * what [com.gworld06.streambox.providers.ExtensionRecovery] acts on. A plain
      * [Exception] (not cancellation): the lookup must record it as a
      * no-answer with a reason, never swallow it as a quiet cancel.
      */
@@ -388,7 +388,7 @@ object ProviderGate {
                 // earlier call on the same extension that never let go, or to
                 // nothing at all.
                 if (elapsed >= WAIT_LOG_MS) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         "$id: $lane call started after waiting ${elapsed / 1000.0}s — " + when {
                             waiters.get() > 0 -> "a page is waiting for this extension"
@@ -411,7 +411,7 @@ object ProviderGate {
      * The stall breaker: replaces a provider's lock with a fresh one.
      *
      * Called when an extension is proven wedged (see
-     * [com.hikari.app.providers.ExtensionRecovery]): the stuck call keeps the
+     * [com.gworld06.streambox.providers.ExtensionRecovery]): the stuck call keeps the
      * OLD mutex — nothing can take it away from a thread parked forever — but
      * every new call moves to the new one, so one corpse stops poisoning every
      * later tap. The stuck thread still leaks (one thread per wedge), but it
@@ -424,7 +424,7 @@ object ProviderGate {
     fun breaker(id: String) {
         locks[id] = kotlinx.coroutines.sync.Mutex()
         interactiveWaiters.remove(id)
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Provider",
             "$id: stall breaker pulled — lock replaced, later calls no longer queue behind the stuck one",
         )

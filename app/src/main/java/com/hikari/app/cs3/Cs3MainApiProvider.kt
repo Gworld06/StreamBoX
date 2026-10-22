@@ -1,17 +1,17 @@
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.DrmSpec
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.TitleQuality
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.DrmSpec
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.TitleQuality
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import com.lagradost.cloudstream3.AnimeLoadResponse
 import com.lagradost.cloudstream3.HomePageList
 import com.lagradost.cloudstream3.LoadResponse
@@ -109,7 +109,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                         runCatching {
                             val client = cs3BaseClient()
                             val req = okhttp3.Request.Builder().url(ref)
-                                .header("User-Agent", com.hikari.app.net.Http.UA)
+                                .header("User-Agent", com.gworld06.streambox.net.Http.UA)
                                 .header("Referer", ref)
                                 .build()
                             client.newCall(req).execute().use { }
@@ -137,7 +137,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                     req.javaClass.getField("baseClient").get(req)
                 }.getOrNull()
                 base as? okhttp3.OkHttpClient
-            }.getOrNull() ?: com.hikari.app.net.PlayerHttp.plainClient
+            }.getOrNull() ?: com.gworld06.streambox.net.PlayerHttp.plainClient
         }
 
         /** How long the last loadLinks attempt took (ms) — proof the UI did something. */
@@ -146,16 +146,16 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
 
         /**
          * Servers resolved SO FAR by each provider's running extraction (see
-         * [com.hikari.app.providers.ContentProvider.partialStreams]): the
+         * [com.gworld06.streambox.providers.ContentProvider.partialStreams]): the
          * plugin's loadLinks callbacks land one extractor at a time, and the
          * merge loop below publishes its running total here every pass so the
          * search can print server 2 the second it resolves instead of holding
          * all 15 until the whole run finishes. Entries are cleared when the
          * run ends, so a stale list can never leak into the next title.
          */
-        private val partialServers = java.util.concurrent.ConcurrentHashMap<String, List<com.hikari.app.data.StreamSource>>()
+        private val partialServers = java.util.concurrent.ConcurrentHashMap<String, List<com.gworld06.streambox.data.StreamSource>>()
 
-        fun partialFor(providerId: String): List<com.hikari.app.data.StreamSource> =
+        fun partialFor(providerId: String): List<com.gworld06.streambox.data.StreamSource> =
             partialServers[providerId] ?: emptyList()
 
         /** Budget for the direct MovieBlast movie fallback. */
@@ -466,7 +466,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
      */
     suspend fun effectivePluginTimeoutMs(): Long {
         val overrideMs = runCatching {
-            com.hikari.app.HikariApp.instance.store.serverTimeoutFor(config.id)
+            com.gworld06.streambox.HikariApp.instance.store.serverTimeoutFor(config.id)
                 ?.coerceIn(20, 100)?.times(1000L)
         }.getOrDefault(null)
         if (overrideMs != null) return overrideMs
@@ -629,7 +629,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
      * rather than per title, which is exactly what the adult-content switch
      * needs in order to hide an installed one.
      *
-     * Called only by [com.hikari.app.providers.ProviderManager.learnAdultFlags],
+     * Called only by [com.gworld06.streambox.providers.ProviderManager.learnAdultFlags],
      * only while the switch is off, and only for plugins nothing else has
      * classified — reading it means loading the plugin ([api]), so it is asked
      * once per extension and then written onto its row.
@@ -737,7 +737,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                 // identical — and the repo the user KNEW had the title stayed
                 // missing with no way to tell why.
                 streamErrors[config.id] = apiFailureReason()
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     "${config.name}: search skipped — ${apiFailureReason()}",
                 )
@@ -766,7 +766,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                     } else {
                         "Search failed: $why"
                     }
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         "${config.name}: " + (if (noSearch) "has no search (extractor-only)" else "search failed — $why"),
                     )
@@ -966,7 +966,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
             val subs = CopyOnWriteArrayList<SubtitleFile>()
             val worker = Thread.currentThread()
             val overrideMs = runCatching {
-                com.hikari.app.HikariApp.instance.store.serverTimeoutFor(config.id)
+                com.gworld06.streambox.HikariApp.instance.store.serverTimeoutFor(config.id)
                     ?.coerceIn(20, 100)?.times(1000L)
             }.getOrDefault(null)
             val pluginTimeout = overrideMs ?: effectivePluginTimeoutMs()
@@ -1055,7 +1055,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                         ) {
                             val dead = withTimeoutOrNull(10_000) { pageGone(data) } ?: false
                             if (dead) {
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Provider",
                                     a.name + ": data page is gone (HTTP 404/410) — re-resolving fresh like a hollow payload",
                                 )
@@ -1093,7 +1093,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                         // The error screen shows this text: keep one human line
                         // (the full stack stays in logcat + the line below).
                         streamErrors[config.id] = shortCause(e)
-                        com.hikari.app.data.Logs.log("Provider", a.name + ": loadLinks failed: " + fullCause(e).take(1200))
+                        com.gworld06.streambox.data.Logs.log("Provider", a.name + ": loadLinks failed: " + fullCause(e).take(1200))
                         android.util.Log.e("Cs3Streams", "loadLinks failed for $data", e)
                         emptyList()
                     }
@@ -1234,7 +1234,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                     // and 3s have passed, hand it over now; the background sweep keeps
                     // filling the rest.
                     if (sawPluginSource && merged.isNotEmpty() && now - started >= 3_000) {
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Provider",
                             a.name + ": early handover with " + merged.size + " server(s) after " + ((now - started) / 1000) + "s (rest fill in background)",
                         )
@@ -1247,7 +1247,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
                 // say so, so a safety-net server is never mistaken for a
                 // plugin server in a later report.
                 if (!sawPluginSource && merged.isNotEmpty()) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         a.name + ": plugin came up empty — ${merged.size} server(s) from the safety-net engine",
                     )
@@ -1303,7 +1303,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
     private suspend fun pageGone(pageUrl: String): Boolean {
         if (!pageUrl.startsWith("http", ignoreCase = true)) return false
         return try {
-            com.hikari.app.net.Http.getQuiet(pageUrl).use { res ->
+            com.gworld06.streambox.net.Http.getQuiet(pageUrl).use { res ->
                 res.code == 404 || res.code == 410
             }
         } catch (e: Throwable) {
@@ -1324,7 +1324,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
             withTimeoutOrNull(10_000) {
                 // Quiet client: a review-site fetch must never raise the Home
                 // screen's "verification needed" banner (see Http.getQuiet).
-                com.hikari.app.net.Http.getQuiet(pageUrl).use { res ->
+                com.gworld06.streambox.net.Http.getQuiet(pageUrl).use { res ->
                     val code = res.code
                     // The head is enough to spot a challenge or empty page —
                     // never download a video body for a diagnosis.
@@ -1386,7 +1386,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
             if (signed && !headers.keys.any { it.equals("Referer", true) }) {
                 headers.putIfAbsent("Referer", "https://" + apexOf(host))
             }
-            headers.putIfAbsent("User-Agent", com.hikari.app.net.Http.UA)
+            headers.putIfAbsent("User-Agent", com.gworld06.streambox.net.Http.UA)
             return
         }
         if (host.contains("fastream")) {
@@ -1399,14 +1399,14 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
             // in CloudStream.
             headers.putIfAbsent("Referer", "https://fastream.to")
             headers.remove("Origin")
-            headers.putIfAbsent("User-Agent", com.hikari.app.net.Http.UA)
+            headers.putIfAbsent("User-Agent", com.gworld06.streambox.net.Http.UA)
             return
         }
         val apex = apexOf(host)
         // CS3 JwPlayerHelper uses referer = mainUrl (e.g. https://fastream.to)
         headers.putIfAbsent("Referer", "https://$apex")
         // Do NOT force Origin / Sec-Fetch-* — CloudStream does not.
-        headers.putIfAbsent("User-Agent", com.hikari.app.net.Http.UA)
+        headers.putIfAbsent("User-Agent", com.gworld06.streambox.net.Http.UA)
     }
 
 
@@ -1429,11 +1429,11 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
      * it was): entries are small, but a long session sweeping many extensions
      * must not grow memory without bound.
      */
-    private val torFileCache: MutableMap<String, Pair<Long, com.hikari.app.data.StreamSource?>> =
+    private val torFileCache: MutableMap<String, Pair<Long, com.gworld06.streambox.data.StreamSource?>> =
         java.util.Collections.synchronizedMap(
-            object : LinkedHashMap<String, Pair<Long, com.hikari.app.data.StreamSource?>>(64, 0.75f, true) {
+            object : LinkedHashMap<String, Pair<Long, com.gworld06.streambox.data.StreamSource?>>(64, 0.75f, true) {
                 override fun removeEldestEntry(
-                    eldest: Map.Entry<String, Pair<Long, com.hikari.app.data.StreamSource?>>?,
+                    eldest: Map.Entry<String, Pair<Long, com.gworld06.streambox.data.StreamSource?>>?,
                 ): Boolean = size > 128
             },
         )
@@ -1449,12 +1449,12 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
         // that buffered until the watchdog declared them unresponsive.
         val now = System.currentTimeMillis()
         for (u in rawLinks.map { it.url }
-            .filter { com.hikari.app.data.NetworkStream.isTorrentFile(it) }.distinct()) {
+            .filter { com.gworld06.streambox.data.NetworkStream.isTorrentFile(it) }.distinct()) {
             val cached = torFileCache[u]
             if (cached == null || (cached.second == null && now - cached.first > 60_000)) {
                 torFileCache[u] = now to runCatching {
                     withTimeoutOrNull(15_000) {
-                        com.hikari.app.data.NetworkStream.torrentFileInfo(u, "")
+                        com.gworld06.streambox.data.NetworkStream.torrentFileInfo(u, "")
                     }
                 }.getOrNull()
             }
@@ -1651,7 +1651,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
      */
     private fun repairLoadLinksData(
         data: String,
-        episode: com.hikari.app.data.Episode?,
+        episode: com.gworld06.streambox.data.Episode?,
         item: MediaItem,
     ): String {
         val t = data.trim()
@@ -1725,7 +1725,7 @@ class Cs3MainApiProvider(override val config: ProviderConfig) : ContentProvider 
         // Some providers' load() walks many pages (e.g. PimpBunny model pages
         // paginate up to 50) — cap it so the detail screen can never hang.
         val r = try {
-            withTimeoutOrNull(com.hikari.app.net.NetTuning.timeout(45_000)) {
+            withTimeoutOrNull(com.gworld06.streambox.net.NetTuning.timeout(45_000)) {
                 val first = tryLoad(a, id)
                 // Providers like iStreamFlare build a JSON video-id string and
                 // fill its `url` field during load(); a hollow one (url:null,

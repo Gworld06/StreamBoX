@@ -1,13 +1,13 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -160,7 +160,7 @@ class UniversalScraper(override val config: ProviderConfig) : ContentProvider {
         runCatching {
             val host = java.net.URI(u).host?.lowercase() ?: return@runCatching
             val ref = base + "/"
-            val m = com.hikari.app.cs3.Cs3MainApiProvider.imageHostReferers
+            val m = com.gworld06.streambox.cs3.Cs3MainApiProvider.imageHostReferers
             m.putIfAbsent(host, ref)
             m.putIfAbsent("www." + host, ref)
         }

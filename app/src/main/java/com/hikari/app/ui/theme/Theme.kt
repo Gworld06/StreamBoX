@@ -1,4 +1,4 @@
-package com.hikari.app.ui.theme
+package com.gworld06.streambox.ui.theme
 
 import android.util.DisplayMetrics
 import androidx.compose.material3.LocalContentColor
@@ -31,9 +31,9 @@ enum class HikariThemeMode(val key: String, val label: String) {
          * nothing and darkens everything.
          *
          * Written down ONCE, here: [DEFAULT] decodes it,
-         * [com.hikari.app.data.AppStore.DEFAULT_THEME] is a const alias of it,
+         * [com.gworld06.streambox.data.AppStore.DEFAULT_THEME] is a const alias of it,
          * and the players' synchronous mirror
-         * ([com.hikari.app.ui.AccentStore]) reads this constant directly — so
+         * ([com.gworld06.streambox.ui.AccentStore]) reads this constant directly — so
          * the stored value, the Compose first frame (which reads the mirror
          * before DataStore has emitted anything) and the settings sheet cannot
          * disagree. (The mirror reads the constant rather than the `AppStore`

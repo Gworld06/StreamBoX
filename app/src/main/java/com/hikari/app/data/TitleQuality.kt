@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * The best video quality Hikari KNOWS a title comes in, so a poster can badge it
- * (see [com.hikari.app.ui.PosterStyle.showQuality]).
+ * (see [com.gworld06.streambox.ui.PosterStyle.showQuality]).
  *
  * The app is a client for other people's sites: it has no quality metadata of
  * its own, and inventing one would put a lie on the poster. So the label is only

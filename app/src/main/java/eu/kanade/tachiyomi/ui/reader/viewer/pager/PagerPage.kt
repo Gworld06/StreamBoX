@@ -1,6 +1,6 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.pager
 
-import com.hikari.app.reader.source.MangaSource
+import com.gworld06.streambox.reader.source.MangaSource
 
 /**
  * A single page of the paged (chimahon-style) reader: its 1-based [number] within the chapter and

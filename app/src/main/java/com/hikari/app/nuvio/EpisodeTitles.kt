@@ -1,6 +1,6 @@
-package com.hikari.app.nuvio
+package com.gworld06.streambox.nuvio
 
-import com.hikari.app.data.TmdbMeta
+import com.gworld06.streambox.data.TmdbMeta
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -119,7 +119,7 @@ object EpisodeTitles {
         language: String? = null,
     ): Names =
         withContext(Dispatchers.IO) {
-            if (!runCatching { com.hikari.app.HikariApp.instance.store.tmdbEnabled() && com.hikari.app.HikariApp.instance.store.tmdbModule("episodes") }.getOrDefault(true)) return@withContext EMPTY
+            if (!runCatching { com.gworld06.streambox.HikariApp.instance.store.tmdbEnabled() && com.gworld06.streambox.HikariApp.instance.store.tmdbModule("episodes") }.getOrDefault(true)) return@withContext EMPTY
             if (title.isBlank() || numbers.isEmpty()) return@withContext EMPTY
             val lang = language?.trim().orEmpty().ifBlank { LANGUAGE }
             // The raw title, not [TmdbMeta.normalizeTitle]'s form: that drops
@@ -303,7 +303,7 @@ object EpisodeTitles {
         language: String? = null,
     ): Map<Int, EpDetail> =
         withContext(Dispatchers.IO) {
-            if (!runCatching { com.hikari.app.HikariApp.instance.store.tmdbEnabled() && com.hikari.app.HikariApp.instance.store.tmdbModule("episodes") }.getOrDefault(true)) return@withContext emptyMap()
+            if (!runCatching { com.gworld06.streambox.HikariApp.instance.store.tmdbEnabled() && com.gworld06.streambox.HikariApp.instance.store.tmdbModule("episodes") }.getOrDefault(true)) return@withContext emptyMap()
             if (title.isBlank() || numbers.isEmpty()) return@withContext emptyMap()
             val lang = language?.trim().orEmpty().ifBlank { LANGUAGE }
             val key = "d|" + title.trim().lowercase() + "|" + (year ?: 0) + "|" + lang

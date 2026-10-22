@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -8,8 +8,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.Typeface
-import com.hikari.app.HikariApp
-import com.hikari.app.data.MediaItem
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.MediaItem
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap
  * the app's own storage so the second visit is a plain file read. Nothing here
  * touches TMDB — a live channel has no TMDB entry, and the lookup that used to
  * fill these cells matched unrelated FILMS by name (see
- * [com.hikari.app.data.IptvMark]).
+ * [com.gworld06.streambox.data.IptvMark]).
  *
  * The tile is written as a real PNG under `filesDir/iptv_art` and handed to Coil
  * through a `file://` URL, so it flows through exactly the same poster pipeline

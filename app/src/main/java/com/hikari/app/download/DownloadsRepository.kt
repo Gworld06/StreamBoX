@@ -1,7 +1,7 @@
-package com.hikari.app.download
+package com.gworld06.streambox.download
 
 import android.content.Context
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -1,15 +1,15 @@
-package com.hikari.app.anymex
+package com.gworld06.streambox.anymex
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.net.StreamProbe
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.StreamProbe
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -261,7 +261,7 @@ class AnymexProvider(override val config: ProviderConfig) : ContentProvider {
 
     override suspend fun warmDetail(item: MediaItem) {
         val mod = module() ?: return
-        com.hikari.app.anymex.AnymexRuntime.warm(mod, config.id)
+        com.gworld06.streambox.anymex.AnymexRuntime.warm(mod, config.id)
     }
     override suspend fun getMeta(item: MediaItem): MediaItem = withContext(Dispatchers.IO) {
         val mod = module() ?: return@withContext item
@@ -404,7 +404,7 @@ private fun recordPosterReferer(url: String?, siteBase: String?) {
                 }.getOrNull() ?: return
                 runCatching {
                     val host = java.net.URI(u).host?.lowercase() ?: return@runCatching
-                    val m = com.hikari.app.cs3.Cs3MainApiProvider.imageHostReferers
+                    val m = com.gworld06.streambox.cs3.Cs3MainApiProvider.imageHostReferers
                     m.putIfAbsent(host, ref)
                     m.putIfAbsent("www." + host, ref)
                 }
@@ -547,7 +547,7 @@ private fun recordPosterReferer(url: String?, siteBase: String?) {
         val t = text.orEmpty()
         if (t.isBlank() || !wallRe.containsMatchIn(t)) return
         val site = runCatching { AnymexPluginManager.siteUrlOf(config) }.getOrNull()
-        if (!site.isNullOrBlank()) com.hikari.app.net.CloudflareVerifier.markBlocked(site)
+        if (!site.isNullOrBlank()) com.gworld06.streambox.net.CloudflareVerifier.markBlocked(site)
     }
 
     private fun firstObject(raw: String): JSONObject? {
@@ -732,7 +732,7 @@ private fun recordPosterReferer(url: String?, siteBase: String?) {
                         .firstOrNull { it.key.equals("Referer", true) }?.value
                     val got = runCatching {
                         withTimeoutOrNull(25_000) {
-                            com.hikari.app.cs3.FallbackResolver.resolveEmbedUrl(s.url, ref)
+                            com.gworld06.streambox.cs3.FallbackResolver.resolveEmbedUrl(s.url, ref)
                         }.orEmpty()
                     }.getOrDefault(emptyList())
                     s to got

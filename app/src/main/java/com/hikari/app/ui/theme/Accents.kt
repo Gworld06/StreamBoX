@@ -1,4 +1,4 @@
-package com.hikari.app.ui.theme
+package com.gworld06.streambox.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp

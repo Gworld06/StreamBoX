@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 /**
  * Player interface skins (Settings → Player → Player UI).
@@ -154,7 +154,7 @@ object PlayerSkins {
         MINIMAL -> SkinSpec(
             topBarBackground = 0,
             bottomBarBackground = 0,
-            pillBackground = com.hikari.app.R.drawable.pill_flat_ripple,
+            pillBackground = com.gworld06.streambox.R.drawable.pill_flat_ripple,
             pillTextDp = 10f,
             pillPadH = 6,
             pillPadV = 3,
@@ -167,9 +167,9 @@ object PlayerSkins {
         )
 
         CINEMA -> SkinSpec(
-            topBarBackground = com.hikari.app.R.drawable.top_bar_bg,
-            bottomBarBackground = com.hikari.app.R.drawable.player_deck_bg,
-            pillBackground = com.hikari.app.R.drawable.pill_cinema_ripple,
+            topBarBackground = com.gworld06.streambox.R.drawable.top_bar_bg,
+            bottomBarBackground = com.gworld06.streambox.R.drawable.player_deck_bg,
+            pillBackground = com.gworld06.streambox.R.drawable.pill_cinema_ripple,
             pillTextDp = 11f,
             pillPadH = 10,
             pillPadV = 5,
@@ -186,7 +186,7 @@ object PlayerSkins {
             // decks. The controls remain visible, but the picture stays dominant.
             topBarBackground = 0,
             bottomBarBackground = 0,
-            pillBackground = com.hikari.app.R.drawable.pill_flat_ripple,
+            pillBackground = com.gworld06.streambox.R.drawable.pill_flat_ripple,
             pillTextDp = 13f,
             pillPadH = 10,
             pillPadV = 6,
@@ -199,9 +199,9 @@ object PlayerSkins {
         )
 
         NEON -> SkinSpec(
-            topBarBackground = com.hikari.app.R.drawable.player_top_chip,
-            bottomBarBackground = com.hikari.app.R.drawable.player_neon_deck,
-            pillBackground = com.hikari.app.R.drawable.pill_neon_ripple,
+            topBarBackground = com.gworld06.streambox.R.drawable.player_top_chip,
+            bottomBarBackground = com.gworld06.streambox.R.drawable.player_neon_deck,
+            pillBackground = com.gworld06.streambox.R.drawable.pill_neon_ripple,
             pillTextDp = 11f,
             pillPadH = 9,
             pillPadV = 5,
@@ -218,9 +218,9 @@ object PlayerSkins {
         // button, with the curved glass pane (see [CurvedGlassPanel]) behind
         // every dialog. This is the skin the app shipped with.
         else -> SkinSpec(
-            topBarBackground = com.hikari.app.R.drawable.top_bar_bg,
-            bottomBarBackground = com.hikari.app.R.drawable.bottom_bar_bg,
-            pillBackground = com.hikari.app.R.drawable.pill_glass_ripple,
+            topBarBackground = com.gworld06.streambox.R.drawable.top_bar_bg,
+            bottomBarBackground = com.gworld06.streambox.R.drawable.bottom_bar_bg,
+            pillBackground = com.gworld06.streambox.R.drawable.pill_glass_ripple,
             pillTextDp = 11f,
             pillPadH = 8,
             pillPadV = 4,

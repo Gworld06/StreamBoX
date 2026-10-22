@@ -1,11 +1,11 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.util.Base64
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
@@ -139,7 +139,7 @@ object PosterLoader {
      * manga cover is not like the others: those CDNs are the hotlink-protected
      * ones, and the request they accept is the extension's own — its User-Agent,
      * its Referer, its cookies, and its client's interceptors. This returns
-     * [com.hikari.app.reader.source.ExtensionCoverRef], which Coil passes to that
+     * [com.gworld06.streambox.reader.source.ExtensionCoverRef], which Coil passes to that
      * model's fetcher (registered in HikariApp): the cover is then loaded through
      * the extension's client exactly as Nekoread loads every cover, and the source
      * is resolved lazily on Coil's own dispatcher (see the fetcher).
@@ -151,10 +151,10 @@ object PosterLoader {
     fun coverModel(url: String?, providerId: String?): Any? {
         val single = model(url)
         val pid = providerId?.takeIf { it.isNotBlank() } ?: return single
-        if (!com.hikari.app.manga.MangaExtensionManager.isMangaProviderId(pid)) return single
+        if (!com.gworld06.streambox.manga.MangaExtensionManager.isMangaProviderId(pid)) return single
         val u = normalize(url) ?: return single
         if (u.startsWith(DATA_IMAGE) || u.startsWith(CACHE_TOKEN)) return single
-        return com.hikari.app.reader.source.ExtensionCoverRef(u, pid)
+        return com.gworld06.streambox.reader.source.ExtensionCoverRef(u, pid)
     }
 
     /** Poster for a grid/row cell: the item's own poster, or its backdrop when
@@ -189,7 +189,7 @@ object PosterLoader {
     /**
      * The FIRST FRAME of an animated cover, as a Coil model — what a tile draws
      * when gif animation is switched off for it (see
-     * [com.hikari.app.data.AppStore.gifAnimFlow]: a catalog's own "always
+     * [com.gworld06.streambox.data.AppStore.gifAnimFlow]: a catalog's own "always
      * animate" setting, and the device's own override).
      *
      * Null while that frame is still being fetched — the caller is recomposed
@@ -219,7 +219,7 @@ object PosterLoader {
         stillLastAttempt[u] = now
         prepExecutor.execute {
             try {
-                val bytes = com.hikari.app.net.Http.getBytes(u)
+                val bytes = com.gworld06.streambox.net.Http.getBytes(u)
                 val bmp = bytes?.let { decodeStill(it) }
                 if (bmp != null) {
                     if (stills.size >= STILLS_MAX) {
@@ -280,7 +280,7 @@ object PosterLoader {
 
     /**
      * A deliberately TINY decode of the same artwork, for the soft coloured halo
-     * drawn behind a poster card (see [com.hikari.app.ui.PosterStyle]).
+     * drawn behind a poster card (see [com.gworld06.streambox.ui.PosterStyle]).
      *
      * The halo used to be the artwork itself under `Modifier.blur` — and that
      * modifier is a NO-OP below Android 12 (`RenderEffect` does not exist there).

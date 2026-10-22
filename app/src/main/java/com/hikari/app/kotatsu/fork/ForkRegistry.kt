@@ -1,8 +1,8 @@
-package com.hikari.app.kotatsu.fork
+package com.gworld06.streambox.kotatsu.fork
 
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
 import org.hany18h.parsers.model.MangaParserSource as Hany18hSource
 
 /**

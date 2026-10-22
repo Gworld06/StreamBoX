@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -43,10 +43,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.hikari.app.data.MediaItem
-import com.hikari.app.i18n.tr
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.components.SettingsThemeTile
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.components.SettingsThemeTile
 import kotlinx.coroutines.launch
 
 @Composable
@@ -216,8 +216,8 @@ fun TvCinemaRow(
   // The shelf's own scroll position, so the ‹ › arrows below move THIS row
   // (each row keeps its own — one shared state would drag every shelf along).
   // Held across visits too (see ScrollKeeper).
-  val rowState = if (keeperKey.isBlank()) com.hikari.app.ui.components.keptListState("tvRow:$title:$providerName")
-  else com.hikari.app.ui.components.keptListState(keeperKey, itemKeys = rowKeys)
+  val rowState = if (keeperKey.isBlank()) com.gworld06.streambox.ui.components.keptListState("tvRow:$title:$providerName")
+  else com.gworld06.streambox.ui.components.keptListState(keeperKey, itemKeys = rowKeys)
   val rowScope = androidx.compose.runtime.rememberCoroutineScope()
   Column(Modifier.padding(top = 22.dp)) {
     // The reference shelf header, one-to-one: bold title, the purple View

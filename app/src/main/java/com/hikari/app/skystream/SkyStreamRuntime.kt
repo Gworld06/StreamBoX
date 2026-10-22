@@ -1,10 +1,10 @@
-package com.hikari.app.skystream
+package com.gworld06.streambox.skystream
 
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.function
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Runs SkyStream plugins (`.sky` files: plugin.json + plugin.js) inside a fresh
- * embedded QuickJS engine per call, the same way [com.hikari.app.nuvio.NuvioRuntime]
+ * embedded QuickJS engine per call, the same way [com.gworld06.streambox.nuvio.NuvioRuntime]
  * runs nuvio providers — one engine, one plugin call, then the whole VM is torn
  * down so nothing can leak between plugins.
  *
@@ -65,7 +65,7 @@ object SkyStreamRuntime {
     private const val MAX_CONCURRENT = 6
     /**
      * [MAX_CONCURRENT] on a TELEVISION (see
-     * [com.hikari.app.data.PerfMode.tvDevice]): three engines at once.
+     * [com.gworld06.streambox.data.PerfMode.tvDevice]): three engines at once.
      *
      * A SkyStream plugin boots a native VM and parses its cheerio bundle exactly
      * like a nuvio one, so the 1-1.5GB boxes this is for cannot afford six of
@@ -86,7 +86,7 @@ object SkyStreamRuntime {
      *  to 24, plus their own addon manifests), and on a slow connection those
      *  alone can outlast [CALL_TIMEOUT_MS] — which used to report a perfectly
      *  healthy extension as "timed out"/"no catalog". Matches the Home feed's
-     *  per-provider ceiling in [com.hikari.app.data.ContentRepository]. */
+     *  per-provider ceiling in [com.gworld06.streambox.data.ContentRepository]. */
     private const val CATALOG_TIMEOUT_MS = 75_000L
     /** Room on top of a call's budget for the pump loop's own bookkeeping. */
     private const val CALL_GRACE_MS = 20_000L
@@ -111,7 +111,7 @@ object SkyStreamRuntime {
      *  a capped wait, since a shorter one is indistinguishable for scraping). */
     private const val TIMER_MAX_WAIT_MS = 2_000L
 
-    private const val DEFAULT_UA = com.hikari.app.net.Http.UA
+    private const val DEFAULT_UA = com.gworld06.streambox.net.Http.UA
 
     private val concurrency = Semaphore(MAX_CONCURRENT)
 
@@ -122,10 +122,10 @@ object SkyStreamRuntime {
      * Which pool a plugin call draws from. A television gets its own, narrowest
      * pool — and that answer comes before the booster's, because the booster is a
      * switch the user can turn off and a 1GB box is not. See [TV_CONCURRENT] and
-     * [com.hikari.app.data.PerfMode.tvDevice].
+     * [com.gworld06.streambox.data.PerfMode.tvDevice].
      */
     private val gate: Semaphore
-        get() = if (com.hikari.app.data.PerfMode.tvDevice) tvConcurrency else concurrency
+        get() = if (com.gworld06.streambox.data.PerfMode.tvDevice) tvConcurrency else concurrency
 
     /** Ring buffer of every bridge fetch outcome, for the sources sheet's
      *  diagnostics (mirrors NuvioRuntime's fetch log). */
@@ -136,7 +136,7 @@ object SkyStreamRuntime {
     private val shimJs: String by lazy { readAsset("skystream/shim.js") }
 
     private fun readAsset(path: String): String =
-        com.hikari.app.HikariApp.instance.assets.open(path).bufferedReader().readText()
+        com.gworld06.streambox.HikariApp.instance.assets.open(path).bufferedReader().readText()
 
     fun resetFetchLog() {
         fetchLogEntries.clear()
@@ -157,7 +157,7 @@ object SkyStreamRuntime {
 
     fun settingsFile(pluginId: String): File {
         val safe = pluginId.replace(Regex("[^A-Za-z0-9_.-]"), "_")
-        return File(com.hikari.app.HikariApp.instance.filesDir, "skystream/settings/$safe.json")
+        return File(com.gworld06.streambox.HikariApp.instance.filesDir, "skystream/settings/$safe.json")
     }
 
     /** One plugin call's preference map: read once when the engine boots, and
@@ -264,7 +264,7 @@ object SkyStreamRuntime {
             // so the Home screen can offer its globe button. fetchOnce still
             // scans for a challenge body as a second net (it also flags
             // CF-CHALLENGE-UNSOLVED in the fetch log).
-            .addInterceptor { chain -> com.hikari.app.net.CloudflareVerifier.intercept(chain) }
+            .addInterceptor { chain -> com.gworld06.streambox.net.CloudflareVerifier.intercept(chain) }
             // Some extension-repo hosts answer only via a public resolver on
             // some devices/ISPs — fall back to DNS-over-HTTPS (see DohDns).
             .dns(DohDns)
@@ -291,10 +291,10 @@ object SkyStreamRuntime {
         // Only on a television: a native engine's memory is invisible to the Java
         // heap and is what the low-memory killer acts on, so a 1-1.5GB box needs
         // the ceiling even when its own booster setting is off. See
-        // [com.hikari.app.data.PerfMode.tvEngineMemoryLimit]. A phone keeps the
+        // [com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit]. A phone keeps the
         // runtime's own, uncapped behaviour — this line is the whole of the
         // difference.
-        com.hikari.app.data.PerfMode.tvEngineMemoryLimit?.let { qjs.memoryLimit = it }
+        com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit?.let { qjs.memoryLimit = it }
 
         qjs.function("__hikariFetch") { args ->
             val url = args.getOrNull(0)?.toString() ?: ""
@@ -711,7 +711,7 @@ object SkyStreamRuntime {
         val started = System.currentTimeMillis()
         val task = fetchExecutor.submit<String> {
             val sources = kotlinx.coroutines.runBlocking {
-                runCatching { com.hikari.app.cs3.FallbackResolver.resolveEmbedUrl(url, referer) }
+                runCatching { com.gworld06.streambox.cs3.FallbackResolver.resolveEmbedUrl(url, referer) }
                     .getOrDefault(emptyList())
             }
             val arr = org.json.JSONArray()

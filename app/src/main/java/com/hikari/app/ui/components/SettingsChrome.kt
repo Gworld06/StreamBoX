@@ -1,4 +1,4 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hikari.app.tv.tvPress
-import com.hikari.app.i18n.tr
-import com.hikari.app.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.tv.tvPress
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
 
 // Part of this file's own package: the app-wide "hide the explanations" switch
 // (see LocalHideHelp), which every caption here answers to.
-import com.hikari.app.ui.components.helpShown
+import com.gworld06.streambox.ui.components.helpShown
 
 /**
  * The header of EVERY page inside Settings — a folder page, the Logs page, the

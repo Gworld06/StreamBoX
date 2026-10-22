@@ -1,4 +1,4 @@
-package com.hikari.app.reader.source
+package com.gworld06.streambox.reader.source
 
 import coil.ImageLoader
 import coil.decode.DataSource
@@ -161,7 +161,7 @@ class ExtensionCoverImageFetcherFactory : Fetcher.Factory<ExtensionCoverImage> {
  * apps rather than a difference of opinion. Nekoread keeps every installed extension in a live
  * registry built at start-up, so a cell can hand Coil an [ExtensionCoverImage] directly — it
  * already holds the [HttpSource]. Here the extension's classes are loaded on demand (a dex load:
- * see [com.hikari.app.manga.MangaExtensionManager]), which must never happen while a grid is
+ * see [com.gworld06.streambox.manga.MangaExtensionManager]), which must never happen while a grid is
  * composing on the main thread.
  *
  * So the model carries only the id, and the [Fetcher] below — which Coil always calls on a
@@ -248,7 +248,7 @@ class ExtensionCoverRefFetcherFactory : Fetcher.Factory<ExtensionCoverRef> {
              *  always called off the main thread. */
             private fun fetchPlain(url: String): FetchResult {
                 val absolute = if (url.startsWith("http")) url else "https://$url"
-                val response = com.hikari.app.net.Http.get(
+                val response = com.gworld06.streambox.net.Http.get(
                     absolute,
                     mapOf("Referer" to (android.net.Uri.parse(absolute).let { u ->
                         u.scheme + "://" + u.host + "/"
@@ -274,10 +274,10 @@ class ExtensionCoverRefFetcherFactory : Fetcher.Factory<ExtensionCoverRef> {
      * rather than the wrong picture.
      */
     private suspend fun resolve(providerId: String): HttpSource {
-        val ctx = com.hikari.app.HikariApp.instance
+        val ctx = com.gworld06.streambox.HikariApp.instance
         val config = ctx.store.providers().firstOrNull { it.id == providerId }
             ?: throw IOException("No provider config for $providerId")
-        return com.hikari.app.manga.MangaExtensionManager.sourceOf(ctx, config) as? HttpSource
+        return com.gworld06.streambox.manga.MangaExtensionManager.sourceOf(ctx, config) as? HttpSource
             ?: throw IOException("Extension for $providerId is not an HTTP source")
     }
 }

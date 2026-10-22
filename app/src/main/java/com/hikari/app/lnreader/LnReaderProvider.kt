@@ -1,17 +1,17 @@
-package com.hikari.app.lnreader
+package com.gworld06.streambox.lnreader
 
 import android.os.SystemClock
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.manga.MangaChapter
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderGate
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.manga.MangaChapter
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderGate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 /**
  * One LNReader novel source, exposed to the rest of the app as an ordinary
- * [ContentProvider] of [com.hikari.app.data.ProviderType.MANGA].
+ * [ContentProvider] of [com.gworld06.streambox.data.ProviderType.MANGA].
  *
  * Everything Hikari already does with a manga provider therefore works for
  * novels too: the manga tab lists it (see MangaScreen's engine filter), the

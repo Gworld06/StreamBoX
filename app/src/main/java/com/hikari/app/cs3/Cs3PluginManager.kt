@@ -1,12 +1,12 @@
 @file:OptIn(com.lagradost.cloudstream3.InternalAPI::class)
 
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
 import android.content.Context
 import android.content.res.AssetManager
 import android.content.res.Resources
-import com.hikari.app.HikariApp
-import com.hikari.app.core.LoadGate
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.core.LoadGate
 import com.lagradost.cloudstream3.APIHolder
 import com.lagradost.cloudstream3.MainAPI
 import com.lagradost.cloudstream3.plugins.BasePlugin
@@ -142,7 +142,7 @@ object Cs3PluginManager {
         // anything, and the one-line message the UI has room for ("… threw:
         // IllegalStateException") names neither the class nor the line — the
         // log trail is what makes it fixable.
-        runCatching { com.hikari.app.data.Logs.logError("Cs3PluginManager", line, e) }
+        runCatching { com.gworld06.streambox.data.Logs.logError("Cs3PluginManager", line, e) }
     }
 
     /**
@@ -541,8 +541,8 @@ object Cs3PluginManager {
             // later (a sub-dialog, a picker) land on a bare handler with no
             // gesture on the stack, so the auto-open guard gets an
             // allow-window for exactly this (see ExtensionUiGuard).
-            com.hikari.app.net.ExtensionUiGuard.allowFor(
-                com.hikari.app.net.ExtensionUiGuard.SETTINGS_ALLOW_MS
+            com.gworld06.streambox.net.ExtensionUiGuard.allowFor(
+                com.gworld06.streambox.net.ExtensionUiGuard.SETTINGS_ALLOW_MS
             )
             callback.invoke(host)
             pendingSettingsReload = file.absolutePath

@@ -1,16 +1,16 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.IptvChannel
-import com.hikari.app.data.IptvPlaylist
-import com.hikari.app.data.JsonPlaylist
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.StreamSource
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.IptvChannel
+import com.gworld06.streambox.data.IptvPlaylist
+import com.gworld06.streambox.data.JsonPlaylist
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -169,7 +169,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         suspend fun readPlaylistConfigKey(url: String): Pair<String?, String?> =
             withContext(Dispatchers.IO) {
                 val text = readSource(url) ?: return@withContext null to null
-                val parsed = com.hikari.app.data.JsonPlaylist.parse(text)
+                val parsed = com.gworld06.streambox.data.JsonPlaylist.parse(text)
                     ?: return@withContext null to null
                 if (parsed.channels.isNotEmpty() || parsed.tmdbKey.isNullOrBlank()) {
                     return@withContext null to null
@@ -182,7 +182,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         /** True when a downloaded body is a Stremio addon manifest, not a
          *  playlist of any kind. */
         private fun isManifestText(text: String): Boolean =
-            runCatching { com.hikari.app.data.JsonPlaylist.looksLikeStremioManifest(text) }.getOrDefault(false)
+            runCatching { com.gworld06.streambox.data.JsonPlaylist.looksLikeStremioManifest(text) }.getOrDefault(false)
 
         /** Reads the playlist body from a URL or a file. Blocking — call from IO. */
         private fun readSource(url: String): String? {
@@ -242,8 +242,8 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         // know what it holds — and asking for one would fetch a whole hosting
         // page (a Terabox share, an MDisk page) only to throw it away. Its one
         // channel is built straight from the config; what the link holds is
-        // worked out when it is played (see [com.hikari.app.data.NetworkStream]).
-        if (com.hikari.app.data.NetworkStream.isStream(config)) {
+        // worked out when it is played (see [com.gworld06.streambox.data.NetworkStream]).
+        if (com.gworld06.streambox.data.NetworkStream.isStream(config)) {
             val one = singleStreamChannel()
             if (one == null) {
                 iptvErrors[config.id] = "This network stream has no link — remove it and add it again."
@@ -266,7 +266,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
                     // stay JSON: falling through to the M3U reader would list
                     // a config object as channels.
                     if (text == null) null
-                    else com.hikari.app.data.JsonPlaylist.parse(text)?.channels
+                    else com.gworld06.streambox.data.JsonPlaylist.parse(text)?.channels
                         ?: IptvPlaylist.parse(text, base = selfCheckUrl)
                 }
             }
@@ -295,7 +295,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
      *  pasted straight in), that stream is the playlist's only channel. */
     /** Display name for a saved torrent (mirrors the Add dialog's). */
     private fun torrentName(link: String): String {
-        if (com.hikari.app.data.NetworkStream.isBareInfoHash(link)) {
+        if (com.gworld06.streambox.data.NetworkStream.isBareInfoHash(link)) {
             return "Torrent · " + link.take(8).uppercase()
         }
         Regex("[?&]dn=([^&]+)").find(link)?.let { m ->
@@ -313,7 +313,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
     private fun singleStreamChannel(): IptvChannel? {
         // A saved torrent IS the channel: no download, no parse — the magnet
         // (kept verbatim by the Add dialog) is what the player resolves.
-        if (com.hikari.app.data.NetworkStream.isTorrentLink(config.url)) {
+        if (com.gworld06.streambox.data.NetworkStream.isTorrentLink(config.url)) {
             return IptvChannel(
                 name = config.name.ifBlank { torrentName(config.url) },
                 url = config.url,
@@ -345,14 +345,14 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         val out = ArrayList<CatalogRef>()
         // A torrent is one file, not a channel list: a single shelf named
         // after the stream, never an "All channels" shelf plus group tiles.
-        if (com.hikari.app.data.NetworkStream.isTorrentConfig(config)) {
+        if (com.gworld06.streambox.data.NetworkStream.isTorrentConfig(config)) {
             out += CatalogRef(config.id, MediaType.MOVIE, ALL, all.first().name, "torrent")
             return out
         }
         // A NETWORK STREAM is one file, not a channel list either: a single shelf named
         // after the stream — never an "All channels" shelf plus an "Ungrouped" tile
-        // (see [com.hikari.app.data.NetworkStream]).
-        if (com.hikari.app.data.NetworkStream.isStream(config)) {
+        // (see [com.gworld06.streambox.data.NetworkStream]).
+        if (com.gworld06.streambox.data.NetworkStream.isStream(config)) {
             out += CatalogRef(config.id, MediaType.MOVIE, ALL, all.first().name, "stream")
             return out
         }
@@ -416,7 +416,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
      * the exact link the playlist declared, with the playlist's own group as its
      * secondary line.
      *
-     * The exception is a NETWORK STREAM (see [com.hikari.app.data.NetworkStream]):
+     * The exception is a NETWORK STREAM (see [com.gworld06.streambox.data.NetworkStream]):
      * a link the user pasted as one file on some host, where what is behind the
      * link has to be worked out before it can be played. That happens here, on
      * Play — the moment every other engine does its own extraction.
@@ -444,8 +444,8 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         // predates the MARKER (legacy rows saved without it): resolve first,
         // whatever the row carries, so an old torrent entry plays instead of
         // handing a magnet to the player as a plain URL.
-        if (com.hikari.app.data.NetworkStream.isTorrentLink(url)) {
-            val resolved = com.hikari.app.data.NetworkStream.resolve(
+        if (com.gworld06.streambox.data.NetworkStream.isTorrentLink(url)) {
+            val resolved = com.gworld06.streambox.data.NetworkStream.resolve(
                 rawUrl = url,
                 label = channel.name,
                 providerId = config.id,
@@ -463,8 +463,8 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         // installed CloudStream extractor knows). That happens here, on Play —
         // the same moment every other engine does its extraction — and the
         // sources it answers with are the channel's servers.
-        if (com.hikari.app.data.NetworkStream.isStream(config)) {
-            val resolved = com.hikari.app.data.NetworkStream.resolve(
+        if (com.gworld06.streambox.data.NetworkStream.isStream(config)) {
+            val resolved = com.gworld06.streambox.data.NetworkStream.resolve(
                 rawUrl = url,
                 label = channel.name,
                 providerId = config.id,
@@ -478,11 +478,11 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         }
         // A Terabox-family share inside a playlist resolves the same way a
         // pasted one does — the share page is fetched and its files listed at
-        // play time (see [com.hikari.app.data.NetworkStream]).
-        if (channel.kind == com.hikari.app.data.IptvChannel.KIND_TERABOX ||
-            com.hikari.app.data.NetworkStream.isBoxShare(url)
+        // play time (see [com.gworld06.streambox.data.NetworkStream]).
+        if (channel.kind == com.gworld06.streambox.data.IptvChannel.KIND_TERABOX ||
+            com.gworld06.streambox.data.NetworkStream.isBoxShare(url)
         ) {
-            val resolved = com.hikari.app.data.NetworkStream.resolve(
+            val resolved = com.gworld06.streambox.data.NetworkStream.resolve(
                 rawUrl = url,
                 label = channel.name,
                 providerId = config.id,
@@ -497,9 +497,9 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         // An embed page (sports embeds and the like): run the shared embed
         // engine first so it plays directly; when nothing extracts, hand the
         // page itself over as a link row, exactly like a Stremio externalUrl.
-        if (channel.kind == com.hikari.app.data.IptvChannel.KIND_EMBED) {
+        if (channel.kind == com.gworld06.streambox.data.IptvChannel.KIND_EMBED) {
             val extracted = withTimeoutOrNull(20_000L) {
-                com.hikari.app.cs3.FallbackResolver.resolveEmbedUrl(url, referer = null)
+                com.gworld06.streambox.cs3.FallbackResolver.resolveEmbedUrl(url, referer = null)
             }.orEmpty()
             if (extracted.isNotEmpty()) return extracted
             return listOf(
@@ -515,7 +515,7 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
             )
         }
         val drm = if (!channel.drmKid.isNullOrBlank() && !channel.drmKey.isNullOrBlank()) {
-            com.hikari.app.data.DrmSpec(kid = channel.drmKid, key = channel.drmKey)
+            com.gworld06.streambox.data.DrmSpec(kid = channel.drmKid, key = channel.drmKey)
         } else null
         return listOf(
             StreamSource(
@@ -588,8 +588,8 @@ class IptvProvider(override val config: ProviderConfig) : ContentProvider {
         // (LIVE tile, live playback) — see Artwork and PlayerActivity. "stream"
         // does the same for network streams: one file, played as VOD.
         rawType = when {
-            com.hikari.app.data.NetworkStream.isTorrentLink(c.url) -> "torrent"
-            com.hikari.app.data.NetworkStream.isStream(config) -> "stream"
+            com.gworld06.streambox.data.NetworkStream.isTorrentLink(c.url) -> "torrent"
+            com.gworld06.streambox.data.NetworkStream.isStream(config) -> "stream"
             else -> "channel"
         },
     )

@@ -1,17 +1,17 @@
-package com.hikari.app.manga
+package com.gworld06.streambox.manga
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import androidx.core.content.pm.PackageInfoCompat
-import com.hikari.app.HikariApp
-import com.hikari.app.core.LoadGate
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.core.LoadGate
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
 import eu.kanade.tachiyomi.source.MangaSource
 import eu.kanade.tachiyomi.source.Source
 import eu.kanade.tachiyomi.source.SourceFactory
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap
  * whole manga world publishes (keiyoushi and the other mirrors of its repo are
  * the usual source of them).
  *
- * It is a sibling of [com.hikari.app.aniyomi.AniyomiExtensionManager], and for
+ * It is a sibling of [com.gworld06.streambox.aniyomi.AniyomiExtensionManager], and for
  * the same reason: an extension is NOT an Android package install. The APK is
  * copied to `filesDir/manga/exts/<pkg>.ext`, made read-only (Android 14+ refuses
  * to load a writable dex), inspected with
@@ -153,7 +153,7 @@ object MangaExtensionManager {
         val labels: List<String>,
         val sources: List<MangaSource>,
         /** Plain text-chapter (novel) sources: a [Source] with no manga
-         *  methods. They read through [com.hikari.app.manga.MangaProvider]'s
+         *  methods. They read through [com.gworld06.streambox.manga.MangaProvider]'s
          *  novel branch into the novel reader — never the image reader. */
         val novels: List<Source> = emptyList(),
         /** Display label per novel source, already de-duplicated. */
@@ -250,8 +250,8 @@ object MangaExtensionManager {
      *  parsers ship inside the app, so they are never "missing". */
     fun fileMissing(config: ProviderConfig): Boolean =
         config.type == ProviderType.MANGA &&
-            !com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id) &&
-            !com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(config.id) &&
+            !com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id) &&
+            !com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(config.id) &&
             (config.url.isBlank() || !File(config.url).exists())
 
     private fun load(context: Context, file: File): Extension? {
@@ -470,10 +470,10 @@ object MangaExtensionManager {
         if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) return null
         // Bundled Kotatsu parsers have no .ext file — their site root is the
         // parser's own live domain.
-        if (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
             val url = runCatching {
-                val bridge = com.hikari.app.kotatsu.KotatsuBridge.forSource(
-                    com.hikari.app.kotatsu.KotatsuRegistry.enumNameOf(config.id),
+                val bridge = com.gworld06.streambox.kotatsu.KotatsuBridge.forSource(
+                    com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOf(config.id),
                 ) ?: return@runCatching null
                 siteUrlForHost(hostOf(bridge.parserDomain()))
             }.getOrNull() ?: return null
@@ -482,9 +482,9 @@ object MangaExtensionManager {
         }
         // Fork parsers (skepsun / vendored hany18h) likewise ship inside the
         // app — their site root is the fork parser's own live domain.
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(config.id)) {
             val url = runCatching {
-                val domain = com.hikari.app.kotatsu.fork.ForkRegistry.domainOfForkManga(config.id)
+                val domain = com.gworld06.streambox.kotatsu.fork.ForkRegistry.domainOfForkManga(config.id)
                 siteUrlForHost(hostOf(domain))
             }.getOrNull() ?: return null
             siteCache[config.id] = url
@@ -492,9 +492,9 @@ object MangaExtensionManager {
         }
         // Fork video rows (skepsun anime / vendored hany18h anime) likewise
         // ship inside the app — same live-domain site root.
-        if (com.hikari.app.kotatsu.fork.ForkVideoProvider.isForkVideoId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.isForkVideoId(config.id)) {
             val url = runCatching {
-                val domain = com.hikari.app.kotatsu.fork.ForkRegistry.domainOfForkVideo(config.id)
+                val domain = com.gworld06.streambox.kotatsu.fork.ForkRegistry.domainOfForkVideo(config.id)
                 siteUrlForHost(hostOf(domain))
             }.getOrNull() ?: return null
             siteCache[config.id] = url

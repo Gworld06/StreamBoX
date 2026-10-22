@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * One channel of an M3U/M3U8 playlist.
@@ -428,7 +428,7 @@ object IptvPlaylist {
      * Turns a playlist's `tvg-logo` value into a URL that can actually be
      * fetched, using [base] (where the playlist came from) for the relative
      * forms. Null when there is nothing usable at all — the caller then draws
-     * its own tile (see [com.hikari.app.ui.IptvArt]).
+     * its own tile (see [com.gworld06.streambox.ui.IptvArt]).
      *
      * Spaces are percent-encoded: panels routinely ship `tvg-logo="http://host/my
      * logo.png"`, and an unencoded space makes the image request fail outright.

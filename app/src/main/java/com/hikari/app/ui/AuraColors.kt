@@ -1,8 +1,8 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.hikari.app.ui.theme.HikariAccent
+import com.gworld06.streambox.ui.theme.HikariAccent
 
 /**
  * The colour an "Aura ring" is drawn in — Settings → App Layout → Poster

@@ -1,13 +1,13 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.tv.TvUi
-import com.hikari.app.tv.TvMode
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.tv.TvMode
 import androidx.compose.material.icons.filled.SettingsRemote
 import androidx.compose.material.icons.filled.AspectRatio
 import androidx.compose.material.icons.filled.Tv
-import com.hikari.app.i18n.tr
-import com.hikari.app.lock.AppLock
-import com.hikari.app.ui.Biometrics
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.lock.AppLock
+import com.gworld06.streambox.ui.Biometrics
+import com.gworld06.streambox.i18n.I18n
 
 import android.content.Context
 import android.content.Intent
@@ -165,74 +165,74 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
-import com.hikari.app.data.BackupManager
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.Ratings
-import com.hikari.app.data.TmdbLang
-import com.hikari.app.data.TrackerClient
-import com.hikari.app.data.TrackerKind
-import com.hikari.app.data.Userscript
-import com.hikari.app.tracker.TrackerSync
-import com.hikari.app.download.DownloadService
-import com.hikari.app.download.DownloadStatus
-import com.hikari.app.download.DownloadsRepository
-import com.hikari.app.net.AdBlocker
-import com.hikari.app.net.DnsProviders
-import com.hikari.app.net.DohDns
-import com.hikari.app.net.NetTuning
-import com.hikari.app.net.Updater
-import com.hikari.app.player.EnhancePreset
-import com.hikari.app.player.CustomEnhancePreset
-import com.hikari.app.player.PlayerSkins
-import com.hikari.app.ui.AppIconManager
-import com.hikari.app.ui.AppIconVariants
-import com.hikari.app.ui.AppFonts
-import com.hikari.app.ui.AuraColors
-import com.hikari.app.ui.LoadingEffects
-import com.hikari.app.ui.LoadingStyles
-import com.hikari.app.ui.PosterEffects
-import com.hikari.app.ui.PosterTypes
-import com.hikari.app.ui.components.ChoiceDialog
-import com.hikari.app.ui.components.ChoiceItem
-import com.hikari.app.ui.components.ChoiceRow
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.components.HeroStyles
-import com.hikari.app.ui.components.MultiChoiceDialog
-import com.hikari.app.ui.components.SettingsThemeTile
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.data.Profiles
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.ui.components.TrackerLoginDialog
-import com.hikari.app.ui.components.helpShown
-import com.hikari.app.ui.LanguageManager
-import com.hikari.app.ui.components.UpdateDialog
-import com.hikari.app.ui.navigation.BottomTab
-import com.hikari.app.ui.navigation.BottomTabs
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.NavStyles
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.edgeLight
-import com.hikari.app.ui.DISCORD_INVITE_URL
-import com.hikari.app.ui.REDDIT_COMMUNITY_URL
-import com.hikari.app.ui.openCommunity
-import com.hikari.app.ui.openTelegram
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.BackupManager
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.Ratings
+import com.gworld06.streambox.data.TmdbLang
+import com.gworld06.streambox.data.TrackerClient
+import com.gworld06.streambox.data.TrackerKind
+import com.gworld06.streambox.data.Userscript
+import com.gworld06.streambox.tracker.TrackerSync
+import com.gworld06.streambox.download.DownloadService
+import com.gworld06.streambox.download.DownloadStatus
+import com.gworld06.streambox.download.DownloadsRepository
+import com.gworld06.streambox.net.AdBlocker
+import com.gworld06.streambox.net.DnsProviders
+import com.gworld06.streambox.net.DohDns
+import com.gworld06.streambox.net.NetTuning
+import com.gworld06.streambox.net.Updater
+import com.gworld06.streambox.player.EnhancePreset
+import com.gworld06.streambox.player.CustomEnhancePreset
+import com.gworld06.streambox.player.PlayerSkins
+import com.gworld06.streambox.ui.AppIconManager
+import com.gworld06.streambox.ui.AppIconVariants
+import com.gworld06.streambox.ui.AppFonts
+import com.gworld06.streambox.ui.AuraColors
+import com.gworld06.streambox.ui.LoadingEffects
+import com.gworld06.streambox.ui.LoadingStyles
+import com.gworld06.streambox.ui.PosterEffects
+import com.gworld06.streambox.ui.PosterTypes
+import com.gworld06.streambox.ui.components.ChoiceDialog
+import com.gworld06.streambox.ui.components.ChoiceItem
+import com.gworld06.streambox.ui.components.ChoiceRow
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.components.HeroStyles
+import com.gworld06.streambox.ui.components.MultiChoiceDialog
+import com.gworld06.streambox.ui.components.SettingsThemeTile
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.ui.components.TrackerLoginDialog
+import com.gworld06.streambox.ui.components.helpShown
+import com.gworld06.streambox.ui.LanguageManager
+import com.gworld06.streambox.ui.components.UpdateDialog
+import com.gworld06.streambox.ui.navigation.BottomTab
+import com.gworld06.streambox.ui.navigation.BottomTabs
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.NavStyles
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.edgeLight
+import com.gworld06.streambox.ui.DISCORD_INVITE_URL
+import com.gworld06.streambox.ui.REDDIT_COMMUNITY_URL
+import com.gworld06.streambox.ui.openCommunity
+import com.gworld06.streambox.ui.openTelegram
 import java.io.File
-import com.hikari.app.ui.theme.HikariAccent
-import com.hikari.app.ui.theme.HikariThemeMode
-import com.hikari.app.ui.theme.inkOn
-import com.hikari.app.web.UserscriptManager
+import com.gworld06.streambox.ui.theme.HikariAccent
+import com.gworld06.streambox.ui.theme.HikariThemeMode
+import com.gworld06.streambox.ui.theme.inkOn
+import com.gworld06.streambox.web.UserscriptManager
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.hikari.app.tv.tvAdjust
-import com.hikari.app.tv.tvToggle
-import com.hikari.app.tv.tvTextFieldKeys
-import com.hikari.app.tv.tvPress
+import com.gworld06.streambox.tv.tvAdjust
+import com.gworld06.streambox.tv.tvToggle
+import com.gworld06.streambox.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvPress
 
 @Composable
 private fun SettingsDivider() {
@@ -266,7 +266,7 @@ private enum class SettingsFolder(
     /** A folder that only makes sense on a phone/tablet, so it is not offered at
      *  all on a television: it configures something the television layout does
      *  not have (the taskbar, the launcher icon aliases — a TV launcher shows
-     *  the banner instead). See com.hikari.app.tv.TvMode. */
+     *  the banner instead). See com.gworld06.streambox.tv.TvMode. */
     val phoneOnly: Boolean = false,
 ) {
     APPEARANCE(
@@ -291,7 +291,7 @@ private enum class SettingsFolder(
         "Fix lag, stutter & battery drain",
         Icons.Filled.Speed,
     ),
-    // The television half of "one APK, two layouts" (see com.hikari.app.tv.TvMode).
+    // The television half of "one APK, two layouts" (see com.gworld06.streambox.tv.TvMode).
     // Offered on both kinds of device on purpose: a phone user can switch the TV
     // layout on to see it, and a television whose box reports itself as a phone
     // can switch it on from here — which is the whole reason the folder exists.
@@ -453,7 +453,7 @@ private enum class SettingsFolder(
         Icons.Filled.Android,
         parent = "appearance",
         // Offered on television too: the TV launcher entry is its own
-        // always-enabled alias (com.hikari.app.tv.Launcher, with the banner)
+        // always-enabled alias (com.gworld06.streambox.tv.Launcher, with the banner)
         // that the icon switcher never touches, so picking a phone icon can
         // neither hide Hikari from the TV home screen nor change its banner.
     ),
@@ -668,7 +668,7 @@ fun SettingsScreen(nav: NavHostController) {
     val context = LocalContext.current
     val app = context.applicationContext as HikariApp
     val scope = rememberCoroutineScope()
-    // Which layout this device is drawing (see com.hikari.app.tv.TvMode). It
+    // Which layout this device is drawing (see com.gworld06.streambox.tv.TvMode). It
     // decides which cards are offered at all: the taskbar, the launcher icon and
     // "full screen app mode" are phone things, and a television gets its own
     // folder instead.
@@ -726,11 +726,11 @@ fun SettingsScreen(nav: NavHostController) {
     val installedProviders by app.providers.providers.collectAsState()
     // Page positions held across visits too (see ScrollKeeper): leaving
     // Settings entirely and coming back lands each page where it was.
-    val indexState = com.hikari.app.ui.components.keptListState("settings:index")
-    val folderState = com.hikari.app.ui.components.keptListState("settings:folder:$openFolder")
-    val subState = com.hikari.app.ui.components.keptListState("settings:sub:$openFolder|$openSub")
+    val indexState = com.gworld06.streambox.ui.components.keptListState("settings:index")
+    val folderState = com.gworld06.streambox.ui.components.keptListState("settings:folder:$openFolder")
+    val subState = com.gworld06.streambox.ui.components.keptListState("settings:sub:$openFolder|$openSub")
     // Television two-pane: the left category list scrolls on its own.
-    val tvLeftState = com.hikari.app.ui.components.keptListState("settings:tvLeft")
+    val tvLeftState = com.gworld06.streambox.ui.components.keptListState("settings:tvLeft")
     // ONE state per PAGE — the index, the open folder, and a sub-folder of it —
     // because one state cannot remember three positions. With a single state (and
     // then with two), going back from a deeper page had to scroll the page it
@@ -796,7 +796,7 @@ fun SettingsScreen(nav: NavHostController) {
             // Same as the Stats tab's own door: a row opens the title it is
             // about (see Routes.fromStatsKey).
             onOpenTitle = { t ->
-                com.hikari.app.ui.navigation.Routes
+                com.gworld06.streambox.ui.navigation.Routes
                     .fromStatsKey(t.key, t.title, t.posterUrl)
                     ?.let { nav.navigate(it) }
             },
@@ -1487,7 +1487,7 @@ fun SettingsScreen(nav: NavHostController) {
                         tr("Settings"),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
-                        color = com.hikari.app.tv.TvDesktop.TextPrimary,
+                        color = com.gworld06.streambox.tv.TvDesktop.TextPrimary,
                         modifier = Modifier.padding(start = 4.dp, bottom = 6.dp),
                     )
                 }
@@ -1642,10 +1642,10 @@ private fun SettingsFolderRow(
                     fontWeight = FontWeight.SemiBold,
                     color = if (selected) {
                         // Reference purple on TV, the phone's own accent setting.
-                        if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.Cs3.accent
+                        if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.Cs3.accent
                         else MaterialTheme.colorScheme.primary
                     }
-                    else if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+                    else if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                     else MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(Modifier.height(2.dp))
@@ -1653,7 +1653,7 @@ private fun SettingsFolderRow(
                     Text(
                         tr(folder.subtitle),
                         style = MaterialTheme.typography.bodySmall,
-                        color = if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+                        color = if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
                         else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -1663,10 +1663,10 @@ private fun SettingsFolderRow(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
                 tint = if (selected) {
-                    if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.Cs3.accent
+                    if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.Cs3.accent
                     else MaterialTheme.colorScheme.primary
                 }
-                else if (com.hikari.app.tv.TvMode.current()) com.hikari.app.tv.TvDesktop.TextMuted
+                else if (com.gworld06.streambox.tv.TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp)
             )
@@ -1696,14 +1696,14 @@ private fun TvLeftRow(icon: ImageVector, title: String, onClick: () -> Unit) {
                 title,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = com.hikari.app.tv.TvDesktop.TextPrimary,
+                color = com.gworld06.streambox.tv.TvDesktop.TextPrimary,
                 modifier = Modifier.weight(1f),
             )
             Spacer(Modifier.width(10.dp))
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = com.hikari.app.tv.TvDesktop.TextMuted,
+                tint = com.gworld06.streambox.tv.TvDesktop.TextMuted,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -1814,7 +1814,7 @@ private fun ContinueWatchingCard(
  * television stick that drops frames while a wall of GIFs animates can turn them
  * still without editing what it imported, and a folder whose own "always
  * animate" is on still animates either way (see
- * [com.hikari.app.data.AppStore.gifAnimFlow]).
+ * [com.gworld06.streambox.data.AppStore.gifAnimFlow]).
  */
 @Composable
 private fun GifAnimCard(app: HikariApp) {
@@ -1909,8 +1909,8 @@ private fun HideHelpCard(app: HikariApp) {
  * The adult-content switch (Settings → Content & Filters).
  *
  * ON is the default and the app as it has always been. OFF is a single rule the
- * whole app reads at draw time ([com.hikari.app.data.NsfwGate]) plus the provider
- * list ([com.hikari.app.providers.ProviderManager]): adult and
+ * whole app reads at draw time ([com.gworld06.streambox.data.NsfwGate]) plus the provider
+ * list ([com.gworld06.streambox.providers.ProviderManager]): adult and
  * R-rated titles leave every catalogue, shelf, grid, search result and
  * collection, and 18+-tagged extensions stop being listed — installed ones stop
  * being used at all, and store listings stop offering them.
@@ -2474,9 +2474,9 @@ private fun TaskbarCard(app: HikariApp) {
 @Composable
 private fun MyStuffSectionToggles(app: HikariApp) {
     val scope = rememberCoroutineScope()
-    val libraryFlow = remember { app.store.myStuffSectionFlow(com.hikari.app.data.MyStuffSection.LIBRARY) }
-    val historyFlow = remember { app.store.myStuffSectionFlow(com.hikari.app.data.MyStuffSection.HISTORY) }
-    val downloadsFlow = remember { app.store.myStuffSectionFlow(com.hikari.app.data.MyStuffSection.DOWNLOADS) }
+    val libraryFlow = remember { app.store.myStuffSectionFlow(com.gworld06.streambox.data.MyStuffSection.LIBRARY) }
+    val historyFlow = remember { app.store.myStuffSectionFlow(com.gworld06.streambox.data.MyStuffSection.HISTORY) }
+    val downloadsFlow = remember { app.store.myStuffSectionFlow(com.gworld06.streambox.data.MyStuffSection.DOWNLOADS) }
     val libraryOn by libraryFlow.collectAsState(initial = true)
     val historyOn by historyFlow.collectAsState(initial = true)
     val downloadsOn by downloadsFlow.collectAsState(initial = true)
@@ -2503,21 +2503,21 @@ private fun MyStuffSectionToggles(app: HikariApp) {
             // exactly that, so the moment a section was switched off its switch
             // went dead and could never be switched back on.
             enabled = !libraryOn || onCount > 1,
-            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.hikari.app.data.MyStuffSection.LIBRARY, on) } } },
+            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.gworld06.streambox.data.MyStuffSection.LIBRARY, on) } } },
         )
         MyStuffSectionRow(
             label = tr("History"),
             supporting = tr("What you watched and where you stopped reading"),
             checked = historyOn,
             enabled = !historyOn || onCount > 1,
-            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.hikari.app.data.MyStuffSection.HISTORY, on) } } },
+            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.gworld06.streambox.data.MyStuffSection.HISTORY, on) } } },
         )
         MyStuffSectionRow(
             label = tr("Downloads"),
             supporting = tr("What you saved for offline"),
             checked = downloadsOn,
             enabled = !downloadsOn || onCount > 1,
-            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.hikari.app.data.MyStuffSection.DOWNLOADS, on) } } },
+            onChange = { on -> scope.launch { runCatching { app.store.setMyStuffSection(com.gworld06.streambox.data.MyStuffSection.DOWNLOADS, on) } } },
         )
         if (onCount == 1) {
             if (!LocalHideHelp.current) {
@@ -2576,7 +2576,7 @@ private fun MyStuffSectionRow(
  * The app-wide font.
  *
  * One choice repaints every Compose screen at once (the theme's typography is
- * rebuilt around the chosen family — see [com.hikari.app.ui.theme.typographyWith])
+ * rebuilt around the chosen family — see [com.gworld06.streambox.ui.theme.typographyWith])
  * and the View-based half of the app — the player, its dialogs, the built-in
  * browser — through [AppFonts.applyToViewTree], so the whole app speaks in one
  * typeface rather than just the parts written in Compose.
@@ -2679,7 +2679,7 @@ private fun FontCard(app: HikariApp) {
  * Poster & icon styling — the dynamic iOS-style blur that lifts a poster off
  * the page, the corner rounding, and whether the title/score are drawn at all.
  *
- * Every grid in the app renders through [com.hikari.app.ui.PosterArt] and reads
+ * Every grid in the app renders through [com.gworld06.streambox.ui.PosterArt] and reads
  * these values live, so what is set here is what the next frame shows — no
  * restart, and the same look on Home, Search, Library and a collection alike.
  */
@@ -2916,7 +2916,7 @@ private fun PosterStyleCard(app: HikariApp) {
  * A card rather than a pair of X/Y sliders, because "where is the light" is one
  * question with an obvious gesture — pointing at the place — and a light placed
  * by reading two numbers is a light nobody places. The preview draws the real
- * thing: the same [com.hikari.app.ui.edgeLight] modifier every poster in the app
+ * thing: the same [com.gworld06.streambox.ui.edgeLight] modifier every poster in the app
  * uses, over a stand-in card, so what is set here is what a grid shows.
  *
  * The point being dragged is held locally and written when the gesture ENDS. A
@@ -3026,7 +3026,7 @@ private fun EdgeLightControls(
     }
 }
 
-// ---- Television & remote (see com.hikari.app.tv.TvMode) ----
+// ---- Television & remote (see com.gworld06.streambox.tv.TvMode) ----
 //
 // This folder is offered on BOTH kinds of device. On a television it is where
 // the layout, the safe area and the performance mode live; on a phone it is how
@@ -3038,7 +3038,7 @@ private fun EdgeLightControls(
  *
  * "Automatic" is the shipped behaviour and the right answer for almost
  * everybody: the layout is chosen from the device itself (see
- * [com.hikari.app.tv.TvMode] — the Android TV/Leanback features, a Fire TV
+ * [com.gworld06.streambox.tv.TvMode] — the Android TV/Leanback features, a Fire TV
  * marker, or simply the absence of a touchscreen). The two explicit choices are
  * the escape hatch, and they exist because device detection is a set of
  * heuristics: an unusual Android box can report none of the television signals
@@ -3221,7 +3221,7 @@ private fun TvPosterSizeCard(app: HikariApp) {
 private fun TvDetailStyleCard(app: HikariApp) {
     val scope = rememberCoroutineScope()
     val flow = remember { app.store.tvDetailBigFlow() }
-    val on by flow.collectAsState(initial = com.hikari.app.tv.TvMode.current())
+    val on by flow.collectAsState(initial = com.gworld06.streambox.tv.TvMode.current())
     val blurFlow = remember { app.store.tvBlurDetailFlow() }
     val blurOn by blurFlow.collectAsState(initial = false)
 
@@ -3445,7 +3445,7 @@ private fun SettingsToggle(
             // Only when a switch actually needs explaining: a caption under
             // every one of them made the folder pages read like a manual. And
             // not at all when the user has turned explanations off — see
-            // [com.hikari.app.ui.components.LocalHideHelp].
+            // [com.gworld06.streambox.ui.components.LocalHideHelp].
             if (supporting.isNotBlank() && helpShown()) {
                 Text(
                     supporting,
@@ -4209,7 +4209,7 @@ private fun NavBarCard(app: HikariApp) {
  * to Spanish and every TMDB row — search results, a studio's films, the detail
  * page's similar shelf, a collection's source — comes back with Spanish titles,
  * because the chosen code rides along on every TMDB request (see
- * [com.hikari.app.nuvio.TmdbResolver.contentLanguage]). "Off" pins TMDB to its
+ * [com.gworld06.streambox.nuvio.TmdbResolver.contentLanguage]). "Off" pins TMDB to its
  * own default so the titles stay as released; the explicit list is for the
  * people who want, say, Japanese titles inside an English app.
  */
@@ -5089,7 +5089,7 @@ private fun PlaybackStartCard(app: HikariApp) {
  * of favourite repos stay in play without turning the whole cross-search back on.
  * The one rule that goes with it — a title opened FROM an exception repo plays
  * from that repo alone — is spelled out in the two lines under the picker and
- * implemented in [com.hikari.app.data.SearchScope].
+ * implemented in [com.gworld06.streambox.data.SearchScope].
  *
  * This is not only the cross pass: the background sweep and the "borrow another
  * site's episode list" fallback are part of the same behaviour and are switched
@@ -5314,7 +5314,7 @@ private fun ServerSearchCard(app: HikariApp) {
         // opened FROM a nuvio provider is also asked in every other installed
         // nuvio provider, because they all resolve the same TMDB id and episode
         // — one source of servers, not a cross-search of unrelated sites. See
-        // [com.hikari.app.data.SearchScope.nuvioFamily]. Off, "only this
+        // [com.gworld06.streambox.data.SearchScope.nuvioFamily]. Off, "only this
         // extension" means exactly that for nuvio too.
         SettingsToggle(
             label = tr("Search every Nuvio provider"),
@@ -5344,7 +5344,7 @@ private fun ServerSearchCard(app: HikariApp) {
         // The addon twin of the nuvio switch above: a title opened FROM a
         // Stremio addon is asked in every other installed Stremio addon, because
         // they all resolve the same imdb/tmdb id. See
-        // [com.hikari.app.data.SearchScope.stremioFamily]. Off, "only this
+        // [com.gworld06.streambox.data.SearchScope.stremioFamily]. Off, "only this
         // extension" means exactly that for a Stremio origin.
         SettingsToggle(
             label = tr("Search every Stremio addon"),
@@ -5414,7 +5414,7 @@ private fun ServerSearchCard(app: HikariApp) {
         // ---- Exception extensions ----
         // The middle ground between the two models above: keep "only this
         // extension" on almost everywhere, but name a couple of repos that are
-        // always asked. See com.hikari.app.data.SearchScope for the pass this
+        // always asked. See com.gworld06.streambox.data.SearchScope for the pass this
         // drives.
         SettingsToggle(
             label = tr("Exception extensions"),
@@ -6060,7 +6060,7 @@ private fun LoadingBannerCard(app: HikariApp) {    val scope = rememberCoroutine
  *
  * Nothing it turns off changes what can be PLAYED. The television gets the same
  * treatment from its own switch in TV & Remote; the two are OR'd (see
- * [com.hikari.app.data.PerfMode]), so a box with both on simply stays light.
+ * [com.gworld06.streambox.data.PerfMode]), so a box with both on simply stays light.
  */
 @Composable
 private fun PerformanceBoosterCard(app: HikariApp) {
@@ -6723,7 +6723,7 @@ private fun MyStuffLockCard(app: HikariApp) {
 @Composable
 private fun TrackerServiceCard(
     kind: TrackerKind,
-    account: com.hikari.app.data.TrackerAccount?,
+    account: com.gworld06.streambox.data.TrackerAccount?,
     client: TrackerClient,
     working: Boolean,
     onSignIn: () -> Unit,
@@ -7259,7 +7259,7 @@ private fun BackupCard(app: HikariApp, onPair: () -> Unit) {
                 // as shown: a bare "Backup failed" with no cause is what made
                 // this bug unreportable.
                 runCatching {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Backup",
                         "restore failed: " + it.javaClass.simpleName + ": " + it.message.orEmpty(),
                     )
@@ -7302,7 +7302,7 @@ private fun BackupCard(app: HikariApp, onPair: () -> Unit) {
                 // previous cache-file route instead.
                 val (bytes, saved) = withContext(Dispatchers.IO) {
                     var lastBeat = 0L
-                    val opened = com.hikari.app.data.DownloadsSaver
+                    val opened = com.gworld06.streambox.data.DownloadsSaver
                         .openDownloadStream(context, name, "application/json")
                     if (opened.isSuccess) {
                         val (uri, out) = opened.getOrThrow()
@@ -7314,15 +7314,15 @@ private fun BackupCard(app: HikariApp, onPair: () -> Unit) {
                                     scope.launch { status = backingUpPrefix + " " + done + "/" + total }
                                 }
                             }
-                            val shown = com.hikari.app.data.DownloadsSaver.finishDownload(context, uri)
+                            val shown = com.gworld06.streambox.data.DownloadsSaver.finishDownload(context, uri)
                             n to shown.ifBlank { name }
                         } catch (t: Throwable) {
-                            runCatching { com.hikari.app.data.DownloadsSaver.abortDownload(context, uri) }
+                            runCatching { com.gworld06.streambox.data.DownloadsSaver.abortDownload(context, uri) }
                             throw t
                         }
                     } else {
                         runCatching {
-                            com.hikari.app.data.Logs.log("Backup", "direct export unavailable, cache-file fallback")
+                            com.gworld06.streambox.data.Logs.log("Backup", "direct export unavailable, cache-file fallback")
                         }
                         val f = File(context.cacheDir, "outbox/" + name)
                         BackupManager.exportToFile(app, f)
@@ -7341,7 +7341,7 @@ private fun BackupCard(app: HikariApp, onPair: () -> Unit) {
                 )
             }.getOrElse {
                 runCatching {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Backup",
                         "export failed: " + it.javaClass.simpleName + ": " + it.message.orEmpty(),
                     )

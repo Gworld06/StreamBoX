@@ -1,6 +1,6 @@
 package eu.kanade.tachiyomi
 
-import com.hikari.app.BuildConfig
+import com.gworld06.streambox.BuildConfig
 
 /**
  * Info about the installed host app (NOT THE EXTENSION!). Some extensions put

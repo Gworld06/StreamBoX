@@ -1,7 +1,7 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.tr
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.tr
 
 import android.Manifest
 import android.content.Context
@@ -74,18 +74,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.hikari.app.HikariApp
-import com.hikari.app.data.BackupManager
-import com.hikari.app.data.Logs
-import com.hikari.app.i18n.I18n
-import com.hikari.app.pair.PairClient
-import com.hikari.app.pair.PairHost
-import com.hikari.app.pair.PairProtocol
-import com.hikari.app.pair.PairTarget
-import com.hikari.app.pair.QrCode
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.BackupManager
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.pair.PairClient
+import com.gworld06.streambox.pair.PairHost
+import com.gworld06.streambox.pair.PairProtocol
+import com.gworld06.streambox.pair.PairTarget
+import com.gworld06.streambox.pair.QrCode
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -93,7 +93,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * Settings → Backup & Restore → Pair & sync: moving a Hikari setup from one
@@ -254,7 +254,7 @@ fun PairScreen(app: HikariApp, onBack: () -> Unit) {
 
     LazyColumn(
         // Pairing page position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("pair"),
+        state = com.gworld06.streambox.ui.components.keptListState("pair"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,

@@ -1,4 +1,4 @@
-package com.hikari.app
+package com.gworld06.streambox
 
 import android.app.Activity
 import android.app.Application
@@ -7,19 +7,19 @@ import android.os.Bundle
 import android.content.Context
 import coil.Coil
 import coil.ImageLoader
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Logs
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RedirectAllow
-import com.hikari.app.data.RepoKind
-import com.hikari.app.net.DohDns
-import com.hikari.app.net.Http
-import com.hikari.app.net.NetTuning
-import com.hikari.app.net.ExtensionVerifyGuard
-import com.hikari.app.net.SlowNetTip
-import com.hikari.app.providers.ProviderManager
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RedirectAllow
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.net.DohDns
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.NetTuning
+import com.gworld06.streambox.net.ExtensionVerifyGuard
+import com.gworld06.streambox.net.SlowNetTip
+import com.gworld06.streambox.providers.ProviderManager
 import com.lagradost.api.setContext
 import com.lagradost.cloudstream3.MainAPI
 import com.lagradost.cloudstream3.SettingsJson
@@ -176,7 +176,7 @@ class HikariApp : Application() {
     fun applyContentLanguage(tag: String) {
         val previous = appliedContentLanguage
         appliedContentLanguage = tag
-        com.hikari.app.nuvio.TmdbResolver.contentLanguage = tag
+        com.gworld06.streambox.nuvio.TmdbResolver.contentLanguage = tag
         if (previous != null && previous != tag) onContentLanguageChanged()
     }
 
@@ -194,8 +194,8 @@ class HikariApp : Application() {
      * is restarted.
      */
     fun onContentLanguageChanged() {
-        runCatching { com.hikari.app.data.TmdbSources.clearLocalizedNames() }
-        runCatching { com.hikari.app.data.SearchResultsCache.clear() }
+        runCatching { com.gworld06.streambox.data.TmdbSources.clearLocalizedNames() }
+        runCatching { com.gworld06.streambox.data.SearchResultsCache.clear() }
         contentLanguageRevision.value = contentLanguageRevision.value + 1L
     }
 
@@ -214,36 +214,36 @@ class HikariApp : Application() {
      * The first-run seeding in [onCreate] already does this for a television on a
      * fresh install; this is the part that keeps being true afterwards (a phone
      * whose user turns the TV layout on to look at it, or a box that only settles
-     * its UI mode once an activity exists, which is why [com.hikari.app.tv.TvMode.detect]
+     * its UI mode once an activity exists, which is why [com.gworld06.streambox.tv.TvMode.detect]
      * runs again in MainActivity).
      *
      * Once the user works the switch in Settings themselves,
-     * [com.hikari.app.data.AppStore.tvPerfChosen] is set and this never touches
+     * [com.gworld06.streambox.data.AppStore.tvPerfChosen] is set and this never touches
      * the setting again — an explicit answer always beats an automatic one.
      */
     /**
      * Mirrors the DEVICE's television answer into
-     * [com.hikari.app.data.PerfMode] (`tvDevice`), which is what the engine
+     * [com.gworld06.streambox.data.PerfMode] (`tvDevice`), which is what the engine
      * budgets, the search fan-out and the poster cache size read — all of them
      * synchronously, on hot paths that cannot await a flow.
      *
      * Called from `onCreate` and again from
-     * [com.hikari.app.MainActivity] next to every
-     * [com.hikari.app.tv.TvMode.detect], because a few boxes only settle their UI
+     * [com.gworld06.streambox.MainActivity] next to every
+     * [com.gworld06.streambox.tv.TvMode.detect], because a few boxes only settle their UI
      * mode once an Activity exists — and the budgets are chosen the first time a
-     * screen asks for content, which is after that. [com.hikari.app.tv.TvMode.deviceIsTelevision]
+     * screen asks for content, which is after that. [com.gworld06.streambox.tv.TvMode.deviceIsTelevision]
      * (the HARDWARE's answer) rather than `isTv`, deliberately: a phone whose user
      * turns the television LAYOUT on to look at it must not be handed a
      * low-memory device's search width or engine ceiling. See
-     * [com.hikari.app.data.PerfMode.tvDevice].
+     * [com.gworld06.streambox.data.PerfMode.tvDevice].
      */
     fun syncTvDeviceFlag() {
-        com.hikari.app.data.PerfMode.setTvDevice(com.hikari.app.tv.TvMode.deviceIsTelevision)
+        com.gworld06.streambox.data.PerfMode.setTvDevice(com.gworld06.streambox.tv.TvMode.deviceIsTelevision)
     }
 
-    private suspend fun syncTvPerformance(store: com.hikari.app.data.AppStore) {
+    private suspend fun syncTvPerformance(store: com.gworld06.streambox.data.AppStore) {
         if (runCatching { store.tvPerfChosen() }.getOrDefault(false)) return
-        val want = com.hikari.app.tv.TvMode.isTv
+        val want = com.gworld06.streambox.tv.TvMode.isTv
         if (runCatching { store.tvPerf() }.getOrDefault(false) == want) return
         runCatching {
             store.setTvPerf(want)
@@ -260,26 +260,26 @@ class HikariApp : Application() {
      * for itself.
      *
      * This is the one thing the app adds to the PICTURE during playback:
-     * [com.hikari.app.player.EnhancePreset] hands media3 a list of GPU colour
+     * [com.gworld06.streambox.player.EnhancePreset] hands media3 a list of GPU colour
      * grades, and a non-empty list costs a GL pass on every decoded frame — the
      * player's own comment says so ("Natural is the default and applies NOTHING
      * … so it stays off until the user asks for it"). On a TV stick, which is
      * busy enough with the decoder, that per-frame pass is what a viewer sees as
      * a video that stutters. A fresh install is already Natural, so this only
      * matters when a preset arrived from somewhere else: from a paired phone (the
-     * reason `playerEnhance` is now in [com.hikari.app.data.DeviceLocal.KEYS]) or
+     * reason `playerEnhance` is now in [com.gworld06.streambox.data.DeviceLocal.KEYS]) or
      * from a build that pre-dated that rule.
      *
      * The same rule as [syncTvPerformance]: the layout only sets a default, and
      * the moment the user picks a preset themselves ([AppStore.enhanceChosen])
      * it never touches the setting again.
      */
-    private suspend fun syncTvEnhance(store: com.hikari.app.data.AppStore) {
-        if (!com.hikari.app.tv.TvMode.isTv) return
+    private suspend fun syncTvEnhance(store: com.gworld06.streambox.data.AppStore) {
+        if (!com.gworld06.streambox.tv.TvMode.isTv) return
         // Unreadable flag reads as "the user chose": never override a choice we
         // cannot see, on a guess.
         if (runCatching { store.enhanceChosen() }.getOrDefault(true)) return
-        val natural = com.hikari.app.player.EnhancePreset.DEFAULT.key
+        val natural = com.gworld06.streambox.player.EnhancePreset.DEFAULT.key
         if (runCatching { store.enhancePreset() }.getOrDefault(natural) == natural) return
         runCatching {
             store.setEnhancePreset(natural)
@@ -292,7 +292,7 @@ class HikariApp : Application() {
     }
 
     /**
-     * Extension auto-open guard (see [com.hikari.app.net.ExtensionUiGuard]):
+     * Extension auto-open guard (see [com.gworld06.streambox.net.ExtensionUiGuard]):
      * external intents from extension code pass only on a user gesture (or
      * inside the allow-window). Our own calls always pass. Application
      * context covers the plugins that build UI on it instead of on an
@@ -307,11 +307,11 @@ class HikariApp : Application() {
      * [ExtensionVerifyGuard].
      */
     override fun startActivity(intent: android.content.Intent) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent)) super.startActivity(intent)
     }
 
     override fun startActivity(intent: android.content.Intent, options: android.os.Bundle?) {
-        if (com.hikari.app.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
+        if (com.gworld06.streambox.net.ExtensionUiGuardMixins.startAllowed(intent, options)) {
             super.startActivity(intent, options)
         }
     }
@@ -336,10 +336,10 @@ class HikariApp : Application() {
         watchForTheUserClosingTheApp()
         // Which kind of device this is — a phone/tablet or a television — asked
         // here, before anything can draw. ONE APK runs on both, and the answer
-        // decides the whole layout (see com.hikari.app.tv.TvMode); it is asked
+        // decides the whole layout (see com.gworld06.streambox.tv.TvMode); it is asked
         // again in MainActivity, because a few boxes only settle their UI mode
         // after the application object exists.
-        runCatching { com.hikari.app.tv.TvMode.detect(this) }
+        runCatching { com.gworld06.streambox.tv.TvMode.detect(this) }
         syncTvDeviceFlag()
         // Aniyomi extensions are Mihon/Aniyomi extension APKs: the extension
         // loader builds a class loader over the .ext and instantiates a source,
@@ -396,16 +396,16 @@ class HikariApp : Application() {
                 // app-language screen (setApplicationLocales with an empty list
                 // is "follow the device", not "leave it alone").
                 if (tag.isNotBlank()) {
-                    com.hikari.app.ui.LanguageManager.apply(tag)
+                    com.gworld06.streambox.ui.LanguageManager.apply(tag)
                 }
                 // Hand the View-based screens (the player, its dialogs, the
                 // WebView) their language map before anything can draw: Compose
                 // gets it from I18n.LocalMap in MainActivity, but I18n.t() reads
                 // the map pushed here, and a player opened without the main
                 // screen having drawn yet would otherwise be English.
-                val effective = com.hikari.app.ui.LanguageManager.effectiveTag(tag)
-                com.hikari.app.i18n.I18n.setCurrent(
-                    com.hikari.app.i18n.I18n.mapFor(this@HikariApp, effective),
+                val effective = com.gworld06.streambox.ui.LanguageManager.effectiveTag(tag)
+                com.gworld06.streambox.i18n.I18n.setCurrent(
+                    com.gworld06.streambox.i18n.I18n.mapFor(this@HikariApp, effective),
                     effective,
                 )
             }
@@ -414,7 +414,7 @@ class HikariApp : Application() {
         // The device's memory budget, once per launch. "It gets laggy and almost
         // crashes while servers load" is a memory question, and without this line
         // the log could never answer which heap ran out (see [MemoryReport]).
-        Logs.log("Memory", com.hikari.app.data.MemoryReport.device(this))
+        Logs.log("Memory", com.gworld06.streambox.data.MemoryReport.device(this))
         providers = ProviderManager(store, this)
         // Profiles (Settings → Profiles): read the registry, and make the store
         // agree with the active profile. Normally that is a no-op — the store IS
@@ -422,10 +422,10 @@ class HikariApp : Application() {
         // app's data was cleared while the registry survived, or a backup
         // replaced the store), the profile's snapshot is re-applied instead of
         // the app coming up empty under a profile that says otherwise. See
-        // [com.hikari.app.data.Profiles.load], which is also what publishes the
+        // [com.gworld06.streambox.data.Profiles.load], which is also what publishes the
         // profile list every screen reads.
         appScope.launch {
-            runCatching { com.hikari.app.data.Profiles.load(this@HikariApp) }
+            runCatching { com.gworld06.streambox.data.Profiles.load(this@HikariApp) }
                 .onFailure { Logs.log("Profiles", "could not read the profile registry: ${it.message}") }
         }
         // Nothing in Hikari ever loads a Cloudflare challenge on its own: a
@@ -450,14 +450,14 @@ class HikariApp : Application() {
         appScope.launch {
             runCatching {
                 val mode = store.tvMode()
-                com.hikari.app.tv.TvMode.setOverride(mode)
+                com.gworld06.streambox.tv.TvMode.setOverride(mode)
                 if (!store.tvSeeded()) {
                     // Applied exactly once per install. A television gets the
                     // quiet defaults: a TV stick is decoding 1080p with a chip a
                     // phone would have called slow, so the first thing it shows
                     // should not be a dozen animated posters. A phone's first run
                     // changes nothing.
-                    if (com.hikari.app.tv.TvMode.isTv) {
+                    if (com.gworld06.streambox.tv.TvMode.isTv) {
                         store.setPosterEffects(emptySet())
                         store.setPosterBlur(0)
                         // No effect over the loading card here either — the
@@ -471,18 +471,18 @@ class HikariApp : Application() {
                         store.setTvDetailBig(true)
                         Logs.log(
                             "App",
-                            "television detected (${com.hikari.app.tv.TvMode.describe(this@HikariApp)})" +
+                            "television detected (${com.gworld06.streambox.tv.TvMode.describe(this@HikariApp)})" +
                                 " — applied the TV defaults: no poster effects, 110% UI scale",
                         )
                     } else {
                         Logs.log(
                             "App",
-                            "phone/tablet detected (${com.hikari.app.tv.TvMode.describe(this@HikariApp)})",
+                            "phone/tablet detected (${com.gworld06.streambox.tv.TvMode.describe(this@HikariApp)})",
                         )
                     }
                     store.setTvSeeded(true)
                 }
-                if (com.hikari.app.tv.TvMode.isTv &&
+                if (com.gworld06.streambox.tv.TvMode.isTv &&
                     runCatching { !store.tvDetailBigChosen() }.getOrDefault(false)
                 ) {
                     runCatching { store.setTvDetailBig(true) }
@@ -491,8 +491,8 @@ class HikariApp : Application() {
                 // Explicit user choices are preserved across the update.
                 if (!store.playerUiDefaultsSeeded()) {
                     runCatching {
-                        if (store.playerSkin() == com.hikari.app.player.PlayerSkins.MINIMAL) {
-                            store.setPlayerSkin(com.hikari.app.player.PlayerSkins.TV)
+                        if (store.playerSkin() == com.gworld06.streambox.player.PlayerSkins.MINIMAL) {
+                            store.setPlayerSkin(com.gworld06.streambox.player.PlayerSkins.TV)
                         }
                         if (!store.playerIconOnly()) {
                             store.setPlayerIconOnly(true)
@@ -519,7 +519,7 @@ class HikariApp : Application() {
                 // themselves the choice is theirs and this stops touching it
                 // (see [AppStore.tvPerfChosen]).
                 store.tvModeFlow().distinctUntilChanged().collect { current ->
-                    com.hikari.app.tv.TvMode.setOverride(current)
+                    com.gworld06.streambox.tv.TvMode.setOverride(current)
                     syncTvPerformance(store)
                     syncTvEnhance(store)
                 }
@@ -546,15 +546,15 @@ class HikariApp : Application() {
         // SYNCHRONOUSLY on hot paths — the search fan-out sizes itself from this,
         // and the Nuvio runtime gates its engine concurrency with it — so each is
         // mirrored into a plain flag here, exactly like the slow-connection and
-        // DNS settings above (see [com.hikari.app.data.PerfMode]).
+        // DNS settings above (see [com.gworld06.streambox.data.PerfMode]).
         appScope.launch {
             store.perfModeFlow().collect { mode ->
-                com.hikari.app.data.PerfMode.set(mode, com.hikari.app.data.PerfMode.tvOn)
+                com.gworld06.streambox.data.PerfMode.set(mode, com.gworld06.streambox.data.PerfMode.tvOn)
             }
         }
         appScope.launch {
             store.tvPerfFlow().collect { on ->
-                com.hikari.app.data.PerfMode.set(com.hikari.app.data.PerfMode.on, on)
+                com.gworld06.streambox.data.PerfMode.set(com.gworld06.streambox.data.PerfMode.on, on)
             }
         }
         // How wide a lookup may search (Settings → Playback → Server search).
@@ -566,9 +566,9 @@ class HikariApp : Application() {
         // installed extensions" switch, and the exception extensions the user
         // marked (which the pass honours even with that switch off).
         appScope.launch {
-            com.hikari.app.data.SearchScope.allExtensions = store.searchAllExtensions()
+            com.gworld06.streambox.data.SearchScope.allExtensions = store.searchAllExtensions()
             store.searchAllExtensionsFlow().collect {
-                com.hikari.app.data.SearchScope.allExtensions = it
+                com.gworld06.streambox.data.SearchScope.allExtensions = it
             }
         }
         // The per-engine families (Settings → Playback → Server search → the
@@ -578,9 +578,9 @@ class HikariApp : Application() {
         // decision — Nuvio and Stremio on by default, everything else off. See
         // [SearchScope.engineFamilies].
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.engineFamilies = store.engineFamilies() }
+            runCatching { com.gworld06.streambox.data.SearchScope.engineFamilies = store.engineFamilies() }
             store.engineFamiliesFlow().collect {
-                com.hikari.app.data.SearchScope.engineFamilies = it
+                com.gworld06.streambox.data.SearchScope.engineFamilies = it
             }
         }
         appScope.launch {
@@ -588,56 +588,56 @@ class HikariApp : Application() {
             // raw id flow) so a search started before the first emission already
             // sees the right set — engine exceptions included, exactly like the
             // flag above.
-            com.hikari.app.data.SearchScope.exceptions =
+            com.gworld06.streambox.data.SearchScope.exceptions =
                 runCatching { store.activeSearchExceptionsFlow().first() }.getOrDefault(emptySet())
             store.activeSearchExceptionsFlow().collect {
-                com.hikari.app.data.SearchScope.exceptions = it
+                com.gworld06.streambox.data.SearchScope.exceptions = it
             }
         }
         // Tracker rows (Settings → Trackers): the same mirrors for the scope
         // filter — a tracker title opened from the library must never have to
         // await DataStore to know which engines it may ask.
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.searchNuvioIds = store.searchNuvioIds() }
+            runCatching { com.gworld06.streambox.data.SearchScope.searchNuvioIds = store.searchNuvioIds() }
             store.searchNuvioIdsFlow().collect {
-                com.hikari.app.data.SearchScope.searchNuvioIds = it
+                com.gworld06.streambox.data.SearchScope.searchNuvioIds = it
             }
         }
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.searchStremioIds = store.searchStremioIds() }
+            runCatching { com.gworld06.streambox.data.SearchScope.searchStremioIds = store.searchStremioIds() }
             store.searchStremioIdsFlow().collect {
-                com.hikari.app.data.SearchScope.searchStremioIds = it
+                com.gworld06.streambox.data.SearchScope.searchStremioIds = it
             }
         }
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.searchFamilyIds = store.searchFamilyIds() }
+            runCatching { com.gworld06.streambox.data.SearchScope.searchFamilyIds = store.searchFamilyIds() }
             store.searchFamilyIdsFlow().collect {
-                com.hikari.app.data.SearchScope.searchFamilyIds = it
+                com.gworld06.streambox.data.SearchScope.searchFamilyIds = it
             }
         }
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.trackerSearchAll = store.trackerServerSearchAll() }
+            runCatching { com.gworld06.streambox.data.SearchScope.trackerSearchAll = store.trackerServerSearchAll() }
             store.trackerServerSearchAllFlow().collect {
-                com.hikari.app.data.SearchScope.trackerSearchAll = it
+                com.gworld06.streambox.data.SearchScope.trackerSearchAll = it
             }
         }
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.trackerFamilies = store.trackerEngineFamilies() }
+            runCatching { com.gworld06.streambox.data.SearchScope.trackerFamilies = store.trackerEngineFamilies() }
             store.trackerEngineFamiliesFlow().collect {
-                com.hikari.app.data.SearchScope.trackerFamilies = it
+                com.gworld06.streambox.data.SearchScope.trackerFamilies = it
             }
         }
         appScope.launch {
-            runCatching { com.hikari.app.data.SearchScope.trackerProviders = store.trackerProviderIds() }
+            runCatching { com.gworld06.streambox.data.SearchScope.trackerProviders = store.trackerProviderIds() }
             store.trackerProviderIdsFlow().collect {
-                com.hikari.app.data.SearchScope.trackerProviders = it
+                com.gworld06.streambox.data.SearchScope.trackerProviders = it
             }
         }
         // Player UI skin (Settings → Player → Player UI): mirrored into
         // PlayerSkins because PlayerActivity is a View-based screen that has to
         // know the value synchronously while its controller is being inflated.
         appScope.launch {
-            store.playerSkinFlow().collect { com.hikari.app.player.PlayerSkins.setCurrent(it) }
+            store.playerSkinFlow().collect { com.gworld06.streambox.player.PlayerSkins.setCurrent(it) }
         }
         // Adult content (Settings → Content → NSFW): mirrored into [NsfwGate]
         // because the gate is read on the DRAW path — a list being composed cannot
@@ -647,14 +647,14 @@ class HikariApp : Application() {
         //
         // A change also rebuilds the provider list: an 18+ extension is kept out
         // of it while the switch is off (see
-        // [com.hikari.app.providers.ProviderManager.refresh]), so the switch has
+        // [com.gworld06.streambox.providers.ProviderManager.refresh]), so the switch has
         // to be what puts it back or takes it away — the stored configs are never
         // rewritten, which is what makes the change instant and reversible.
         appScope.launch {
-            runCatching { com.hikari.app.data.NsfwGate.setEnabled(store.nsfwEnabled()) }
+            runCatching { com.gworld06.streambox.data.NsfwGate.setEnabled(store.nsfwEnabled()) }
             store.nsfwEnabledFlow().collect { on ->
-                val changed = on != com.hikari.app.data.NsfwGate.enabled
-                com.hikari.app.data.NsfwGate.setEnabled(on)
+                val changed = on != com.gworld06.streambox.data.NsfwGate.enabled
+                com.gworld06.streambox.data.NsfwGate.setEnabled(on)
                 if (changed) runCatching { providers.refresh() }
                 if (!on) {
                     // An 18+ extension whose stored row carries no flag — installed
@@ -687,10 +687,10 @@ class HikariApp : Application() {
             // Player UI skin: seed the synchronous mirror as well as collecting
             // the flow, so a player opened immediately after launch (before the
             // flow's first emission) still gets the right skin.
-            runCatching { com.hikari.app.player.PlayerSkins.setCurrent(store.playerSkin()) }
+            runCatching { com.gworld06.streambox.player.PlayerSkins.setCurrent(store.playerSkin()) }
             // Registering extractor aliases initializes the jar's full extractor
             // registry — do it off the main thread.
-            com.hikari.app.cs3.HikariExtractorRegistry.register()
+            com.gworld06.streambox.cs3.HikariExtractorRegistry.register()
             // WebView UA override state (Settings) — loaded once, kept current
             // by the settings card.
             runCatching {
@@ -717,48 +717,48 @@ class HikariApp : Application() {
             // the user any more, and the ones earlier builds put there are taken
             // back right after (see removeFormerlySeededProviders).
             runCatching {
-                com.hikari.app.nuvio.NuvioPluginManager.seedDefaults(this@HikariApp, store)
-                com.hikari.app.nuvio.NuvioPluginManager.removeFormerlySeededProviders(this@HikariApp)
+                com.gworld06.streambox.nuvio.NuvioPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.nuvio.NuvioPluginManager.removeFormerlySeededProviders(this@HikariApp)
             }
             // First run: seed the community SkyStream extension repos too, so
             // SkyStream extensions are installable from the Extensions screen
             // without hunting for a repo URL.
             runCatching {
-                com.hikari.app.skystream.SkyStreamPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.skystream.SkyStreamPluginManager.seedDefaults(this@HikariApp, store)
             }
             // First run: seed the official Vega provider repo (Zenda-Cross's
             // vega-providers, a bare-array manifest.json). Vega providers are
             // scrapers published as CommonJS modules — see
-            // com.hikari.app.providers.vega.VegaRuntime — and no provider is
+            // com.gworld06.streambox.providers.vega.VegaRuntime — and no provider is
             // installed for the user: the repo is only registered so the Vega
             // folder in Extensions is never empty.
             runCatching {
-                com.hikari.app.providers.vega.VegaPluginManager.seedDefaults(this@HikariApp, store)
-                com.hikari.app.zangetsu.ZangetsuPluginManager.seedDefaults(this@HikariApp, store)
-                com.hikari.app.sora.SoraPluginManager.seedDefaults(this@HikariApp, store)
-                com.hikari.app.anymex.AnymexPluginManager.seedDefaults(this@HikariApp, store)
-                com.hikari.app.lnreader.LnReaderPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.providers.vega.VegaPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.zangetsu.ZangetsuPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.sora.SoraPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.anymex.AnymexPluginManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.lnreader.LnReaderPluginManager.seedDefaults(this@HikariApp, store)
             }
             // First run: seed the Aniyomi extension repo (Aniyomi's official
             // index.min.json) so Aniyomi-extensions are installable from the
             // Extensions screen without hunting for a repo URL.
             runCatching {
-                com.hikari.app.aniyomi.AniyomiExtensionManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.aniyomi.AniyomiExtensionManager.seedDefaults(this@HikariApp, store)
             }
             // First run: seed the manga extension repo (keiyoushi's index) so
             // manga extensions are installable without hunting for a repo URL.
             // It is the same bare-array index format the Aniyomi repo uses,
             // which is why it can be added through the same add-repo flow.
             runCatching {
-                com.hikari.app.manga.MangaExtensionManager.seedDefaults(this@HikariApp, store)
+                com.gworld06.streambox.manga.MangaExtensionManager.seedDefaults(this@HikariApp, store)
                 // 0.11.69 auto-seeded 1200+ Kotatsu rows and lagged the manga
                 // tab into crashes — pruned once here; sources now install
                 // one-by-one from Extensions → Kotatsu repos.
-                com.hikari.app.kotatsu.KotatsuRegistry.pruneSeeded(store)
+                com.gworld06.streambox.kotatsu.KotatsuRegistry.pruneSeeded(store)
                 // The Kotatsu folder reads like every other engine's: a repo
                 // card whose entries install one-by-one (seed path — a user
                 // who deletes it keeps it deleted).
-                com.hikari.app.kotatsu.KotatsuRegistry.seedDefaults(store)
+                com.gworld06.streambox.kotatsu.KotatsuRegistry.seedDefaults(store)
             }
             // First run only: add the bundled Hikari (.hiki) and CloudStream
             // extension repos, so the Extensions screen ("Sources, repos &
@@ -782,18 +782,18 @@ class HikariApp : Application() {
             // StremioAddon.providerIdFor).
             runCatching {
                 if (!store.stremioAddonSeeded()) {
-                    val url = com.hikari.app.providers.StremioAddon.DEFAULT_ADDON_URL
-                    val id = com.hikari.app.providers.StremioAddon.providerIdFor(url)
+                    val url = com.gworld06.streambox.providers.StremioAddon.DEFAULT_ADDON_URL
+                    val id = com.gworld06.streambox.providers.StremioAddon.providerIdFor(url)
                     val present = store.providers().any { p ->
-                        p.type == com.hikari.app.data.ProviderType.STREMIO &&
-                            com.hikari.app.providers.StremioAddon.providerIdFor(p.url) == id
+                        p.type == com.gworld06.streambox.data.ProviderType.STREMIO &&
+                            com.gworld06.streambox.providers.StremioAddon.providerIdFor(p.url) == id
                     }
                     if (!present) {
                         store.addProvider(
-                            com.hikari.app.data.ProviderConfig(
+                            com.gworld06.streambox.data.ProviderConfig(
                                 id = id,
                                 name = "SubDL",
-                                type = com.hikari.app.data.ProviderType.STREMIO,
+                                type = com.gworld06.streambox.data.ProviderType.STREMIO,
                                 url = url,
                             )
                         )
@@ -810,7 +810,7 @@ class HikariApp : Application() {
             // PROVIDER_PATCHES) so already-installed broken providers get the
             // fixed JS in place without a manual reinstall.
             runCatching {
-                com.hikari.app.nuvio.NuvioPluginManager.applyPatchesToInstalled(this@HikariApp)
+                com.gworld06.streambox.nuvio.NuvioPluginManager.applyPatchesToInstalled(this@HikariApp)
             }
             providers.refresh()
             Logs.log("Providers", "refreshed: ${providers.providers.value.size} installed")
@@ -830,7 +830,7 @@ class HikariApp : Application() {
                     Logs.log(
                         "Providers",
                         "provider list: ${list.size} installed, $enabled enabled (" +
-                            com.hikari.app.data.ContentRepository.providerCounts(
+                            com.gworld06.streambox.data.ContentRepository.providerCounts(
                                 list.filter { it.config.enabled },
                             ) + ")",
                     )
@@ -854,20 +854,20 @@ class HikariApp : Application() {
                     saveJob = appScope.launch {
                         kotlinx.coroutines.delay(10_000L)
                         runCatching {
-                            com.hikari.app.data.Profiles.saveActive(this@HikariApp)
+                            com.gworld06.streambox.data.Profiles.saveActive(this@HikariApp)
                         }
                     }
                 }
             }
             providers.providers.value
-                .filterIsInstance<com.hikari.app.cs3.Cs3MainApiProvider>()
+                .filterIsInstance<com.gworld06.streambox.cs3.Cs3MainApiProvider>()
                 .forEach { it.warm() }
             // A plugin settings change (e.g. SKTech's sub-provider picker) can
             // alter which providers a plugin registers. Warm first so the
             // plugin instances are cached (reconcile then hits the cache), then
             // rebuild the stored configs to match and refresh if anything moved.
             runCatching {
-                if (com.hikari.app.cs3.Cs3ProviderSync.reconcile(this@HikariApp, store)) {
+                if (com.gworld06.streambox.cs3.Cs3ProviderSync.reconcile(this@HikariApp, store)) {
                     Logs.log("Providers", "CS3 sync changed the provider list — refreshing")
                     providers.refresh()
                 }
@@ -880,10 +880,10 @@ class HikariApp : Application() {
             // buttons, headless and bounded; reconciles + refreshes when files
             // actually moved. CS3-only.
             runCatching {
-                val updated = com.hikari.app.cs3.Cs3AutoUpdate.runIfDue(this@HikariApp, store)
+                val updated = com.gworld06.streambox.cs3.Cs3AutoUpdate.runIfDue(this@HikariApp, store)
                 if (updated > 0) {
                     Logs.log("Providers", "CS3 auto-update replaced $updated plugin file(s) — reconciling")
-                    com.hikari.app.cs3.Cs3ProviderSync.reconcile(this@HikariApp, store)
+                    com.gworld06.streambox.cs3.Cs3ProviderSync.reconcile(this@HikariApp, store)
                     providers.refresh()
                 }
             }
@@ -896,7 +896,7 @@ class HikariApp : Application() {
             // a swapped file takes effect on the next provider call (scrapers
             // are read per call), so only a refresh is needed. NUVIO-only.
             runCatching {
-                val updated = com.hikari.app.nuvio.NuvioAutoUpdate.runIfDue(this@HikariApp, store)
+                val updated = com.gworld06.streambox.nuvio.NuvioAutoUpdate.runIfDue(this@HikariApp, store)
                 if (updated > 0) {
                     Logs.log("Providers", "Nuvio auto-update replaced $updated scraper file(s) — refreshing")
                     providers.refresh()
@@ -907,7 +907,7 @@ class HikariApp : Application() {
             // is updated, so rebuild the stored configs from the loaded
             // extension and refresh if anything moved.
             runCatching {
-                if (com.hikari.app.aniyomi.AniyomiProviderSync.reconcile(this@HikariApp, store)) {
+                if (com.gworld06.streambox.aniyomi.AniyomiProviderSync.reconcile(this@HikariApp, store)) {
                     Logs.log("Providers", "Aniyomi sync changed the provider list — refreshing")
                     providers.refresh()
                 }
@@ -916,7 +916,7 @@ class HikariApp : Application() {
             // without this they pile up as "Extension file missing" rows no
             // uninstall can remove — the "100 copies" class. Once per launch.
             runCatching {
-                val pruned = com.hikari.app.manga.MangaExtensionManager.pruneDeadFiles(this@HikariApp)
+                val pruned = com.gworld06.streambox.manga.MangaExtensionManager.pruneDeadFiles(this@HikariApp)
                 if (pruned > 0) {
                     Logs.log("Providers", "pruned $pruned dead manga/anime row(s) — refreshing")
                     providers.refresh()
@@ -925,7 +925,7 @@ class HikariApp : Application() {
             // SkyStream bundles (one JS, many feeds) installed before feed
             // rows existed expand into one row per feed here, once.
             runCatching {
-                if (com.hikari.app.skystream.SkyStreamPluginManager.reconcileBundles(this@HikariApp, store)) {
+                if (com.gworld06.streambox.skystream.SkyStreamPluginManager.reconcileBundles(this@HikariApp, store)) {
                     Logs.log("Providers", "SkyStream sync expanded bundle feeds — refreshing")
                     providers.refresh()
                 }
@@ -934,17 +934,17 @@ class HikariApp : Application() {
             // search tap doesn't pay the class-loading cost on the UI thread.
             runCatching {
                 providers.providers.value
-                    .filterIsInstance<com.hikari.app.aniyomi.AniyomiProvider>()
+                    .filterIsInstance<com.gworld06.streambox.aniyomi.AniyomiProvider>()
                     .forEach { it.warm() }
             }
             // Per-extension auto-translate config + persisted translation cache.
-            runCatching { com.hikari.app.data.Translator.init(store) }
+            runCatching { com.gworld06.streambox.data.Translator.init(store) }
             // Re-assert the chosen launcher icon. The enabled `activity-alias` is
             // part of the installed app, not of the restored preferences, so a
             // backup restore / device copy would otherwise leave the user with
             // the default icon while Settings still shows their pick.
             runCatching {
-                com.hikari.app.ui.AppIconManager.ensureApplied(this@HikariApp, store.appIcon())
+                com.gworld06.streambox.ui.AppIconManager.ensureApplied(this@HikariApp, store.appIcon())
             }
             Logs.log(
                 "App",
@@ -971,7 +971,7 @@ class HikariApp : Application() {
     /**
      * "The user CLOSED the app" — the one moment background work must let go.
      *
-     * [com.hikari.app.work.BackgroundWork] exists so a long catalog load, search
+     * [com.gworld06.streambox.work.BackgroundWork] exists so a long catalog load, search
      * or source scan survives the user stepping into another app (Android freezes
      * a backgrounded process, which used to stop them dead). That must NOT extend
      * to the app being closed: a search left holding a foreground service after
@@ -995,7 +995,7 @@ class HikariApp : Application() {
     /**
      * Android's "your process is using more than the device can spare" callback
      * — the level it chose goes in the log, with what the process held at that
-     * moment (see [com.hikari.app.data.MemoryReport]).
+     * moment (see [com.gworld06.streambox.data.MemoryReport]).
      *
      * Off a television there is deliberately no cache to drop here: the poster
      * cache is already bounded (see the Coil memory cache in onCreate), the
@@ -1015,9 +1015,9 @@ class HikariApp : Application() {
         if (level < android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) return
         // Read BEFORE anything is dropped: the number that matters is what the
         // process held when the device decided it was tight.
-        val held = com.hikari.app.data.MemoryReport.short()
+        val held = com.gworld06.streambox.data.MemoryReport.short()
         // On a TELEVISION the caches ARE worth dropping — see
-        // [com.hikari.app.data.PerfMode.tvDevice]. An evicted poster costs a
+        // [com.gworld06.streambox.data.PerfMode.tvDevice]. An evicted poster costs a
         // decode on the next scroll; a killed process costs the user the page
         // they were on, and the native QuickJS engines a detail load is waiting
         // on are exactly what a 1-1.5GB box runs out of room for.
@@ -1027,7 +1027,7 @@ class HikariApp : Application() {
         // one this stays a pure log line: the cache there is bounded, the device
         // has the memory, and re-decoding a screenful of posters after every
         // trim would be its own bug.
-        val onTv = com.hikari.app.data.PerfMode.tvDevice
+        val onTv = com.gworld06.streambox.data.PerfMode.tvDevice
         val critical = level >= android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL
         if (onTv || critical) {
             runCatching { coil.Coil.imageLoader(this).memoryCache?.clear() }
@@ -1062,7 +1062,7 @@ class HikariApp : Application() {
                 started++
                 // An Activity is up: background work may hold the process again
                 // (see BackgroundWork.reopen — closing the app latches it shut).
-                com.hikari.app.work.BackgroundWork.reopen()
+                com.gworld06.streambox.work.BackgroundWork.reopen()
             }
 
             override fun onActivityStopped(activity: Activity) {
@@ -1072,7 +1072,7 @@ class HikariApp : Application() {
             override fun onActivityDestroyed(activity: Activity) {
                 if (!activity.isFinishing) return
                 if (started > 0) return
-                com.hikari.app.work.BackgroundWork.cancelAll("the last screen was closed")
+                com.gworld06.streambox.work.BackgroundWork.cancelAll("the last screen was closed")
             }
 
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
@@ -1152,7 +1152,7 @@ class HikariApp : Application() {
      * the whole registration down with it — which is why EVERY Aniyomi
      * extension failed to instantiate (the user's own log line:
      * `at uy.kohesive.injekt.api.FullTypeReference.<init>` /
-     * `at com.hikari.app.HikariApp.registerAniyomiSingletons`). A reference
+     * `at com.gworld06.streambox.HikariApp.registerAniyomiSingletons`). A reference
      * that answers from a `Class` constant cannot be broken by any optimizer.
      */
     private class Ref<T : Any>(private val cls: Class<T>) : TypeReference<T> {
@@ -1182,7 +1182,7 @@ class HikariApp : Application() {
      *
      * Called from [onCreate] (before anything can load an extension) and again
      * from every extension load (see
-     * [com.hikari.app.aniyomi.AniyomiExtensionManager]). Registering the same
+     * [com.gworld06.streambox.aniyomi.AniyomiExtensionManager]). Registering the same
      * singletons twice is a no-op as far as instances go — the registrar keys
      * its cache by type, so the already-built `NetworkHelper`/`Json` are handed
      * back — but it is NOT a no-op if something re-ran `patchInjekt()` or
@@ -1398,7 +1398,7 @@ class HikariApp : Application() {
                 .addInterceptor { chain ->
                     val req = chain.request()
                     val host = req.url.host?.lowercase() ?: ""
-                    val cs3 = com.hikari.app.cs3.Cs3MainApiProvider
+                    val cs3 = com.gworld06.streambox.cs3.Cs3MainApiProvider
                     // Header sets to try, best guess first: the exact headers a
                     // provider declared for this poster URL, then the Referer it
                     // declared for this image host, then a same-origin Referer
@@ -1434,7 +1434,7 @@ class HikariApp : Application() {
                         headers.forEach { (k, v) -> builder.header(k, v) }
                         if (builder.build().header("Cookie") == null) {
                             runCatching {
-                                com.hikari.app.net.CloudflareVerifier
+                                com.gworld06.streambox.net.CloudflareVerifier
                                     .clearanceFor(req.url.toString())
                             }.getOrNull()?.let { builder.header("Cookie", it) }
                         }
@@ -1465,7 +1465,7 @@ class HikariApp : Application() {
                     // it is registered for the whole app because the reader's photo
                     // pages go through this same loader. Opt-in per request (see
                     // `cropBorders` on the builder), so nothing else is affected.
-                    add(com.hikari.app.reader.coil.TachiyomiReaderDecoder.Factory())
+                    add(com.gworld06.streambox.reader.coil.TachiyomiReaderDecoder.Factory())
                     // IMAGES LOADED THROUGH AN EXTENSION'S OWN CLIENT — the fetcher
                     // layer Nekoread registers into its image loader, ported whole
                     // here (see ExtensionPageImageFetcher). A page or a cover whose
@@ -1477,12 +1477,12 @@ class HikariApp : Application() {
                     // resolves it lazily on Coil's dispatcher, because this app
                     // loads extension classes on demand rather than keeping
                     // Nekoread's start-up registry (see its own documentation).
-                    add(com.hikari.app.reader.source.ExtensionPageImageFetcherFactory())
-                    add(com.hikari.app.reader.source.ExtensionPageImageKeyer())
-                    add(com.hikari.app.reader.source.ExtensionCoverImageFetcherFactory())
-                    add(com.hikari.app.reader.source.ExtensionCoverImageKeyer())
-                    add(com.hikari.app.reader.source.ExtensionCoverRefFetcherFactory())
-                    add(com.hikari.app.reader.source.ExtensionCoverRefKeyer())
+                    add(com.gworld06.streambox.reader.source.ExtensionPageImageFetcherFactory())
+                    add(com.gworld06.streambox.reader.source.ExtensionPageImageKeyer())
+                    add(com.gworld06.streambox.reader.source.ExtensionCoverImageFetcherFactory())
+                    add(com.gworld06.streambox.reader.source.ExtensionCoverImageKeyer())
+                    add(com.gworld06.streambox.reader.source.ExtensionCoverRefFetcherFactory())
+                    add(com.gworld06.streambox.reader.source.ExtensionCoverRefKeyer())
                     // Animated GIF covers (collections/folders): Coil's default
                     // decoders only ever draw the first frame. ImageDecoder
                     // handles GIFs on API 28+ (and is what the platform
@@ -1506,7 +1506,7 @@ class HikariApp : Application() {
                     // it doesn't need.
                     //
                     // A TELEVISION gets less of the same heap — see the note on
-                    // [com.hikari.app.data.PerfMode.tvDevice]. Between this
+                    // [com.gworld06.streambox.data.PerfMode.tvDevice]. Between this
                     // cache, the native QuickJS engines and the decoder buffers,
                     // a 1-1.5GB box has to leave room for the engines: they are
                     // the work that cannot be redone cheaply, while a poster that
@@ -1514,7 +1514,7 @@ class HikariApp : Application() {
                     // lower too (16MB), because on a box this small a 24MB floor
                     // is a fifth of what the process was given.
                     val heap = Runtime.getRuntime().maxMemory()
-                    val cap = if (com.hikari.app.data.PerfMode.tvDevice) {
+                    val cap = if (com.gworld06.streambox.data.PerfMode.tvDevice) {
                         (heap / 12).coerceIn(16L * 1024 * 1024, 64L * 1024 * 1024)
                     } else {
                         (heap / 8).coerceIn(24L * 1024 * 1024, 96L * 1024 * 1024)
@@ -1588,7 +1588,7 @@ class HikariApp : Application() {
                 .dns(DohDns)
                 // Same jar as PlayerHttp so Fastream cookies from embed extract
                 // are available when the player fetches the signed m3u8.
-                .cookieJar(com.hikari.app.net.PlayerHttp.cookieJar)
+                .cookieJar(com.gworld06.streambox.net.PlayerHttp.cookieJar)
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .retryOnConnectionFailure(true)
@@ -1596,7 +1596,7 @@ class HikariApp : Application() {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .apply { if (ignoreSSL) ignoreAllSSLErrors() }
                 .cache(Cache(File(context.cacheDir, "http_cache"), 50L * 1024 * 1024))
-                .addInterceptor { chain -> com.hikari.app.net.CloudflareVerifier.intercept(chain) }
+                .addInterceptor { chain -> com.gworld06.streambox.net.CloudflareVerifier.intercept(chain) }
                 .build()
 
             val kt = Class.forName("com.lagradost.cloudstream3.MainActivityKt")

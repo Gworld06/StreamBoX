@@ -1,4 +1,4 @@
-package com.hikari.app.reader.coil
+package com.gworld06.streambox.reader.coil
 
 import android.graphics.Bitmap
 import coil.size.Size

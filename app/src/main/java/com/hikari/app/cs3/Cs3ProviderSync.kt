@@ -1,9 +1,9 @@
-package com.hikari.app.cs3
+package com.gworld06.streambox.cs3
 
 import android.content.Context
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
 import java.io.File
 
 /**
@@ -27,7 +27,7 @@ object Cs3ProviderSync {
     /**
      * Reconciles every installed CS3 plugin's configs. Returns true when the
      * stored provider list changed (the caller should then call
-     * [com.hikari.app.providers.ProviderManager.refresh]).
+     * [com.gworld06.streambox.providers.ProviderManager.refresh]).
      *
      * Must be called from IO — it loads each plugin.
      */

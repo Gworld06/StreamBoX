@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.content.Context
 import android.graphics.Typeface
@@ -16,7 +16,7 @@ import java.io.File
  * Two halves, because Hikari is two apps in one:
  *
  *  * the Compose half takes the chosen [FontFamily] through the theme's
- *    typography — see [com.hikari.app.ui.theme.typographyWith] — and that
+ *    typography — see [com.gworld06.streambox.ui.theme.typographyWith] — and that
  *    repaints every screen at once;
  *  * the View-based half (the player, its dialogs, the WebView) is outside
  *    that tree, so it is repainted by [applyToViewTree], which walks the

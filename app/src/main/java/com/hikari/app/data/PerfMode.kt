@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * The performance booster's current value, readable SYNCHRONOUSLY from
@@ -7,13 +7,13 @@ package com.hikari.app.data
  * The setting itself lives in [AppStore] (`perfModeFlow`), which is the right
  * place for it — but the code that has to act on it is not all composable:
  * the cross-extension search fan-out in
- * [com.hikari.app.data.ContentRepository] sizes itself from
+ * [com.gworld06.streambox.data.ContentRepository] sizes itself from
  * `Runtime.availableProcessors()`, and the Nuvio runtime gates its engine
  * concurrency with a `Semaphore`. Both need one boolean NOW, on a hot path,
  * with no flow collection in sight (and one of them runs while the user is
  * already waiting for a server).
  *
- * [com.hikari.app.HikariApp] therefore mirrors the preference into this object
+ * [com.gworld06.streambox.HikariApp] therefore mirrors the preference into this object
  * once at startup and on every change, so `PerfMode.on` is a plain field read.
  * It is deliberately a one-way mirror of a user SETTING — nothing here decides
  * anything, it only reports what the switch says.
@@ -28,7 +28,7 @@ object PerfMode {
     private const val TV_ENGINE_MEMORY_CEILING = 64L * 1024 * 1024
 
     /** True while the user has the performance booster on. Read-only from the
-     *  outside: [com.hikari.app.HikariApp] is the one that sets it. */
+     *  outside: [com.gworld06.streambox.HikariApp] is the one that sets it. */
     @Volatile
     var on: Boolean = false
         private set
@@ -44,7 +44,7 @@ object PerfMode {
 
     /**
      * True when the DEVICE ITSELF is a television — set from
-     * [com.hikari.app.tv.TvMode.deviceIsTelevision], never from the user's
+     * [com.gworld06.streambox.tv.TvMode.deviceIsTelevision], never from the user's
      * layout override.
      *
      * Deliberately separate from [tvOn], which is a SETTING the user can switch
@@ -59,7 +59,7 @@ object PerfMode {
         private set
 
     /**
-     * Called next to [com.hikari.app.tv.TvMode.detect] — at process start and
+     * Called next to [com.gworld06.streambox.tv.TvMode.detect] — at process start and
      * again from the Activity, since a few boxes only settle their UI mode once
      * an Activity exists. Idempotent.
      */
@@ -70,7 +70,7 @@ object PerfMode {
     /**
      * The ceiling for ONE engine's JavaScript heap on a television, or null off
      * one (where each runtime keeps its own, larger default — see
-     * [com.hikari.app.nuvio.NuvioRuntime]).
+     * [com.gworld06.streambox.nuvio.NuvioRuntime]).
      *
      * A QuickJS engine's memory is NATIVE: it is not on the Java heap, so the
      * low-memory killer sees it as anonymous memory the whole process owns, and

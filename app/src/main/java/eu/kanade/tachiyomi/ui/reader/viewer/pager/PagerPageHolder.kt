@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.hikari.app.reader.cache.WebtoonPageCache
+import com.gworld06.streambox.reader.cache.WebtoonPageCache
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderPageImageView
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job

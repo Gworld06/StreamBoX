@@ -1,4 +1,4 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -43,8 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hikari.app.i18n.tr
-import com.hikari.app.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
 import kotlinx.coroutines.withTimeoutOrNull
 
 /**

@@ -1,10 +1,10 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import androidx.compose.runtime.mutableStateOf
-import com.hikari.app.HikariApp
-import com.hikari.app.data.IptvMark
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.TmdbMeta
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.IptvMark
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.TmdbMeta
 import java.io.File
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentHashMap
@@ -81,7 +81,7 @@ object Artwork {
         // these covers were the blank tiles in a grid. `null` for every other
         // provider, so nothing else in the app changes path.
         val mangaPid = item.providerId
-            .takeIf { com.hikari.app.manga.MangaExtensionManager.isMangaProviderId(it) }
+            .takeIf { com.gworld06.streambox.manga.MangaExtensionManager.isMangaProviderId(it) }
         if (mangaPid != null) {
             item.posterUrl?.takeIf { it.isNotBlank() }?.let {
                 return PosterLoader.coverModel(it, mangaPid)

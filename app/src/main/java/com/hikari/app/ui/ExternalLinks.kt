@@ -1,12 +1,12 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.i18n.I18n
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import com.hikari.app.web.WebViewActivity
+import com.gworld06.streambox.web.WebViewActivity
 
 /** Hikari's Telegram group — help, bug reports, title requests and release
  *  news. Single source of truth for every place that links to it. */
@@ -135,13 +135,13 @@ fun openUrl(context: Context, url: String): Boolean {
  *  false when nothing can handle it — the caller falls through to the next
  *  option.
  *
- *  Stamped via [com.hikari.app.net.ExtensionUiGuard.runTrusted]: this is our
+ *  Stamped via [com.gworld06.streambox.net.ExtensionUiGuard.runTrusted]: this is our
  *  own UI opening a browser/app the user asked for, so the extension
  *  auto-open guard lets it through without stack inference (which convicted
  *  a library frame and silently killed tracker login taps). */
 private fun launch(context: Context, intent: Intent): Boolean {
     if (context !is Activity) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     return runCatching {
-        com.hikari.app.net.ExtensionUiGuard.runTrusted { context.startActivity(intent) }
+        com.gworld06.streambox.net.ExtensionUiGuard.runTrusted { context.startActivity(intent) }
     }.isSuccess
 }

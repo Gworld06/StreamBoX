@@ -1,4 +1,4 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import java.net.URI
 
@@ -13,9 +13,9 @@ import java.net.URI
  * watch things. So it is dropped everywhere an extension can put it:
  *
  *  - **Pages.** A main-frame navigation to a donation host (or to a
- *    donate/sponsor path on any host) is refused in [com.hikari.app.web.WebViewActivity]
+ *    donate/sponsor path on any host) is refused in [com.gworld06.streambox.web.WebViewActivity]
  *    before it loads, and a page that DOES load has its promo blocks hidden by
- *    the injected [com.hikari.app.web.WebViewActivity] promo cleaner — so a
+ *    the injected [com.gworld06.streambox.web.WebViewActivity] promo cleaner — so a
  *    funding card cannot appear inside Hikari even when it rides along with a
  *    real extension page.
  *  - **Text.** Extension-supplied strings (repo and plugin descriptions, the

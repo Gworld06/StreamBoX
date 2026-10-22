@@ -1,18 +1,18 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
-import com.hikari.app.cs3.Cs3MainApiProvider
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.NetTuning
-import com.hikari.app.nuvio.EpisodeTitles
-import com.hikari.app.nuvio.NuvioScraper
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.HikariProviderAdapter
-import com.hikari.app.providers.IptvProvider
-import com.hikari.app.providers.ProviderManager
-import com.hikari.app.providers.StremioAddon
-import com.hikari.app.providers.UniversalScraper
-import com.hikari.app.skystream.SkyStreamProvider
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.cs3.Cs3MainApiProvider
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.NetTuning
+import com.gworld06.streambox.nuvio.EpisodeTitles
+import com.gworld06.streambox.nuvio.NuvioScraper
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.HikariProviderAdapter
+import com.gworld06.streambox.providers.IptvProvider
+import com.gworld06.streambox.providers.ProviderManager
+import com.gworld06.streambox.providers.StremioAddon
+import com.gworld06.streambox.providers.UniversalScraper
+import com.gworld06.streambox.skystream.SkyStreamProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -456,7 +456,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     providerId, System.currentTimeMillis() + DEAD_SESSION_TTL_MS
                 )
                 if (prev == null || System.currentTimeMillis() >= prev) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "extension '" + providerId + "' gave no answer " + strikes +
                             " times in a row — sitting out for " +
@@ -659,7 +659,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 bumpCrossStatus()
                             }
                             if (crossHung.putIfAbsent(id, now) == null) {
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "extension '" + id + "' has not answered in " +
                                         (call.hangAfterMs / 1000) + "s — its slot has been " +
@@ -1328,7 +1328,7 @@ class ContentRepository(private val manager: ProviderManager) {
                 catalogCatching { p.getCatalog(ref, page) }.getOrDefault(emptyList())
             } ?: run { firstHung = true; emptyList() }
             if (firstHung) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Catalog",
                     "${p.config.name}: page $page gave up after ${CATALOG_PAGE_TIMEOUT_MS / 1000}s — showing last answer",
                 )
@@ -1457,7 +1457,7 @@ class ContentRepository(private val manager: ProviderManager) {
      *  (This slot used to hold the origin's 12-second PROBE. That probe is gone:
      *  a provider call cannot be interrupted, so "give up at 12s and retry with
      *  the full budget" gave nothing up — it left the first call running, and
-     *  holding the extension's [com.hikari.app.providers.ProviderGate] lock,
+     *  holding the extension's [com.gworld06.streambox.providers.ProviderGate] lock,
      *  while the retry queued behind it. See [fetchStreams].) */
     private val SLOW_CALL_LOG_MS = 3_000L
 
@@ -1609,7 +1609,7 @@ class ContentRepository(private val manager: ProviderManager) {
      * does not produce its answer — the teardown hands it to the background
      * sweep, which boots a SECOND VM and repeats every fetch — so the tail is
      * both faster and more complete than the cancel. The engine's own call
-     * budget ([com.hikari.app.nuvio.NuvioRuntime.CALL_TIMEOUT_MS]) is the real
+     * budget ([com.gworld06.streambox.nuvio.NuvioRuntime.CALL_TIMEOUT_MS]) is the real
      * bound.
      */
     private val NUVIO_TAIL_MS = 25_000L
@@ -1745,18 +1745,18 @@ class ContentRepository(private val manager: ProviderManager) {
      *  repo that DOES carry the title (MovieBox) only landed its servers after
      *  playback had already started.
      *
-     *  Halved on a TELEVISION (see [com.hikari.app.data.PerfMode.tvDevice]), the
+     *  Halved on a TELEVISION (see [com.gworld06.streambox.data.PerfMode.tvDevice]), the
      *  same hardware-not-a-switch rule as [CROSS_EXT_DETAIL_CONCURRENCY]: an
      *  extraction is a full provider call that can boot an engine, and twenty of
      *  them at once is more than a 1-1.5GB box has memory to hold. */
     private val CROSS_EXT_EXTRACT_CONCURRENCY =
-        if (com.hikari.app.data.PerfMode.tvDevice) 10 else 20
+        if (com.gworld06.streambox.data.PerfMode.tvDevice) 10 else 20
     /** How many matched extensions may fetch their meta / episode list at once.
      *  A SEPARATE cap from the search semaphore: fetching one repo's episode
      *  list must never take a slot that another repo still needs just to be
      *  SEARCHED (that sharing is what starved the tail of the queue).
      *
-     *  Halved on a TELEVISION (see [com.hikari.app.data.PerfMode.tvDevice]): this
+     *  Halved on a TELEVISION (see [com.gworld06.streambox.data.PerfMode.tvDevice]): this
      *  is the cap that a detail page's episode load runs through, it is the one
      *  place the app asks a whole pile of extensions for real work at the same
      *  time, and each of those calls can boot an engine. Thirty-two of them at
@@ -1764,10 +1764,10 @@ class ContentRepository(private val manager: ProviderManager) {
      *  loaded (\"loading detail screen data and episode its start freezing and
      *  crashed\"). Twelve still fills the list in, just in a narrower stream.
      *
-     *  Read once, at class init — [com.hikari.app.HikariApp] sets the flag during
+     *  Read once, at class init — [com.gworld06.streambox.HikariApp] sets the flag during
      *  `onCreate`, before any screen can touch this class. */
     private val CROSS_EXT_DETAIL_CONCURRENCY =
-        if (com.hikari.app.data.PerfMode.tvDevice) 12 else 32
+        if (com.gworld06.streambox.data.PerfMode.tvDevice) 12 else 32
     // Refundable gates rather than plain semaphores: a plugin that never comes
     // back holds its slot for good, and a plain semaphore would then hand out
     // fewer slots on every lookup for the rest of the session (see
@@ -1829,15 +1829,15 @@ class ContentRepository(private val manager: ProviderManager) {
     private fun deviceFanOut(): Int {
         val cores = Runtime.getRuntime().availableProcessors()
         // A television gets the narrowest fan-out of all, and this is decided by
-        // the HARDWARE (see [com.hikari.app.data.PerfMode.tvDevice]), not by a
+        // the HARDWARE (see [com.gworld06.streambox.data.PerfMode.tvDevice]), not by a
         // switch the user can turn off: a 1-1.5GB box has that much RAM whatever
         // the settings say. `cores * 2` is 8 on the four-core SoC in every
         // Android TV stick and most TV boards — still "everything at once" next
         // to the fixed 6 this used to be, and it is the difference between a
         // detail screen that fills in and one that takes the app down with it.
         // A phone is untouched: this branch is never taken there.
-        if (com.hikari.app.data.PerfMode.tvDevice) return (cores * 2).coerceIn(6, 16)
-        if (com.hikari.app.data.PerfMode.active) return (cores * 3).coerceIn(12, 36)
+        if (com.gworld06.streambox.data.PerfMode.tvDevice) return (cores * 2).coerceIn(6, 16)
+        if (com.gworld06.streambox.data.PerfMode.active) return (cores * 3).coerceIn(12, 36)
         return (cores * 6).coerceIn(24, 96)
     }
 
@@ -1971,7 +1971,7 @@ class ContentRepository(private val manager: ProviderManager) {
      *  against a warm one. It is gone because a provider call cannot be
      *  interrupted: `withTimeoutOrNull` only abandons the WAIT, while the call
      *  itself runs on — and every one of these calls goes into the extension
-     *  through a [com.hikari.app.providers.ProviderGate] mutex, so the "retry"
+     *  through a [com.gworld06.streambox.providers.ProviderGate] mutex, so the "retry"
      *  could not even START until the abandoned first call had finished on its
      *  own. An extension whose answer takes longer than the probe therefore paid
      *  probe + the-abandoned-call + the-whole-second-call: twice the work for
@@ -2050,7 +2050,7 @@ class ContentRepository(private val manager: ProviderManager) {
         var attempt = 0
         var lastWhy: String? = null
         // Set when this lookup breaks a proven wedge and re-asks on the fresh
-        // runtime (see [com.hikari.app.providers.ExtensionRecovery]): the fresh
+        // runtime (see [com.gworld06.streambox.providers.ExtensionRecovery]): the fresh
         // attempt gets its own full budget on top of the attempts already
         // burned on the corpse, so the CURRENT tap can still play.
         var recovered = false
@@ -2072,14 +2072,14 @@ class ContentRepository(private val manager: ProviderManager) {
                 providerOutcome.remove(p.config.id)
                 if (passSeq >= 0L) providerOutcomeSeq.remove(p.config.id)
                 // It answered — whatever it is, the wedge (if any) is over.
-                com.hikari.app.providers.ExtensionRecovery.noteSuccess(p.config.id)
+                com.gworld06.streambox.providers.ExtensionRecovery.noteSuccess(p.config.id)
                 // Where a wait went, for the calls that took one: the extension,
                 // and the number of seconds its own answer cost. This is the one
                 // measurement that says whether a slow Play tap is the extension
                 // being slow or Hikari holding it — the ProviderGate lines in the
                 // same log say which.
                 if (isOrigin || took >= SLOW_CALL_LOG_MS / 1000) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         p.config.name.ifBlank { p.config.id } +
                             " [${p.config.type.groupLabel}]" +
@@ -2092,7 +2092,7 @@ class ContentRepository(private val manager: ProviderManager) {
             if (timedOut) lastWhy = "no answer in ${took}s"
             // A call that never came back is not "no servers" — and two in a
             // row is not coincidence, it is a wedged runtime (see
-            // [com.hikari.app.providers.ExtensionRecovery]). Break it NOW, in
+            // [com.gworld06.streambox.providers.ExtensionRecovery]). Break it NOW, in
             // THIS lookup, and spend one fresh full-budget attempt on the new
             // runtime below — so the current tap plays instead of joining the
             // "retry 5 times, restart the app, then it plays" reports. The
@@ -2100,14 +2100,14 @@ class ContentRepository(private val manager: ProviderManager) {
             // an earlier call is still holding the extension.
             val gateStalled = lastWhy?.startsWith("ProviderStalledException") == true
             if ((timedOut || gateStalled) && !recovered &&
-                com.hikari.app.providers.ExtensionRecovery.noteTimeout(p.config.id) >= 2 &&
-                com.hikari.app.providers.ExtensionRecovery.shouldRecover(p.config.id)
+                com.gworld06.streambox.providers.ExtensionRecovery.noteTimeout(p.config.id) >= 2 &&
+                com.gworld06.streambox.providers.ExtensionRecovery.shouldRecover(p.config.id)
             ) {
                 recovered = true
                 runCatching {
-                    com.hikari.app.providers.ExtensionRecovery.recover(HikariApp.instance, p.config)
+                    com.gworld06.streambox.providers.ExtensionRecovery.recover(HikariApp.instance, p.config)
                 }
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     (p.config.name.ifBlank { p.config.id }) +
                         " [${p.config.type.groupLabel}]: stall broken mid-lookup — " +
@@ -2138,8 +2138,8 @@ class ContentRepository(private val manager: ProviderManager) {
                         supplementDubSubVariants(p, item, playEp, cleanRoomed, attemptBudgetMs)
                     providerOutcome.remove(p.config.id)
                     if (passSeq >= 0L) providerOutcomeSeq.remove(p.config.id)
-                    com.hikari.app.providers.ExtensionRecovery.noteSuccess(p.config.id)
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.providers.ExtensionRecovery.noteSuccess(p.config.id)
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         p.config.name.ifBlank { p.config.id } +
                             " [${p.config.type.groupLabel}]" +
@@ -2164,8 +2164,8 @@ class ContentRepository(private val manager: ProviderManager) {
                         supplementDubSubVariants(p, item, playEp, healed, attemptBudgetMs)
                     providerOutcome.remove(p.config.id)
                     if (passSeq >= 0L) providerOutcomeSeq.remove(p.config.id)
-                    com.hikari.app.providers.ExtensionRecovery.noteSuccess(p.config.id)
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.providers.ExtensionRecovery.noteSuccess(p.config.id)
+                    com.gworld06.streambox.data.Logs.log(
                         "Provider",
                         p.config.name.ifBlank { p.config.id } +
                             " [${p.config.type.groupLabel}]" +
@@ -2199,7 +2199,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     else -> "no servers"
                 }
                 if (passSeq >= 0L) providerOutcomeSeq[p.config.id] = passSeq
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     p.config.name.ifBlank { p.config.id } +
                         " [${p.config.type.groupLabel}]" +
@@ -2232,7 +2232,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // budgetMs declaration above): fast cold empties re-ask with
             // the full budget, slow timeout empties with at most 10s.
             val nextBudget = if (timedOut || took > 5) minOf(budgetMs, 10_000L) else attemptBudgetMs
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Provider",
                 p.config.name.ifBlank { p.config.id } + " [" + p.config.type.groupLabel + "]" +
                     ": attempt $attempt/$maxAttempts answered nothing" +
@@ -2283,12 +2283,12 @@ class ContentRepository(private val manager: ProviderManager) {
         val deser = isDeserializationFailure(providerStreamMessage(p))
         val staleInput = api.hasStaleLoadFor(item.id) ||
             runCatching {
-                com.hikari.app.data.MetaCache.hasEpisodes(item.uniqueId)
+                com.gworld06.streambox.data.MetaCache.hasEpisodes(item.uniqueId)
             }.getOrDefault(false)
         if (!deser && !staleInput) return emptyList()
         return try {
             api.evictLoadCacheFor(item.id)
-            runCatching { com.hikari.app.data.MetaCache.evictEpisodes(item.uniqueId) }
+            runCatching { com.gworld06.streambox.data.MetaCache.evictEpisodes(item.uniqueId) }
             val freshEps = if (episode == null) {
                 null
             } else {
@@ -2301,8 +2301,8 @@ class ContentRepository(private val manager: ProviderManager) {
                 // The re-resolved list is the new cache: the next tap must
                 // replay THESE payloads, not the rotten ones just evicted.
                 runCatching {
-                    com.hikari.app.data.MetaCache.putEpisodes(
-                        com.hikari.app.data.MetaCache.episodesKey(item.uniqueId),
+                    com.gworld06.streambox.data.MetaCache.putEpisodes(
+                        com.gworld06.streambox.data.MetaCache.episodesKey(item.uniqueId),
                         freshEps,
                     )
                 }
@@ -2352,7 +2352,7 @@ class ContentRepository(private val manager: ProviderManager) {
         if (said != null && !isEmptySuccess(said)) return emptyList()
         if (said != null && isSiteWall(said)) return emptyList()
         if (!isOrigin) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Provider",
                 p.config.name.ifBlank { p.config.id } +
                     " [${p.config.type.groupLabel}]" +
@@ -2360,20 +2360,20 @@ class ContentRepository(private val manager: ProviderManager) {
             )
         }
         return try {
-            if (!com.hikari.app.providers.ExtensionRecovery.recoverEmpty(
+            if (!com.gworld06.streambox.providers.ExtensionRecovery.recoverEmpty(
                     HikariApp.instance, p.config
                 )
             ) return emptyList()
             api.evictLoadCacheFor(item.id)
-            runCatching { com.hikari.app.data.MetaCache.evictEpisodes(item.uniqueId) }
+            runCatching { com.gworld06.streambox.data.MetaCache.evictEpisodes(item.uniqueId) }
             val freshEp = if (episode == null) {
                 null
             } else {
                 val freshEps = withTimeoutOrNull(20_000L) { api.getEpisodes(item) }.orEmpty()
                 if (freshEps.isEmpty()) return emptyList()
                 runCatching {
-                    com.hikari.app.data.MetaCache.putEpisodes(
-                        com.hikari.app.data.MetaCache.episodesKey(item.uniqueId),
+                    com.gworld06.streambox.data.MetaCache.putEpisodes(
+                        com.gworld06.streambox.data.MetaCache.episodesKey(item.uniqueId),
                         freshEps,
                     )
                 }
@@ -2710,12 +2710,12 @@ class ContentRepository(private val manager: ProviderManager) {
             is NuvioScraper -> NuvioScraper.catalogErrors[p.config.id] = msg
             is StremioAddon -> StremioAddon.catalogErrors[p.config.id] = msg
             is Cs3MainApiProvider -> Cs3MainApiProvider.catalogErrors[p.config.id] = msg
-            is com.hikari.app.aniyomi.AniyomiProvider ->
-                com.hikari.app.aniyomi.AniyomiProvider.catalogErrors[p.config.id] = msg
-            is com.hikari.app.providers.HikariProviderAdapter ->
-                com.hikari.app.providers.HikariProviderAdapter.catalogErrors[p.config.id] = msg
-            is com.hikari.app.providers.vega.VegaProvider ->
-                com.hikari.app.providers.vega.VegaProvider.catalogErrors[p.config.id] = msg
+            is com.gworld06.streambox.aniyomi.AniyomiProvider ->
+                com.gworld06.streambox.aniyomi.AniyomiProvider.catalogErrors[p.config.id] = msg
+            is com.gworld06.streambox.providers.HikariProviderAdapter ->
+                com.gworld06.streambox.providers.HikariProviderAdapter.catalogErrors[p.config.id] = msg
+            is com.gworld06.streambox.providers.vega.VegaProvider ->
+                com.gworld06.streambox.providers.vega.VegaProvider.catalogErrors[p.config.id] = msg
         }
     }
 
@@ -2748,7 +2748,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     // Manga engines are left out of the Home feed entirely: they
                     // have their own tab and their own browse screens, and a
                     // manga row here would open the VIDEO detail page, which has
-                    // nothing to play (see com.hikari.app.manga.MangaProvider).
+                    // nothing to play (see com.gworld06.streambox.manga.MangaProvider).
                     it.config.enabled &&
                         it.config.type != ProviderType.MANGA &&
                         (providerId == null || it.config.id == providerId) &&
@@ -2878,8 +2878,8 @@ class ContentRepository(private val manager: ProviderManager) {
         val rowTypes = typeIndex(active)
         // Keeps the feed loading while the user is in another app — Android
         // freezes a backgrounded process, which used to stop every catalog
-        // mid-fetch (see [com.hikari.app.work.BackgroundWork]).
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        // mid-fetch (see [com.gworld06.streambox.work.BackgroundWork]).
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             active.firstOrNull()?.let { "Loading " + it.config.name } ?: "Loading Home catalogs"
         )
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -2931,7 +2931,7 @@ class ContentRepository(private val manager: ProviderManager) {
             if (finalSnapshot != lastSnapshot) emit(finalSnapshot)
         } finally {
             scope.cancel()
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }.flowOn(Dispatchers.IO)
 
@@ -2958,8 +2958,8 @@ class ContentRepository(private val manager: ProviderManager) {
         }
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         // Keeps the multi-page scan running while the user is in another app
-        // (see [com.hikari.app.work.BackgroundWork]).
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        // (see [com.gworld06.streambox.work.BackgroundWork]).
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             "Searching \"${query.trim().take(60)}\""
         )
         try {
@@ -3022,7 +3022,7 @@ class ContentRepository(private val manager: ProviderManager) {
             }
         } finally {
             scope.cancel()
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }
 
@@ -3084,7 +3084,7 @@ class ContentRepository(private val manager: ProviderManager) {
         val origin = manager.byId(item.providerId) ?: return emptyList()
         if (!origin.config.enabled) return emptyList()
         val got = if (origin.config.type == ProviderType.NUVIO) {
-            com.hikari.app.nuvio.NuvioRuntime.withBackgroundSlot {
+            com.gworld06.streambox.nuvio.NuvioRuntime.withBackgroundSlot {
                 detached(budgetMs) { fetchStreams(origin, item, episode) }
             }
         } else {
@@ -3106,8 +3106,8 @@ class ContentRepository(private val manager: ProviderManager) {
         onOriginSettled: (() -> Unit)? = null,
     ): StreamLookup {
         // A source scan across many providers can take a minute; keep it alive
-        // if the user leaves the app (see [com.hikari.app.work.BackgroundWork]).
-        val work = com.hikari.app.work.BackgroundWork.begin(
+        // if the user leaves the app (see [com.gworld06.streambox.work.BackgroundWork]).
+        val work = com.gworld06.streambox.work.BackgroundWork.begin(
             "Finding servers for \"${item.title.take(60)}\""
         )
         // The only thing that can notice a plugin which has stopped coming back,
@@ -3134,7 +3134,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // Recently-found servers stand in, so playback never empties.
             val kept = recentlyFoundStreams(item, episode)
             if (kept.isNotEmpty()) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "pass for \"${item.title.take(60)}\" found nothing — " +
                         "keeping ${kept.size} server(s) from the previous lookup",
@@ -3162,7 +3162,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // is over, nobody found out why, and that must never read as
             // "asked everything, nothing there".
             kotlinx.coroutines.currentCoroutineContext().ensureActive()
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "pass for \"${item.title.take(60)}\" was cut short (cancelled) — not an answer",
             )
@@ -3172,7 +3172,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // same as a finished empty search. The reason is logged now, so a
             // pass that dies is diagnosable, and the caller is told plainly that
             // it was not an answer.
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "pass for \"${item.title.take(60)}\" ended early (" +
                     e.javaClass.simpleName + (e.message?.let { ": $it" } ?: "") +
@@ -3180,7 +3180,7 @@ class ContentRepository(private val manager: ProviderManager) {
             )
             return StreamLookup(emptyList(), complete = false)
         } finally {
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }
 
@@ -3225,7 +3225,7 @@ class ContentRepository(private val manager: ProviderManager) {
             return all.filter { it.config.enabled && (it.config.type.name in families || it.config.id in selected) }
                 .map { it.config.id }.toSet()
         }
-        val originIsIptv = com.hikari.app.data.IptvMark.of(item)
+        val originIsIptv = com.gworld06.streambox.data.IptvMark.of(item)
         val originIsException = originIsIptv || SearchScope.isException(item.providerId)
         val oneShot = SearchScope.oneShotOriginOnly?.takeIf { it == item.providerId }
         if (oneShot == null && !originIsException && SearchScope.allExtensions) return null
@@ -3265,7 +3265,7 @@ class ContentRepository(private val manager: ProviderManager) {
             } else {
                 all.filter { it.config.type == ProviderType.STREMIO && it.config.id in stremioPicked }.forEach { out += it.config.id }
             }
-            if (com.hikari.app.nuvio.TmdbResolver.isLikelyResolvable(item)) {
+            if (com.gworld06.streambox.nuvio.TmdbResolver.isLikelyResolvable(item)) {
                 val nuvioPicked = SearchScope.searchNuvioIds
                 if (SearchScope.nuvioFamily || nuvioPicked.isEmpty()) {
                     all.filter { it.config.type == ProviderType.NUVIO }.forEach { out += it.config.id }
@@ -3475,7 +3475,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     //  * the ones marked as exceptions, which the user asked to
                     //    always include.
                     originless ->
-                        if (com.hikari.app.nuvio.TmdbResolver.isLikelyResolvable(item)) {
+                        if (com.gworld06.streambox.nuvio.TmdbResolver.isLikelyResolvable(item)) {
                             all.filter {
                                 it.config.type == ProviderType.NUVIO &&
                                     (!trackerBacked || it.config.id in trackerTargets)
@@ -3499,7 +3499,7 @@ class ContentRepository(private val manager: ProviderManager) {
                         it.config.type == ProviderType.NUVIO && it.config.id in exceptions
                     }
                 }
-            } else if (com.hikari.app.nuvio.TmdbResolver.isLikelyResolvable(item)) {
+            } else if (com.gworld06.streambox.nuvio.TmdbResolver.isLikelyResolvable(item)) {
                 all.filter {
                     it.config.type == ProviderType.NUVIO &&
                         (originless || it.config.id == item.providerId ||
@@ -3643,12 +3643,12 @@ class ContentRepository(private val manager: ProviderManager) {
             tally.title = item.title
             publishCrossTally(tally)
 
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
             "Search",
             // The app version leads the line so a shared log identifies the
             // build it came from without having to guess (the session-start
             // banner can be trimmed off a shared file).
-            "start \"${item.title}\" (${item.type}) v=${com.hikari.app.BuildConfig.VERSION_NAME} " +
+            "start \"${item.title}\" (${item.type}) v=${com.gworld06.streambox.BuildConfig.VERSION_NAME} " +
                 "origin=" +
                 (origin?.config?.name ?: if (originless) "app-catalogue(no extension)" else "?") + " " +
                 "primary=${targets.size} nuvio=${nuvioTargets.size} " +
@@ -3731,11 +3731,11 @@ class ContentRepository(private val manager: ProviderManager) {
                 providerOutcome.remove(p.config.id)
             }
             bumpCrossStatus()
-            com.hikari.app.nuvio.NuvioScraper.lastOutcome.clear()
-            com.hikari.app.nuvio.NuvioRuntime.resetFetchLog()
-            com.hikari.app.nuvio.NuvioRuntime.resetRunTracking()
-            com.hikari.app.skystream.SkyStreamProvider.lastOutcome.clear()
-            com.hikari.app.skystream.SkyStreamRuntime.resetFetchLog()
+            com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome.clear()
+            com.gworld06.streambox.nuvio.NuvioRuntime.resetFetchLog()
+            com.gworld06.streambox.nuvio.NuvioRuntime.resetRunTracking()
+            com.gworld06.streambox.skystream.SkyStreamProvider.lastOutcome.clear()
+            com.gworld06.streambox.skystream.SkyStreamRuntime.resetFetchLog()
 
             val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
             var result: List<StreamSource> = emptyList()
@@ -3797,7 +3797,7 @@ class ContentRepository(private val manager: ProviderManager) {
                             // to the background re-ask instead of dropping it
                             // (see the primary hand-off there).
                             val ran = if (isNuvio) {
-                                com.hikari.app.nuvio.NuvioRuntime.providerStartedAt(p.config.id)
+                                com.gworld06.streambox.nuvio.NuvioRuntime.providerStartedAt(p.config.id)
                             } else {
                                 startedJob
                             }
@@ -3805,7 +3805,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 "✗ cut off after ${(System.currentTimeMillis() - startedJob) / 1000}s (still searching)"
                             else
                                 "✗ search ended before it could run (still waiting for an engine slot)"
-                            if (isNuvio) com.hikari.app.nuvio.NuvioScraper.lastOutcome[p.config.id] = why
+                            if (isNuvio) com.gworld06.streambox.nuvio.NuvioScraper.lastOutcome[p.config.id] = why
                             providerOutcome[p.config.id] = why
                             if (passSeq >= 0L) providerOutcomeSeq[p.config.id] = passSeq
                             throw e
@@ -3930,7 +3930,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 crossAsked.remove(p.config.id)
                                 crossRunning.remove(p.config.id)
                                 bumpCrossStatus()
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "cross \"${item.title}\" → $repo: skipped (verification needed)",
                                 )
@@ -3938,7 +3938,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 crossVerdict[p.config.id] = "$repo — ${verdict ?: "no matching title"}"
                                 crossRunning.remove(p.config.id)
                                 bumpCrossStatus()
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "cross \"${item.title}\" → $repo: nothing ($verdict)",
                                 )
@@ -4037,7 +4037,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 val said = verdict?.takeIf { it == CROSS_VERDICT_SKIPPED }
                                     ?: providerStreamMessage(hit.provider)
                                 if (said == CROSS_VERDICT_SKIPPED ||
-                                    com.hikari.app.net.CloudflareVerifier
+                                    com.gworld06.streambox.net.CloudflareVerifier
                                         .isVerificationMessage(said)
                                 ) {
                                     crossCfSkip[id] = System.currentTimeMillis()
@@ -4045,7 +4045,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                     crossVerdict.remove(id)
                                     crossRunning.remove(id)
                                     bumpCrossStatus()
-                                    com.hikari.app.data.Logs.log(
+                                    com.gworld06.streambox.data.Logs.log(
                                         "Search",
                                         "cross \"${item.title}\" → ${hit.repo}: " +
                                             "skipped (verification needed)",
@@ -4066,7 +4066,7 @@ class ContentRepository(private val manager: ProviderManager) {
                             }
                             crossRunning.remove(id)
                             bumpCrossStatus()
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Search",
                                 "cross \"${item.title}\" → ${hit.repo}: " +
                                     (verdict?.let { "nothing ($it)" } ?: "${found.size} servers"),
@@ -4176,7 +4176,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     val outstanding = searchQueue.size + searchJobs.size + extractJobs.size
                     if (outstanding > 0 && now - lastProgressAt >= CROSS_EXT_STALL_MS) {
                         passStalled = true
-                        com.hikari.app.data.Logs.log(
+                        com.gworld06.streambox.data.Logs.log(
                             "Search",
                             "pass over \"${item.title}\": nothing has answered in " +
                                 "${CROSS_EXT_STALL_MS / 1000}s with $outstanding repo(s) " +
@@ -4307,7 +4307,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     .distinctBy { crossReasonBucket(it) }
                     .take(3)
                     .joinToString(" · ") { it.take(90) }
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "cross done \"${item.title}\": asked=${crossAsked.size} of " +
                         "${crossTargets.size} (neverReached=$neverReached) " +
@@ -4430,7 +4430,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     }
                 }
                 if (familyFallback.isNotEmpty()) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "familyFallback \"" + item.title + "\": the extension this title " +
                             "came from never answered and the scope left no other " +
@@ -4490,7 +4490,7 @@ class ContentRepository(private val manager: ProviderManager) {
                         reAsk.isNotEmpty() ||
                         servable < CROSS_THIN_RESULT ||
                         ranOutOfTime)
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "cross \"${item.title}\" pass over: ${crossTargets.size} target(s), " +
                         "${crossFound.size} with servers, $servable server(s) on the list, " +
@@ -4504,10 +4504,10 @@ class ContentRepository(private val manager: ProviderManager) {
                         // what the search DID; this says what it took to do it,
                         // which is the other half of "it gets laggy and almost
                         // crashes while the servers load" (see [MemoryReport]).
-                        " · " + com.hikari.app.data.MemoryReport.short(),
+                        " · " + com.gworld06.streambox.data.MemoryReport.short(),
                 )
                 if (primaryLeft.isNotEmpty()) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "primary \"" + item.title + "\": " +
                             "${targets.size - primaryLeft.size} of ${targets.size} answered, " +
@@ -4626,7 +4626,7 @@ class ContentRepository(private val manager: ProviderManager) {
                 if (extra.isNotEmpty()) {
                     val fresh = finalResult.size
                     finalResult = finalResult + extra
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "done \"${item.title}\" → kept ${extra.size} server(s) from the " +
                             "previous lookup (this pass found $fresh)",
@@ -4657,7 +4657,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // here — once, bounded, after the union above so a remembered row is
             // resolved too — and the resolved list replaces the remembered one,
             // so a repeat lookup does not pay for it again.
-            val resolvedResult = com.hikari.app.cs3.PlayableResolver.resolve(finalResult)
+            val resolvedResult = com.gworld06.streambox.cs3.PlayableResolver.resolve(finalResult)
             if (resolvedResult !== finalResult) {
                 finalResult = resolvedResult
                 if (finalResult.isNotEmpty()) {
@@ -4676,7 +4676,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // all, and the next try finds plenty"), so they are merged into the
             // same sweep as the tail; a second sweep for the same video would
             // only join the first one and silently drop its own targets.
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "done \"${item.title}\" → ${finalResult.size} servers " +
                     finalResult.groupingBy { it.providerName.ifBlank { it.provider.ifBlank { "?" } } }
@@ -4803,7 +4803,7 @@ class ContentRepository(private val manager: ProviderManager) {
                         .distinctBy { it.identityKey() }
                 }
                 if (sink != null) held.sinks += sink
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "sweep \"" + item.title + "\" held until the video is playing (" +
                         (recorded.byTitle.size + recorded.direct.size) +
@@ -4818,7 +4818,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // freed slot takes it ([drainSweeps]).
             val live = sweeps.values.count { it.job?.isActive == true }
             if (live >= MAX_PARALLEL_SWEEPS) {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "sweep \"" + item.title + "\" not started — $live sweep(s) already running (" +
                         (recorded.byTitle.size + recorded.direct.size) +
@@ -4848,7 +4848,7 @@ class ContentRepository(private val manager: ProviderManager) {
                 try {
                     runSweep(item, episode, units, sweep, snapshot)
                 } catch (e: Throwable) {
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "sweep \"" + item.title + "\" ended early (" +
                             e.javaClass.simpleName +
@@ -4870,7 +4870,7 @@ class ContentRepository(private val manager: ProviderManager) {
                     )
                     synchronized(sweeps) { if (sweeps[key] === sweep) sweeps.remove(key) }
                     bumpCrossStatus()
-                    com.hikari.app.data.Logs.log(
+                    com.gworld06.streambox.data.Logs.log(
                         "Search",
                         "sweep \"" + item.title + "\" finished — ${sweep.current.size} server(s) on the list",
                     )
@@ -4886,7 +4886,7 @@ class ContentRepository(private val manager: ProviderManager) {
             // [sweepBusyFor] is what tells the detail screen whether the search
             // is REALLY over, so the map has to mean exactly what it says.
             if (!job.isActive) synchronized(sweeps) { if (sweeps[key] === sweep) sweeps.remove(key) }
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "sweep \"" + item.title + "\" → ${units.size} provider(s) the pass never finished " +
                     "(${direct.size} of them asked directly): searching in the background",
@@ -4901,7 +4901,7 @@ class ContentRepository(private val manager: ProviderManager) {
     private fun releaseHeldSweep(held: HeldSweep) {
         val sinks = held.sinks.toList()
         val unfinished = pendingWork[streamsRememberedKey(held.item, held.episode)]
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Search",
             "sweep \"" + held.item.title + "\" released — playback started" +
                 (if (unfinished == null) " (nothing left to search)"
@@ -5084,7 +5084,7 @@ class ContentRepository(private val manager: ProviderManager) {
                             bumpCrossStatus()
                             sweep.lastProgressAt = System.currentTimeMillis()
                             noteNoAnswer(id)
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Search",
                                 "sweep \"${item.title}\" → $repo: no answer within " +
                                     "${SWEEP_REPO_BUDGET_MS / 1000}s — moving on " +
@@ -5105,14 +5105,14 @@ class ContentRepository(private val manager: ProviderManager) {
                                     // An answer, even when it is "nothing here".
                                     noteAnswered(id)
                                     tally.verdict[id] = "$repo — ${verdict ?: "no matching title"}"
-                                    com.hikari.app.data.Logs.log(
+                                    com.gworld06.streambox.data.Logs.log(
                                         "Search",
                                         "sweep \"${item.title}\" → $repo: nothing ($verdict)",
                                     )
                                 }
                                 continue
                             }
-                            com.hikari.app.data.Logs.log(
+                            com.gworld06.streambox.data.Logs.log(
                                 "Search",
                                 "sweep \"${item.title}\" → $repo: found \"${hit.candidate.title}\" " +
                                     "— getting servers…",
@@ -5123,7 +5123,7 @@ class ContentRepository(private val manager: ProviderManager) {
                             if (extracted == null) {
                                 tally.verdict[id] = "$repo — did not answer in time"
                                 noteNoAnswer(id)
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "sweep \"${item.title}\" → $repo: extraction gave no answer " +
                                         "within ${SWEEP_REPO_BUDGET_MS / 1000}s — moving on",
@@ -5138,7 +5138,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 // an honest "nothing".
                                 noteAnswered(id)
                                 tally.verdict[id] = "$repo — ${why ?: "no playable links"}"
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "sweep \"${item.title}\" → $repo: nothing ($why)",
                                 )
@@ -5151,7 +5151,7 @@ class ContentRepository(private val manager: ProviderManager) {
                                 synchronized(acc) {
                                     found.forEach { s -> acc.putIfAbsent(s.identityKey(), s) }
                                 }
-                                com.hikari.app.data.Logs.log(
+                                com.gworld06.streambox.data.Logs.log(
                                     "Search",
                                     "sweep \"${item.title}\" → $repo: ${found.size} servers " +
                                         "(background, while playing)",
@@ -5182,14 +5182,14 @@ class ContentRepository(private val manager: ProviderManager) {
         // video (see [PendingWork] and the sweep's `finally`).
         val left = unasked.filterNot { isHung(it.provider.config.id) }
         if (left.isNotEmpty() && sweep.rounds < SWEEP_MAX_ROUNDS) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "sweep \"${item.title}\" → round ${sweep.rounds}: ${left.size} repo(s) left " +
                     "unasked — asking them now (${sweep.current.size} server(s) so far)",
             )
             runSweep(item, episode, left, sweep, sweep.current)
         } else if (left.isNotEmpty()) {
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "sweep \"${item.title}\" ended after ${sweep.rounds} rounds with " +
                     "${left.size} repo(s) unasked — kept for the next sweep",
@@ -5224,7 +5224,7 @@ class ContentRepository(private val manager: ProviderManager) {
         // slots instead of competing with a search the user is waiting on (see
         // NuvioRuntime.withBackgroundSlot).
         val got = if (p.config.type == ProviderType.NUVIO) {
-            com.hikari.app.nuvio.NuvioRuntime.withBackgroundSlot {
+            com.gworld06.streambox.nuvio.NuvioRuntime.withBackgroundSlot {
                 detached(SWEEP_REPO_BUDGET_MS) { fetchStreams(p, item, episode) }
             }
         } else {
@@ -5233,7 +5233,7 @@ class ContentRepository(private val manager: ProviderManager) {
         try {
             if (got == null) {
                 noteNoAnswer(id)
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "sweep \"${item.title}\" → $repo (" + p.config.type.groupLabel +
                         "): no answer within ${SWEEP_REPO_BUDGET_MS / 1000}s — moving on " +
@@ -5248,7 +5248,7 @@ class ContentRepository(private val manager: ProviderManager) {
                 // not answer. Either way it HAS been asked.
                 noteAnswered(id)
                 val said = providerOutcome[id]
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Search",
                     "sweep \"${item.title}\" → $repo (" + p.config.type.groupLabel + "): " +
                         if (said == null || said == "no servers") "no servers" else "nothing ($said)",
@@ -5262,7 +5262,7 @@ class ContentRepository(private val manager: ProviderManager) {
             synchronized(acc) {
                 found.forEach { s -> acc.putIfAbsent(s.identityKey(), s) }
             }
-            com.hikari.app.data.Logs.log(
+            com.gworld06.streambox.data.Logs.log(
                 "Search",
                 "sweep \"${item.title}\" → $repo (" + p.config.type.groupLabel + "): " +
                     "${found.size} servers (background, while playing)",
@@ -5417,15 +5417,15 @@ class ContentRepository(private val manager: ProviderManager) {
                 // [crossCfSkip]).
                 if (p.config.type == ProviderType.SKYSTREAM) {
                     val host = runCatching {
-                        com.hikari.app.skystream.SkyStreamPluginManager.siteHostOf(
-                            com.hikari.app.skystream.SkyStreamPluginManager.scriptFile(
-                                com.hikari.app.HikariApp.instance,
-                                com.hikari.app.skystream.SkyStreamPluginManager.packageOf(p.config.id),
+                        com.gworld06.streambox.skystream.SkyStreamPluginManager.siteHostOf(
+                            com.gworld06.streambox.skystream.SkyStreamPluginManager.scriptFile(
+                                com.gworld06.streambox.HikariApp.instance,
+                                com.gworld06.streambox.skystream.SkyStreamPluginManager.packageOf(p.config.id),
                             )
                         )
                     }.getOrNull()
                     if (host != null &&
-                        com.hikari.app.net.CloudflareVerifier.isBlockedHost(host)
+                        com.gworld06.streambox.net.CloudflareVerifier.isBlockedHost(host)
                     ) {
                         crossCfSkip[p.config.id] = System.currentTimeMillis()
                         noteSkipped("sky-host-blocked")
@@ -5577,7 +5577,7 @@ class ContentRepository(private val manager: ProviderManager) {
         }
         tally.running[p.config.id] = repo
         bumpCrossStatus()
-        com.hikari.app.data.Logs.log("Search", "cross \"$title\" → $repo: searching…")
+        com.gworld06.streambox.data.Logs.log("Search", "cross \"$title\" → $repo: searching…")
     }
 
     /** PHASE 1 of the cross-extension pass: ask ONE extension for the title and
@@ -5610,7 +5610,7 @@ class ContentRepository(private val manager: ProviderManager) {
         // start: leave this extension out of the pass entirely.
         val saidBefore = providerStreamMessage(p)
         if (saidBefore != null &&
-            com.hikari.app.net.CloudflareVerifier.isVerificationMessage(saidBefore)
+            com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(saidBefore)
         ) {
             crossCfSkip[p.config.id] = System.currentTimeMillis()
             return null to CROSS_VERDICT_SKIPPED
@@ -5702,7 +5702,7 @@ class ContentRepository(private val manager: ProviderManager) {
             val id = p.config.id
             val said = providerStreamMessage(p)?.takeIf { it != saidBefore && selfNote[id] != it }
             if (said != null) {
-                if (com.hikari.app.net.CloudflareVerifier.isVerificationMessage(said)) {
+                if (com.gworld06.streambox.net.CloudflareVerifier.isVerificationMessage(said)) {
                     // A verification wall, not a search result. Remember the
                     // extension and drop it silently — no note, no verdict, and
                     // no further search for it this session (see [crossCfSkip]).
@@ -5722,7 +5722,7 @@ class ContentRepository(private val manager: ProviderManager) {
             recordStreamMessage(p, "Searched \"$title\" — no matching title in this repo.")
             return null to "no matching title for \"$title\""
         }
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Search",
             "cross \"${item.title}\" → $repo: found \"${best.title}\" — getting servers…",
         )
@@ -5941,19 +5941,19 @@ class ContentRepository(private val manager: ProviderManager) {
         ProviderType.CS3 -> Cs3MainApiProvider.streamErrors[p.config.id]
         ProviderType.HIKARI -> HikariProviderAdapter.streamErrors[p.config.id]
         ProviderType.UNIVERSAL -> UniversalScraper.streamErrors[p.config.id]
-        ProviderType.NUVIO -> com.hikari.app.nuvio.NuvioScraper.streamErrors[p.config.id]
-        ProviderType.SKYSTREAM -> com.hikari.app.skystream.SkyStreamProvider.streamErrors[p.config.id]
-        ProviderType.ANIYOMI -> com.hikari.app.aniyomi.AniyomiProvider.streamErrors[p.config.id]
-        ProviderType.VEGA -> com.hikari.app.providers.vega.VegaProvider.streamErrors[p.config.id]
-        ProviderType.ZANGETSU -> com.hikari.app.zangetsu.ZangetsuProvider.streamErrors[p.config.id]
-        ProviderType.SORA -> com.hikari.app.sora.SoraProvider.streamErrors[p.config.id]
-            ProviderType.ANYMEX -> com.hikari.app.anymex.AnymexProvider.streamErrors[p.config.id]
-            ProviderType.ANYMEX_MANGA -> com.hikari.app.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
+        ProviderType.NUVIO -> com.gworld06.streambox.nuvio.NuvioScraper.streamErrors[p.config.id]
+        ProviderType.SKYSTREAM -> com.gworld06.streambox.skystream.SkyStreamProvider.streamErrors[p.config.id]
+        ProviderType.ANIYOMI -> com.gworld06.streambox.aniyomi.AniyomiProvider.streamErrors[p.config.id]
+        ProviderType.VEGA -> com.gworld06.streambox.providers.vega.VegaProvider.streamErrors[p.config.id]
+        ProviderType.ZANGETSU -> com.gworld06.streambox.zangetsu.ZangetsuProvider.streamErrors[p.config.id]
+        ProviderType.SORA -> com.gworld06.streambox.sora.SoraProvider.streamErrors[p.config.id]
+            ProviderType.ANYMEX -> com.gworld06.streambox.anymex.AnymexProvider.streamErrors[p.config.id]
+            ProviderType.ANYMEX_MANGA -> com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome[p.config.id]
         ProviderType.IPTV -> IptvProvider.iptvErrors[p.config.id]
         // LNReader novel sources share the MANGA type under an `lnreader|`
         // prefix but keep their own outcome map.
-        ProviderType.MANGA -> if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) com.hikari.app.lnreader.LnReaderProvider.lastOutcome[p.config.id] else com.hikari.app.manga.MangaProvider.lastOutcome[p.config.id]
-        ProviderType.FORK_VIDEO -> com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
+        ProviderType.MANGA -> if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(p.config.id)) com.gworld06.streambox.lnreader.LnReaderProvider.lastOutcome[p.config.id] else com.gworld06.streambox.manga.MangaProvider.lastOutcome[p.config.id]
+        ProviderType.FORK_VIDEO -> com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome[p.config.id]
     }
 
     /** Minimal head start for the repos of the origin's own family — extended
@@ -6348,7 +6348,7 @@ class ContentRepository(private val manager: ProviderManager) {
      *  [origin.config.id] is remembered in [selfNote] when the message is one of
      *  ours, so a later pass never reads our own "no matching title" note back
      *  as the provider's own words (see [crossExtensionSearch]). */
-    private fun recordStreamMessage(origin: com.hikari.app.providers.ContentProvider, message: String?) {
+    private fun recordStreamMessage(origin: com.gworld06.streambox.providers.ContentProvider, message: String?) {
         val id = origin.config.id
         if (message == null) selfNote.remove(id) else selfNote[id] = message
         val map = when (origin.config.type) {
@@ -6356,23 +6356,23 @@ class ContentRepository(private val manager: ProviderManager) {
             ProviderType.CS3 -> Cs3MainApiProvider.streamErrors
             ProviderType.HIKARI -> HikariProviderAdapter.streamErrors
             ProviderType.UNIVERSAL -> UniversalScraper.streamErrors
-            ProviderType.NUVIO -> com.hikari.app.nuvio.NuvioScraper.streamErrors
-            ProviderType.SKYSTREAM -> com.hikari.app.skystream.SkyStreamProvider.streamErrors
-            ProviderType.ANIYOMI -> com.hikari.app.aniyomi.AniyomiProvider.streamErrors
-            ProviderType.VEGA -> com.hikari.app.providers.vega.VegaProvider.streamErrors
-            ProviderType.ZANGETSU -> com.hikari.app.zangetsu.ZangetsuProvider.streamErrors
-            ProviderType.SORA -> com.hikari.app.sora.SoraProvider.streamErrors
-            ProviderType.ANYMEX -> com.hikari.app.anymex.AnymexProvider.streamErrors
-            ProviderType.ANYMEX_MANGA -> com.hikari.app.anymex.AnymexMangaProvider.lastOutcome
-            ProviderType.MANGA -> if (com.hikari.app.lnreader.LnReaderProvider.isLnReaderId(origin.config.id)) com.hikari.app.lnreader.LnReaderProvider.lastOutcome else com.hikari.app.manga.MangaProvider.lastOutcome
-            ProviderType.FORK_VIDEO -> com.hikari.app.kotatsu.fork.ForkVideoProvider.lastOutcome
+            ProviderType.NUVIO -> com.gworld06.streambox.nuvio.NuvioScraper.streamErrors
+            ProviderType.SKYSTREAM -> com.gworld06.streambox.skystream.SkyStreamProvider.streamErrors
+            ProviderType.ANIYOMI -> com.gworld06.streambox.aniyomi.AniyomiProvider.streamErrors
+            ProviderType.VEGA -> com.gworld06.streambox.providers.vega.VegaProvider.streamErrors
+            ProviderType.ZANGETSU -> com.gworld06.streambox.zangetsu.ZangetsuProvider.streamErrors
+            ProviderType.SORA -> com.gworld06.streambox.sora.SoraProvider.streamErrors
+            ProviderType.ANYMEX -> com.gworld06.streambox.anymex.AnymexProvider.streamErrors
+            ProviderType.ANYMEX_MANGA -> com.gworld06.streambox.anymex.AnymexMangaProvider.lastOutcome
+            ProviderType.MANGA -> if (com.gworld06.streambox.lnreader.LnReaderProvider.isLnReaderId(origin.config.id)) com.gworld06.streambox.lnreader.LnReaderProvider.lastOutcome else com.gworld06.streambox.manga.MangaProvider.lastOutcome
+            ProviderType.FORK_VIDEO -> com.gworld06.streambox.kotatsu.fork.ForkVideoProvider.lastOutcome
             ProviderType.IPTV -> IptvProvider.iptvErrors
         }
         if (message == null) map.remove(id) else map[id] = message
         // Mirrored into the on-device log: a "why were this repo's servers
         // missing?" report can then be answered from the shared log file
         // instead of guessed at (see Logs / Settings → Logs & diagnostics).
-        com.hikari.app.data.Logs.log(
+        com.gworld06.streambox.data.Logs.log(
             "Provider",
             "${origin.config.name} [${origin.config.type}]: " +
                 (message ?: "servers found"),
@@ -6397,10 +6397,10 @@ class ContentRepository(private val manager: ProviderManager) {
     suspend fun metaFor(item: MediaItem): MediaItem =
         // The window in which the user is WAITING on provider work: inside it
         // every provider call is interactive and no background pass may start
-        // one (see [com.hikari.app.providers.ProviderGate.interactive]). This
+        // one (see [com.gworld06.streambox.providers.ProviderGate.interactive]). This
         // is what stops a page's meta/episodes being queued behind a stream
         // sweep that happened to ask the same extension first.
-        com.hikari.app.providers.ProviderGate.interactive { metaForInner(item) }
+        com.gworld06.streambox.providers.ProviderGate.interactive { metaForInner(item) }
 
     private suspend fun metaForInner(item: MediaItem): MediaItem = withContext(Dispatchers.IO) {
         synchronized(metaCache) { metaCache[item.uniqueId] }?.let { return@withContext it }
@@ -6517,7 +6517,7 @@ class ContentRepository(private val manager: ProviderManager) {
         // Movies never have episodes: answer instantly so movies never show Loading episodes.
         item: MediaItem,
         onPartial: ((List<Episode>) -> Unit)? = null,
-    ): List<Episode>? = com.hikari.app.providers.ProviderGate.interactive {
+    ): List<Episode>? = com.gworld06.streambox.providers.ProviderGate.interactive {
         // Same window as [metaFor]: the detail page's own episode list must
         // never queue behind a background stream pass in the same extension —
         // an Aniyomi stream lookup walks up to eight hosters, which is the
@@ -6537,9 +6537,9 @@ class ContentRepository(private val manager: ProviderManager) {
      * A Vega title's packs (audio variants, seasons, quality rows) in provider
      * order — the detail page's picker. Empty for every other engine.
      */
-    suspend fun vegaPacksFor(item: MediaItem): List<com.hikari.app.providers.vega.VegaPack> =
+    suspend fun vegaPacksFor(item: MediaItem): List<com.gworld06.streambox.providers.vega.VegaPack> =
         withContext(Dispatchers.IO) {
-            (manager.byId(item.providerId) as? com.hikari.app.providers.vega.VegaProvider)
+            (manager.byId(item.providerId) as? com.gworld06.streambox.providers.vega.VegaProvider)
                 ?.packsFor(item).orEmpty()
         }
 
@@ -6547,16 +6547,16 @@ class ContentRepository(private val manager: ProviderManager) {
      * A Vega movie's playable quality rows in provider order — the detail
      * page's quality picker. Empty for every other engine.
      */
-    suspend fun vegaMovieOptions(item: MediaItem): List<com.hikari.app.providers.vega.VegaMovieOption> =
+    suspend fun vegaMovieOptions(item: MediaItem): List<com.gworld06.streambox.providers.vega.VegaMovieOption> =
         withContext(Dispatchers.IO) {
-            (manager.byId(item.providerId) as? com.hikari.app.providers.vega.VegaProvider)
+            (manager.byId(item.providerId) as? com.gworld06.streambox.providers.vega.VegaProvider)
                 ?.movieOptions(item).orEmpty()
         }
 
-    /** [com.hikari.app.providers.vega.VegaProvider.selectionKey] for this
+    /** [com.gworld06.streambox.providers.vega.VegaProvider.selectionKey] for this
      *  title — "" for every other engine. */
     private fun vegaSelectionSuffix(item: MediaItem): String =
-        (manager.byId(item.providerId) as? com.hikari.app.providers.vega.VegaProvider)
+        (manager.byId(item.providerId) as? com.gworld06.streambox.providers.vega.VegaProvider)
             ?.selectionKey(item.id).orEmpty()
 
     /**
@@ -6581,7 +6581,7 @@ class ContentRepository(private val manager: ProviderManager) {
         directTmdbCache[key]?.let { cached ->
             if (System.currentTimeMillis() - cached.first < DIRECT_TMDB_TTL_MS && cached.second.isNotEmpty()) return cached.second
         }
-        val tv = com.hikari.app.nuvio.TmdbResolver.apiGet("/tv/" + tmdbId, emptyMap()) ?: return null
+        val tv = com.gworld06.streambox.nuvio.TmdbResolver.apiGet("/tv/" + tmdbId, emptyMap()) ?: return null
         val seasons = tv.optJSONArray("seasons") ?: return null
         val nums = (0 until seasons.length()).mapNotNull { i ->
             val s = seasons.optJSONObject(i) ?: return@mapNotNull null
@@ -6592,7 +6592,7 @@ class ContentRepository(private val manager: ProviderManager) {
         val rows = coroutineScope {
             nums.map { sn ->
                 async(Dispatchers.IO) {
-                    val sd = com.hikari.app.nuvio.TmdbResolver.apiGet("/tv/" + tmdbId + "/season/" + sn, emptyMap())
+                    val sd = com.gworld06.streambox.nuvio.TmdbResolver.apiGet("/tv/" + tmdbId + "/season/" + sn, emptyMap())
                         ?: return@async emptyList<Episode>()
                     val eps = sd.optJSONArray("episodes") ?: return@async emptyList<Episode>()
                     buildList {
@@ -6694,10 +6694,10 @@ class ContentRepository(private val manager: ProviderManager) {
     }
 
     private suspend fun tmdbSeasonLayoutNetwork(item: MediaItem): List<AnimeMetadataRepository.SeasonLayout> {
-        val resolved = runCatching { com.hikari.app.nuvio.TmdbResolver.resolve(item) }.getOrNull()
+        val resolved = runCatching { com.gworld06.streambox.nuvio.TmdbResolver.resolve(item) }.getOrNull()
             ?: return emptyList()
         if (!resolved.mediaType.equals("tv", true) && !resolved.mediaType.equals("anime", true)) return emptyList()
-        val tv = com.hikari.app.nuvio.TmdbResolver.apiGet("/tv/" + resolved.tmdbId, emptyMap())
+        val tv = com.gworld06.streambox.nuvio.TmdbResolver.apiGet("/tv/" + resolved.tmdbId, emptyMap())
             ?: return emptyList()
         val arr = tv.optJSONArray("seasons") ?: return emptyList()
         return (0 until arr.length()).mapNotNull { i ->
@@ -6755,7 +6755,7 @@ class ContentRepository(private val manager: ProviderManager) {
             if (match.id == episode.id) {
                 episode
             } else {
-                com.hikari.app.data.Logs.log(
+                com.gworld06.streambox.data.Logs.log(
                     "Provider",
                     p.config.name.ifBlank { p.config.id } +
                         " [${p.config.type.groupLabel}]" +
@@ -6934,13 +6934,13 @@ class ContentRepository(private val manager: ProviderManager) {
             // through the exact tracker-aware path below.
             val tmdbId = if (TrackerAnimeResolver.isTrackerAnime(item)) {
                 runCatching {
-                    withTimeoutOrNull(tmdbLeft()) { com.hikari.app.nuvio.TmdbResolver.resolve(item) }
+                    withTimeoutOrNull(tmdbLeft()) { com.gworld06.streambox.nuvio.TmdbResolver.resolve(item) }
                 }.getOrNull()
                     ?.takeIf { it.mediaType.equals("tv", true) }?.tmdbId?.toIntOrNull()?.takeIf { it > 0 }?.toString()
             } else {
                 item.id.trim().takeIf { it.isNotEmpty() && it.all { c -> c.isDigit() } }
                     ?: runCatching {
-                        withTimeoutOrNull(tmdbLeft()) { com.hikari.app.nuvio.TmdbResolver.resolve(item) }
+                        withTimeoutOrNull(tmdbLeft()) { com.gworld06.streambox.nuvio.TmdbResolver.resolve(item) }
                     }.getOrNull()
                         ?.takeIf { it.mediaType.equals("tv", true) }?.tmdbId?.toIntOrNull()?.takeIf { it > 0 }?.toString()
             }
@@ -7355,7 +7355,7 @@ class ContentRepository(private val manager: ProviderManager) {
         // that is translated must not hand the player an English one (the
         // reported "the page says El primer baile, the player says First
         // Dance"). With no language chosen this stays exactly as it was.
-        val language = com.hikari.app.nuvio.TmdbResolver.contentLanguage.takeIf { it.isNotBlank() }
+        val language = com.gworld06.streambox.nuvio.TmdbResolver.contentLanguage.takeIf { it.isNotBlank() }
         val needNames = anilistNamed.any { EpisodeTitles.needsEnglish(it.name, showName) }
         // Without a language there is nothing to do unless a row's own label
         // needs upgrading (that is what keeps ordinary shows from costing a
@@ -7374,7 +7374,7 @@ class ContentRepository(private val manager: ProviderManager) {
         fun absOf(e: Episode): Int = if (!multiSeason) e.number else (seasonBase[e.season] ?: 0) + e.number
         val names = withTimeoutOrNull(20_000) {
             val resolvedId = withTimeoutOrNull(8_000) {
-                runCatching { com.hikari.app.nuvio.TmdbResolver.resolve(item) }.getOrNull()
+                runCatching { com.gworld06.streambox.nuvio.TmdbResolver.resolve(item) }.getOrNull()
             }?.takeIf { it.mediaType.equals("tv", true) }?.tmdbId?.toIntOrNull()?.takeIf { it > 0 }
             if (resolvedId != null) {
                 runCatching { EpisodeTitles.lookupForId(resolvedId, numbers, seasonHint, language) }.getOrNull()?.takeIf { !it.isEmpty() }
@@ -7470,11 +7470,11 @@ class ContentRepository(private val manager: ProviderManager) {
         // TMDB row and each twin gets the same details filled in.
         val singleSeason = list.map { it.season }.toSet().size == 1
         val numbers = if (singleSeason) list.map { it.number }.toSet() else (1..list.size).toSet()
-        val language = com.hikari.app.nuvio.TmdbResolver.contentLanguage.takeIf { it.isNotBlank() }
+        val language = com.gworld06.streambox.nuvio.TmdbResolver.contentLanguage.takeIf { it.isNotBlank() }
         val seasonHint = TmdbMeta.seasonHint(item.searchTitle)
         val map = withTimeoutOrNull(22_000) {
             val resolvedId = withTimeoutOrNull(8_000) {
-                runCatching { com.hikari.app.nuvio.TmdbResolver.resolve(item) }.getOrNull()
+                runCatching { com.gworld06.streambox.nuvio.TmdbResolver.resolve(item) }.getOrNull()
             }?.takeIf { it.mediaType.equals("tv", true) }?.tmdbId?.toIntOrNull()?.takeIf { it > 0 }
             if (resolvedId != null) {
                 runCatching { EpisodeTitles.detailsForId(resolvedId, numbers, seasonHint, language) }.getOrNull()?.takeIf { it.isNotEmpty() }
@@ -7595,7 +7595,7 @@ object SearchResultsCache {
 
     /** Drops every cached result — used when the language TMDB metadata is
      *  fetched in changes, since the titles in here were localized under the old
-     *  one. See [com.hikari.app.HikariApp.onContentLanguageChanged]. */
+     *  one. See [com.gworld06.streambox.HikariApp.onContentLanguageChanged]. */
     fun clear() {
         synchronized(map) { map.clear() }
     }

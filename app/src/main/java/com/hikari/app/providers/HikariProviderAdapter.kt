@@ -1,14 +1,14 @@
-package com.hikari.app.providers
+package com.gworld06.streambox.providers
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.hiki.HikariPluginManager
-import com.hikari.app.hiki.HikariRuntime
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.hiki.HikariPluginManager
+import com.gworld06.streambox.hiki.HikariRuntime
 import com.hikari.ext.HikariCatalog
 import com.hikari.ext.HikariEpisode
 import com.hikari.ext.HikariMedia
@@ -22,7 +22,7 @@ import com.hikari.ext.HikariStream
  * and the player exactly like Stremio addons and CloudStream plugins.
  */
 class HikariProviderAdapter(override val config: ProviderConfig) : ContentProvider,
-    com.hikari.app.providers.StallResettable {
+    com.gworld06.streambox.providers.StallResettable {
 
     /** Drops the cached extension object (see [resetForStall]). */
     fun dropCachedProvider() {
@@ -34,7 +34,7 @@ class HikariProviderAdapter(override val config: ProviderConfig) : ContentProvid
 
     /**
      * Forgets the cached extension so the next call lazily loads a fresh one
-     * (see [com.hikari.app.providers.ExtensionRecovery]): the wedged object —
+     * (see [com.gworld06.streambox.providers.ExtensionRecovery]): the wedged object —
      * with whatever internal lock or state the stuck call died holding — is
      * abandoned, never reused. The stuck thread itself still leaks (nothing
      * can pull a thread out of a plugin that never returns), but it no longer
@@ -121,7 +121,7 @@ class HikariProviderAdapter(override val config: ProviderConfig) : ContentProvid
      * one entry read. Null when the bundle says nothing about adult content —
      * an older bundle written before those fields existed — which leaves the
      * answer to the repo that published it (see
-     * [com.hikari.app.data.ExtensionNsfw.repoEntryNsfw]).
+     * [com.gworld06.streambox.data.ExtensionNsfw.repoEntryNsfw]).
      */
     override fun adultExtension(): Boolean? = runCatching {
         val file = java.io.File(config.url)
@@ -134,7 +134,7 @@ class HikariProviderAdapter(override val config: ProviderConfig) : ContentProvid
             val types = o.optJSONArray("tvTypes")?.let { a ->
                 (0 until a.length()).mapNotNull { i -> a.optString(i).ifBlank { null } }
             } ?: emptyList()
-            com.hikari.app.data.ExtensionNsfw.repoEntryNsfw(o, types)
+            com.gworld06.streambox.data.ExtensionNsfw.repoEntryNsfw(o, types)
         }
     }.getOrNull()
 
@@ -272,11 +272,11 @@ class HikariProviderAdapter(override val config: ProviderConfig) : ContentProvid
         val ep = episode?.let { HikariEpisode(it.number, it.id, it.name, it.image) }
         // One call at a time into this extension: a bridge provider that keeps
         // state (see [ProviderGate]) is corrupted by two concurrent passes.
-        return com.hikari.app.providers.ProviderGate.withProvider(
+        return com.gworld06.streambox.providers.ProviderGate.withProvider(
             config.id,
             // A stream lookup is BACKGROUND: it must never queue in front of a
             // page the user is waiting on (see [ProviderGate.Lane]).
-            com.hikari.app.providers.ProviderGate.Lane.BACKGROUND,
+            com.gworld06.streambox.providers.ProviderGate.Lane.BACKGROUND,
         ) {
             p.getStreams(item.toExt(), ep).map { it.toApp() }
         }

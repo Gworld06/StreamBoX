@@ -1,6 +1,6 @@
-package com.hikari.app.download
+package com.gworld06.streambox.download
 
-import com.hikari.app.data.SubtitleSource
+import com.gworld06.streambox.data.SubtitleSource
 import org.json.JSONArray
 import org.json.JSONObject
 

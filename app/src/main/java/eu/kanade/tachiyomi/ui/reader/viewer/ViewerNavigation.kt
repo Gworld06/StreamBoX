@@ -2,7 +2,7 @@ package eu.kanade.tachiyomi.ui.reader.viewer
 
 import android.graphics.PointF
 import android.graphics.RectF
-import com.hikari.app.reader.TappingInvertMode
+import com.gworld06.streambox.reader.TappingInvertMode
 
 /** The action triggered by a tap zone of the reader. */
 sealed class NavigationRegion {

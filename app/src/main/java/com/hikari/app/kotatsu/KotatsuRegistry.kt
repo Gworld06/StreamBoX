@@ -1,12 +1,12 @@
-package com.hikari.app.kotatsu
+package com.gworld06.streambox.kotatsu
 
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.Logs
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
 import org.koitharu.kotatsu.parsers.MangaParser
 import org.koitharu.kotatsu.parsers.model.ContentType
 import org.koitharu.kotatsu.parsers.model.MangaParserSource
@@ -232,7 +232,7 @@ object KotatsuRegistry {
                     nsfw = hentai || src.contentType == ContentType.HENTAI,
                 )
             } else {
-                com.hikari.app.kotatsu.fork.ForkRegistry.pluginForEntry(
+                com.gworld06.streambox.kotatsu.fork.ForkRegistry.pluginForEntry(
                     entryName = e.name,
                     entryLang = e.lang,
                     entryIcon = e.iconUrl,
@@ -259,7 +259,7 @@ object KotatsuRegistry {
     }
 
     /** Drops the cached parser + bridge for [enumName] (see
-     *  [com.hikari.app.providers.ExtensionRecovery]): the next call builds
+     *  [com.gworld06.streambox.providers.ExtensionRecovery]): the next call builds
      *  them fresh instead of reusing a wedged instance. */
     fun evict(enumName: String) {
         parserCache.remove(enumName)
@@ -267,9 +267,9 @@ object KotatsuRegistry {
     }
 
     /** Drops a wedged fork parser/bridge (see [evict]): fork manga rows cache
-     *  in [com.hikari.app.kotatsu.fork.ForkRegistry]. */
+     *  in [com.gworld06.streambox.kotatsu.fork.ForkRegistry]. */
     fun evictFork(id: String) {
-        com.hikari.app.kotatsu.fork.ForkRegistry.evictForkManga(id)
+        com.gworld06.streambox.kotatsu.fork.ForkRegistry.evictForkManga(id)
     }
 
     /** Registers the official repo once (seed path: a user who deletes it

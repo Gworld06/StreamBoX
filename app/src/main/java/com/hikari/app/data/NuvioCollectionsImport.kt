@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.i18n.I18n
 import org.json.JSONArray
 import org.json.JSONObject
 

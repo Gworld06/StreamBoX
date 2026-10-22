@@ -1,17 +1,17 @@
-package com.hikari.app.tracker
+package com.gworld06.streambox.tracker
 
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.HistoryEntry
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaType
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.data.TrackerAccount
-import com.hikari.app.data.TrackerClient
-import com.hikari.app.data.TrackerMatch
-import com.hikari.app.data.TrackerMedia
-import com.hikari.app.data.TrackerStore
-import com.hikari.app.data.TRACKER_AUTO_THRESHOLD
-import com.hikari.app.data.matchScoreAny
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.HistoryEntry
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.data.TrackerAccount
+import com.gworld06.streambox.data.TrackerClient
+import com.gworld06.streambox.data.TrackerMatch
+import com.gworld06.streambox.data.TrackerMedia
+import com.gworld06.streambox.data.TrackerStore
+import com.gworld06.streambox.data.TRACKER_AUTO_THRESHOLD
+import com.gworld06.streambox.data.matchScoreAny
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -75,8 +75,8 @@ object TrackerSync {
             // Only AniList and MAL keep manga lists: the others can never
             // match a manga title, so say that instead of "no confident
             // match" (which reads as a bug rather than a scope limit).
-            if (media.manga && kind != com.hikari.app.data.TrackerKind.ANILIST &&
-                kind != com.hikari.app.data.TrackerKind.MAL
+            if (media.manga && kind != com.gworld06.streambox.data.TrackerKind.ANILIST &&
+                kind != com.gworld06.streambox.data.TrackerKind.MAL
             ) {
                 notes += "${kind.label}: doesn't track manga — skipped"
                 continue
@@ -192,11 +192,11 @@ object TrackerSync {
     private suspend fun aliasBestMatch(
         media: TrackerMedia,
         candidates: List<TrackerMatch>,
-        kind: com.hikari.app.data.TrackerKind,
+        kind: com.gworld06.streambox.data.TrackerKind,
     ): TrackerMatch? {
         if (candidates.isEmpty()) return null
         val aliases = runCatching {
-            com.hikari.app.data.AnimeMetadataRepository.aliasesFor(media.title)
+            com.gworld06.streambox.data.AnimeMetadataRepository.aliasesFor(media.title)
         }.getOrNull().orEmpty()
         if (aliases.isEmpty()) return null
         for (alias in aliases) {
@@ -223,7 +223,7 @@ object TrackerSync {
     suspend fun bestMatch(
         media: TrackerMedia,
         candidates: List<TrackerMatch>,
-        kind: com.hikari.app.data.TrackerKind,
+        kind: com.gworld06.streambox.data.TrackerKind,
     ): TrackerMatch? {
         val usable = candidates.filter { it.id.isNotBlank() && it.score > 0.0 }
             .sortedByDescending { it.score }
@@ -247,8 +247,8 @@ object TrackerSync {
             // signal is still reported as unmatched.
             val ranked = pool.sortedWith(
                 compareByDescending<TrackerMatch> { it.score }
-                    .thenByDescending { com.hikari.app.data.exactTitleHit(media.title, it) }
-                    .thenByDescending { com.hikari.app.data.matchScore(media.title, it.title, media.year, it.year) }
+                    .thenByDescending { com.gworld06.streambox.data.exactTitleHit(media.title, it) }
+                    .thenByDescending { com.gworld06.streambox.data.matchScore(media.title, it.title, media.year, it.year) }
                     .thenByDescending { seasonMarkerScore(media, it) }
                     .thenByDescending { yearCloseness(media, it) }
                     .thenByDescending { coversEpisode(media, it) },
@@ -269,10 +269,10 @@ object TrackerSync {
             }
             val runnerUp = ranked.firstOrNull { it.id != winner.id }
             if (runnerUp != null && runnerUp.score >= winner.score - 0.02 &&
-                com.hikari.app.data.exactTitleHit(media.title, runnerUp) >=
-                com.hikari.app.data.exactTitleHit(media.title, winner) &&
-                com.hikari.app.data.matchScore(media.title, runnerUp.title, media.year, runnerUp.year) >=
-                com.hikari.app.data.matchScore(media.title, winner.title, media.year, winner.year) &&
+                com.gworld06.streambox.data.exactTitleHit(media.title, runnerUp) >=
+                com.gworld06.streambox.data.exactTitleHit(media.title, winner) &&
+                com.gworld06.streambox.data.matchScore(media.title, runnerUp.title, media.year, runnerUp.year) >=
+                com.gworld06.streambox.data.matchScore(media.title, winner.title, media.year, winner.year) &&
                 seasonMarkerScore(media, runnerUp) >= seasonMarkerScore(media, winner) &&
                 yearCloseness(media, runnerUp) >= yearCloseness(media, winner) &&
                 coversEpisode(media, runnerUp) == coversEpisode(media, winner)
@@ -291,14 +291,14 @@ object TrackerSync {
     private suspend fun chainPick(
         media: TrackerMedia,
         pool: List<TrackerMatch>,
-        kind: com.hikari.app.data.TrackerKind,
+        kind: com.gworld06.streambox.data.TrackerKind,
     ): TrackerMatch? {
-        if (kind != com.hikari.app.data.TrackerKind.ANILIST) return null
+        if (kind != com.gworld06.streambox.data.TrackerKind.ANILIST) return null
         val ids = pool.mapNotNull { it.id.toIntOrNull() }.distinct()
         if (ids.size < media.season) return null
         val chain = TrackerApi.anilistSequelChain(ids)
             .mapNotNull { id -> pool.firstOrNull { it.id == id.toString() } }
-            .filter { com.hikari.app.data.isMainlineEntry(it.title, media.movie) }
+            .filter { com.gworld06.streambox.data.isMainlineEntry(it.title, media.movie) }
         val pick = chain.getOrNull(media.season - 1) ?: return null
         if (pick.score < TRACKER_AUTO_THRESHOLD - 0.1) return null
         if (!coversEpisode(media, pick) && seasonMarkerScore(media, pick) == 0) return null
@@ -318,11 +318,11 @@ object TrackerSync {
      * which is meaningless.
      */
     private fun orderPick(media: TrackerMedia, pool: List<TrackerMatch>): TrackerMatch? {
-        val wantedBase = com.hikari.app.data.sequelBase(com.hikari.app.data.normalizeTitle(media.title))
+        val wantedBase = com.gworld06.streambox.data.sequelBase(com.gworld06.streambox.data.normalizeTitle(media.title))
         val sameShow = pool.filter { c ->
-            com.hikari.app.data.sequelBase(com.hikari.app.data.normalizeTitle(c.title)) == wantedBase ||
-                com.hikari.app.data.matchScoreAny(c.title, media.title, media.year, c.year) >= TRACKER_AUTO_THRESHOLD - 0.1
-        }.filter { com.hikari.app.data.isMainlineEntry(it.title, media.movie) }
+            com.gworld06.streambox.data.sequelBase(com.gworld06.streambox.data.normalizeTitle(c.title)) == wantedBase ||
+                com.gworld06.streambox.data.matchScoreAny(c.title, media.title, media.year, c.year) >= TRACKER_AUTO_THRESHOLD - 0.1
+        }.filter { com.gworld06.streambox.data.isMainlineEntry(it.title, media.movie) }
         if (media.season > sameShow.size) return null
         val ordered = sameShow.sortedWith(
             compareBy({ it.year.takeIf { y -> y > 0 } ?: Int.MAX_VALUE }, { it.id })
@@ -399,7 +399,7 @@ object TrackerSync {
         // stored still disambiguate. Never invents one: 0 keeps every
         // season-1 rule exactly as it was.
         season = entry.seasonNumber.takeIf { it > 1 }
-            ?: com.hikari.app.data.seasonFromTitle(entry.title),
+            ?: com.gworld06.streambox.data.seasonFromTitle(entry.title),
     )
 
     /**

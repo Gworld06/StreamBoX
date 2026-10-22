@@ -1,14 +1,14 @@
-package com.hikari.app.sora
+package com.gworld06.streambox.sora
 
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -258,7 +258,7 @@ class SoraProvider(override val config: ProviderConfig) : ContentProvider {
             lastOutcome[config.id] = "✓ ${out.size} source${if (out.size == 1) "" else "s"} in " +
                 "${(System.currentTimeMillis() - started) / 1000}s"
             val distinct = out.distinctBy { it.url }
-            com.hikari.app.net.StreamProbe.warmAsync(distinct)
+            com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
             distinct
         }
 

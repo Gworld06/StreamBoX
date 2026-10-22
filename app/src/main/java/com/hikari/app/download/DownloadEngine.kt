@@ -1,4 +1,4 @@
-package com.hikari.app.download
+package com.gworld06.streambox.download
 
 import android.content.ContentValues
 import android.content.Context
@@ -10,8 +10,8 @@ import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import com.hikari.app.net.Http
-import com.hikari.app.net.PlayerHttp
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.net.PlayerHttp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

@@ -1,8 +1,8 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.ui.components.LocalHideHelp
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import android.content.Context
 import android.content.Intent
@@ -47,14 +47,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
-import com.hikari.app.data.DownloadsSaver
-import com.hikari.app.data.Logs
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.GlassShape
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.DownloadsSaver
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.GlassShape
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -74,7 +74,7 @@ fun LogsPage(app: HikariApp, onBack: () -> Unit) {
     var refreshTick by remember { mutableStateOf(0) }
     var showClearDialog by remember { mutableStateOf(false) }
     // Log page position held across visits (see ScrollKeeper).
-    val listState = com.hikari.app.ui.components.keptListState("logs")
+    val listState = com.gworld06.streambox.ui.components.keptListState("logs")
 
     BackHandler { onBack() }
 

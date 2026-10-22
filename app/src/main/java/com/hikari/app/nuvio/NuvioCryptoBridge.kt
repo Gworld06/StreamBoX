@@ -1,4 +1,4 @@
-package com.hikari.app.nuvio
+package com.gworld06.streambox.nuvio
 
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.function

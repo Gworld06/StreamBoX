@@ -1,11 +1,11 @@
-package com.hikari.app.pair
+package com.gworld06.streambox.pair
 
 import android.net.wifi.WifiManager
 import android.os.Build
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
-import com.hikari.app.data.BackupManager
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.BackupManager
+import com.gworld06.streambox.data.Logs
 import fi.iki.elonen.NanoHTTPD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

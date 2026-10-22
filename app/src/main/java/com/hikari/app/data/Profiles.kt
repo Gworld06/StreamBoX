@@ -1,10 +1,10 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import android.content.Context
-import com.hikari.app.BuildConfig
-import com.hikari.app.HikariApp
-import com.hikari.app.download.DownloadStore
-import com.hikari.app.lock.AppLock
+import com.gworld06.streambox.BuildConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.download.DownloadStore
+import com.gworld06.streambox.lock.AppLock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -113,7 +113,7 @@ object Profiles {
     fun activeProfile(): Profile? = _activeId.value?.let { id -> _all.value.firstOrNull { it.id == id } }
 
     /** What a profile holds, as counts — the picker prints them (see
-     *  [com.hikari.app.ui.screens.ProfilesScreen]). */
+     *  [com.gworld06.streambox.ui.screens.ProfilesScreen]). */
     data class Summary(val extensions: Int, val saved: Int, val watched: Int) {
         val isEmpty: Boolean get() = extensions == 0 && saved == 0 && watched == 0
     }

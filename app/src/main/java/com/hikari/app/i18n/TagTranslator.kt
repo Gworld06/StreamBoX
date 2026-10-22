@@ -1,6 +1,6 @@
-package com.hikari.app.i18n
+package com.gworld06.streambox.i18n
 
-import com.hikari.app.data.Translator
+import com.gworld06.streambox.data.Translator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

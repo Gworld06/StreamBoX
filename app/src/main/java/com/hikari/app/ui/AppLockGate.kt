@@ -1,6 +1,6 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
-import com.hikari.app.ui.components.LocalHideHelp
+import com.gworld06.streambox.ui.components.LocalHideHelp
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -31,7 +31,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import com.hikari.app.ui.theme.pageBackground
+import com.gworld06.streambox.ui.theme.pageBackground
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -62,9 +62,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.hikari.app.HikariApp
-import com.hikari.app.i18n.tr
-import com.hikari.app.lock.AppLock
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.lock.AppLock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -99,7 +99,7 @@ import kotlinx.coroutines.withContext
  *    minutes the app stays unlocked for that long after it is left, so a glance
  *    at a notification does not cost a PIN. The deadline is a wall-clock
  *    timestamp compared when the app comes back, NOT a running timer — and it
- *    is compared against the STORED unlock ([com.hikari.app.data.AppStore.appLockSession]),
+ *    is compared against the STORED unlock ([com.gworld06.streambox.data.AppStore.appLockSession]),
  *    so it survives the device sleeping and the process being killed, which a
  *    coroutine timer or an in-memory flag would not. It applies to whichever
  *    triggers are on.
@@ -161,14 +161,14 @@ fun AppLockGate(activity: android.app.Activity, content: @Composable () -> Unit)
     // a frame before the lock is known (the same flash the app-lock gate
     // above closes with `sessionRead`).
     var profilesRead by remember { mutableStateOf(false) }
-    val profilesAll by com.hikari.app.data.Profiles.all.collectAsState()
-    val profilesActiveId by com.hikari.app.data.Profiles.activeId.collectAsState()
+    val profilesAll by com.gworld06.streambox.data.Profiles.all.collectAsState()
+    val profilesActiveId by com.gworld06.streambox.data.Profiles.activeId.collectAsState()
     val lockedProfile = remember(profilesAll, profilesActiveId, profileTick) {
         profilesActiveId?.let { id -> profilesAll.firstOrNull { it.id == id } }
-            ?.takeIf { com.hikari.app.data.Profiles.needsPassword(it) }
+            ?.takeIf { com.gworld06.streambox.data.Profiles.needsPassword(it) }
     }
     LaunchedEffect(Unit) {
-        runCatching { com.hikari.app.data.Profiles.load(app) }
+        runCatching { com.gworld06.streambox.data.Profiles.load(app) }
         profilesRead = true
         profileTick++
     }
@@ -179,7 +179,7 @@ fun AppLockGate(activity: android.app.Activity, content: @Composable () -> Unit)
         unlocked = false
         // A re-locked app re-locks its profiles too: their passwords are
         // per-process unlocks by design (see Profiles.unlockedIds).
-        com.hikari.app.data.Profiles.lockAll()
+        com.gworld06.streambox.data.Profiles.lockAll()
         scope.launch { runCatching { app.store.setAppLockSessionClosed() } }
     }
 
@@ -384,7 +384,7 @@ fun AppLockGate(activity: android.app.Activity, content: @Composable () -> Unit)
  * FOUR THINGS THIS SCREEN HAS TO GET RIGHT, and all four were reported as bugs:
  *
  *  1. **As many dots as the password has.** The length is recorded when the
- *     password is set ([com.hikari.app.data.AppStore.appLockLenFlow]), so a
+ *     password is set ([com.gworld06.streambox.data.AppStore.appLockLenFlow]), so a
  *     4-digit PIN draws four dots and is submitted on the fourth digit. Showing
  *     a fixed six made a 4-digit PIN look like the app wanted six.
  *  2. **Never silent.** Verifying is deliberately expensive (120k PBKDF2
@@ -1051,15 +1051,15 @@ object Biometrics {
 
 /**
  * The active profile's own password card (see
- * [com.hikari.app.data.Profiles]): drawn by [AppLockGate] after the app lock
+ * [com.gworld06.streambox.data.Profiles]): drawn by [AppLockGate] after the app lock
  * passes, instead of the app's content, while the profile in use demands its
  * password. Leaving for a different profile is always allowed — only ENTERING
  * a locked one asks.
  */
 @Composable
 private fun ProfileGateCard(
-    profile: com.hikari.app.data.Profiles.Profile,
-    others: List<com.hikari.app.data.Profiles.Profile>,
+    profile: com.gworld06.streambox.data.Profiles.Profile,
+    others: List<com.gworld06.streambox.data.Profiles.Profile>,
     onUnlocked: () -> Unit,
     onSwitched: () -> Unit,
 ) {
@@ -1080,7 +1080,7 @@ private fun ProfileGateCard(
     // profile this card guards, otherwise a locked profile picked from the
     // switcher whose password is asked inline before entering it.
     var pwTarget by remember(profile.id) {
-        mutableStateOf<com.hikari.app.data.Profiles.Profile?>(null)
+        mutableStateOf<com.gworld06.streambox.data.Profiles.Profile?>(null)
     }
 
     fun check() {
@@ -1090,11 +1090,11 @@ private fun ProfileGateCard(
         val target = pwTarget ?: profile
         scope.launch {
             val res = runCatching {
-                com.hikari.app.data.Profiles.unlock(app, target.id, attempt)
+                com.gworld06.streambox.data.Profiles.unlock(app, target.id, attempt)
             }.getOrNull()
             checking = false
-            if (res == com.hikari.app.data.Profiles.UnlockResult.OK ||
-                res == com.hikari.app.data.Profiles.UnlockResult.NO_SECRET
+            if (res == com.gworld06.streambox.data.Profiles.UnlockResult.OK ||
+                res == com.gworld06.streambox.data.Profiles.UnlockResult.NO_SECRET
             ) {
                 if (target.id == profile.id) {
                     onUnlocked()
@@ -1102,7 +1102,7 @@ private fun ProfileGateCard(
                     // Enter it. switchTo still refuses a target it does not
                     // know as unlocked, so a stale tap can never slip through
                     // here either (see Profiles.switchTo).
-                    runCatching { com.hikari.app.data.Profiles.switchTo(app, target.id) }
+                    runCatching { com.gworld06.streambox.data.Profiles.switchTo(app, target.id) }
                     pwTarget = null
                     onSwitched()
                 }
@@ -1217,7 +1217,7 @@ private fun ProfileGateCard(
                         TextButton(
                             enabled = switchingTo == null,
                             onClick = {
-                                if (com.hikari.app.data.Profiles.needsPassword(p)) {
+                                if (com.gworld06.streambox.data.Profiles.needsPassword(p)) {
                                     // A locked profile is never entered
                                     // directly from here: its password is
                                     // asked inline first (see check()).
@@ -1228,7 +1228,7 @@ private fun ProfileGateCard(
                                 } else {
                                     switchingTo = p.id
                                     scope.launch {
-                                        runCatching { com.hikari.app.data.Profiles.switchTo(app, p.id) }
+                                        runCatching { com.gworld06.streambox.data.Profiles.switchTo(app, p.id) }
                                         switchingTo = null
                                         pickOther = false
                                         onSwitched()
@@ -1236,7 +1236,7 @@ private fun ProfileGateCard(
                                 }
                             },
                         ) {
-                            if (com.hikari.app.data.Profiles.needsPassword(p)) {
+                            if (com.gworld06.streambox.data.Profiles.needsPassword(p)) {
                                 Icon(
                                     Icons.Filled.Lock,
                                     contentDescription = null,

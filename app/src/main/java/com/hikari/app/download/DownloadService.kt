@@ -1,4 +1,4 @@
-package com.hikari.app.download
+package com.gworld06.streambox.download
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,8 +13,8 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.hikari.app.MainActivity
-import com.hikari.app.R
+import com.gworld06.streambox.MainActivity
+import com.gworld06.streambox.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

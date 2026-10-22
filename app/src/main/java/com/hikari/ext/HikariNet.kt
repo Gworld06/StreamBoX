@@ -8,7 +8,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import com.lagradost.cloudstream3.network.WebViewResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,7 +41,7 @@ object HikariNet {
 
     /** Browser-like headers for scraping (desktop Chrome fingerprint). */
     val browserHeaders: Map<String, String> = mapOf(
-        "User-Agent" to com.hikari.app.net.Http.UA,
+        "User-Agent" to com.gworld06.streambox.net.Http.UA,
         "Accept" to "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language" to "en-US,en;q=0.9",
     )
@@ -49,7 +49,7 @@ object HikariNet {
     /** GET and return the response body as text (null on any failure). */
     suspend fun getString(url: String, headers: Map<String, String> = emptyMap()): String? =
         withContext(Dispatchers.IO) {
-            com.hikari.app.net.Http.getString(url, headers)
+            com.gworld06.streambox.net.Http.getString(url, headers)
         }
 
     /** POST a string body and return the response body as text (null on any
@@ -61,7 +61,7 @@ object HikariNet {
         headers: Map<String, String> = emptyMap(),
         contentType: String = "application/json; charset=utf-8",
     ): String? = withContext(Dispatchers.IO) {
-        com.hikari.app.net.Http.postString(url, body, headers, contentType)
+        com.gworld06.streambox.net.Http.postString(url, body, headers, contentType)
     }
 
     /** POST a JSON object and parse the response as JSON (null on failure). */
@@ -226,14 +226,14 @@ object HikariNet {
 
     suspend fun getBytes(url: String, headers: Map<String, String> = emptyMap()): ByteArray? =
         withContext(Dispatchers.IO) {
-            com.hikari.app.net.Http.getBytes(url, headers)
+            com.gworld06.streambox.net.Http.getBytes(url, headers)
         }
 
     /** Full response (status + body) for callers that must see error codes. */
     suspend fun fetch(url: String, headers: Map<String, String> = emptyMap()): HikariResponse? =
         withContext(Dispatchers.IO) {
             try {
-                com.hikari.app.net.Http.get(url, headers).use { r ->
+                com.gworld06.streambox.net.Http.get(url, headers).use { r ->
                     HikariResponse(r.code, r.request.url.toString(), r.body?.string())
                 }
             } catch (t: Throwable) {

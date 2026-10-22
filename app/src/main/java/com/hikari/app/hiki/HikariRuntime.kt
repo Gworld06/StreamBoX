@@ -1,7 +1,7 @@
-package com.hikari.app.hiki
+package com.gworld06.streambox.hiki
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.ProviderConfig
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.ProviderConfig
 import com.hikari.ext.HikariProvider
 import java.io.File
 

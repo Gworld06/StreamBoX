@@ -1,4 +1,4 @@
-package com.hikari.app.ui.theme
+package com.gworld06.streambox.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -52,7 +52,7 @@ val Typography = Typography(    headlineLarge = TextStyle(
  * The same type scale with every style's family swapped for [family].
  *
  * This is how the app-wide font (Settings → Appearance & Theme → App font) reaches the
- * whole Compose UI: [com.hikari.app.ui.theme.HikariTheme] hands the result to
+ * whole Compose UI: [com.gworld06.streambox.ui.theme.HikariTheme] hands the result to
  * `MaterialTheme`, so every `MaterialTheme.typography.*` look-up — i.e. nearly
  * every Text in the app — already carries the user's choice. A null [family]
  * returns the stock scale untouched, which is what "System default" means.

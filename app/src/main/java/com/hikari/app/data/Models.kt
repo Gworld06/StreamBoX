@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 enum class ProviderType {
     STREMIO, UNIVERSAL, CS3, HIKARI, NUVIO, SKYSTREAM, ANIYOMI, IPTV,
@@ -7,7 +7,7 @@ enum class ProviderType {
      * `github.com/Zenda-Cross/vega-providers` (AniKoto, 4KHDHub, Showbox,
      * NetflixMirror, …). Unlike a nuvio provider it carries its own catalogue,
      * search, details and episodes as well as streams, so it behaves like a
-     * whole site (see com.hikari.app.providers.vega.VegaProvider).
+     * whole site (see com.gworld06.streambox.providers.vega.VegaProvider).
      */
     VEGA,
     /**
@@ -16,20 +16,20 @@ enum class ProviderType {
      * API the Aniyomi side does, but its catalogues are titles, its "episodes"
      * are chapters and its "streams" are page images, which is why the reader
      * and the manga detail screen are the screens that open on them (see
-     * com.hikari.app.manga).
+     * com.gworld06.streambox.manga).
      */
     MANGA,
     /**
      * A SORA module — one self-contained `.js` file speaking the Sora module
      * interface (`searchResults` / `extractDetails` / `extractEpisodes` /
      * `extractStreamUrl` over the `fetchv2` bridge), installed from a Sora
-     * manifest (see com.hikari.app.sora).
+     * manifest (see com.gworld06.streambox.sora).
      */
     SORA,
     /**
      * An ANYMEX anime source — a Mangayomi-format JavaScript extension
      * (`MProvider` subclass) installed from an Anymex/Mangayomi index
-     * (see com.hikari.app.anymex).
+     * (see com.gworld06.streambox.anymex).
      */
     ANYMEX,
     /**
@@ -41,14 +41,14 @@ enum class ProviderType {
     /**
      * A ZANGETSU source — one self-contained `.js` scraper speaking `getHome`
      * / `search` / `getDetail` / `getEpisodes` / `getVideoSources`, installed
-     * from a Zangetsu `index.json` manifest (see com.hikari.app.zangetsu).
+     * from a Zangetsu `index.json` manifest (see com.gworld06.streambox.zangetsu).
      */
     ZANGETSU,
     /**
      * A fork-video source — a VIDEO/HENTAI_VIDEO parser from the skepsun
      * (kototoro) fork or an ANIME parser from the vendored hany18h fork, whose
      * chapters are episodes and whose pages/AnimeStreams are playable servers
-     * (see com.hikari.app.kotatsu.fork.ForkVideoProvider). Manga/novel rows
+     * (see com.gworld06.streambox.kotatsu.fork.ForkVideoProvider). Manga/novel rows
      * from the same forks ride [MANGA] under `manga|forksk|` / `manga|forkhany|`
      * ids; only video needs its own type so it lands in the video pipeline
      * (Home rows, search, detail, player) instead of the manga tab.
@@ -100,8 +100,8 @@ data class ProviderConfig(
      * and with the adult-content switch off, an installed 18+ extension whose
      * repo is no longer added would otherwise be looked up by loading it, which
      * is exactly the wrong way round. See
-     * [com.hikari.app.data.ExtensionNsfw] for the whole rule and
-     * [com.hikari.app.providers.ProviderManager.learnAdultFlags] for how an
+     * [com.gworld06.streambox.data.ExtensionNsfw] for the whole rule and
+     * [com.gworld06.streambox.providers.ProviderManager.learnAdultFlags] for how an
      * older install fills it in.
      */
     val nsfw: Boolean? = null,
@@ -112,7 +112,7 @@ enum class RepoKind { CS3, HIKARI, NUVIO, SKYSTREAM, ANIYOMI, VEGA, SORA, ANYMEX
 
 /**
  * A user-made PROVIDER FOLDER: a name, and the provider ids it holds (see
- * [com.hikari.app.data.AppStore.providerFoldersFlow]).
+ * [com.gworld06.streambox.data.AppStore.providerFoldersFlow]).
  *
  * It exists so the handful of extensions someone uses daily can be picked in one
  * tap. It is deliberately a saved PICK rather than a new kind of selection key —
@@ -168,7 +168,7 @@ data class Cs3RepoPlugin(
      * One index can hold both kinds — the two ecosystems publish the same file
      * format out of the same folders — and a reader looking for a manga engine
      * in a 1396-entry list should not have to open the anime rows to find out
-     * which is which. See [com.hikari.app.aniyomi.AniyomiExtensionManager
+     * which is which. See [com.gworld06.streambox.aniyomi.AniyomiExtensionManager
      * .contentKindOf], which decides it from the entry's own shape and from
      * what the app has already installed.
      *
@@ -199,7 +199,7 @@ data class Cs3RepoPlugin(
      * The listing is the only place this is knowable BEFORE an install, and it
      * is what the adult-content switch hides from the store lists: with the
      * switch off an 18+ extension is not offered for install in the first place
-     * (see [NsfwGate], and [com.hikari.app.data.ExtensionNsfw] for the check on
+     * (see [NsfwGate], and [com.gworld06.streambox.data.ExtensionNsfw] for the check on
      * ones that are already installed).
      */
     val nsfw: Boolean = false,
@@ -305,7 +305,7 @@ data class MediaItem(
      *
      * Only the explicit markers live here; the rest of the rule (18+/adult genre
      * tags, the name itself, an adults-only certificate) is applied by
-     * [com.hikari.app.data.NsfwGate], which is also where the setting and the
+     * [com.gworld06.streambox.data.NsfwGate], which is also where the setting and the
      * reasoning live. Keeping the flag on the item means a catalogue page, a
      * search result and a cached shelf all carry their own answer.
      */
@@ -322,7 +322,7 @@ data class MediaItem(
      * resolve streams instead of scraping a catalog (Nuvio, Stremio) leave it
      * null — nothing is known about their quality until a stream is picked, and
      * a badge invented from nothing would be a lie on the poster. See
-     * [com.hikari.app.data.TitleQuality].
+     * [com.gworld06.streambox.data.TitleQuality].
      */
     val quality: String? = null,
     val nextEpisodeDate: String? = null,
@@ -516,7 +516,7 @@ data class SubtitleSource(
      * Headers the DOWNLOAD needs, for the sites that serve a subtitle only to a
      * request that carries the page it was listed on (OpenSubtitles' mirror, for
      * example, is asked with its own site as the Referer — see
-     * [com.hikari.app.subtitles.SubtitleSites]). Empty for an addon's track,
+     * [com.gworld06.streambox.subtitles.SubtitleSites]). Empty for an addon's track,
      * which needs none.
      */
     val headers: Map<String, String> = emptyMap(),
@@ -587,7 +587,7 @@ data class StreamSource(
      * the pair (`imageRequest(page)` in the extension reads `page.url` for the
      * Referer/Origin it has to send), so a page fetched with an empty one is the
      * hotlink-refused, scrambled-page report (see
-     * [com.hikari.app.reader.source.HikariPageSource]).
+     * [com.gworld06.streambox.reader.source.HikariPageSource]).
      */
     val pageUrl: String = "",
     /** Addon's filename for this torrent row (Stremio behaviorHints.filename,
@@ -652,7 +652,7 @@ data class CatalogSource(
     val catalogId: String = "",
     val type: MediaType = MediaType.UNKNOWN,
     val rawType: String = "",
-    /** [CatalogSourceKind.TMDB] only: the key of a [com.hikari.app.data.TmdbPresets] entry. */
+    /** [CatalogSourceKind.TMDB] only: the key of a [com.gworld06.streambox.data.TmdbPresets] entry. */
     val tmdbPreset: String = "",
     /**
      * [CatalogSourceKind.TMDB] only: a hand-built TMDB source (a public list, a
@@ -794,7 +794,7 @@ object CoverKinds {
     const val NONE = "none"
     const val EMOJI = "emoji"
     /** A still image: an https:// URL, or a file:// path to a copy the app
-     *  made from the user's gallery (see [com.hikari.app.ui.CollectionCovers]). */
+     *  made from the user's gallery (see [com.gworld06.streambox.ui.CollectionCovers]). */
     const val URL = "url"
     /** An animated GIF URL — the same field, played only while the tile has
      *  focus (a wall of animating GIFs is a battery fire). */

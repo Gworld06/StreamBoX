@@ -1,6 +1,6 @@
-package com.hikari.app.ui.components
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+package com.gworld06.streambox.ui.components
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -28,11 +28,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import com.hikari.app.ui.DISCORD_INVITE_URL
-import com.hikari.app.ui.REDDIT_COMMUNITY_URL
-import com.hikari.app.ui.TELEGRAM_CHANNEL_URL
-import com.hikari.app.ui.openCommunity
-import com.hikari.app.ui.openTelegram
+import com.gworld06.streambox.ui.DISCORD_INVITE_URL
+import com.gworld06.streambox.ui.REDDIT_COMMUNITY_URL
+import com.gworld06.streambox.ui.TELEGRAM_CHANNEL_URL
+import com.gworld06.streambox.ui.openCommunity
+import com.gworld06.streambox.ui.openTelegram
 
 /**
  * Shown once per app version to point the user at the community: Telegram,

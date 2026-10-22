@@ -1,15 +1,15 @@
-package com.hikari.app.tracker
+package com.gworld06.streambox.tracker
 
-import com.hikari.app.data.Logs
-import com.hikari.app.data.TrackerAccount
-import com.hikari.app.data.TrackerClient
-import com.hikari.app.data.TrackerKind
-import com.hikari.app.data.TrackerMatch
-import com.hikari.app.data.TrackerMedia
-import com.hikari.app.data.matchScore
-import com.hikari.app.data.matchScoreAny
-import com.hikari.app.data.titleVariants
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.TrackerAccount
+import com.gworld06.streambox.data.TrackerClient
+import com.gworld06.streambox.data.TrackerKind
+import com.gworld06.streambox.data.TrackerMatch
+import com.gworld06.streambox.data.TrackerMedia
+import com.gworld06.streambox.data.matchScore
+import com.gworld06.streambox.data.matchScoreAny
+import com.gworld06.streambox.data.titleVariants
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -41,7 +41,7 @@ object TrackerApi {
      * The redirect URI every app registration must be given, verbatim.
      *
      * The sign-in happens in an in-app WebView that watches for exactly this
-     * URL (see [com.hikari.app.ui.components.TrackerLoginDialog]): nothing is
+     * URL (see [com.gworld06.streambox.ui.components.TrackerLoginDialog]): nothing is
      * listening for the scheme outside the app, so the hand-off is intercepted
      * before Android ever sees it — no manifest entry, no second app.
      */
@@ -288,7 +288,7 @@ object TrackerApi {
      * and a code that arrived then could not be exchanged by anybody, which is
      * the whole of the reported "I sign in in the browser and the app still does
      * not connect". Persisting this one small record is what lets
-     * [com.hikari.app.MainActivity] finish that link anyway.
+     * [com.gworld06.streambox.MainActivity] finish that link anyway.
      */
     data class Pending(
         val kind: TrackerKind,
@@ -961,7 +961,7 @@ object TrackerApi {
         // English: "Zhu Xian" vs "Jade Dynasty"). The alias forms are scored
         // already, but some services never return the entry for the base
         // title — so its other spellings are searched too.
-        for (v in com.hikari.app.data.titleVariants(t)) {
+        for (v in com.gworld06.streambox.data.titleVariants(t)) {
             if (out.none { it.equals(v, true) }) out.add(v)
             if (out.size >= 5) break
         }
@@ -971,7 +971,7 @@ object TrackerApi {
         // Husband Home" → "Guomin Laogong Dai Huijia", probed 2026-10-17).
         // Bounded: the service loops stay small.
         if (out.size < 7) {
-            for (a in runCatching { com.hikari.app.data.AnimeMetadataRepository.aliasesFor(t) }.getOrDefault(emptySet())) {
+            for (a in runCatching { com.gworld06.streambox.data.AnimeMetadataRepository.aliasesFor(t) }.getOrDefault(emptySet())) {
                 val form = a.trim()
                 if (form.isNotBlank() && !isNullWord(form) && out.none { it.equals(form, true) }) out.add(form)
                 if (out.size >= 7) break
@@ -1386,7 +1386,7 @@ object TrackerApi {
             "Accept" to "application/json",
             // Shikimori answers 400 to a request whose User-Agent looks like a
             // library's (`okhttp/4.12`); the app's own name is what it asks for.
-            "User-Agent" to "Hikari/" + com.hikari.app.BuildConfig.VERSION_NAME,
+            "User-Agent" to "Hikari/" + com.gworld06.streambox.BuildConfig.VERSION_NAME,
         )
 
     private suspend fun shikimoriMe(token: String): Pair<String, String>? {
@@ -1406,7 +1406,7 @@ object TrackerApi {
                 url,
                 mapOf(
                     "Accept" to "application/json",
-                    "User-Agent" to "Hikari/" + com.hikari.app.BuildConfig.VERSION_NAME,
+                    "User-Agent" to "Hikari/" + com.gworld06.streambox.BuildConfig.VERSION_NAME,
                 ),
             )
             val arr = reply.array()

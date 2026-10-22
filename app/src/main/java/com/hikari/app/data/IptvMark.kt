@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import java.util.concurrent.ConcurrentHashMap
 
 /**

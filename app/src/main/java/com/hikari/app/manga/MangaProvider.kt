@@ -1,18 +1,18 @@
-package com.hikari.app.manga
+package com.gworld06.streambox.manga
 
 import android.content.Context
 import android.os.SystemClock
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderGate
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderGate
 import eu.kanade.tachiyomi.source.CatalogueSource
 import eu.kanade.tachiyomi.source.MangaSource
 import eu.kanade.tachiyomi.source.Source
@@ -46,7 +46,7 @@ import org.json.JSONObject
  * Manga sources are third-party code and every call can throw `LinkageError` or
  * `AbstractMethodError` (an extension built against a newer extensions-lib), so
  * every call is wrapped and reports a short reason through
- * [com.hikari.app.providers.ProviderGate]/`lastOutcome` like the anime engine
+ * [com.gworld06.streambox.providers.ProviderGate]/`lastOutcome` like the anime engine
  * does — a broken extension shows a line in the UI instead of crashing a screen.
  */
 class MangaProvider(override val config: ProviderConfig) : ContentProvider {
@@ -61,7 +61,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
          * "takes forever to load" extension. Past these the call is
          * abandoned and the honest reason ("the site took too long") is
          * recorded for the empty state; the funnel in
-         * [com.hikari.app.data.ContentRepository.loadCatalogPage] carries
+         * [com.gworld06.streambox.data.ContentRepository.loadCatalogPage] carries
          * its own ceiling too, so the screen can never spin longer than the
          * shorter of the two.
          */
@@ -124,26 +124,26 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
     private fun source(): CatalogueSource? {
         // Bundled Kotatsu parsers (same extraction code the Kotatsu app runs)
         // need no extension file — the bridge speaks CatalogueSource directly.
-        if (com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id)) {
             return runCatching {
-                com.hikari.app.kotatsu.KotatsuBridge.forSource(
-                    com.hikari.app.kotatsu.KotatsuRegistry.enumNameOf(config.id),
+                com.gworld06.streambox.kotatsu.KotatsuBridge.forSource(
+                    com.gworld06.streambox.kotatsu.KotatsuRegistry.enumNameOf(config.id),
                 )
             }.getOrNull()
         }
         // Fork parsers (skepsun kototoro / vendored hany18h) likewise ship
         // inside the app — their bridges speak CatalogueSource directly.
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkId(config.id)) {
             return runCatching {
-                com.hikari.app.kotatsu.fork.SkepsunBridge.forSource(
-                    com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
+                com.gworld06.streambox.kotatsu.fork.SkepsunBridge.forSource(
+                    com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
                 )
             }.getOrNull()
         }
-        if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkHanyId(config.id)) {
+        if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkHanyId(config.id)) {
             return runCatching {
-                com.hikari.app.kotatsu.fork.Hany18hBridge.forSource(
-                    com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
+                com.gworld06.streambox.kotatsu.fork.Hany18hBridge.forSource(
+                    com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
                 )
             }.getOrNull()
         }
@@ -153,16 +153,16 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
     /** True when this row is a plain text-chapter (novel) source: no manga
      *  methods, no catalogue or search index — chapters + text only. */
     private val isNovel: Boolean get() = MangaExtensionManager.isNovelId(config.id) ||
-        com.hikari.app.kotatsu.fork.ForkRegistry.isForkNovelId(config.id)
+        com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkNovelId(config.id)
 
     /** The novel source for a novel row (null for manga rows). */
     private fun novelSrc(): Source? =
         MangaExtensionManager.novelSourceOf(context, extFile, MangaExtensionManager.novelIndexOf(config))
 
     private fun missingReason(): String = when {
-        com.hikari.app.kotatsu.KotatsuRegistry.isKotatsuId(config.id) ->
+        com.gworld06.streambox.kotatsu.KotatsuRegistry.isKotatsuId(config.id) ->
             "The Kotatsu source could not be created"
-        com.hikari.app.kotatsu.fork.ForkRegistry.isForkMangaId(config.id) ->
+        com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkMangaId(config.id) ->
             "The fork source could not be created"
         !extFile.exists() -> "The extension file is missing — reinstall it in Extensions"
         else -> MangaExtensionManager.lastError ?: "The extension could not be loaded"
@@ -208,7 +208,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
      * load is opening the site in the WebView by hand and closing it again —
      * i.e. the site wanted a real browser session and the app never tried to give
      * it one. The extension's own client only solves a challenge it can
-     * RECOGNISE (see [com.hikari.app.net.ExtensionCloudflareInterceptor]), and a
+     * RECOGNISE (see [com.gworld06.streambox.net.ExtensionCloudflareInterceptor]), and a
      * manga source that builds its own OkHttp stack, or a site that answers the
      * XHR with an empty 200, leaves nothing to recognise — so the page stayed
      * blank.
@@ -226,7 +226,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
             val site = siteUrl() ?: return@withTimeoutOrNull false
         val ua = runCatching { HikariApp.instance.effectiveWebViewUa() }.getOrNull().orEmpty()
         val ok = runCatching {
-            com.hikari.app.net.CloudflareSolver.warm(
+            com.gworld06.streambox.net.CloudflareSolver.warm(
                 url = site,
                 userAgent = ua.ifBlank { "Mozilla/5.0" },
             )
@@ -240,13 +240,13 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
      * bot wall rather than a broken extension — HTTP 403/429/503/Cloudflare.
      *
      * The anime engine has always done this ([
-     * com.hikari.app.aniyomi.AniyomiProvider]); the manga engine did not, so a
+     * com.gworld06.streambox.aniyomi.AniyomiProvider]); the manga engine did not, so a
      * walled manga site was never named to the UI and was never skipped by the
      * cross-extension search — it just answered nothing, every time.
      */
     private fun noteWall(text: String) {
         if (text.isBlank() || !WALL_MESSAGE.containsMatchIn(text)) return
-        siteUrl()?.let { com.hikari.app.net.CloudflareVerifier.markBlocked(it) }
+        siteUrl()?.let { com.gworld06.streambox.net.CloudflareVerifier.markBlocked(it) }
     }
 
     /** A wall's own words. Deliberately not "any 4xx" — a 404 is a missing page,
@@ -291,7 +291,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
             "\"limit\":24,\"sortBy\":\"$sortBy\",\"sortOrder\":\"desc\",\"query\":$qJson}}}"
         val url = base + "/api/trpc/search.searchSeries?batch=1&input=" +
             runCatching { URLEncoder.encode(input, "UTF-8") }.getOrNull().orEmpty()
-        val body = runCatching { com.hikari.app.net.Http.get(url) }
+        val body = runCatching { com.gworld06.streambox.net.Http.get(url) }
             .getOrNull()?.use { r -> if (r.isSuccessful) r.body?.string() else null }
             ?: return null
         val json = runCatching { JSONArray(body) }.getOrNull()
@@ -321,7 +321,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
         return out
     }
 
-    /** See [com.hikari.app.aniyomi.AniyomiProvider.gate]: metadata and catalogs
+    /** See [com.gworld06.streambox.aniyomi.AniyomiProvider.gate]: metadata and catalogs
      *  are what the user is looking at, and a stream lookup is background
      *  work that must never queue in front of them. */
     private suspend fun <T> gate(
@@ -565,7 +565,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
      * Nekoread drives every manga extension through `getMangaUpdate` for this
      * reason, and this is the same call the ANIYOMI half of this app has always
      * used (`getAnimeEpisodeUpdate`, see
-     * [com.hikari.app.aniyomi.AniyomiProvider]). For a source that predates the
+     * [com.gworld06.streambox.aniyomi.AniyomiProvider]). For a source that predates the
      * combined call, Hikari's vendored `MangaSource` bridges `getMangaUpdate`
      * straight back to `getMangaDetails`/`getChapterList`, so nothing changes
      * for it.
@@ -762,17 +762,17 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
         if (isNovel) {
             // Fork novels (skepsun / hany18h NovelChapterContent HTML) read
             // through their own bridges — no Tachiyomi novel source exists.
-            if (com.hikari.app.kotatsu.fork.ForkRegistry.isForkNovelId(config.id)) {
+            if (com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkNovelId(config.id)) {
                 val chapter = episode ?: return@gate fail("No chapter selected", emptyList())
                 return@gate try {
                     val html = when {
-                        com.hikari.app.kotatsu.fork.ForkRegistry.isForkSkId(config.id) ->
-                            com.hikari.app.kotatsu.fork.SkepsunBridge.forSource(
-                                com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
+                        com.gworld06.streambox.kotatsu.fork.ForkRegistry.isForkSkId(config.id) ->
+                            com.gworld06.streambox.kotatsu.fork.SkepsunBridge.forSource(
+                                com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
                             )?.chapterContent(chapter.id, chapter.name)
                         else ->
-                            com.hikari.app.kotatsu.fork.Hany18hBridge.forSource(
-                                com.hikari.app.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
+                            com.gworld06.streambox.kotatsu.fork.Hany18hBridge.forSource(
+                                com.gworld06.streambox.kotatsu.fork.ForkRegistry.enumNameOfForkId(config.id),
                             )?.chapterContent(chapter.id, chapter.name)
                     }
                     val text = htmlToNovelText(html.orEmpty())
@@ -916,7 +916,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
                     val useRef = h["Referer"] ?: ref
                     val originV = originOf(useRef)
                     if (originV != null && h.keys.none { it.equals("Origin", ignoreCase = true) }) h = h + ("Origin" to originV)
-                    if (!hasUA && h.keys.none { it.equals("User-Agent", ignoreCase = true) }) h = h + ("User-Agent" to com.hikari.app.net.Http.UA)
+                    if (!hasUA && h.keys.none { it.equals("User-Agent", ignoreCase = true) }) h = h + ("User-Agent" to com.gworld06.streambox.net.Http.UA)
                     h
                 }
                 StreamSource(
@@ -960,7 +960,7 @@ class MangaProvider(override val config: ProviderConfig) : ContentProvider {
      * its per-host rate limits and its own interceptors (a Descrambler on the
      * sites that scramble their pages, a 404 fallback, cookie handling) all
      * apply. Nekoread routes a page through `ext.getImage(page)` for exactly
-     * this reason; [com.hikari.app.reader.source.HikariPageSource] does the
+     * this reason; [com.gworld06.streambox.reader.source.HikariPageSource] does the
      * same with the source handed out here. BLOCKING (loading the extension is
      * part of it), so never call it on the main thread.
      */

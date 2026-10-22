@@ -1,4 +1,4 @@
-package com.hikari.app.reader.coil
+package com.gworld06.streambox.reader.coil
 
 import coil.request.ImageRequest
 import coil.request.Options

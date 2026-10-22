@@ -1,11 +1,11 @@
-package com.hikari.app.zangetsu
+package com.gworld06.streambox.zangetsu
 
 import android.content.Context
 import com.dokar.quickjs.QuickJs
 import com.dokar.quickjs.binding.function
-import com.hikari.app.data.Logs
-import com.hikari.app.net.CloudflareVerifier
-import com.hikari.app.net.DohDns
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.net.CloudflareVerifier
+import com.gworld06.streambox.net.DohDns
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -53,7 +53,7 @@ object ZangetsuRuntime {
     private val concurrency = Semaphore(MAX_CONCURRENT)
     private val tvConcurrency = Semaphore(TV_CONCURRENT)
     private val gate: Semaphore
-        get() = if (com.hikari.app.data.PerfMode.tvDevice) tvConcurrency else concurrency
+        get() = if (com.gworld06.streambox.data.PerfMode.tvDevice) tvConcurrency else concurrency
 
     private val fetchExecutor: ExecutorService = Executors.newFixedThreadPool(FETCH_THREADS)
 
@@ -253,14 +253,14 @@ object ZangetsuRuntime {
 
     private suspend fun refreshTmdbKey() {
         val personal = runCatching {
-            com.hikari.app.HikariApp.instance.store.tmdbApiKey()
+            com.gworld06.streambox.HikariApp.instance.store.tmdbApiKey()
         }.getOrDefault("")
         if (personal.isNotBlank()) {
             tmdbApiKey = personal
             return
         }
         tmdbApiKey = runCatching {
-            com.hikari.app.nuvio.TmdbResolver.builtinKey()
+            com.gworld06.streambox.nuvio.TmdbResolver.builtinKey()
         }.getOrDefault("")
     }
 
@@ -290,7 +290,7 @@ object ZangetsuRuntime {
                 if (k.isNotBlank()) builder.header(k, v)
             }
             if (builder.build().header("User-Agent") == null) {
-                builder.header("User-Agent", com.hikari.app.net.Http.UA)
+                builder.header("User-Agent", com.gworld06.streambox.net.Http.UA)
             }
             val m = method.uppercase()
             if (m == "GET") builder.get()
@@ -346,7 +346,7 @@ object ZangetsuRuntime {
         val qjs = QuickJs.create(jobDispatcher = Dispatchers.Default)
         qjs.evaluationTimeoutMillis = budgetMs
         runCatching { qjs.memoryLimit = ENGINE_MEMORY_LIMIT }
-        com.hikari.app.data.PerfMode.tvEngineMemoryLimit?.let { runCatching { qjs.memoryLimit = it } }
+        com.gworld06.streambox.data.PerfMode.tvEngineMemoryLimit?.let { runCatching { qjs.memoryLimit = it } }
         qjs.function("__zFetchAsync") { args ->
             val url = args.getOrNull(0)?.toString() ?: ""
             val method = (args.getOrNull(1)?.toString() ?: "GET").uppercase()

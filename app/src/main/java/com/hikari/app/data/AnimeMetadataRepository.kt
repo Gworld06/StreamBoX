@@ -1,6 +1,6 @@
-package com.hikari.app.data
-import com.hikari.app.HikariApp
-import com.hikari.app.net.Http
+package com.gworld06.streambox.data
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

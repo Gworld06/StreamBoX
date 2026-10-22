@@ -1,6 +1,6 @@
-package com.hikari.app.ui.components
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.I18n
+package com.gworld06.streambox.ui.components
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.I18n
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
@@ -80,25 +80,25 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import coil.compose.AsyncImage
-import com.hikari.app.data.HistoryEntry
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.PosterArt
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.PosterStyle
-import com.hikari.app.ui.RatingBadge
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.rememberVisibleItems
-import com.hikari.app.tv.Cs3ShelfHeader
-import com.hikari.app.tv.TvMode
-import com.hikari.app.tv.TvUi
-import com.hikari.app.ui.theme.rememberGlassTokens
-import com.hikari.app.ui.shape
+import com.gworld06.streambox.data.HistoryEntry
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.PosterArt
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.PosterStyle
+import com.gworld06.streambox.ui.RatingBadge
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.rememberVisibleItems
+import com.gworld06.streambox.tv.Cs3ShelfHeader
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.ui.shape
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /** How many automatic re-requests a poster gets before its cell settles on the
  *  placeholder icon. Two is enough to ride out a dropped connection or a CDN
@@ -120,11 +120,11 @@ fun MediaRow(
 ) {
     val style = rememberPosterStyle()
     if (TvMode.current()) {
-        com.hikari.app.tv.TvCinemaRow(title = title, providerName = providerName, items = items, onOpen = onClick, onShowAll = onShowAll, vertical = !style.isCinema(true), keeperKey = keeperKey)
+        com.gworld06.streambox.tv.TvCinemaRow(title = title, providerName = providerName, items = items, onOpen = onClick, onShowAll = onShowAll, vertical = !style.isCinema(true), keeperKey = keeperKey)
         return
     }
     if (style.isCinema(false)) {
-        com.hikari.app.tv.TvCinemaRow(title = title, providerName = providerName, items = items, onOpen = onClick, onShowAll = onShowAll, keeperKey = keeperKey)
+        com.gworld06.streambox.tv.TvCinemaRow(title = title, providerName = providerName, items = items, onOpen = onClick, onShowAll = onShowAll, keeperKey = keeperKey)
         return
     }
     Column(Modifier.padding(top = 20.dp)) {
@@ -317,7 +317,7 @@ fun HeroArtwork(
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = ContentScale.Crop,
-        alignment = com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT,
+        alignment = com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT,
         onFinalError = onFinalError,
     )
 }
@@ -466,7 +466,7 @@ fun EmptyState(
             Icons.Filled.Movie,
             contentDescription = null,
             modifier = Modifier.size(56.dp),
-            tint = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+            tint = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
             else MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(12.dp))
@@ -476,12 +476,12 @@ fun EmptyState(
         Text(
             tr(title),
             style = MaterialTheme.typography.titleMedium,
-            color = if (tv) com.hikari.app.tv.TvDesktop.TextPrimary else Color.Unspecified,
+            color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextPrimary else Color.Unspecified,
         )
         Text(
             tr(subtitle),
             style = MaterialTheme.typography.bodySmall,
-            color = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+            color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
             else MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 6.dp)
@@ -490,7 +490,7 @@ fun EmptyState(
             Text(
                 tr(detail),
                 style = MaterialTheme.typography.labelSmall,
-                color = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+                color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 10.dp)
@@ -532,12 +532,12 @@ fun GlassSearchField(
     val fieldShape = RoundedCornerShape(30.dp)
     Surface(
         shape = fieldShape,
-        color = if (tv) com.hikari.app.tv.TvDesktop.SurfaceElevated
+        color = if (tv) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
         else if (glass.dark) glass.fillTop else MaterialTheme.colorScheme.surface,
         shadowElevation = if (glass.dark || tv) 0.dp else 4.dp,
         modifier = modifier.border(
             1.dp,
-            if (tv) com.hikari.app.tv.TvDesktop.GlassEdge else glass.border,
+            if (tv) com.gworld06.streambox.tv.TvDesktop.GlassEdge else glass.border,
             fieldShape,
         )
     ) {
@@ -551,7 +551,7 @@ fun GlassSearchField(
             Icon(
                 Icons.Filled.Search,
                 contentDescription = null,
-                tint = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+                tint = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(22.dp)
             )
@@ -561,7 +561,7 @@ fun GlassSearchField(
                     Text(
                         placeholder,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+                        color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -572,12 +572,12 @@ fun GlassSearchField(
                     onValueChange = onValueChange,
                     singleLine = true,
                     textStyle = MaterialTheme.typography.bodyMedium.copy(
-                        color = if (tv) com.hikari.app.tv.TvDesktop.TextPrimary
+                        color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                         else MaterialTheme.colorScheme.onSurface
                     ),
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                     // A remote must be able to leave the box — see
-                    // [com.hikari.app.tv.tvTextFieldKeys]: on a television the
+                    // [com.gworld06.streambox.tv.tvTextFieldKeys]: on a television the
                     // arrows belong to the caret, and a caret at the end of the
                     // line leaves the focus stuck in the search bar.
                     modifier = Modifier.fillMaxWidth().tvTextFieldKeys(value)
@@ -589,7 +589,7 @@ fun GlassSearchField(
                     Icon(
                         Icons.Filled.Close,
                         contentDescription = tr("Clear"),
-                        tint = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+                        tint = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
                         else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -1428,10 +1428,10 @@ fun ContinueWatchingRow(
     // feed. A history entry carries no genre list or provider flag, so the name is
     // what this can judge on — and [rememberNsfwEnabled] is what makes the row drop
     // those cards the moment the switch is flipped.
-    val nsfwOn = com.hikari.app.ui.rememberNsfwEnabled()
+    val nsfwOn = com.gworld06.streambox.ui.rememberNsfwEnabled()
     val shown = remember(unique, nsfwOn) {
         if (nsfwOn) unique
-        else unique.filter { !com.hikari.app.data.NsfwGate.isAdultText(it.title, emptyList()) }
+        else unique.filter { !com.gworld06.streambox.data.NsfwGate.isAdultText(it.title, emptyList()) }
     }
     if (TvMode.current()) {
         // The reference Continue Watching header: bold title, the "Clear
@@ -1452,7 +1452,7 @@ fun ContinueWatchingRow(
                         androidx.compose.material3.TextButton(onClick = onClearAll) {
                             Text(
                                 tr("Clear History"),
-                                color = com.hikari.app.tv.TvDesktop.TextMuted,
+                                color = com.gworld06.streambox.tv.TvDesktop.TextMuted,
                                 fontWeight = FontWeight.SemiBold,
                             )
                         }
@@ -1484,7 +1484,7 @@ fun ContinueWatchingRow(
             tr("Continue Watching"),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
-            color = if (TvMode.current()) com.hikari.app.tv.TvDesktop.TextPrimary
+            color = if (TvMode.current()) com.gworld06.streambox.tv.TvDesktop.TextPrimary
             else Color.Unspecified,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -1532,13 +1532,13 @@ private fun ContinueWatchingCard(
                 .aspectRatio(16f / 9f)
                 .clip(style.shape())
                 .background(
-                    if (TvMode.current()) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                    if (TvMode.current()) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                     else MaterialTheme.colorScheme.surfaceVariant
                 )
                 .then(
                     if (TvMode.current()) Modifier.border(
                         1.dp,
-                        com.hikari.app.tv.TvDesktop.GlassEdge,
+                        com.gworld06.streambox.tv.TvDesktop.GlassEdge,
                         style.shape(),
                     ) else Modifier
                 )
@@ -1570,7 +1570,7 @@ private fun ContinueWatchingCard(
                 // episode label. Series entries (and legacy movie entries
                 // filed before the type correction) keep theirs.
                 if ((h.episodeName.isNotBlank() || h.episodeId.isNotBlank()) &&
-                    h.type != com.hikari.app.data.MediaType.MOVIE
+                    h.type != com.gworld06.streambox.data.MediaType.MOVIE
                 ) {
                     Text(
                         h.episodeName.ifBlank { "Episode" },
@@ -1674,7 +1674,7 @@ fun GlassCard(
     // 12dp corners and a hairline edge — while phones keep the glass card.
     // One branch here repaints every settings card and repo row on TV.
     val tv = TvMode.current()
-    val cardShape = if (tv) RoundedCornerShape(com.hikari.app.tv.TvDesktop.CornerLarge) else shape
+    val cardShape = if (tv) RoundedCornerShape(com.gworld06.streambox.tv.TvDesktop.CornerLarge) else shape
     Column(
         modifier
             .fillMaxWidth()
@@ -1687,12 +1687,12 @@ fun GlassCard(
             // A whisper of white at the top falling to half of that at the
             // bottom — the falloff is what reads as glass (see GlassTokens).
             .then(
-                if (tv) Modifier.background(com.hikari.app.tv.TvDesktop.SurfaceElevated)
+                if (tv) Modifier.background(com.gworld06.streambox.tv.TvDesktop.SurfaceElevated)
                 else Modifier.background(Brush.verticalGradient(listOf(glass.fillTop, glass.fillBottom)), shape)
             )
             .border(
                 1.dp,
-                if (tv) com.hikari.app.tv.TvDesktop.GlassEdge else glass.border,
+                if (tv) com.gworld06.streambox.tv.TvDesktop.GlassEdge else glass.border,
                 cardShape,
             )
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
@@ -1741,7 +1741,7 @@ fun GlassDialog(
     // box with 12dp corners and a hairline edge (the reference's dialog
     // panels are flat, never glass). Phones keep the glass panel untouched.
     val tv = TvMode.current()
-    val shape = if (tv) RoundedCornerShape(com.hikari.app.tv.TvDesktop.CornerLarge) else GlassShape
+    val shape = if (tv) RoundedCornerShape(com.gworld06.streambox.tv.TvDesktop.CornerLarge) else GlassShape
     // A short fade + scale so the panel appears rather than blinks.
     val appear = remember { Animatable(0f) }
     LaunchedEffect(Unit) { appear.animateTo(1f, tween(durationMillis = 170)) }
@@ -1821,7 +1821,7 @@ fun GlassDialog(
                     .then(if (glass.dark && !tv) Modifier else Modifier.shadow(6.dp, shape, clip = false))
                     .clip(shape)
                     .background(
-                        if (tv) com.hikari.app.tv.TvDesktop.SurfaceElevated
+                        if (tv) com.gworld06.streambox.tv.TvDesktop.SurfaceElevated
                         else MaterialTheme.colorScheme.surface
                     )
                     .then(
@@ -1830,7 +1830,7 @@ fun GlassDialog(
                     )
                     .border(
                         1.dp,
-                        if (tv) com.hikari.app.tv.TvDesktop.GlassEdge else glass.border,
+                        if (tv) com.gworld06.streambox.tv.TvDesktop.GlassEdge else glass.border,
                         shape,
                     )
                     .padding(20.dp),
@@ -1842,7 +1842,7 @@ fun GlassDialog(
                                     tr(title),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
-                                    color = if (tv) com.hikari.app.tv.TvDesktop.TextPrimary
+                                    color = if (tv) com.gworld06.streambox.tv.TvDesktop.TextPrimary
                                     else MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.weight(1f),
                                 )
@@ -1854,7 +1854,7 @@ fun GlassDialog(
                                     Icon(
                                         Icons.Filled.Close,
                                         contentDescription = null,
-                                        tint = if (tv) com.hikari.app.tv.TvDesktop.TextMuted
+                                        tint = if (tv) com.gworld06.streambox.tv.TvDesktop.TextMuted
                                         else MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
                                 }
@@ -1876,7 +1876,7 @@ fun GlassDialog(
  * spinning forever with nothing on screen explaining why, and the reason is
  * almost always Cloudflare — the site wants its check passed in a real browser
  * before it will answer an extension's request (see
- * [com.hikari.app.net.CloudflareVerifier]). The fix is the WebView button, which
+ * [com.gworld06.streambox.net.CloudflareVerifier]). The fix is the WebView button, which
  * the Manga tab and every catalog header already carry — but a button the user
  * does not know to press is not a fix.
  *

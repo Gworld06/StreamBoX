@@ -1,7 +1,7 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.HikariApp
-import com.hikari.app.net.Http
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -41,10 +41,10 @@ object AnimeReleaseCalendarRepository {
 
         val params = "client_id=" + URLEncoder.encode(client, "UTF-8") +
             "&app-name=Hikari&app-version=" +
-            URLEncoder.encode(com.hikari.app.BuildConfig.VERSION_NAME, "UTF-8")
+            URLEncoder.encode(com.gworld06.streambox.BuildConfig.VERSION_NAME, "UTF-8")
         val raw = Http.getStringQuiet(
             "https://data.simkl.in/calendar/v2/anime.json?" + params,
-            mapOf("User-Agent" to "Hikari/" + com.hikari.app.BuildConfig.VERSION_NAME),
+            mapOf("User-Agent" to "Hikari/" + com.gworld06.streambox.BuildConfig.VERSION_NAME),
         ) ?: return@withContext cache?.items.orEmpty()
 
         val parsed = parseV2(raw)

@@ -1,8 +1,8 @@
-package com.hikari.app.net
+package com.gworld06.streambox.net
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

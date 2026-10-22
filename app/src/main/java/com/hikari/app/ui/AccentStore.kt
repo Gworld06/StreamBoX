@@ -1,8 +1,8 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import android.content.Context
-import com.hikari.app.ui.theme.HikariAccent
-import com.hikari.app.ui.theme.HikariThemeMode
+import com.gworld06.streambox.ui.theme.HikariAccent
+import com.gworld06.streambox.ui.theme.HikariThemeMode
 
 /**
  * The accent-colour preferences, mirrored into plain SharedPreferences so the
@@ -94,7 +94,7 @@ object AccentStore {
     /**
      * The theme the app UI is drawn in ("dark", "glass", "amoled", "light").
      *
-     * Mirrored for the same reason the accents are: [com.hikari.app.MainActivity]
+     * Mirrored for the same reason the accents are: [com.gworld06.streambox.MainActivity]
      * seeds its Compose state with a synchronous read, so the FIRST frame after
      * the Activity is created is already the chosen theme. Without it every
      * return from the player painted one frame of the stock dark theme (and the

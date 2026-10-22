@@ -1,4 +1,4 @@
-package com.hikari.app.telegram
+package com.gworld06.streambox.telegram
 
 /**
  * TDLib's error strings, said in English.

@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.focusable
@@ -71,7 +71,7 @@ import kotlinx.coroutines.launch
  * no chance of a press being handled twice.
  *
  * Keys are read as Compose [Key]s (`event.key`, the platform-independent
- * mapping — see com.hikari.app.ui.screens.MangaReaderScreen, which has done
+ * mapping — see com.gworld06.streambox.ui.screens.MangaReaderScreen, which has done
  * remote navigation this way since long before this file existed) rather than as
  * raw Android key codes: `Key.DirectionCenter` is the D-pad's select button on
  * every remote, whatever its `KEYCODE_DPAD_CENTER` happens to be on the box.
@@ -214,7 +214,7 @@ fun Modifier.tvPress(
         state.down = true
         state.held = false
         state.job = scope.launch {
-            kotlinx.coroutines.delay(com.hikari.app.ui.screens.HOLD_MS)
+            kotlinx.coroutines.delay(com.gworld06.streambox.ui.screens.HOLD_MS)
             state.held = true
             onHold()
         }

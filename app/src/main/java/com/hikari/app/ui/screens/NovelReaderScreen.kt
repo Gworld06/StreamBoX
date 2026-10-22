@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import android.os.SystemClock
 import androidx.compose.foundation.background
@@ -49,22 +49,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.hikari.app.HikariApp
-import com.hikari.app.data.Episode
-import com.hikari.app.data.Logs
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.manga.MangaChapter
-import com.hikari.app.manga.MangaProgress
-import com.hikari.app.manga.MangaStore
-import com.hikari.app.manga.NovelHighlight
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.manga.MangaChapter
+import com.gworld06.streambox.manga.MangaProgress
+import com.gworld06.streambox.manga.MangaStore
+import com.gworld06.streambox.manga.NovelHighlight
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 /**
  * The novel reader: text chapters from plain novel sources (see
- * [com.hikari.app.manga.MangaExtensionManager.isNovelId]).
+ * [com.gworld06.streambox.manga.MangaExtensionManager.isNovelId]).
  *
  * Separate from the image reader on purpose: text needs flowing paragraphs,
  * font sizing and light/sepia/dark themes — none of which belongs in the
@@ -72,7 +72,7 @@ import kotlinx.coroutines.withContext
  * [MangaStore] the image reader uses (same key shape), so follows, history
  * and "where was I" work across both.
  *
- * Chapter text arrives as [com.hikari.app.data.StreamSource.text] parts via
+ * Chapter text arrives as [com.gworld06.streambox.data.StreamSource.text] parts via
  * the provider's novel `getStreams` branch (blank urls, so the image reader
  * can never pick them up); they are joined here in order.
  *

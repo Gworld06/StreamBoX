@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor

@@ -1,4 +1,4 @@
-package com.hikari.app.tv
+package com.gworld06.streambox.tv
 
 import android.view.KeyEvent
 import androidx.compose.foundation.IndicationNodeFactory
@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
  * already (that is what lets the D-pad walk the UI), and it hands the visual
  * feedback out through `LocalIndication` — the same seam the ripple uses. This
  * indication is installed there, once, in
- * [com.hikari.app.MainActivity]'s content: from then on *every* clickable in the
+ * [com.gworld06.streambox.MainActivity]'s content: from then on *every* clickable in the
  * app — poster cards, settings rows, glass cards, dialog buttons, the rail —
  * draws a ring around itself when the remote lands on it, without a single call
  * site having to know that televisions exist.

@@ -1,7 +1,7 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.providers.ProviderManager
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.providers.ProviderManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ProducerScope
@@ -60,7 +60,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
                 return@flow
             }
             val placed = HashMap<Int, CatalogRow>()
-            val work = com.hikari.app.work.BackgroundWork.begin("Loading " + folder.name)
+            val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading " + folder.name)
             try {
                 coroutineScope {
                     sources.forEachIndexed { i, source ->
@@ -77,7 +77,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
                 }
                 publish(this@flow, placed, sources.size, force = true)
             } finally {
-                com.hikari.app.work.BackgroundWork.end(work)
+                com.gworld06.streambox.work.BackgroundWork.end(work)
             }
         }
 
@@ -88,7 +88,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
             return@flow
         }
         val placed = HashMap<Int, CatalogRow>()
-        val work = com.hikari.app.work.BackgroundWork.begin("Loading " + collection.name)
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading " + collection.name)
         try {
             coroutineScope {
                 collection.folders.forEachIndexed { i, folder ->
@@ -105,7 +105,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
             }
             publish(this@flow, placed, collection.folders.size, force = true)
         } finally {
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }
 
@@ -154,7 +154,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
             return@flow
         }
         val placed = HashMap<Int, CatalogRow>()
-        val work = com.hikari.app.work.BackgroundWork.begin("Loading " + collection.name)
+        val work = com.gworld06.streambox.work.BackgroundWork.begin("Loading " + collection.name)
         try {
             coroutineScope {
                 slots.forEachIndexed { i, (folder, source) ->
@@ -172,7 +172,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
             }
             publish(this@flow, placed, slots.size, force = true)
         } finally {
-            com.hikari.app.work.BackgroundWork.end(work)
+            com.gworld06.streambox.work.BackgroundWork.end(work)
         }
     }
 
@@ -266,7 +266,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
         )
         val raw = withTimeoutOrNull(perCatalogTimeoutMs) {
             runCatching {
-                com.hikari.app.data.ContentRepository.loadCatalogPage(provider, ref, 1)
+                com.gworld06.streambox.data.ContentRepository.loadCatalogPage(provider, ref, 1)
             }.getOrDefault(emptyList())
         }.orEmpty().distinctBy { it.uniqueId }
         val items = translate(ref.providerId, raw)
@@ -342,7 +342,7 @@ class CollectionsRepository(private val manager: ProviderManager) {
             if (q.length < 2) return@withContext emptyList()
             val needle = q.lowercase()
             val collections = runCatching {
-                com.hikari.app.HikariApp.instance.store.collections()
+                com.gworld06.streambox.HikariApp.instance.store.collections()
             }.getOrDefault(emptyList())
                 .filter { collectionIds.isEmpty() || it.id in collectionIds }
             val out = ArrayList<CollectionHit>()

@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * Collapses a title that several ENGINES bring to the same Home feed.

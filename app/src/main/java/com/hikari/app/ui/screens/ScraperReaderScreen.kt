@@ -1,4 +1,4 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

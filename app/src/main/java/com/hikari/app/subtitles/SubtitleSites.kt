@@ -1,8 +1,8 @@
-package com.hikari.app.subtitles
+package com.gworld06.streambox.subtitles
 
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -353,7 +353,7 @@ object SubtitleIds {
             // then be offered under this title's name.
             val digits = known.takeWhile { it.isDigit() }
             if (digits.isNotEmpty() && item?.rating != null) {
-                runCatching { com.hikari.app.data.TmdbBrowse.imdbId(digits, kind) }
+                runCatching { com.gworld06.streambox.data.TmdbBrowse.imdbId(digits, kind) }
                     .getOrNull()?.takeIf { it.startsWith("tt") }?.let { return@withContext it }
             }
             suggest(title, year, isSeries)

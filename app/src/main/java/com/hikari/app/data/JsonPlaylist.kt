@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 import org.json.JSONArray
 import org.json.JSONObject
@@ -40,7 +40,7 @@ object JsonPlaylist {
     private const val XOR_KEY = "PlyonSecretKey2026!@#$"
 
     /** Terabox-family share hosts — resolved at play time, never handed to
-     *  the player raw (see [com.hikari.app.data.NetworkStream]). */
+     *  the player raw (see [com.gworld06.streambox.data.NetworkStream]). */
     private val BOX_HOSTS = listOf(
         "terabox", "1024tera", "4funbox", "momerybox", "tibibox",
         "nepnepbox", "telebox", "mirrobox", "shibabox", "teraboxapp",

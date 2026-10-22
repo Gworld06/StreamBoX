@@ -1,4 +1,4 @@
-package com.hikari.app.aniyomi
+package com.gworld06.streambox.aniyomi
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
@@ -7,14 +7,14 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Looper
 import androidx.core.content.pm.PackageInfoCompat
-import com.hikari.app.HikariApp
-import com.hikari.app.core.LoadGate
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.core.LoadGate
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
 import dalvik.system.PathClassLoader
 import eu.kanade.tachiyomi.animesource.AnimeSource
 import eu.kanade.tachiyomi.animesource.AnimeSourceFactory
@@ -573,7 +573,7 @@ object AniyomiExtensionManager {
             }
             HikariApp.instance.providers.refresh()
             // A new extension build may change provider-opaque episode payloads — retire cached ones (see MetaCache).
-            runCatching { com.hikari.app.data.MetaCache.bumpEpisodesEpoch() }
+            runCatching { com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch() }
             Result.success(fresh.size)
         } finally {
             if (temp.exists()) runCatching { temp.delete() }
@@ -707,7 +707,7 @@ object AniyomiExtensionManager {
             pkg = pkg,
             // The repo's own 18+ tag (see ExtensionNsfw.repoEntryNsfw) — what
             // the adult-content switch hides from the installable list.
-            nsfw = com.hikari.app.data.ExtensionNsfw.repoEntryNsfw(o),
+            nsfw = com.gworld06.streambox.data.ExtensionNsfw.repoEntryNsfw(o),
         )
     }
 
@@ -894,7 +894,7 @@ object AniyomiExtensionManager {
 
     /** Mihon's `ContentWarning` enum value, spelt the way a JSON index spells it
      *  (`CONTENT_WARNING_NSFW`) — which is what
-     *  [com.hikari.app.data.ExtensionNsfw] reads. */
+     *  [com.gworld06.streambox.data.ExtensionNsfw] reads. */
     private fun contentWarningName(level: Int): String = when (level) {
         1 -> "CONTENT_WARNING_SAFE"
         2 -> "CONTENT_WARNING_MIXED"
@@ -1125,7 +1125,7 @@ object AniyomiExtensionManager {
     private val loadError = ThreadLocal.withInitial<String?> { null }
 
     /** Per-thread detail of the load in progress (same contract as
-     *  [com.hikari.app.cs3.Cs3PluginManager]). */
+     *  [com.gworld06.streambox.cs3.Cs3PluginManager]). */
     private val errorDetails = ThreadLocal.withInitial { StringBuilder() }
 
     fun takeErrorDetails(): String = errorDetails.get().toString().trim()
@@ -1488,7 +1488,7 @@ object AniyomiExtensionManager {
             details,
         ).filter { it.isNotBlank() }.joinToString(" ")
         android.util.Log.e(TAG, text)
-        runCatching { com.hikari.app.data.Logs.logError(TAG, text, e) }
+        runCatching { com.gworld06.streambox.data.Logs.logError(TAG, text, e) }
         return Result.failure(Exception(text))
     }
 

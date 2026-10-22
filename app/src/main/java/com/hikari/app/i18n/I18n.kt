@@ -1,4 +1,4 @@
-package com.hikari.app.i18n
+package com.gworld06.streambox.i18n
 
 import android.content.Context
 import androidx.compose.runtime.Composable

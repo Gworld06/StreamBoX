@@ -1,6 +1,6 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
+import com.gworld06.streambox.ui.components.LocalHideHelp
 
 import android.net.Uri
 import android.widget.Toast
@@ -73,29 +73,29 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.IptvPlaylist
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.NetworkStream
-import com.hikari.app.data.Profiles
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.TileShapes
-import com.hikari.app.i18n.I18n
-import com.hikari.app.i18n.tr
-import com.hikari.app.providers.IptvProvider
-import com.hikari.app.ui.IptvArt
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.IptvPlaylist
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.NetworkStream
+import com.gworld06.streambox.data.Profiles
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.TileShapes
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.providers.IptvProvider
+import com.gworld06.streambox.ui.IptvArt
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import java.io.File
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * The IPTV tab: the user's playlists as tiles, and the channels inside them.
@@ -116,12 +116,12 @@ import com.hikari.app.tv.tvTextFieldKeys
  *   provider contract).
  *
  * Nothing here reaches TMDB: a live channel has no entry there, and the artwork
- * lookup knows it (see [com.hikari.app.data.IptvMark]). A playlist's tile wears
+ * lookup knows it (see [com.gworld06.streambox.data.IptvMark]). A playlist's tile wears
  * the first real channel logo it has, and every channel without a logo gets a
  * tile drawn from its own name ([IptvArt]).
  *
  * The tab's button is OFF by default — see Settings → Taskbar buttons, where it
- * can be switched on like any other tab (see [com.hikari.app.data.AppStore.iptvTabFlow]).
+ * can be switched on like any other tab (see [com.gworld06.streambox.data.AppStore.iptvTabFlow]).
  */
 @Composable
 fun IptvScreen(nav: NavHostController) {
@@ -203,7 +203,7 @@ fun IptvScreen(nav: NavHostController) {
                     addFilePath = ""
                     if (playAfter && wasStream) {
                         val saved = app.store.providers().firstOrNull { p ->
-                            p.type == com.hikari.app.data.ProviderType.IPTV &&
+                            p.type == com.gworld06.streambox.data.ProviderType.IPTV &&
                                 (p.url == link || p.extra == link)
                         }
                         if (saved != null) {
@@ -307,7 +307,7 @@ fun IptvScreen(nav: NavHostController) {
     // (tap animates over, swipe settles back); TV draws the section directly
     // with pills as the only switcher, like MyStuffScreen does.
     var section by rememberSaveable { mutableStateOf(IptvSection.PLAYLIST) }
-    val tvNow = com.hikari.app.tv.TvMode.current()
+    val tvNow = com.gworld06.streambox.tv.TvMode.current()
     val pager = androidx.compose.foundation.pager.rememberPagerState(
         initialPage = 0,
         pageCount = { 3 },
@@ -804,16 +804,16 @@ private fun torrentDisplayName(link: String): String {
 @Composable
 private fun AddModePill(label: String, selected: Boolean, onClick: () -> Unit) {
     // Television pills sit black with a hairline edge (desktop language).
-    val tvPill = com.hikari.app.tv.TvMode.current()
+    val tvPill = com.gworld06.streambox.tv.TvMode.current()
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(50),
         color = if (selected) MaterialTheme.colorScheme.primary
-        else if (tvPill) com.hikari.app.tv.TvDesktop.SurfaceCard
+        else if (tvPill) com.gworld06.streambox.tv.TvDesktop.SurfaceCard
         else MaterialTheme.colorScheme.surfaceVariant,
         border = if (!selected && tvPill) androidx.compose.foundation.BorderStroke(
             1.dp,
-            com.hikari.app.tv.TvDesktop.GlassEdge,
+            com.gworld06.streambox.tv.TvDesktop.GlassEdge,
         ) else null,
     ) {
         Text(
@@ -821,7 +821,7 @@ private fun AddModePill(label: String, selected: Boolean, onClick: () -> Unit) {
             style = MaterialTheme.typography.labelLarge,
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
             color = if (selected) MaterialTheme.colorScheme.onPrimary
-            else if (tvPill) com.hikari.app.tv.TvDesktop.TextMuted
+            else if (tvPill) com.gworld06.streambox.tv.TvDesktop.TextMuted
             else MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
@@ -959,7 +959,7 @@ fun IptvPlaylistScreen(nav: NavHostController, providerId: String) {
             }
         }
         if (!isTorrent) {
-            com.hikari.app.ui.components.ChoiceRow(
+            com.gworld06.streambox.ui.components.ChoiceRow(
                 value = tr("Grouped by: %s").replace("%s", when (IptvPlaylist.normalizeGroupMode(groupMode)) {
                     "language" -> tr("Language")
                     "category" -> tr("Category")
@@ -992,7 +992,7 @@ fun IptvPlaylistScreen(nav: NavHostController, providerId: String) {
             val res = folderResults
             LazyColumn(
                 // In-folder search position held per query (see ScrollKeeper).
-                state = com.hikari.app.ui.components.keptListState("iptvSearch:$providerId:$folderQuery"),
+                state = com.gworld06.streambox.ui.components.keptListState("iptvSearch:$providerId:$folderQuery"),
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
                     start = 12.dp,
@@ -1118,7 +1118,7 @@ fun IptvPlaylistScreen(nav: NavHostController, providerId: String) {
             columns = GridCells.Adaptive(minSize = tileMinFor(shape)),
             // Group grid position held per playlist (see ScrollKeeper): Back
             // from a channel lands where the grid was.
-            state = com.hikari.app.ui.components.keptGridState(
+            state = com.gworld06.streambox.ui.components.keptGridState(
                 "iptvGroups:$providerId",
                 itemKeys = remember(loaded) { loaded.map { it.catalogId } },
             ),
@@ -1250,7 +1250,7 @@ private suspend fun readGroups(p: IptvProvider, mode: String): List<IptvGroupTil
     list.groupBy { IptvPlaylist.groupKey(it, m) }
         .entries
         .sortedWith(
-            compareByDescending<Map.Entry<String, List<com.hikari.app.data.IptvChannel>>> { it.value.size }
+            compareByDescending<Map.Entry<String, List<com.gworld06.streambox.data.IptvChannel>>> { it.value.size }
                 .thenBy { it.key.lowercase() },
         )
         .forEach { (group, channels) ->
@@ -1318,16 +1318,16 @@ private fun IptvSectionPill(
     onClick: () -> Unit,
 ) {
     // Television pills sit black with a hairline edge (see [AddModePill]).
-    val tvPill = com.hikari.app.tv.TvMode.current()
+    val tvPill = com.gworld06.streambox.tv.TvMode.current()
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(50),
         color = if (selected) MaterialTheme.colorScheme.primary
-        else if (tvPill) com.hikari.app.tv.TvDesktop.SurfaceCard
+        else if (tvPill) com.gworld06.streambox.tv.TvDesktop.SurfaceCard
         else MaterialTheme.colorScheme.surfaceVariant,
         border = if (!selected && tvPill) androidx.compose.foundation.BorderStroke(
             1.dp,
-            com.hikari.app.tv.TvDesktop.GlassEdge,
+            com.gworld06.streambox.tv.TvDesktop.GlassEdge,
         ) else null,
         modifier = modifier.height(38.dp),
     ) {
@@ -1340,7 +1340,7 @@ private fun IptvSectionPill(
                 icon,
                 contentDescription = null,
                 tint = if (selected) MaterialTheme.colorScheme.onPrimary
-                else if (tvPill) com.hikari.app.tv.TvDesktop.TextMuted
+                else if (tvPill) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(16.dp),
             )
@@ -1352,7 +1352,7 @@ private fun IptvSectionPill(
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
                 color = if (selected) MaterialTheme.colorScheme.onPrimary
-                else if (tvPill) com.hikari.app.tv.TvDesktop.TextMuted
+                else if (tvPill) com.gworld06.streambox.tv.TvDesktop.TextMuted
                 else MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -1519,7 +1519,7 @@ private fun IptvKindGrid(
             columns = GridCells.Adaptive(minSize = tileMinFor(shape)),
             // Each page holds its own scroll position across visits (see
             // ScrollKeeper).
-            state = com.hikari.app.ui.components.keptGridState(
+            state = com.gworld06.streambox.ui.components.keptGridState(
                 keeperKey,
                 itemKeys = remember(cards) { cards.map { it.id } },
             ),
@@ -1600,9 +1600,9 @@ private fun IptvHeader(
         Modifier
             .fillMaxWidth()
             .padding(
-                start = if (com.hikari.app.tv.TvMode.current()) 20.dp else 6.dp,
-                end = if (com.hikari.app.tv.TvMode.current()) 20.dp else 6.dp,
-                top = if (com.hikari.app.tv.TvMode.current()) 12.dp else 6.dp,
+                start = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 6.dp,
+                end = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 6.dp,
+                top = if (com.gworld06.streambox.tv.TvMode.current()) 12.dp else 6.dp,
                 bottom = 2.dp
             ),
         verticalAlignment = Alignment.CenterVertically,
@@ -1620,7 +1620,7 @@ private fun IptvHeader(
         Column(Modifier.weight(1f)) {
             Text(
                 tr(title),
-                style = if (com.hikari.app.tv.TvMode.current()) MaterialTheme.typography.headlineSmall
+                style = if (com.gworld06.streambox.tv.TvMode.current()) MaterialTheme.typography.headlineSmall
                 else MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

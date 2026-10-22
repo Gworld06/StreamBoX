@@ -1,4 +1,4 @@
-package com.hikari.app.reader
+package com.gworld06.streambox.reader
 
 import androidx.compose.ui.graphics.BlendMode
 

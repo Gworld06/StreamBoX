@@ -25,9 +25,9 @@ import coil.size.Dimension
 import coil.size.Size
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.hikari.app.reader.coil.cropBorders
-import com.hikari.app.reader.coil.SharpenTransformation
-import com.hikari.app.reader.cache.WebtoonPageCache
+import com.gworld06.streambox.reader.coil.cropBorders
+import com.gworld06.streambox.reader.coil.SharpenTransformation
+import com.gworld06.streambox.reader.cache.WebtoonPageCache
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonBorderDetector
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonChunkedImageView
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonSubsamplingImageView

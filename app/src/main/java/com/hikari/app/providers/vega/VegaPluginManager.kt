@@ -1,14 +1,14 @@
-package com.hikari.app.providers.vega
+package com.gworld06.streambox.providers.vega
 
 import android.content.Context
-import com.hikari.app.HikariApp
-import com.hikari.app.data.AppStore
-import com.hikari.app.data.Cs3Repo
-import com.hikari.app.data.Cs3RepoPlugin
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.ProviderType
-import com.hikari.app.data.RepoKind
-import com.hikari.app.net.Http
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.AppStore
+import com.gworld06.streambox.data.Cs3Repo
+import com.gworld06.streambox.data.Cs3RepoPlugin
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.data.RepoKind
+import com.gworld06.streambox.net.Http
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -201,7 +201,7 @@ object VegaPluginManager {
         HikariApp.instance.providers.refresh()
         // A new provider build may change provider-opaque payloads cached from
         // the old one — retire them (see MetaCache.bumpEpisodesEpoch).
-        runCatching { com.hikari.app.data.MetaCache.bumpEpisodesEpoch() }
+        runCatching { com.gworld06.streambox.data.MetaCache.bumpEpisodesEpoch() }
         Result.success(1)
     }
 
@@ -221,11 +221,11 @@ object VegaPluginManager {
      *  installed. */
     suspend fun uninstall(context: Context, sourceUrl: String): Int {
         val store = HikariApp.instance.store
-        val wanted = com.hikari.app.data.SourceUrls.matchKeys(sourceUrl)
+        val wanted = com.gworld06.streambox.data.SourceUrls.matchKeys(sourceUrl)
         val mine = store.providers().filter { p ->
             p.type == ProviderType.VEGA && (
                 p.extra == sourceUrl ||
-                    (p.extra != null && com.hikari.app.data.SourceUrls.matchKeys(p.extra).any { it in wanted })
+                    (p.extra != null && com.gworld06.streambox.data.SourceUrls.matchKeys(p.extra).any { it in wanted })
                 )
         }
         if (mine.isEmpty()) return 0

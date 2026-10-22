@@ -1,6 +1,6 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
-import com.hikari.app.net.AdBlocker
+import com.gworld06.streambox.net.AdBlocker
 
 /**
  * Synchronous mirror of the "Allowed redirect links" list (Settings → Privacy &
@@ -87,7 +87,7 @@ object RedirectAllow {
      * The parameter is an [Iterable], NOT a `Collection`: this package's own
      * media class is called `Collection` (see Models.kt) and shadows
      * `kotlin.collections.Collection` inside every file of
-     * `com.hikari.app.data` — a `Collection<String>` parameter here is a compile
+     * `com.gworld06.streambox.data` — a `Collection<String>` parameter here is a compile
      * error ("No type arguments expected for 'data class Collection'").
      */
     fun allowsIn(url: String?, list: Iterable<String>): Boolean {

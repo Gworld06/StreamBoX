@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 /**
  * How the "finding your server" card looks (Settings → App Layout → Loading

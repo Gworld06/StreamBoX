@@ -1,11 +1,11 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
 /**
  * Whether the app's small grey EXPLANATION lines are hidden right now —
- * Settings → App Layout → "Explanations" (see [com.hikari.app.data.AppStore.hideHelpFlow]).
+ * Settings → App Layout → "Explanations" (see [com.gworld06.streambox.data.AppStore.hideHelpFlow]).
  *
  * WHAT COUNTS AS AN EXPLANATION. The caption under a settings row, the sentence
  * under a folder's name, the paragraph at the bottom of a card that says what a

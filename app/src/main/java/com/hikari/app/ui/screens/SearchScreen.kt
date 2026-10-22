@@ -1,10 +1,10 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.tv.TvMode
-import com.hikari.app.tv.TvUi
-import com.hikari.app.i18n.tr
-import com.hikari.app.i18n.trTag
-import com.hikari.app.i18n.I18n
-import com.hikari.app.ui.components.GlassSearchField
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.tv.TvMode
+import com.gworld06.streambox.tv.TvUi
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.i18n.trTag
+import com.gworld06.streambox.i18n.I18n
+import com.gworld06.streambox.ui.components.GlassSearchField
 
 import android.app.Application
 import androidx.compose.foundation.BorderStroke
@@ -73,23 +73,23 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.ContentRepository
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderType
-import com.hikari.app.providers.ContentProvider
-import com.hikari.app.ui.Artwork
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.RatingBadge
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.GlassSearchField
-import com.hikari.app.ui.navigation.LocalTaskbarInset
-import com.hikari.app.ui.navigation.Routes
-import com.hikari.app.ui.rememberPosterScore
-import com.hikari.app.ui.rememberPosterStyle
-import com.hikari.app.ui.rememberVisibleItems
-import com.hikari.app.tv.tvPress
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.ContentRepository
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderType
+import com.gworld06.streambox.providers.ContentProvider
+import com.gworld06.streambox.ui.Artwork
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.RatingBadge
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.GlassSearchField
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.ui.navigation.Routes
+import com.gworld06.streambox.ui.rememberPosterScore
+import com.gworld06.streambox.ui.rememberPosterStyle
+import com.gworld06.streambox.ui.rememberVisibleItems
+import com.gworld06.streambox.tv.tvPress
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -121,7 +121,7 @@ class SearchViewModel(
     private val hikari: HikariApp = app as HikariApp
 
     /** The user's own collections — the local half of a search. */
-    private val collections = com.hikari.app.data.CollectionsRepository(manager)
+    private val collections = com.gworld06.streambox.data.CollectionsRepository(manager)
 
     /**
      * The saved personal catalogs, so the provider row can offer them beside the
@@ -129,7 +129,7 @@ class SearchViewModel(
      * abc"), which is exactly what that row means, and the user asked for it
      * twice: the names simply were not there to pick.
      */
-    val userCollections: Flow<List<com.hikari.app.data.Collection>> =
+    val userCollections: Flow<List<com.gworld06.streambox.data.Collection>> =
         (app as HikariApp).store.collectionsFlow()
 
     // Query + selection live in SavedStateHandle so they survive the activity
@@ -168,8 +168,8 @@ class SearchViewModel(
      * not an extension's, so nothing else would ever surface it in Search.
      */
     private val _collectionHits =
-        MutableStateFlow<List<com.hikari.app.data.CollectionsRepository.CollectionHit>>(emptyList())
-    val collectionHits: StateFlow<List<com.hikari.app.data.CollectionsRepository.CollectionHit>> =
+        MutableStateFlow<List<com.gworld06.streambox.data.CollectionsRepository.CollectionHit>>(emptyList())
+    val collectionHits: StateFlow<List<com.gworld06.streambox.data.CollectionsRepository.CollectionHit>> =
         _collectionHits.asStateFlow()
 
     /**
@@ -514,7 +514,7 @@ fun SearchScreen(
         if (src.isEmpty()) return
         scope.launch {
             translating = true
-            val out = com.hikari.app.data.Translator.translateTo(src, targetLang)
+            val out = com.gworld06.streambox.data.Translator.translateTo(src, targetLang)
             translating = false
             if (out.isNotBlank() && out != src) {
                 translatedFrom = src
@@ -525,7 +525,7 @@ fun SearchScreen(
 
     Column(Modifier.fillMaxSize()) {
         if (TvMode.current()) {
-            com.hikari.app.tv.TvScreenHeader(title = tr("Search"), subtitle = if (selected.isEmpty()) tr("All providers") else if (soleName != null) soleName else tr("%s sources").replace("%s", selected.size.toString()))
+            com.gworld06.streambox.tv.TvScreenHeader(title = tr("Search"), subtitle = if (selected.isEmpty()) tr("All providers") else if (soleName != null) soleName else tr("%s sources").replace("%s", selected.size.toString()))
         }
         GlassSearchField(
             value = query,
@@ -539,8 +539,8 @@ fun SearchScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = if (com.hikari.app.tv.TvMode.current()) 20.dp else 16.dp,
-                    vertical = if (com.hikari.app.tv.TvMode.current()) 10.dp else 8.dp
+                    horizontal = if (com.gworld06.streambox.tv.TvMode.current()) 20.dp else 16.dp,
+                    vertical = if (com.gworld06.streambox.tv.TvMode.current()) 10.dp else 8.dp
                 ),
             trailing = {
                 Box {
@@ -576,7 +576,7 @@ fun SearchScreen(
                         expanded = langMenu,
                         onDismissRequest = { langMenu = false },
                     ) {
-                        com.hikari.app.data.Translator.LANGUAGES.forEach { (code, label) ->
+                        com.gworld06.streambox.data.Translator.LANGUAGES.forEach { (code, label) ->
                             DropdownMenuItem(
                                 text = {
                                     Text(if (code == targetLang) "$label  ✓" else label)
@@ -1080,7 +1080,7 @@ fun SearchScreen(
                 // CELL: per cell this allocated a fresh list on every
                 // recomposition and opened a DataStore collection per poster on
                 // screen, which is a lot of subscriptions for one grid (see
-                // [com.hikari.app.ui.components.MediaRow]).
+                // [com.gworld06.streambox.ui.components.MediaRow]).
                 val gridItems = rememberVisibleItems(visible)
                 val searchKeys = remember(gridItems) { gridItems.map { it.uniqueId } }
                 val style = rememberPosterStyle()
@@ -1091,7 +1091,7 @@ fun SearchScreen(
                     // Results position held per query+engine (see
                     // ScrollKeeper): Back from a title lands where the grid
                     // was, and a new query starts at its own slot.
-                    state = com.hikari.app.ui.components.keptGridState(
+                    state = com.gworld06.streambox.ui.components.keptGridState(
                         "search:$query|$activeEngine",
                         itemKeys = searchKeys,
                     ),
@@ -1121,9 +1121,9 @@ fun SearchScreen(
                             )
                         }
                         if (style.isCinema(true)) {
-                            com.hikari.app.tv.TvCinemaCard(item = item, onClick = go)
+                            com.gworld06.streambox.tv.TvCinemaCard(item = item, onClick = go)
                         } else {
-                            com.hikari.app.tv.TvVerticalCard(item = item, onClick = go)
+                            com.gworld06.streambox.tv.TvVerticalCard(item = item, onClick = go)
                         }
                     } else {
                     // Show scores (Settings → App Layout) draws here too — the
@@ -1172,7 +1172,7 @@ fun SearchScreen(
                                     contentDescription = item.title,
                                     modifier = Modifier.fillMaxSize(),
                                     contentScale = ContentScale.Crop,
-                                    alignment = com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT
+                                    alignment = com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT
                                 )
                             } else {
                                 AsyncImage(
@@ -1180,7 +1180,7 @@ fun SearchScreen(
                                     contentDescription = item.title,
                                     modifier = Modifier.fillMaxSize(),
                                     contentScale = ContentScale.Crop,
-                                    alignment = if (phoneCinema) com.hikari.app.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center
+                                    alignment = if (phoneCinema) com.gworld06.streambox.ui.Artwork.CINEMA_ALIGNMENT else Alignment.Center
                                 )
                             }
                             if (badge != null) {
@@ -1226,8 +1226,8 @@ fun SearchScreen(
  */
 @Composable
 private fun CollectionHitsRow(
-    hits: List<com.hikari.app.data.CollectionsRepository.CollectionHit>,
-    onOpen: (com.hikari.app.data.CollectionsRepository.CollectionHit) -> Unit,
+    hits: List<com.gworld06.streambox.data.CollectionsRepository.CollectionHit>,
+    onOpen: (com.gworld06.streambox.data.CollectionsRepository.CollectionHit) -> Unit,
 ) {
     Column(Modifier.fillMaxWidth()) {
         Text(
@@ -1297,7 +1297,7 @@ private enum class SearchKindFilter(val key: String) {
 /**
  * Every genre the genre strip offers, alphabetically — the ONE vocabulary the
  * Search tab and Home's own strip both use (see
- * [com.hikari.app.data.Genres.ALL], which also knows how to turn a name into a
+ * [com.gworld06.streambox.data.Genres.ALL], which also knows how to turn a name into a
  * TMDB query: a genre id for the names TMDB has one for, a keyword for the
  * anime tags it does not).
  *
@@ -1307,7 +1307,7 @@ private enum class SearchKindFilter(val key: String) {
  * only offer what it has already let through is a filter that cannot narrow
  * anything.
  */
-private val SEARCH_GENRES: List<String> = com.hikari.app.data.Genres.ALL
+private val SEARCH_GENRES: List<String> = com.gworld06.streambox.data.Genres.ALL
 
 /**
  * Whether a result looks like anime.
@@ -1569,7 +1569,7 @@ private fun MediaItem.passesSearchFilter(
     genres: Set<String>,
 ): Boolean {
     if (years.isNotEmpty() && (year == null || year !in years)) return false
-    if (genres.isNotEmpty() && genres.none { q -> this.genres.any { g -> com.hikari.app.data.Genres.matches(g, q) } }) return false
+    if (genres.isNotEmpty() && genres.none { q -> this.genres.any { g -> com.gworld06.streambox.data.Genres.matches(g, q) } }) return false
     return when (kind) {
         SearchKindFilter.ALL -> true
         SearchKindFilter.MOVIES -> type != MediaType.SERIES && !looksAnime()

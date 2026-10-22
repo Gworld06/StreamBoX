@@ -1,15 +1,15 @@
-package com.hikari.app.providers.vega
+package com.gworld06.streambox.providers.vega
 
-import com.hikari.app.HikariApp
-import com.hikari.app.data.CatalogRef
-import com.hikari.app.data.Episode
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.MediaType
-import com.hikari.app.data.ProviderConfig
-import com.hikari.app.data.StreamSource
-import com.hikari.app.data.SubtitleSource
-import com.hikari.app.net.Http
-import com.hikari.app.providers.ContentProvider
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.CatalogRef
+import com.gworld06.streambox.data.Episode
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.MediaType
+import com.gworld06.streambox.data.ProviderConfig
+import com.gworld06.streambox.data.StreamSource
+import com.gworld06.streambox.data.SubtitleSource
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.providers.ContentProvider
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -602,7 +602,7 @@ class VegaProvider(override val config: ProviderConfig) : ContentProvider {
                 val direct = link.takeIf { it.startsWith("http") }
                 if (direct != null) {
                     streamErrors.remove(config.id)
-                    return@withContext listOf(StreamSource(name = config.name + " Direct", url = direct, headers = linkedMapOf("User-Agent" to com.hikari.app.net.Http.UA), provider = "Vega", providerId = config.id, providerName = config.name))
+                    return@withContext listOf(StreamSource(name = config.name + " Direct", url = direct, headers = linkedMapOf("User-Agent" to com.gworld06.streambox.net.Http.UA), provider = "Vega", providerId = config.id, providerName = config.name))
                 }
                 return@withContext fail("✗ No playable sources for this title.")
             }
@@ -610,7 +610,7 @@ class VegaProvider(override val config: ProviderConfig) : ContentProvider {
             lastOutcome[config.id] = "✓ ${out.size} source${if (out.size == 1) "" else "s"} in " +
                 "${(System.currentTimeMillis() - started) / 1000}s"
             val distinct = out.distinctBy { it.url }
-            com.hikari.app.net.StreamProbe.warmAsync(distinct)
+            com.gworld06.streambox.net.StreamProbe.warmAsync(distinct)
             distinct
         }
 

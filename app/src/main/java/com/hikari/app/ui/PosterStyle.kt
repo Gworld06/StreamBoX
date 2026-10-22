@@ -1,4 +1,4 @@
-package com.hikari.app.ui
+package com.gworld06.streambox.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,12 +49,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hikari.app.HikariApp
-import com.hikari.app.data.MediaItem
-import com.hikari.app.data.Ratings
-import com.hikari.app.data.screenTypeFor
-import com.hikari.app.ui.components.PosterImage
-import com.hikari.app.ui.theme.rememberGlassTokens
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.MediaItem
+import com.gworld06.streambox.data.Ratings
+import com.gworld06.streambox.data.screenTypeFor
+import com.gworld06.streambox.ui.components.PosterImage
+import com.gworld06.streambox.ui.theme.rememberGlassTokens
 import kotlin.math.hypot
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
@@ -235,7 +235,7 @@ data class PosterStyle(
     /** Draw the movie/series tag on the poster. On by default: whether a tile is
      *  a film or a show is the one thing a poster cannot say by itself. */
     val showType: Boolean = true,
-    /** Draw the quality tag on the poster ([com.hikari.app.data.TitleQuality] —
+    /** Draw the quality tag on the poster ([com.gworld06.streambox.data.TitleQuality] —
      *  only titles whose quality the app has actually seen get one). */
     val showQuality: Boolean = false,
     /** Draw the Dub/Sub + latest-episode pills in the poster's top-center
@@ -249,7 +249,7 @@ data class PosterStyle(
      *  tilt…) and an empty set means "none". */
     val effects: Collection<String> = emptyList(),
     /** The colour the [PosterEffects.AURA] ring is drawn in
-     *  ([com.hikari.app.ui.AuraColors.THEME] follows the app accent). */
+     *  ([com.gworld06.streambox.ui.AuraColors.THEME] follows the app accent). */
     val auraColor: String = AuraColors.THEME,
     /** Where the [PosterEffects.LIT] light stands, as fractions of the card:
      *  (0, 0) is the top-left corner and (1, 1) the bottom-right. */
@@ -384,7 +384,7 @@ fun rememberPosterScore(item: MediaItem, style: PosterStyle): String? {
  * The tags a poster draws in its top-left corner, in the order they are stacked:
  * first the one that is switched on alone, then the second directly under it.
  *
- *  - the QUALITY tag ([com.hikari.app.data.TitleQuality]) — the best quality the
+ *  - the QUALITY tag ([com.gworld06.streambox.data.TitleQuality]) — the best quality the
  *    app has actually seen for this title, never a guess;
  *  - the TYPE tag — "MOVIE" or "SERIES", so a grid tells a film from a show
  *    without opening it.
@@ -400,21 +400,21 @@ fun rememberPosterBadges(item: MediaItem?, style: PosterStyle): List<String> {
     if (item == null || (!style.showType && !style.showQuality)) return emptyList()
     // Re-reads itself when a new quality lands, so a grid that is already on
     // screen picks up the badge the moment a search teaches the app the answer
-    // (see [com.hikari.app.data.TitleQuality.revision]).
-    val revision by com.hikari.app.data.TitleQuality.revision.collectAsState()
+    // (see [com.gworld06.streambox.data.TitleQuality.revision]).
+    val revision by com.gworld06.streambox.data.TitleQuality.revision.collectAsState()
     // The labels are resolved OUT here: `tr` is a composable, so it cannot be
     // called from inside a `remember` lambda. They are also the two things that
     // change when the app's language does, so the value below is keyed on them.
     // NOT upper-cased: the reference chips read "Web" / "Blu-ray" in title case,
     // and shouting "SERIES" next to a quiet "1080p" would be two different
     // designs in one corner.
-    val movieLabel = com.hikari.app.i18n.tr("Movie")
-    val seriesLabel = com.hikari.app.i18n.tr("Series")
+    val movieLabel = com.gworld06.streambox.i18n.tr("Movie")
+    val seriesLabel = com.gworld06.streambox.i18n.tr("Series")
     // The corrected type needs the episode COUNT, which lives in the same
     // disk cache the Ep pills below read (never network on a poster). Null =
     // never loaded: the declared tag stands until the count lands, and
     // [epRevision] repaints the cell the moment it does.
-    val epRevision by com.hikari.app.data.MetaCache.epRevision.collectAsState()
+    val epRevision by com.gworld06.streambox.data.MetaCache.epRevision.collectAsState()
     var epCount by remember(item.uniqueId) { mutableStateOf<Int?>(null) }
     LaunchedEffect(item.uniqueId, epRevision) {
         epCount = withContext(Dispatchers.IO) {
@@ -424,12 +424,12 @@ fun rememberPosterBadges(item: MediaItem?, style: PosterStyle): List<String> {
     return remember(item, style.showType, style.showQuality, revision, movieLabel, seriesLabel, epCount) {
         buildList {
             if (style.showQuality) {
-                com.hikari.app.data.TitleQuality.forItem(item)?.let { add(it) }
+                com.gworld06.streambox.data.TitleQuality.forItem(item)?.let { add(it) }
             }
             if (style.showType) {
                 when (screenTypeFor(item, epCount)) {
-                    com.hikari.app.data.MediaType.MOVIE -> add(movieLabel)
-                    com.hikari.app.data.MediaType.SERIES -> add(seriesLabel)
+                    com.gworld06.streambox.data.MediaType.MOVIE -> add(movieLabel)
+                    com.gworld06.streambox.data.MediaType.SERIES -> add(seriesLabel)
                     else -> Unit
                 }
             }
@@ -442,7 +442,7 @@ fun rememberPosterBadges(item: MediaItem?, style: PosterStyle): List<String> {
  * CloudStream-style ("Dub Ep 12" over "Sub Ep 14").
  *
  * The numbers come from the title's CACHED episode list only
- * ([com.hikari.app.data.MetaCache.cachedEpisodes] — the same stale-while-
+ * ([com.gworld06.streambox.data.MetaCache.cachedEpisodes] — the same stale-while-
  * revalidate store the detail page paints from), read off the main thread, so
  * a grid of posters costs no network and no per-card disk storm after the
  * first read (the cache holds an in-process mirror). A title whose episodes
@@ -453,13 +453,13 @@ fun rememberPosterBadges(item: MediaItem?, style: PosterStyle): List<String> {
 @Composable
 fun rememberPosterEpBadges(item: MediaItem?): List<String> {
     if (item == null) return emptyList()
-    if (item.type != com.hikari.app.data.MediaType.SERIES &&
-        item.type != com.hikari.app.data.MediaType.UNKNOWN
+    if (item.type != com.gworld06.streambox.data.MediaType.SERIES &&
+        item.type != com.gworld06.streambox.data.MediaType.UNKNOWN
     ) return emptyList()
-    val dubLabel = com.hikari.app.i18n.tr("Dub")
-    val subLabel = com.hikari.app.i18n.tr("Sub")
+    val dubLabel = com.gworld06.streambox.i18n.tr("Dub")
+    val subLabel = com.gworld06.streambox.i18n.tr("Sub")
     var pills by remember(item.uniqueId) { mutableStateOf<List<String>?>(null) }
-    val revision by com.hikari.app.data.MetaCache.epRevision.collectAsState()
+    val revision by com.gworld06.streambox.data.MetaCache.epRevision.collectAsState()
     LaunchedEffect(item.uniqueId, revision) {
         pills = withContext(Dispatchers.IO) {
             runCatching { epPillsFor(item, dubLabel, subLabel) }.getOrNull()
@@ -470,29 +470,29 @@ fun rememberPosterEpBadges(item: MediaItem?): List<String> {
 
 /** Episode count from the cached list, or null when never loaded. */
 private fun cachedEpisodeCount(item: MediaItem): Int? {
-    val key = com.hikari.app.data.MetaCache.episodesKey(item.uniqueId)
-    val eps = com.hikari.app.data.MetaCache.cachedEpisodes(key)
-        ?: com.hikari.app.data.MetaCache.cachedEpisodes(key + "|trk2")
+    val key = com.gworld06.streambox.data.MetaCache.episodesKey(item.uniqueId)
+    val eps = com.gworld06.streambox.data.MetaCache.cachedEpisodes(key)
+        ?: com.gworld06.streambox.data.MetaCache.cachedEpisodes(key + "|trk2")
         ?: return null
     return eps.size
 }
 
 /** Latest Dub / Sub episode numbers from the cached list, as pill texts. */
 private fun epPillsFor(item: MediaItem, dubLabel: String, subLabel: String): List<String> {
-    val key = com.hikari.app.data.MetaCache.episodesKey(item.uniqueId)
-    val eps = com.hikari.app.data.MetaCache.cachedEpisodes(key)
-        ?: com.hikari.app.data.MetaCache.cachedEpisodes(key + "|trk2")
+    val key = com.gworld06.streambox.data.MetaCache.episodesKey(item.uniqueId)
+    val eps = com.gworld06.streambox.data.MetaCache.cachedEpisodes(key)
+        ?: com.gworld06.streambox.data.MetaCache.cachedEpisodes(key + "|trk2")
         ?: return emptyList()
     // A corrected movie wears no episode pills: a single-episode
     // site-scraper "series" is a film, so "Ep 1" would re-attach the wrong
     // tag the badge above just removed.
-    if (screenTypeFor(item, eps.size) == com.hikari.app.data.MediaType.MOVIE) return emptyList()
+    if (screenTypeFor(item, eps.size) == com.gworld06.streambox.data.MediaType.MOVIE) return emptyList()
     var dub = 0
     var sub = 0
     var plain = 0
     for (e in eps) {
         if (e.number <= 0) continue
-        when (com.hikari.app.data.EpisodeDubSub.audioKindOf(e)?.lowercase()) {
+        when (com.gworld06.streambox.data.EpisodeDubSub.audioKindOf(e)?.lowercase()) {
             "dub" -> if (e.number > dub) dub = e.number
             "sub" -> if (e.number > sub) sub = e.number
             else -> if (e.number > plain) plain = e.number

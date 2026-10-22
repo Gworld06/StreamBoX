@@ -1,7 +1,7 @@
 package eu.kanade.tachiyomi.network
 
 import android.content.Context
-import com.hikari.app.HikariApp
+import com.gworld06.streambox.HikariApp
 import eu.kanade.tachiyomi.network.interceptor.CloudflareInterceptor
 import eu.kanade.tachiyomi.network.interceptor.UncaughtExceptionInterceptor
 import eu.kanade.tachiyomi.network.interceptor.UserAgentInterceptor
@@ -53,7 +53,7 @@ class NetworkHelper(private val context: Context) {
         // Named `CloudflareInterceptor` ON PURPOSE, and it must stay that name:
         // extension-lib 1.6 sources assert, by class simple name, that the client
         // they are handed contains one — see [CloudflareInterceptor]. Hikari's own
-        // [com.hikari.app.net.ExtensionCloudflareInterceptor] is the same
+        // [com.gworld06.streambox.net.ExtensionCloudflareInterceptor] is the same
         // behaviour, but the assertion looks for the shorter name, so installing
         // that one instead left EVERY extension in that family throwing
         // "CloudflareInterceptor must be present in default client" on its first

@@ -1,7 +1,7 @@
-package com.hikari.app.hiki
+package com.gworld06.streambox.hiki
 
 import android.content.Context
-import com.hikari.app.core.LoadGate
+import com.gworld06.streambox.core.LoadGate
 import com.hikari.ext.HikariProvider
 import org.json.JSONArray
 import org.json.JSONObject

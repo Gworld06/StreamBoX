@@ -1,4 +1,4 @@
-package com.hikari.app.data
+package com.gworld06.streambox.data
 
 /**
  * Dub/sub episode merging: some anime extensions list every episode twice —

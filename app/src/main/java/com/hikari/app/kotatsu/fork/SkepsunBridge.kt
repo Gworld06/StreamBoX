@@ -1,6 +1,6 @@
-package com.hikari.app.kotatsu.fork
+package com.gworld06.streambox.kotatsu.fork
 
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import eu.kanade.tachiyomi.source.CatalogueSource
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
@@ -19,8 +19,8 @@ import org.skepsun.kototoro.parsers.model.SortOrder
 
 /**
  * A skepsun (kototoro) [ContentParser] speaking the Tachiyomi [CatalogueSource]
- * API — the same bridge [com.hikari.app.kotatsu.KotatsuBridge] is for the
- * official parsers, so [com.hikari.app.manga.MangaProvider] drives fork
+ * API — the same bridge [com.gworld06.streambox.kotatsu.KotatsuBridge] is for the
+ * official parsers, so [com.gworld06.streambox.manga.MangaProvider] drives fork
  * manga/novel rows unchanged.
  *
  * Video sources ([ContentType.VIDEO]/HENTAI_VIDEO) expose their playback as pages

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hikari.app"
+    namespace = "com.gworld06.streambox"
     // 36, not 35: OkHttp 5.4.0's Android artifact declares `minCompileSdk = 36`
     // in its AAR metadata (and every extension built on the current keiyoushi /
     // Aniyomi ecosystem links against OkHttp 5), so a project compiling against
@@ -17,7 +17,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.hikari.app"
+        applicationId = "com.gworld06.streambox"
         minSdk = 24
         targetSdk = 34
         versionCode = 356
@@ -165,7 +165,7 @@ android {
 // TDLib's C++ runtime has to reach the APK under its SONAME
 //
 // TDLib's native library (libtdjni.so — the Telegram client, see
-// com.hikari.app.telegram.Td) links against libc++_shared.so, and Android's
+// com.gworld06.streambox.telegram.Td) links against libc++_shared.so, and Android's
 // linker resolves that by FILENAME: the file has to be `lib/<abi>/libc++_shared.so`
 // inside the APK or nothing loads.
 //
@@ -501,7 +501,7 @@ dependencies {
     //  * zxing-core — the QR encoder AND decoder, pure Java, no Android
     //    dependencies, no camera permission, ~500 KB. Encoding a pairing payload
     //    and decoding a camera frame are both one call into it
-    //    (see com.hikari.app.pair.QrCode). It is the same library every Android
+    //    (see com.gworld06.streambox.pair.QrCode). It is the same library every Android
     //    scanner app is built on; the alternative (a barcode API that only
     //    exists on devices with Play Services) is exactly the wrong trade for an
     //    app whose whole point is that it runs on a cheap Chinese television.

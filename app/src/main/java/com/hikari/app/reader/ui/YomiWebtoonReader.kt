@@ -1,4 +1,4 @@
-package com.hikari.app.reader.ui
+package com.gworld06.streambox.reader.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.hikari.app.reader.ReaderChapter
-import com.hikari.app.reader.source.MangaSource
+import com.gworld06.streambox.reader.ReaderChapter
+import com.gworld06.streambox.reader.source.MangaSource
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonConfig
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonItem
 import eu.kanade.tachiyomi.ui.reader.viewer.webtoon.WebtoonTrailer

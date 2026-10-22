@@ -1,5 +1,5 @@
-package com.hikari.app.ui.screens
-import com.hikari.app.i18n.tr
+package com.gworld06.streambox.ui.screens
+import com.gworld06.streambox.i18n.tr
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -53,11 +53,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.hikari.app.HikariApp
-import com.hikari.app.data.WatchStats
-import com.hikari.app.ui.components.GlassCard
-import com.hikari.app.ui.components.SettingsPageHeader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.data.WatchStats
+import com.gworld06.streambox.ui.components.GlassCard
+import com.gworld06.streambox.ui.components.SettingsPageHeader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
 import kotlinx.coroutines.launch
 
 /** Which drill-down the headline figures have open (null = none). */
@@ -82,7 +82,7 @@ private const val PANEL_DAYS = "days"
  *
  * Every title ROW (and the favourite-title card) is a door back to the title
  * itself: [onOpenTitle] gets the row and the caller turns it into a route (see
- * [com.hikari.app.ui.navigation.Routes.fromStatsKey]). Null leaves the rows as
+ * [com.gworld06.streambox.ui.navigation.Routes.fromStatsKey]). Null leaves the rows as
  * plain text, which is what a host that cannot navigate passes.
  */
 @Composable
@@ -134,7 +134,7 @@ fun StatsScreen(
 
     LazyColumn(
         // Stats position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("stats"),
+        state = com.gworld06.streambox.ui.components.keptListState("stats"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -633,7 +633,7 @@ private fun heatColor(seconds: Long): Color {
 private fun monthLabelOf(weeks: List<List<WatchStats.HeatCell?>>): String {
     val first = weeks.firstOrNull()?.firstOrNull { it != null }?.dayKey ?: return ""
     val last = weeks.lastOrNull()?.lastOrNull { it != null }?.dayKey ?: return ""
-    val tag = com.hikari.app.i18n.I18n.currentTag
+    val tag = com.gworld06.streambox.i18n.I18n.currentTag
     val locale = if (tag.isBlank()) java.util.Locale.getDefault()
     else java.util.Locale.forLanguageTag(tag)
     fun label(key: String): String {

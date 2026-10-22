@@ -13,7 +13,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.hikari.app.reader.source.MangaSource
+import com.gworld06.streambox.reader.source.MangaSource
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderPageImageView
 
 /**

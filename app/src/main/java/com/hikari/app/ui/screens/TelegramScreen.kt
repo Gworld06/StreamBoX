@@ -1,11 +1,11 @@
-package com.hikari.app.ui.screens
+package com.gworld06.streambox.ui.screens
 
-import com.hikari.app.ui.components.LocalHideHelp
+import com.gworld06.streambox.ui.components.LocalHideHelp
 
 import android.content.Intent
 import android.widget.Toast
-import com.hikari.app.data.Logs
-import com.hikari.app.i18n.I18n
+import com.gworld06.streambox.data.Logs
+import com.gworld06.streambox.i18n.I18n
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -71,19 +71,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.hikari.app.HikariApp
-import com.hikari.app.i18n.tr
-import com.hikari.app.net.Http
-import com.hikari.app.telegram.Td
-import com.hikari.app.telegram.TdFileDataSource
-import com.hikari.app.telegram.TelegramChannels
-import com.hikari.app.telegram.TelegramLinks
-import com.hikari.app.telegram.TelegramVideo
-import com.hikari.app.telegram.TelegramWeb
-import com.hikari.app.ui.components.EmptyState
-import com.hikari.app.ui.components.PosterImage
-import com.hikari.app.ui.PosterLoader
-import com.hikari.app.ui.navigation.LocalTaskbarInset
+import com.gworld06.streambox.HikariApp
+import com.gworld06.streambox.i18n.tr
+import com.gworld06.streambox.net.Http
+import com.gworld06.streambox.telegram.Td
+import com.gworld06.streambox.telegram.TdFileDataSource
+import com.gworld06.streambox.telegram.TelegramChannels
+import com.gworld06.streambox.telegram.TelegramLinks
+import com.gworld06.streambox.telegram.TelegramVideo
+import com.gworld06.streambox.telegram.TelegramWeb
+import com.gworld06.streambox.ui.components.EmptyState
+import com.gworld06.streambox.ui.components.PosterImage
+import com.gworld06.streambox.ui.PosterLoader
+import com.gworld06.streambox.ui.navigation.LocalTaskbarInset
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -94,7 +94,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.hikari.app.tv.tvTextFieldKeys
+import com.gworld06.streambox.tv.tvTextFieldKeys
 
 /**
  * The Telegram tab.
@@ -102,7 +102,7 @@ import com.hikari.app.tv.tvTextFieldKeys
  * Two halves, and they answer different questions:
  *
  *  * **Your Telegram** — a real client, on TDLib, signed in to the user's own
- *    account (see `com.hikari.app.telegram.Td`). This is what reads Saved
+ *    account (see `com.gworld06.streambox.telegram.Td`). This is what reads Saved
  *    Messages, private channels and groups, chats with people, and any channel
  *    the account is in, public or not. Videos play straight out of TDLib, over
  *    the same player everything else uses.
@@ -767,7 +767,7 @@ private fun TelegramMyChats(
     }
     LazyColumn(
         // Chat list position held per scope+query (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("tgChats:$archivedScope:$query"),
+        state = com.gworld06.streambox.ui.components.keptListState("tgChats:$archivedScope:$query"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -862,7 +862,7 @@ private fun TelegramAddedChannels(
 ) {
     LazyColumn(
         // Added-channels position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("tgAdded"),
+        state = com.gworld06.streambox.ui.components.keptListState("tgAdded"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -967,7 +967,7 @@ private fun TelegramLinksSection(
 
     LazyColumn(
         // Saved-links position held across visits (see ScrollKeeper).
-        state = com.hikari.app.ui.components.keptListState("tgLinks"),
+        state = com.gworld06.streambox.ui.components.keptListState("tgLinks"),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 16.dp,
@@ -1921,7 +1921,7 @@ private fun ChatVideoCollection(
         },
         // Position held per chat (see ScrollKeeper): Back from a video lands
         // where the grid was.
-        state = com.hikari.app.ui.components.keptGridState(keeperKey),
+        state = com.gworld06.streambox.ui.components.keptGridState(keeperKey),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             start = 12.dp,
@@ -2679,7 +2679,7 @@ private fun TelegramChannelVideos(
                     // Channel videos position held per channel (see
                     // ScrollKeeper): Back from a video lands where the list
                     // was.
-                    state = com.hikari.app.ui.components.keptListState("tgChannel:$channel"),
+                    state = com.gworld06.streambox.ui.components.keptListState("tgChannel:$channel"),
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(
                         start = 12.dp,
@@ -2896,7 +2896,7 @@ private fun playTdVideo(context: android.content.Context, video: Td.ChatVideo) {
     // answer it.
     val opened = runCatching {
         context.startActivity(
-            Intent(context, com.hikari.app.player.PlayerActivity::class.java).apply {
+            Intent(context, com.gworld06.streambox.player.PlayerActivity::class.java).apply {
                 putExtra("title", video.title)
                 putExtra("sources", sources.toString())
             }
@@ -2932,7 +2932,7 @@ private fun playTelegramVideo(context: android.content.Context, video: TelegramV
     // the player says so instead of doing nothing.
     val opened = runCatching {
         context.startActivity(
-            Intent(context, com.hikari.app.player.PlayerActivity::class.java).apply {
+            Intent(context, com.gworld06.streambox.player.PlayerActivity::class.java).apply {
                 putExtra("title", video.title)
                 putExtra("sources", sources.toString())
             }

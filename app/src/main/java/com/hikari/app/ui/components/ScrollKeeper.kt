@@ -1,4 +1,4 @@
-package com.hikari.app.ui.components
+package com.gworld06.streambox.ui.components
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
@@ -11,7 +11,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import com.hikari.app.data.Logs
+import com.gworld06.streambox.data.Logs
 import kotlinx.coroutines.delay
 
 /**

@@ -1,8 +1,8 @@
 package eu.kanade.tachiyomi.ui.reader.viewer.webtoon
 
-import com.hikari.app.reader.ReaderHideThreshold
-import com.hikari.app.reader.TappingInvertMode
-import com.hikari.app.reader.WebtoonScaleType
+import com.gworld06.streambox.reader.ReaderHideThreshold
+import com.gworld06.streambox.reader.TappingInvertMode
+import com.gworld06.streambox.reader.WebtoonScaleType
 import eu.kanade.tachiyomi.ui.reader.viewer.ViewerNavigation
 
 /**

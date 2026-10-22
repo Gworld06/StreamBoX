@@ -1,4 +1,4 @@
-package com.hikari.app.player
+package com.gworld06.streambox.player
 
 import android.content.Context
 import android.content.SharedPreferences
